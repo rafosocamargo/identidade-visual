@@ -6,912 +6,459 @@
   <title>Identidade Visual — Design System Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,600;0,800;0,900;1,800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── TOKENS ── */
-    :root {
-      --bg: #080808;
-      --fg: #EDEBE6;
-      --muted: #444;
-      --border: rgba(237,235,230,.08);
-      --header-h: 56px;
-      --footer-h: 64px;
-      --trans: .55s cubic-bezier(.77,0,.175,1);
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ── RESET ── */
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html, body { width:100%; height:100%; overflow:hidden; }
     body {
-      font-family: 'Archivo', sans-serif;
-      background: var(--bg);
-      color: var(--fg);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F9F9F8;
+      color: #1A1A1A;
       -webkit-font-smoothing: antialiased;
-      user-select: none;
-    }
-
-    /* ── LAYOUT SHELL ── */
-    #app {
-      display: flex;
-      flex-direction: column;
-      height: 100dvh;
-      overflow: hidden;
-    }
-
-    /* ── PROGRESS BAR ── */
-    #progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      background: var(--fg);
-      width: 0%;
-      transition: width var(--trans);
-      z-index: 200;
+      min-height: 100vh;
     }
 
     /* ── HEADER ── */
     header {
-      height: var(--header-h);
-      flex-shrink: 0;
+      padding: 40px 48px 0;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      z-index: 100;
+      align-items: baseline;
     }
-    .brand {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--fg);
-      opacity: .5;
+    .title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1A1A1A;
+      letter-spacing: .01em;
     }
-    .counter {
-      font-family: 'DM Mono', monospace;
+    .subtitle {
       font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 1px;
-    }
-    .counter b { color: var(--fg); font-weight: 400; }
-
-    /* ── SLIDES WRAPPER ── */
-    #slides {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
+      font-weight: 400;
+      color: #999;
     }
 
-    /* ── SINGLE SLIDE ── */
-    .slide {
-      position: absolute;
-      inset: 0;
+    /* ── GRID ── */
+    .grid {
       display: grid;
-      grid-template-columns: 45% 55%;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(60px);
-      transition: opacity var(--trans), transform var(--trans);
-    }
-    .slide.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-    }
-    .slide.exit-left {
-      opacity: 0;
-      transform: translateX(-60px);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      padding: 32px 48px 48px;
     }
 
-    /* ── PREVIEW PANEL (left) ── */
-    .preview {
+    /* ── CARD ── */
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      border: 1px solid #EBEBEB;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .2s ease, transform .2s ease;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,.10);
+      transform: translateY(-2px);
+      z-index: 2;
+      position: relative;
+    }
+
+    /* preview thumbnail */
+    .thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
       position: relative;
       overflow: hidden;
-      border-right: 1px solid var(--border);
     }
 
-    /* ── CONTENT PANEL (right) ── */
-    .content {
+    /* card footer */
+    .card-foot {
+      padding: 12px 14px 13px;
+      border-top: 1px solid #F0F0F0;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px 64px;
-      gap: 0;
-    }
-    .slide-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .slide-eyebrow::before {
-      content: '';
-      display: block;
-      width: 24px; height: 1px;
-      background: currentColor;
-    }
-    .slide-title {
-      font-size: clamp(2.4rem, 4.5vw, 4rem);
-      font-weight: 900;
-      font-style: italic;
-      line-height: 0.88;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      color: var(--fg);
-      margin-bottom: 36px;
-    }
-    .slide-copy {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.75;
-      color: rgba(237,235,230,.5);
-      max-width: 420px;
-      margin-bottom: 40px;
-    }
-    .slide-copy strong {
-      color: var(--fg);
-      font-weight: 600;
-    }
-    .slide-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 48px;
-    }
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border: 1px solid var(--border);
-      color: rgba(237,235,230,.35);
-    }
-    .slide-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--fg);
-      text-decoration: none;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(237,235,230,.2);
-      width: fit-content;
-      transition: gap .2s ease, border-color .2s ease;
-    }
-    .slide-cta:hover {
-      gap: 20px;
-      border-color: var(--fg);
-    }
-    .slide-cta .arrow {
-      font-size: 16px;
-      line-height: 1;
-      transition: transform .2s ease;
-    }
-    .slide-cta:hover .arrow { transform: translate(4px,-4px); }
-
-    /* ── FOOTER NAV ── */
-    footer {
-      height: var(--footer-h);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
-      border-top: 1px solid var(--border);
-      position: relative;
-      z-index: 100;
-    }
-    .nav-btn {
-      display: flex;
       align-items: center;
-      gap: 10px;
-      font-family: 'DM Mono', monospace;
+    }
+    .card-name {
       font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px 0;
-      transition: color .2s;
-      min-width: 44px; min-height: 44px;
+      font-weight: 500;
+      color: #1A1A1A;
+      letter-spacing: .01em;
     }
-    .nav-btn:hover { color: var(--fg); }
-    .nav-btn:disabled { opacity: .2; cursor: default; }
-    .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-    .dots {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--muted);
-      cursor: pointer;
-      transition: background .25s, transform .25s;
-    }
-    .dot.active {
-      background: var(--fg);
-      transform: scale(1.4);
-    }
-    .kbd-hint {
-      font-family: 'DM Mono', monospace;
+    .card-ver {
       font-size: 10px;
-      color: rgba(68,68,68,.6);
-      letter-spacing: 1px;
+      color: #BBB;
+      font-weight: 400;
+    }
+    .card-arrow {
+      font-size: 12px;
+      color: #CCC;
+      transition: color .15s, transform .15s;
+    }
+    .card:hover .card-arrow {
+      color: #1A1A1A;
+      transform: translate(2px, -2px);
     }
 
-    /* ════════════════════════════════════════
-       CSS ART — cada preview é autocontido
-       ════════════════════════════════════════ */
+    /* ── FOOTER ── */
+    footer {
+      padding: 0 48px 40px;
+      font-size: 11px;
+      color: #CCC;
+    }
 
-    /* ── V1: Bold Impact ── */
-    .art-v1 { background: #FFF; }
-    .art-v1 .a-num {
+    /* ════════════════════════════════
+       THUMBNAILS — CSS mini-art
+       ════════════════════════════════ */
+
+    /* V1: Bold Impact */
+    .t1 { background: #fff; }
+    .t1::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 6.5rem;
       line-height: 1;
+      letter-spacing: -.5rem;
       color: #000;
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
+      bottom: -12px; left: 10px;
     }
-    .art-v1 .a-bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: #000;
-    }
-    .art-v1 .a-dot {
-      position: absolute;
-      top: 28px; left: 32px;
-      width: 16px; height: 16px;
-      background: #FF0000;
-    }
-    .art-v1 .a-label {
-      position: absolute;
-      bottom: 32px; right: 32px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #000;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-    }
-
-    /* ── V2: Dark + Yellow ── */
-    .art-v2 { background: #0A0A0A; }
-    .art-v2 .a-num {
-      position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
-      line-height: 1;
-      color: #F5C518;
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
-    }
-    .art-v2 .a-stripe {
+    .t1::after {
+      content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #F5C518 50%, transparent);
+      background: #000;
     }
-    .art-v2 .a-box {
-      position: absolute;
-      top: 28px; right: 32px;
-      padding: 6px 14px;
-      background: #F5C518;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #000;
+    .t1 .dot { position:absolute; top:14px; left:14px; width:10px; height:10px; background:#FF0000; }
+    .t1 .label {
+      position:absolute; bottom:14px; right:14px;
+      font-size:8px; font-weight:700; letter-spacing:2px;
+      text-transform:uppercase; color:#000;
     }
-    .art-v2 .a-grid {
-      position: absolute;
-      bottom: 80px; left: 32px; right: 32px;
-      display: flex;
-      gap: 6px;
-    }
-    .art-v2 .a-grid div {
-      flex: 1; height: 3px;
-      background: rgba(245,197,24,.3);
-    }
-    .art-v2 .a-grid div:first-child { background: #F5C518; }
 
-    /* ── V3: Neobrutalism ── */
-    .art-v3 { background: #FFF; }
-    .art-v3 .a-num {
+    /* V2: Dark + Yellow */
+    .t2 { background: #0A0A0A; }
+    .t2::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
-      line-height: 1;
-      color: #0A0A0A;
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
-    }
-    .art-v3 .nb { position: absolute; border: 3px solid #0A0A0A; }
-    .art-v3 .nb1 {
-      width: 55%; height: 70px;
-      top: 24px; left: 32px;
-      background: #DFE104;
-      box-shadow: 6px 6px 0 #0A0A0A;
-    }
-    .art-v3 .nb2 {
-      width: 35%; height: 50px;
-      top: 110px; left: 80px;
-      background: #FFF;
-      box-shadow: 5px 5px 0 #0A0A0A;
-    }
-    .art-v3 .nb3 {
-      width: 45%; height: 36px;
-      top: 180px; right: 32px;
-      background: #0A0A0A;
-      box-shadow: 5px 5px 0 #DFE104;
-    }
-    .art-v3 .nb-txt {
-      position: absolute;
-      top: 38px; left: 46px;
-      font-size: 12px;
+      font-family: 'Inter', sans-serif;
       font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      font-size: 6.5rem;
+      line-height: 1;
+      letter-spacing: -.5rem;
+      color: #F5C518;
+      bottom: -12px; left: 10px;
+    }
+    .t2::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 55%; height: 3px;
+      background: #F5C518;
+    }
+    .t2 .tag {
+      position:absolute; top:12px; right:12px;
+      background:#F5C518; color:#000;
+      font-size:7px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase;
+      padding:3px 7px;
+    }
+
+    /* V3: Neobrutalism */
+    .t3 { background: #fff; }
+    .t3::before {
+      content: '70%';
+      position: absolute;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 6.5rem;
+      line-height: 1;
+      letter-spacing: -.5rem;
       color: #0A0A0A;
+      bottom: -12px; left: 10px;
+    }
+    .t3 .b1 {
+      position:absolute; top:12px; left:12px;
+      width:52%; height:44px;
+      background:#DFE104; border:2px solid #0A0A0A;
+      box-shadow:4px 4px 0 #0A0A0A;
+    }
+    .t3 .b2 {
+      position:absolute; top:68px; left:36px;
+      width:36%; height:32px;
+      background:#fff; border:2px solid #0A0A0A;
+      box-shadow:3px 3px 0 #0A0A0A;
+    }
+    .t3 .b3 {
+      position:absolute; top:112px; right:12px;
+      width:44%; height:28px;
+      background:#0A0A0A; border:2px solid #0A0A0A;
+      box-shadow:3px 3px 0 #DFE104;
     }
 
-    /* ── V4: Liquid Glass ── */
-    .art-v4 {
-      background: radial-gradient(ellipse at 30% 20%, #1A0535 0%, #070712 70%);
+    /* V4: Liquid Glass */
+    .t4 {
+      background: radial-gradient(ellipse at 30% 10%, #1A0535 0%, #070712 70%);
     }
-    .art-v4 .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
+    .t4 .o1 {
+      position:absolute; width:70%; height:70%;
+      background:rgba(124,58,237,.5);
+      border-radius:50%; filter:blur(40px);
+      top:-20%; right:-15%;
     }
-    .art-v4 .o1 { width:60%; height:60%; background:rgba(124,58,237,.4); top:-15%; right:-15%; }
-    .art-v4 .o2 { width:50%; height:50%; background:rgba(201,168,76,.2); bottom:-10%; left:-10%; }
-    .art-v4 .glass {
-      position: absolute;
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.13);
+    .t4 .o2 {
+      position:absolute; width:50%; height:50%;
+      background:rgba(201,168,76,.25);
+      border-radius:50%; filter:blur(30px);
+      bottom:-10%; left:-10%;
     }
-    .art-v4 .g1 { width:65%; height:80px; top:24px; left:32px; }
-    .art-v4 .g2 { width:45%; height:55px; top:120px; left:80px; }
-    .art-v4 .g3 { width:55%; height:45px; top:190px; right:32px; }
-    .art-v4 .a-num {
+    .t4 .g { position:absolute; background:rgba(255,255,255,0.08); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.12); }
+    .t4 .g1 { width:62%; height:46px; top:16px; left:14px; }
+    .t4 .g2 { width:44%; height:34px; top:74px; left:36px; }
+    .t4 .g3 { width:52%; height:28px; top:120px; right:14px; }
+    .t4::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 6.5rem;
       font-style: italic;
       line-height: 1;
+      letter-spacing: -.5rem;
       color: #C9A84C;
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
+      bottom: -12px; left: 10px;
     }
 
-    /* ── V5: Swiss Editorial ── */
-    .art-v5 { background: #F7F5F0; }
-    .art-v5 .sw-col {
-      position: absolute;
-      top: 0; bottom: 0; left: 0;
-      width: 6px; background: #CC0000;
+    /* V5: Swiss Editorial */
+    .t5 { background: #F7F5F0; }
+    .t5 .col { position:absolute; top:0; bottom:0; left:0; width:5px; background:#CC0000; }
+    .t5 .rule { position:absolute; top:36px; left:14px; right:14px; height:3px; background:#1A1A18; }
+    .t5 .cols {
+      position:absolute; top:48px; left:14px; right:14px;
+      display:grid; grid-template-columns:repeat(12,1fr); gap:2px;
+      height:calc(100% - 60px); opacity:.06;
     }
-    .art-v5 .a-num {
+    .t5 .cols div { background:#1A1A18; }
+    .t5::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
       font-style: italic;
-      font-weight: 900;
+      font-size: 6.5rem;
       line-height: 1;
+      letter-spacing: -.5rem;
       color: #1A1A18;
-      bottom: -8vw; left: -1vw;
-      letter-spacing: -4vw;
-      opacity: .85;
+      bottom: -12px; left: 8px;
     }
-    .art-v5 .sw-rule {
-      position: absolute;
-      top: 60px; left: 32px; right: 32px;
-      height: 4px; background: #1A1A18;
-    }
-    .art-v5 .sw-cols {
-      position: absolute;
-      top: 76px; left: 32px; right: 32px;
-      display: grid;
-      grid-template-columns: repeat(12,1fr);
-      gap: 3px;
-      height: calc(100% - 140px);
-      opacity: .06;
-    }
-    .art-v5 .sw-cols div { background: #1A1A18; }
-    .art-v5 .sw-label {
-      position: absolute;
-      top: 72px; right: 32px;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #CC0000;
-      font-family: 'DM Mono', monospace;
+    .t5 .num {
+      position:absolute; top:8px; right:14px;
+      font-size:2rem; font-style:italic; font-weight:700;
+      color:#CC0000; opacity:.5; line-height:1;
     }
 
-    /* ── V6: Cyberpunk ── */
-    .art-v6 {
+    /* V6: Cyberpunk */
+    .t6 {
       background: #000;
       background-image:
         linear-gradient(rgba(0,255,65,.07) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,255,65,.07) 1px, transparent 1px);
-      background-size: 36px 36px;
+      background-size: 24px 24px;
     }
-    .art-v6 .scanlines {
-      position: absolute; inset:0;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 3px,
-        rgba(0,0,0,.12) 3px, rgba(0,0,0,.12) 4px
-      );
-      pointer-events: none;
+    .t6 .scan {
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.12) 3px, rgba(0,0,0,.12) 4px);
     }
-    .art-v6 .a-num {
+    .t6::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 6.5rem;
       line-height: 1;
+      letter-spacing: -.5rem;
       color: #00FF41;
-      text-shadow: 0 0 30px #00FF41, 0 0 60px rgba(0,255,65,.3);
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
+      text-shadow: 0 0 20px #00FF41, 0 0 40px rgba(0,255,65,.3);
+      bottom: -12px; left: 10px;
     }
-    .art-v6 .cy-label {
-      position: absolute;
-      top: 28px; left: 32px;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: #00FF41;
-      letter-spacing: 2px;
-      text-shadow: 0 0 8px #00FF41;
+    .t6 .cy {
+      position:absolute; top:14px; left:14px;
+      font-family: monospace; font-size:9px;
+      color:#00FF41; letter-spacing:1px;
+      text-shadow:0 0 6px #00FF41;
     }
-    .art-v6 .cy-bars {
-      position: absolute;
-      top: 60px; left: 32px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .art-v6 .cy-bar {
-      height: 2px;
-      background: #00FF41;
-      box-shadow: 0 0 6px #00FF41;
-    }
-    .art-v6 .cy-bar:nth-child(1) { width: 120px; }
-    .art-v6 .cy-bar:nth-child(2) { width: 80px; opacity:.6; }
-    .art-v6 .cy-bar:nth-child(3) { width: 100px; opacity:.4; }
+    .t6 .bar { position:absolute; height:1px; background:#00FF41; box-shadow:0 0 4px #00FF41; }
+    .t6 .b1 { width:80px; top:36px; left:14px; }
+    .t6 .b2 { width:55px; top:48px; left:14px; opacity:.5; }
+    .t6 .b3 { width:68px; top:60px; left:14px; opacity:.3; }
 
-    /* ── V7: Vaporwave ── */
-    .art-v7 {
+    /* V7: Vaporwave */
+    .t7 {
       background: #0D0221;
       background-image:
         linear-gradient(rgba(191,95,255,.18) 1px, transparent 1px),
         linear-gradient(90deg, rgba(191,95,255,.18) 1px, transparent 1px);
-      background-size: 44px 44px;
+      background-size: 28px 28px;
     }
-    .art-v7 .a-num {
+    .t7::before {
+      content: '70%';
       position: absolute;
-      font-size: 38vw;
-      font-weight: 900;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 6.5rem;
       line-height: 1;
+      letter-spacing: -.5rem;
       background: linear-gradient(135deg, #FF6EC7, #BF5FFF);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      bottom: -8vw; left: -2vw;
-      letter-spacing: -4vw;
+      bottom: -12px; left: 10px;
     }
-    .art-v7 .vw-star {
-      position: absolute;
-      font-size: 14px;
-      color: #FF6EC7;
-      text-shadow: 0 0 10px #FF6EC7;
-    }
-    .art-v7 .s1 { top: 28px; left: 32px; }
-    .art-v7 .s2 { top: 28px; left: 56px; }
-    .art-v7 .s3 { top: 28px; left: 80px; }
-    .art-v7 .vw-label {
-      position: absolute;
-      top: 26px; left: 106px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: rgba(255,110,199,.6);
-      text-transform: uppercase;
-    }
-    .art-v7 .pixel-bar {
-      position: absolute;
-      bottom: 80px; left: 32px; right: 32px;
-      height: 5px;
-      background: repeating-linear-gradient(90deg,
-        #FF6EC7 0, #FF6EC7 14px,
-        #BF5FFF 14px, #BF5FFF 28px,
-        #00FFFF 28px, #00FFFF 42px
-      );
+    .t7 .stars { position:absolute; top:13px; left:14px; font-size:10px; color:#FF6EC7; text-shadow:0 0 8px #FF6EC7; letter-spacing:4px; }
+    .t7 .pbar {
+      position:absolute; bottom:42px; left:14px; right:14px; height:3px;
+      background: repeating-linear-gradient(90deg, #FF6EC7 0, #FF6EC7 10px, #BF5FFF 10px, #BF5FFF 20px, #00FFFF 20px, #00FFFF 30px);
     }
 
-    /* ── ACCENT COLORS on eyebrow per slide ── */
-    [data-slide="1"] .slide-eyebrow { color: #888; }
-    [data-slide="2"] .slide-eyebrow { color: #F5C518; }
-    [data-slide="3"] .slide-eyebrow { color: #DFE104; }
-    [data-slide="4"] .slide-eyebrow { color: #C9A84C; }
-    [data-slide="5"] .slide-eyebrow { color: #CC0000; }
-    [data-slide="6"] .slide-eyebrow { color: #00FF41; }
-    [data-slide="7"] .slide-eyebrow { color: #FF6EC7; }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      header, footer { padding: 0 20px; }
-      .slide { grid-template-columns: 1fr; grid-template-rows: 45% 55%; }
-      .preview { border-right: none; border-bottom: 1px solid var(--border); }
-      .content { padding: 32px 24px; }
-      .slide-title { font-size: clamp(1.8rem, 7vw, 3rem); }
-      .art-v1 .a-num, .art-v2 .a-num, .art-v3 .a-num,
-      .art-v4 .a-num, .art-v5 .a-num, .art-v6 .a-num,
-      .art-v7 .a-num { font-size: 60vw; bottom: -14vw; }
-      .kbd-hint { display: none; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); padding: 24px; gap: 2px; }
+      header { padding: 28px 24px 0; }
+      footer { padding: 0 24px 28px; }
     }
-
-    /* ── REDUCED MOTION ── */
-    @media (prefers-reduced-motion: reduce) {
-      .slide, #progress-bar { transition: none; }
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-<div id="app">
 
-  <div id="progress-bar"></div>
-
-  <!-- HEADER -->
   <header>
-    <span class="brand">Identidade Visual</span>
-    <span class="counter"><b id="cur">1</b> / 7</span>
+    <span class="title">Identidade Visual — Design System</span>
+    <span class="subtitle">7 variações &nbsp;·&nbsp; Clique para explorar</span>
   </header>
 
-  <!-- SLIDES -->
-  <div id="slides">
+  <div class="grid">
 
-    <!-- SLIDE 1 -->
-    <div class="slide active" data-slide="1">
-      <div class="preview art-v1">
-        <div class="a-bar"></div>
-        <div class="a-dot"></div>
-        <div class="a-num">70%</div>
-        <div class="a-label">Bold Impact</div>
+    <!-- V1 -->
+    <a class="card" href="showcase_v1.html" target="_blank">
+      <div class="thumb t1">
+        <div class="dot"></div>
+        <div class="label">Bold Impact</div>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">A Fundação — v1.0</div>
-        <h2 class="slide-title">Sem cor.<br>Sem ruído.<br>Só impacto.</h2>
-        <p class="slide-copy">
-          Design systems poderosos não precisam de paletas elaboradas.
-          <strong>Preto, branco e intenção</strong> são suficientes para dominar
-          qualquer espaço visual — quando aplicados com convicção.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Archivo Black</span>
-          <span class="tag">Máximo contraste</span>
-          <span class="tag">Sem adornos</span>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Bold Impact</div>
+          <div class="card-ver">v1 — Original</div>
         </div>
-        <a class="slide-cta" href="showcase_v1.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 2 -->
-    <div class="slide" data-slide="2">
-      <div class="preview art-v2">
-        <div class="a-stripe"></div>
-        <div class="a-box">Dark Edition</div>
-        <div class="a-num">70%</div>
-        <div class="a-grid">
-          <div></div><div></div><div></div><div></div><div></div><div></div>
-        </div>
+    <!-- V2 -->
+    <a class="card" href="showcase_v2.html" target="_blank">
+      <div class="thumb t2">
+        <div class="tag">Dark</div>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">A Tensão — v2.0</div>
-        <h2 class="slide-title">Amarelo<br>no escuro<br>não passa<br>despercebido.</h2>
-        <p class="slide-copy">
-          Marcas que escolhem o fundo escuro comunicam <strong>confiança antes de qualquer palavra</strong>.
-          O amarelo sinalizador não decora — alerta. Sua identidade precisa gerar reação, não aprovação.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Dark-first</span>
-          <span class="tag">#F5C518 Alerta</span>
-          <span class="tag">Alta tensão</span>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Dark Edition</div>
+          <div class="card-ver">v2 — Escuro + Amarelo</div>
         </div>
-        <a class="slide-cta" href="showcase_v2.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 3 -->
-    <div class="slide" data-slide="3">
-      <div class="preview art-v3">
-        <div class="nb nb1"></div>
-        <div class="nb nb2"></div>
-        <div class="nb nb3"></div>
-        <div class="nb-txt">NEO</div>
-        <div class="a-num">70%</div>
+    <!-- V3 -->
+    <a class="card" href="showcase_v3.html" target="_blank">
+      <div class="thumb t3">
+        <div class="b1"></div>
+        <div class="b2"></div>
+        <div class="b3"></div>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">A Rebeldia — v3.0</div>
-        <h2 class="slide-title">Quando<br>todos poliam,<br>essas sombras<br>ficaram raras.</h2>
-        <p class="slide-copy">
-          Mercados saturados de design "seguro" criam a maior oportunidade:
-          <strong>ser inegavelmente diferente</strong>. Sombras brutas e ângulos retos se
-          destacam exatamente porque todos os outros escolheram o arredondado.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Offset Shadows</span>
-          <span class="tag">Amarelo ácido</span>
-          <span class="tag">Marquee CSS</span>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Neobrutalism</div>
+          <div class="card-ver">v3 — Offset Shadows</div>
         </div>
-        <a class="slide-cta" href="showcase_v3.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 4 -->
-    <div class="slide" data-slide="4">
-      <div class="preview art-v4">
-        <div class="orb o1"></div>
-        <div class="orb o2"></div>
-        <div class="glass g1"></div>
-        <div class="glass g2"></div>
-        <div class="glass g3"></div>
-        <div class="a-num">70%</div>
+    <!-- V4 -->
+    <a class="card" href="showcase_v4.html" target="_blank">
+      <div class="thumb t4">
+        <div class="o1"></div>
+        <div class="o2"></div>
+        <div class="g g1"></div>
+        <div class="g g2"></div>
+        <div class="g g3"></div>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">O Prestígio — v4.0</div>
-        <h2 class="slide-title">Luxo não<br>grita.<br>Ele deixa você<br>se aproximar.</h2>
-        <p class="slide-copy">
-          Identidades premium comunicam valor antes de qualquer palavra.
-          <strong>Profundidade, transparência e ouro</strong> não são efeitos estéticos —
-          são promessas que sua marca precisa ser capaz de cumprir.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Backdrop blur</span>
-          <span class="tag">Ouro e vidro</span>
-          <span class="tag">Premium implícito</span>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Liquid Glass</div>
+          <div class="card-ver">v4 — Glassmorphism Dark</div>
         </div>
-        <a class="slide-cta" href="showcase_v4.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 5 -->
-    <div class="slide" data-slide="5">
-      <div class="preview art-v5">
-        <div class="sw-col"></div>
-        <div class="sw-rule"></div>
-        <div class="sw-cols">
+    <!-- V5 -->
+    <a class="card" href="showcase_v5.html" target="_blank">
+      <div class="thumb t5">
+        <div class="col"></div>
+        <div class="rule"></div>
+        <div class="cols">
           <div></div><div></div><div></div><div></div>
           <div></div><div></div><div></div><div></div>
           <div></div><div></div><div></div><div></div>
         </div>
-        <div class="sw-label">Swiss / 12-col</div>
-        <div class="a-num">70%</div>
+        <div class="num">05</div>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">A Disciplina — v5.0</div>
-        <h2 class="slide-title">Grid,<br>proporção,<br>hierarquia.<br>O resto<br>é ruído.</h2>
-        <p class="slide-copy">
-          O International Style dominou o design por 70 anos porque
-          <strong>sistemas racionais sobrevivem às tendências</strong>.
-          Disciplina tipográfica e grid são o ativo de longo prazo de qualquer marca séria.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Libre Bodoni</span>
-          <span class="tag">Grid 12 colunas</span>
-          <span class="tag">Razão áurea</span>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Swiss Editorial</div>
+          <div class="card-ver">v5 — Grid 12 colunas</div>
         </div>
-        <a class="slide-cta" href="showcase_v5.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 6 -->
-    <div class="slide" data-slide="6">
-      <div class="preview art-v6">
-        <div class="scanlines"></div>
-        <div class="cy-label">[SYS::ONLINE]_</div>
-        <div class="cy-bars">
-          <div class="cy-bar"></div>
-          <div class="cy-bar"></div>
-          <div class="cy-bar"></div>
+    <!-- V6 -->
+    <a class="card" href="showcase_v6.html" target="_blank">
+      <div class="thumb t6">
+        <div class="scan"></div>
+        <div class="cy">[SYS::ONLINE]_</div>
+        <div class="bar b1"></div>
+        <div class="bar b2"></div>
+        <div class="bar b3"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Cyberpunk OLED</div>
+          <div class="card-ver">v6 — Matrix Green</div>
         </div>
-        <div class="a-num">70%</div>
+        <span class="card-arrow">↗</span>
       </div>
-      <div class="content">
-        <div class="slide-eyebrow">O Território — v6.0</div>
-        <h2 class="slide-title">Algumas<br>marcas<br>pertencem<br>à noite<br>e às telas.</h2>
-        <p class="slide-copy">
-          Verde matrix, scanlines e glow não são tendência — são
-          <strong>coordenadas de um território específico</strong>.
-          Reclame o seu antes que outra marca faça isso por você.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Orbitron</span>
-          <span class="tag">Matrix green</span>
-          <span class="tag">Glitch effect</span>
+    </a>
+
+    <!-- V7 -->
+    <a class="card" href="showcase_v7.html" target="_blank">
+      <div class="thumb t7">
+        <div class="stars">★ ★ ★</div>
+        <div class="pbar"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Vaporwave Retro</div>
+          <div class="card-ver">v7 — Neon Pink</div>
         </div>
-        <a class="slide-cta" href="showcase_v6.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
+        <span class="card-arrow">↗</span>
       </div>
-    </div>
+    </a>
 
-    <!-- SLIDE 7 -->
-    <div class="slide" data-slide="7">
-      <div class="preview art-v7">
-        <div class="vw-star s1">★</div>
-        <div class="vw-star s2">★</div>
-        <div class="vw-star s3">★</div>
-        <div class="vw-label">Insert Coin</div>
-        <div class="a-num">70%</div>
-        <div class="pixel-bar"></div>
-      </div>
-      <div class="content">
-        <div class="slide-eyebrow">A Nostalgia — v7.0</div>
-        <h2 class="slide-title">O passado<br>é o único lugar<br>onde o futuro<br>não decepcionou.</h2>
-        <p class="slide-copy">
-          Estética retro não é saudosismo — é uma <strong>promessa emocional que marcas novas
-          nunca conseguem fazer</strong>. Identidades com história vendem porque vendem
-          um sentimento, não apenas um produto.
-        </p>
-        <div class="slide-tags">
-          <span class="tag">Press Start 2P</span>
-          <span class="tag">Neon pink</span>
-          <span class="tag">CRT vibes</span>
-        </div>
-        <a class="slide-cta" href="showcase_v7.html" target="_blank">
-          Ver sistema completo <span class="arrow">↗</span>
-        </a>
-      </div>
-    </div>
+  </div>
 
-  </div><!-- /slides -->
+  <footer>Bold Impact Design System Archive &nbsp;·&nbsp; 2024</footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <button class="nav-btn" id="btn-prev" aria-label="Anterior" disabled>
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      <span>Anterior</span>
-    </button>
-
-    <div class="dots" id="dots" role="tablist" aria-label="Navegação por slides">
-      <div class="dot active" data-idx="0" role="tab" aria-label="Slide 1" tabindex="0"></div>
-      <div class="dot" data-idx="1" role="tab" aria-label="Slide 2" tabindex="0"></div>
-      <div class="dot" data-idx="2" role="tab" aria-label="Slide 3" tabindex="0"></div>
-      <div class="dot" data-idx="3" role="tab" aria-label="Slide 4" tabindex="0"></div>
-      <div class="dot" data-idx="4" role="tab" aria-label="Slide 5" tabindex="0"></div>
-      <div class="dot" data-idx="5" role="tab" aria-label="Slide 6" tabindex="0"></div>
-      <div class="dot" data-idx="6" role="tab" aria-label="Slide 7" tabindex="0"></div>
-    </div>
-
-    <button class="nav-btn" id="btn-next" aria-label="Próximo">
-      <span>Próximo</span>
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </footer>
-
-</div><!-- /app -->
-
-<script>
-  const slides = document.querySelectorAll('.slide');
-  const dots   = document.querySelectorAll('.dot');
-  const btnPrev = document.getElementById('btn-prev');
-  const btnNext = document.getElementById('btn-next');
-  const curEl   = document.getElementById('cur');
-  const progBar = document.getElementById('progress-bar');
-  const total = slides.length;
-  let current = 0;
-  let animating = false;
-
-  function goTo(idx, dir) {
-    if (animating || idx === current) return;
-    animating = true;
-
-    const from = slides[current];
-    const to   = slides[idx];
-
-    // exit current
-    from.classList.add(dir === 1 ? 'exit-left' : '');
-    if (dir === -1) from.style.transform = 'translateX(60px)';
-    from.classList.remove('active');
-
-    // prepare next
-    if (dir === 1) {
-      to.style.transform = 'translateX(60px)';
-    } else {
-      to.style.transform = 'translateX(-60px)';
-    }
-    to.style.opacity = '0';
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        to.style.transform = '';
-        to.style.opacity = '';
-        to.classList.add('active');
-        current = idx;
-        updateUI();
-        setTimeout(() => {
-          from.classList.remove('exit-left');
-          from.style.transform = '';
-          from.style.opacity = '';
-          animating = false;
-        }, 600);
-      });
-    });
-  }
-
-  function updateUI() {
-    curEl.textContent = current + 1;
-    progBar.style.width = ((current + 1) / total * 100) + '%';
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    btnPrev.disabled = current === 0;
-    btnNext.disabled = current === total - 1;
-    history.replaceState(null, '', '#' + (current + 1));
-  }
-
-  btnNext.addEventListener('click', () => goTo(current + 1, 1));
-  btnPrev.addEventListener('click', () => goTo(current - 1, -1));
-
-  dots.forEach(d => {
-    d.addEventListener('click', () => {
-      const idx = parseInt(d.dataset.idx);
-      goTo(idx, idx > current ? 1 : -1);
-    });
-    d.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        d.click();
-      }
-    });
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(current+1, total-1), 1);
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(Math.max(current-1, 0), -1);
-  });
-
-  // touch swipe
-  let tx = 0;
-  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 50) dx < 0 ? goTo(Math.min(current+1,total-1),1) : goTo(Math.max(current-1,0),-1);
-  });
-
-  // deep link via hash
-  const hash = parseInt(location.hash.replace('#',''));
-  if (hash >= 1 && hash <= total) {
-    current = hash - 1;
-    slides.forEach((s,i) => s.classList.toggle('active', i === current));
-    updateUI();
-  } else {
-    updateUI();
-  }
-</script>
 </body>
 </html>
