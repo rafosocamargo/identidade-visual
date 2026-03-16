@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA — Tecnologia Pessoal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --near-black: #1D1D1F;
+      --apple-gray: #F5F5F7;
+      --blue: #0066CC;
+      --white: #FFFFFF;
+      --text-secondary: #6E6E73;
+      --text-tertiary: #AEAEB2;
+      --border: rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: background 0.4s;
+    }
+    nav.dark {
+      background: rgba(0,0,0,0.75);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      color: var(--near-black);
+      text-transform: uppercase;
+      transition: color 0.4s;
+    }
+    nav.dark .nav-logo { color: #fff; }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--near-black); }
+    nav.dark .nav-links a { color: rgba(255,255,255,0.65); }
+    nav.dark .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 18px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── BACK BUTTON ── */
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transition: background 0.05s linear;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+    }
+    .hero-eyebrow {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      margin-bottom: 16px;
+    }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--near-black);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s, color 0.4s;
+      margin-bottom: 8px;
+    }
+    .hero-title.visible { opacity: 1; transform: translateY(0); }
+    .hero-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: var(--text-secondary);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s, color 0.4s;
+      margin-bottom: 48px;
+    }
+    .hero-subtitle.visible { opacity: 1; transform: translateY(0); }
+    .hero-product-wrap {
+      position: relative;
+      width: min(480px, 70vw);
+      aspect-ratio: 1;
+      transform: scale(0.6);
+      transition: transform 0.05s linear;
+    }
+    .hero-product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 24px;
+      position: relative;
+      z-index: 2;
+      transition: filter 0.5s ease;
+    }
+    .hero-product-tint {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.5s ease, background 0.5s ease;
+      mix-blend-mode: color;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s;
+      margin-top: 48px;
+    }
+    .hero-cta-group.visible { opacity: 1; transform: translateY(0); }
+    .btn-primary {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 28px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: scale(1.02); }
+    .btn-ghost {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--near-black);
+      border: 1.5px solid rgba(0,0,0,0.18);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--near-black); transform: scale(1.02); }
+    .hero-dark .btn-ghost { color: #fff; border-color: rgba(255,255,255,0.3); }
+    .hero-dark .btn-ghost:hover { border-color: #fff; }
+    .hero-dark .hero-title { color: #fff; }
+    .hero-dark .hero-subtitle { color: rgba(255,255,255,0.6); }
+
+    /* ── COLOR SWATCHES ── */
+    .color-swatches {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.7s ease 0.45s;
+    }
+    .color-swatches.visible { opacity: 1; }
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2.5px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .swatch:hover { transform: scale(1.15); }
+    .swatch.active { border-color: var(--blue); }
+    .swatch.midnight { background: #1a1a2e; }
+    .swatch.pearl { background: #f0ece4; border: 2.5px solid #d0c8be; }
+    .swatch.ocean { background: #0d4f8c; }
+    .swatch-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+      margin-left: 4px;
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 1.5px solid var(--text-secondary);
+      border-bottom: 1.5px solid var(--text-secondary);
+      transform: rotate(45deg);
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 120px 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--near-black);
+    }
+    .section-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-top: 16px;
+      max-width: 560px;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .products-section { background: var(--apple-gray); }
+    .products-header { text-align: center; margin-bottom: 64px; }
+    .products-header .section-sub { margin: 16px auto 0; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      perspective: 800px;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+    .product-card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .product-card-img { transform: scale(1.04); }
+    .product-card-body {
+      padding: 20px;
+    }
+    .product-card-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--near-black);
+      margin-bottom: 4px;
+    }
+    .product-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .product-card-price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--near-black);
+    }
+    .product-card-buy {
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      background: var(--near-black);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .product-card-buy:hover { background: var(--blue); }
+
+    /* ── 3D TILT SHOWCASE ── */
+    .showcase-section { background: var(--white); }
+    .showcase-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .showcase-card {
+      background: linear-gradient(145deg, #f8f8f8, #efefef);
+      border-radius: 28px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s;
+    }
+    .showcase-card:hover { box-shadow: 0 24px 64px rgba(0,0,0,0.18); }
+    .showcase-card-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease;
+    }
+    .showcase-card img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      transform: translateZ(30px);
+    }
+    .showcase-info { }
+    .showcase-info .section-tag { margin-bottom: 10px; }
+    .showcase-features {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .feature-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .feature-row.visible { opacity: 1; transform: translateX(0); }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--apple-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .feature-text h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--near-black);
+      margin-bottom: 2px;
+    }
+    .feature-text p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── FEATURE PINS ── */
+    .features-section { background: var(--near-black); overflow: hidden; }
+    .features-section .section-tag { color: rgba(255,255,255,0.4); }
+    .features-section .section-title { color: var(--white); }
+    .feature-pin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-top: 64px;
+    }
+    .feature-pin {
+      background: rgba(255,255,255,0.04);
+      padding: 52px 48px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s;
+    }
+    .feature-pin.visible { opacity: 1; transform: translateY(0); }
+    .feature-pin:hover { background: rgba(255,255,255,0.07); }
+    .feature-pin-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .feature-pin h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .feature-pin p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+    }
+    .feature-pin-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.04);
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      line-height: 1;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+    .feature-pin { position: relative; }
+
+    /* ── LIFESTYLE STRIP ── */
+    .lifestyle-section {
+      background: var(--black);
+      padding: 0;
+      height: 70vh;
+      min-height: 480px;
+      position: relative;
+      overflow: hidden;
+    }
+    .lifestyle-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      display: block;
+    }
+    .lifestyle-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+    }
+    .lifestyle-quote {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      max-width: 720px;
+    }
+    .lifestyle-attr {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── SPECS ── */
+    .specs-section { background: var(--apple-gray); }
+    .specs-header { margin-bottom: 56px; }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .spec-block {
+      background: var(--white);
+      padding: 36px 28px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .spec-block.visible { opacity: 1; transform: translateY(0); }
+    .spec-block:first-child { border-radius: 20px 0 0 20px; }
+    .spec-block:last-child { border-radius: 0 20px 20px 0; }
+    .spec-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--near-black);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .spec-unit {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .spec-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+    .spec-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ── ORIGIN STRIP ── */
+    .origin-section {
+      background: var(--near-black);
+      text-align: center;
+    }
+    .origin-section .section-title { color: var(--white); }
+    .origin-section .section-sub { color: rgba(255,255,255,0.5); margin: 16px auto 0; }
+    .origin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.05em;
+      margin-top: 36px;
+    }
+
+    /* ── BUY FLOW MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      width: min(520px, 90vw);
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+      transform: scale(0.94) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+    .modal-steps {
+      overflow: hidden;
+      position: relative;
+    }
+    .modal-step {
+      padding: 36px 40px;
+      display: none;
+    }
+    .modal-step.active { display: block; }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: var(--apple-gray);
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 10;
+    }
+    .modal-close:hover { background: #e0e0e0; }
+    .modal-header { position: relative; }
+    .modal-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+    .progress-dot {
+      flex: 1;
+      height: 3px;
+      background: var(--apple-gray);
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+    .progress-dot.done { background: var(--blue); }
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .modal-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .option-btn {
+      padding: 14px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: transparent;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .option-btn:hover { border-color: var(--blue); }
+    .option-btn.selected { border-color: var(--blue); background: rgba(0,102,204,0.05); }
+    .option-btn-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--near-black);
+      display: block;
+    }
+    .option-btn-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      display: block;
+      margin-top: 3px;
+    }
+    .option-swatch-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .option-swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .modal-next {
+      width: 100%;
+      padding: 15px;
+      background: var(--near-black);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-next:hover { background: var(--blue); }
+    .modal-next:disabled { opacity: 0.4; cursor: not-allowed; }
+    /* Cart summary */
+    .cart-summary {
+      background: var(--apple-gray);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .cart-row.total {
+      font-weight: 600;
+      color: var(--near-black);
+      font-size: 16px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    /* Confirmation */
+    .confirm-icon {
+      width: 64px;
+      height: 64px;
+      background: #e8f5e9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+    }
+    .confirm-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .confirm-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      padding: 64px 0 40px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .footer-brand-tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+    }
+    .footer-col h5 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-legal a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-legal a:hover { color: rgba(255,255,255,0.55); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .showcase-inner { grid-template-columns: 1fr; gap: 40px; }
+      .feature-pin-grid { grid-template-columns: 1fr; }
+      .specs-grid { grid-template-columns: repeat(2, 1fr); }
+      .spec-block:first-child { border-radius: 20px 20px 0 0; }
+      .spec-block:last-child { border-radius: 0 0 20px 20px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACK BUTTON -->
+  <a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <span class="nav-logo">AURA</span>
+    <ul class="nav-links">
+      <li><a href="#">Watch Pro</a></li>
+      <li><a href="#">Sound</a></li>
+      <li><a href="#">Pods</a></li>
+      <li><a href="#">Home Hub</a></li>
+    </ul>
+    <button class="nav-cta" onclick="openBuyModal()">Comprar</button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-content" id="hero-content">
+      <p class="hero-eyebrow" id="hero-eyebrow">Novo · AURA Watch Pro</p>
+      <h1 class="hero-title" id="hero-title">AURA</h1>
+      <p class="hero-subtitle" id="hero-subtitle">Tecnologia que sente você</p>
+
+      <!-- Product image with 3D tilt -->
+      <div class="hero-product-wrap" id="hero-product-wrap">
+        <img
+          id="hero-product-img"
+          class="hero-product-img"
+          src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80"
+          alt="AURA Watch Pro"
+          draggable="false"
+        />
+        <div class="hero-product-tint" id="hero-product-tint"></div>
+      </div>
+
+      <!-- Color swatches -->
+      <div class="color-swatches" id="color-swatches">
+        <button class="swatch midnight active" title="Midnight Black" onclick="selectColor('midnight', this)"></button>
+        <button class="swatch pearl" title="Pearl White" onclick="selectColor('pearl', this)"></button>
+        <button class="swatch ocean" title="Ocean Blue" onclick="selectColor('ocean', this)"></button>
+        <span class="swatch-label" id="color-label">Midnight Black</span>
+      </div>
+
+      <div class="hero-cta-group" id="hero-cta-group">
+        <button class="btn-primary" onclick="openBuyModal()">Comprar Agora — R$2.499</button>
+        <button class="btn-ghost" id="hero-ghost-btn">Saber mais</button>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCTS ── -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <div class="products-header">
+        <p class="section-tag">Linha Completa</p>
+        <h2 class="section-title">Um ecossistema<br>sem atrito.</h2>
+        <p class="section-sub">Todos os produtos AURA foram desenhados para trabalhar juntos — e individualmente.</p>
+      </div>
+      <div class="product-grid">
+        <div class="product-card" data-tilt>
+          <img class="product-card-img"
+            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+            alt="AURA Watch Pro">
+          <div class="product-card-body">
+            <div class="product-card-name">AURA Watch Pro</div>
+            <div class="product-card-desc">Chip AURA A2 · IP68 · 18h bateria</div>
+            <div class="product-card-price">R$ 2.499</div>
+            <button class="product-card-buy" onclick="openBuyModal('watch')">Comprar</button>
+          </div>
+        </div>
+        <div class="product-card" data-tilt>
+          <img class="product-card-img"
+            src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&q=80"
+            alt="AURA Sound">
+          <div class="product-card-body">
+            <div class="product-card-name">AURA Sound</div>
+            <div class="product-card-desc">360° · Hi-Fi · Carregamento sem fio</div>
+            <div class="product-card-price">R$ 1.299</div>
+            <button class="product-card-buy" onclick="openBuyModal('sound')">Comprar</button>
+          </div>
+        </div>
+        <div class="product-card" data-tilt>
+          <img class="product-card-img"
+            src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80"
+            alt="AURA Pods">
+          <div class="product-card-body">
+            <div class="product-card-name">AURA Pods</div>
+            <div class="product-card-desc">ANC · Spatial Audio · 32h total</div>
+            <div class="product-card-price">R$ 899</div>
+            <button class="product-card-buy" onclick="openBuyModal('pods')">Comprar</button>
+          </div>
+        </div>
+        <div class="product-card" data-tilt>
+          <img class="product-card-img"
+            src="https://images.unsplash.com/photo-1558002038-bb4237bb35ec?w=800&q=80"
+            alt="AURA Home Hub">
+          <div class="product-card-body">
+            <div class="product-card-name">AURA Home Hub</div>
+            <div class="product-card-desc">Central · Voz · Automação total</div>
+            <div class="product-card-price">R$ 699</div>
+            <button class="product-card-buy" onclick="openBuyModal('hub')">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SHOWCASE (3D tilt) ── -->
+  <section class="showcase-section" id="showcase">
+    <div class="container">
+      <div class="showcase-inner">
+        <div class="showcase-card" id="tilt-card">
+          <div class="showcase-card-inner" id="tilt-inner">
+            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=80" alt="AURA Watch Pro detail">
+          </div>
+        </div>
+        <div class="showcase-info">
+          <p class="section-tag">AURA Watch Pro</p>
+          <h2 class="section-title">Feito para<br>quem não para.</h2>
+          <p class="section-sub">O Chip AURA A2 foi desenvolvido do zero para wearables — processamento em tempo real com consumo mínimo de energia.</p>
+          <div class="showcase-features">
+            <div class="feature-row" data-reveal>
+              <div class="feature-icon">🔋</div>
+              <div class="feature-text">
+                <h4>18 horas de bateria</h4>
+                <p>Uso intenso com GPS, monitoramento contínuo e notificações ativas.</p>
+              </div>
+            </div>
+            <div class="feature-row" data-reveal>
+              <div class="feature-icon">💧</div>
+              <div class="feature-text">
+                <h4>Resistência IP68</h4>
+                <p>Submerso até 50 metros. Surf, natação, chuva — ele aguenta.</p>
+              </div>
+            </div>
+            <div class="feature-row" data-reveal>
+              <div class="feature-icon">⚡</div>
+              <div class="feature-text">
+                <h4>Carregamento sem fio</h4>
+                <p>0 a 80% em 45 minutos. Compatível com qualquer base Qi.</p>
+              </div>
+            </div>
+            <div class="feature-row" data-reveal>
+              <div class="feature-icon">🧠</div>
+              <div class="feature-text">
+                <h4>Chip AURA A2</h4>
+                <p>4nm. IA de saúde on-device. Processamento privado — nenhum dado sai do pulso.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURE PINS ── -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <p class="section-tag">Por dentro</p>
+      <h2 class="section-title">Cada detalhe<br>é intenção.</h2>
+      <div class="feature-pin-grid">
+        <div class="feature-pin" data-reveal-pin>
+          <span class="feature-pin-number">01</span>
+          <span class="feature-pin-icon">🔮</span>
+          <h3>Tela Always-On LTPO</h3>
+          <p>Taxa de atualização variável de 1 Hz a 120 Hz. A tela se adapta ao que você precisa ver — e ao que você não precisa desperdiçar.</p>
+        </div>
+        <div class="feature-pin" data-reveal-pin>
+          <span class="feature-pin-number">02</span>
+          <span class="feature-pin-icon">❤️</span>
+          <h3>Saúde em tempo real</h3>
+          <p>ECG, SpO2, frequência cardíaca, temperatura da pele e detecção de queda. Monitoramento contínuo com alertas inteligentes.</p>
+        </div>
+        <div class="feature-pin" data-reveal-pin>
+          <span class="feature-pin-number">03</span>
+          <span class="feature-pin-icon">📡</span>
+          <h3>Conectividade total</h3>
+          <p>Wi-Fi 6, Bluetooth 5.3, NFC e LTE ultrawide. Pagamentos, controle de casa, comunicação — sem tirar o celular do bolso.</p>
+        </div>
+        <div class="feature-pin" data-reveal-pin>
+          <span class="feature-pin-number">04</span>
+          <span class="feature-pin-icon">🎨</span>
+          <h3>Materiais premium</h3>
+          <p>Caixa em titânio grau 5. Cristal de safira. Pulseiras intercambiáveis. Construído para durar uma vida — ou mais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LIFESTYLE ── -->
+  <section class="lifestyle-section">
+    <img class="lifestyle-img"
+      src="https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?w=1200&q=80"
+      alt="Lifestyle AURA">
+    <div class="lifestyle-overlay">
+      <p class="lifestyle-quote">"Projetado no Brasil.<br>Construído para o mundo."</p>
+      <span class="lifestyle-attr">AURA · São Paulo · Desde 2024</span>
+    </div>
+  </section>
+
+  <!-- ── SPECS ── -->
+  <section class="specs-section" id="specs">
+    <div class="container">
+      <div class="specs-header">
+        <p class="section-tag">Especificações</p>
+        <h2 class="section-title">Números que<br>impressionam.</h2>
+      </div>
+      <div class="specs-grid">
+        <div class="spec-block" data-reveal-spec>
+          <span class="spec-icon">🔋</span>
+          <div class="spec-value">18<span class="spec-unit">h</span></div>
+          <div class="spec-label">Bateria contínua</div>
+        </div>
+        <div class="spec-block" data-reveal-spec>
+          <span class="spec-icon">💧</span>
+          <div class="spec-value">50<span class="spec-unit">m</span></div>
+          <div class="spec-label">Resistência à água</div>
+        </div>
+        <div class="spec-block" data-reveal-spec>
+          <span class="spec-icon">⚡</span>
+          <div class="spec-value">45<span class="spec-unit">min</span></div>
+          <div class="spec-label">Carga 0–80%</div>
+        </div>
+        <div class="spec-block" data-reveal-spec>
+          <span class="spec-icon">🧠</span>
+          <div class="spec-value">4<span class="spec-unit">nm</span></div>
+          <div class="spec-label">Chip AURA A2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ORIGIN ── -->
+  <section class="origin-section">
+    <div class="container" style="text-align:center">
+      <p class="section-tag" style="justify-content:center;display:flex">Nossa missão</p>
+      <h2 class="section-title">Tecnologia com<br>alma brasileira.</h2>
+      <p class="section-sub" style="margin:16px auto 0;text-align:center">
+        Cada produto AURA nasce de uma obsessão por detalhes — do design à engenharia, do algoritmo à embalagem. Acreditamos que tecnologia deve ser sentida, não apenas usada.
+      </p>
+      <div class="origin-badge">🇧🇷 &nbsp; Projetado em São Paulo · Construído para o mundo</div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name">AURA</div>
+          <p class="footer-brand-tagline">Tecnologia que sente você.<br>Projetado no Brasil. Construído para o mundo.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Produtos</h5>
+          <ul>
+            <li><a href="#">AURA Watch Pro</a></li>
+            <li><a href="#">AURA Sound</a></li>
+            <li><a href="#">AURA Pods</a></li>
+            <li><a href="#">AURA Home Hub</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <ul>
+            <li><a href="#">Sobre</a></li>
+            <li><a href="#">Design</a></li>
+            <li><a href="#">Carreiras</a></li>
+            <li><a href="#">Imprensa</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Suporte</h5>
+          <ul>
+            <li><a href="#">Central de Ajuda</a></li>
+            <li><a href="#">Garantia</a></li>
+            <li><a href="#">Reparos</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2024 AURA Tecnologia Pessoal Ltda. Todos os direitos reservados.</p>
+        <div class="footer-legal">
+          <a href="#">Privacidade</a>
+          <a href="#">Termos</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── BUY FLOW MODAL ── -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal" id="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-steps">
+
+        <!-- Step 1: Choose Color -->
+        <div class="modal-step active" id="modal-step-1">
+          <div class="modal-progress">
+            <div class="progress-dot done" id="pd1"></div>
+            <div class="progress-dot" id="pd2"></div>
+            <div class="progress-dot" id="pd3"></div>
+            <div class="progress-dot" id="pd4"></div>
+          </div>
+          <h2 class="modal-title">Escolha a cor</h2>
+          <p class="modal-subtitle" id="modal-product-name">AURA Watch Pro · R$ 2.499</p>
+          <div class="option-grid">
+            <button class="option-btn" onclick="selectModalOption(this, 'color')">
+              <div class="option-swatch-wrap"><div class="option-swatch" style="background:#1a1a2e"></div></div>
+              <span class="option-btn-label">Midnight Black</span>
+              <span class="option-btn-sub">Mais vendida</span>
+            </button>
+            <button class="option-btn" onclick="selectModalOption(this, 'color')">
+              <div class="option-swatch-wrap"><div class="option-swatch" style="background:#f0ece4;border:1px solid #d0c8be"></div></div>
+              <span class="option-btn-label">Pearl White</span>
+              <span class="option-btn-sub">Edição limitada</span>
+            </button>
+            <button class="option-btn" onclick="selectModalOption(this, 'color')">
+              <div class="option-swatch-wrap"><div class="option-swatch" style="background:#0d4f8c"></div></div>
+              <span class="option-btn-label">Ocean Blue</span>
+              <span class="option-btn-sub">Nova</span>
+            </button>
+          </div>
+          <button class="modal-next" id="btn-step-1" disabled onclick="goToStep(2)">Continuar →</button>
+        </div>
+
+        <!-- Step 2: Choose Storage -->
+        <div class="modal-step" id="modal-step-2">
+          <div class="modal-progress">
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+            <div class="progress-dot" id="pd3b"></div>
+            <div class="progress-dot" id="pd4b"></div>
+          </div>
+          <h2 class="modal-title">Configuração</h2>
+          <p class="modal-subtitle">Escolha a memória e conectividade</p>
+          <div class="option-grid" style="grid-template-columns:1fr 1fr">
+            <button class="option-btn" onclick="selectModalOption(this, 'storage')">
+              <span class="option-btn-label" style="font-size:15px">32 GB</span>
+              <span class="option-btn-sub">Wi-Fi + Bluetooth</span>
+              <span class="option-btn-sub" style="color:var(--blue);margin-top:4px;font-size:12px">R$ 2.499</span>
+            </button>
+            <button class="option-btn" onclick="selectModalOption(this, 'storage')">
+              <span class="option-btn-label" style="font-size:15px">64 GB</span>
+              <span class="option-btn-sub">Wi-Fi + 4G LTE</span>
+              <span class="option-btn-sub" style="color:var(--blue);margin-top:4px;font-size:12px">R$ 2.899</span>
+            </button>
+          </div>
+          <button class="modal-next" id="btn-step-2" disabled onclick="goToStep(3)">Adicionar ao carrinho →</button>
+        </div>
+
+        <!-- Step 3: Cart -->
+        <div class="modal-step" id="modal-step-3">
+          <div class="modal-progress">
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+            <div class="progress-dot"></div>
+          </div>
+          <h2 class="modal-title">Seu carrinho</h2>
+          <p class="modal-subtitle">Revise antes de finalizar</p>
+          <div class="cart-summary" id="cart-summary">
+            <div class="cart-row"><span id="cart-product">AURA Watch Pro</span><span id="cart-price">R$ 2.499</span></div>
+            <div class="cart-row"><span id="cart-color-row">Midnight Black · 32 GB</span><span>—</span></div>
+            <div class="cart-row"><span>Frete grátis</span><span style="color:#22c55e">Grátis</span></div>
+            <div class="cart-row total"><span>Total</span><span id="cart-total">R$ 2.499</span></div>
+          </div>
+          <button class="modal-next" onclick="goToStep(4)">Finalizar compra →</button>
+        </div>
+
+        <!-- Step 4: Confirmation -->
+        <div class="modal-step" id="modal-step-4">
+          <div class="modal-progress">
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+            <div class="progress-dot done"></div>
+          </div>
+          <div style="text-align:center">
+            <div class="confirm-icon">✓</div>
+            <h2 class="confirm-title">Pedido realizado!</h2>
+            <p class="confirm-sub" id="confirm-msg">
+              Seu <strong>AURA Watch Pro</strong> está confirmado.<br>
+              Entrega estimada: <strong>3–5 dias úteis</strong>.<br>
+              Você receberá um e-mail de confirmação em breve.
+            </p>
+            <button class="modal-next" onclick="closeModal()" style="background:var(--blue)">Continuar comprando</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ────────────────────────────────────────────
+       SCROLL-DRIVEN HERO
+    ──────────────────────────────────────────── */
+    const heroEl = document.getElementById('hero');
+    const heroBg = document.getElementById('hero-bg');
+    const heroWrap = document.getElementById('hero-product-wrap');
+    const heroContent = document.getElementById('hero-content');
+    const nav = document.getElementById('main-nav');
+
+    // Trigger initial text animations
+    setTimeout(() => {
+      document.getElementById('hero-eyebrow').classList.add('visible');
+      document.getElementById('hero-title').classList.add('visible');
+      document.getElementById('hero-subtitle').classList.add('visible');
+      document.getElementById('color-swatches').classList.add('visible');
+      document.getElementById('hero-cta-group').classList.add('visible');
+    }, 200);
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function clamp(v, min, max) { return Math.min(Math.max(v, min), max); }
+
+    function parseRGB(hex) {
+      const r = parseInt(hex.slice(1,3),16);
+      const g = parseInt(hex.slice(3,5),16);
+      const b = parseInt(hex.slice(5,7),16);
+      return [r,g,b];
+    }
+
+    // From white (#FFFFFF) to deep charcoal (#1D1D1F)
+    const colorFrom = parseRGB('#FFFFFF');
+    const colorTo   = parseRGB('#1D1D1F');
+
+    let isDark = false;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    function updateScroll() {
+      ticking = false;
+      const scrollY = window.scrollY;
+      const heroHeight = heroEl.offsetHeight;
+      const scrollFraction = clamp(scrollY / (heroHeight * 0.7), 0, 1);
+
+      // Background color transition
+      const r = Math.round(lerp(colorFrom[0], colorTo[0], scrollFraction));
+      const g = Math.round(lerp(colorFrom[1], colorTo[1], scrollFraction));
+      const b = Math.round(lerp(colorFrom[2], colorTo[2], scrollFraction));
+      heroBg.style.background = `rgb(${r},${g},${b})`;
+
+      // Product image scale: 0.6 → 1.0
+      const scale = lerp(0.6, 1.0, scrollFraction);
+      heroWrap.style.transform = `scale(${scale})`;
+
+      // Nav switch
+      if (scrollFraction > 0.5 && !isDark) {
+        isDark = true;
+        nav.classList.add('dark');
+        heroContent.classList.add('hero-dark');
+      } else if (scrollFraction <= 0.5 && isDark) {
+        isDark = false;
+        nav.classList.remove('dark');
+        heroContent.classList.remove('hero-dark');
+      }
+
+      // Ghost button visibility on dark bg
+      const ghostBtn = document.getElementById('hero-ghost-btn');
+      if (scrollFraction > 0.3) {
+        ghostBtn.style.borderColor = 'rgba(255,255,255,0.3)';
+        ghostBtn.style.color = '#fff';
+      } else {
+        ghostBtn.style.borderColor = '';
+        ghostBtn.style.color = '';
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       COLOR VARIANT SELECTOR (hero)
+    ──────────────────────────────────────────── */
+    const colorConfig = {
+      midnight: { label: 'Midnight Black', filter: 'none', tint: null },
+      pearl:    { label: 'Pearl White',    filter: 'brightness(1.12) saturate(0.4)', tint: 'rgba(240,236,228,0.22)' },
+      ocean:    { label: 'Ocean Blue',     filter: 'brightness(0.95) saturate(1.3) hue-rotate(-10deg)', tint: 'rgba(13,79,140,0.18)' },
+    };
+
+    function selectColor(variant, el) {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+      const cfg = colorConfig[variant];
+      document.getElementById('color-label').textContent = cfg.label;
+      const img = document.getElementById('hero-product-img');
+      const tint = document.getElementById('hero-product-tint');
+      img.style.filter = cfg.filter;
+      if (cfg.tint) {
+        tint.style.background = cfg.tint;
+        tint.style.opacity = '1';
+      } else {
+        tint.style.opacity = '0';
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       INTERSECTION OBSERVER — REVEAL
+    ──────────────────────────────────────────── */
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = el.dataset.delay || i * 100;
+          setTimeout(() => el.classList.add('visible'), parseInt(delay));
+          revealObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+      el.dataset.delay = i * 130;
+      revealObs.observe(el);
+    });
+
+    document.querySelectorAll('[data-reveal-pin]').forEach((el, i) => {
+      el.dataset.delay = i * 110;
+      revealObs.observe(el);
+    });
+
+    document.querySelectorAll('[data-reveal-spec]').forEach((el, i) => {
+      el.dataset.delay = i * 100;
+      revealObs.observe(el);
+    });
+
+    /* ────────────────────────────────────────────
+       3D TILT CARD
+    ──────────────────────────────────────────── */
+    const tiltCard = document.getElementById('tilt-card');
+    const tiltInner = document.getElementById('tilt-inner');
+
+    tiltCard.addEventListener('mousemove', (e) => {
+      const rect = tiltCard.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      const maxTilt = 14;
+      tiltInner.style.transform = `rotateY(${dx * maxTilt}deg) rotateX(${-dy * maxTilt}deg)`;
+      tiltCard.style.boxShadow = `${-dx * 20}px ${dy * 20}px 60px rgba(0,0,0,0.2)`;
+    });
+
+    tiltCard.addEventListener('mouseleave', () => {
+      tiltInner.style.transform = 'rotateY(0) rotateX(0)';
+      tiltCard.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)';
+    });
+
+    /* ────────────────────────────────────────────
+       BUY FLOW MODAL
+    ──────────────────────────────────────────── */
+    const products = {
+      watch: { name: 'AURA Watch Pro', price: 'R$ 2.499', priceVal: 2499 },
+      sound: { name: 'AURA Sound',     price: 'R$ 1.299', priceVal: 1299 },
+      pods:  { name: 'AURA Pods',      price: 'R$ 899',   priceVal: 899  },
+      hub:   { name: 'AURA Home Hub',  price: 'R$ 699',   priceVal: 699  },
+    };
+
+    let currentProduct = 'watch';
+    let selectedColor = '';
+    let selectedStorage = '';
+    let storageExtra = 0;
+
+    function openBuyModal(productId) {
+      currentProduct = productId || 'watch';
+      const p = products[currentProduct];
+      document.getElementById('modal-product-name').textContent = `${p.name} · ${p.price}`;
+      // Reset state
+      selectedColor = '';
+      selectedStorage = '';
+      storageExtra = 0;
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      document.getElementById('btn-step-1').disabled = true;
+      document.getElementById('btn-step-2').disabled = true;
+      goToStep(1, true);
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    function selectModalOption(btn, type) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      if (type === 'color') {
+        selectedColor = btn.querySelector('.option-btn-label').textContent;
+        document.getElementById('btn-step-1').disabled = false;
+      }
+      if (type === 'storage') {
+        selectedStorage = btn.querySelector('.option-btn-label').textContent;
+        storageExtra = selectedStorage === '64 GB' ? 400 : 0;
+        document.getElementById('btn-step-2').disabled = false;
+      }
+    }
+
+    function goToStep(step, noTransition) {
+      document.querySelectorAll('.modal-step').forEach(s => {
+        s.classList.remove('active');
+        if (!noTransition) {
+          s.style.animation = 'none';
+        }
+      });
+      const target = document.getElementById(`modal-step-${step}`);
+      target.classList.add('active');
+      if (!noTransition) {
+        target.style.animation = 'none';
+        target.offsetHeight; // reflow
+        target.style.animation = '';
+      }
+
+      if (step === 3) buildCart();
+      if (step === 4) buildConfirm();
+    }
+
+    function buildCart() {
+      const p = products[currentProduct];
+      const total = p.priceVal + storageExtra;
+      document.getElementById('cart-product').textContent = p.name;
+      document.getElementById('cart-price').textContent = `R$ ${(p.priceVal + storageExtra).toLocaleString('pt-BR')}`;
+      document.getElementById('cart-color-row').textContent = `${selectedColor} · ${selectedStorage}`;
+      document.getElementById('cart-total').textContent = `R$ ${total.toLocaleString('pt-BR')}`;
+    }
+
+    function buildConfirm() {
+      const p = products[currentProduct];
+      document.getElementById('confirm-msg').innerHTML =
+        `Seu <strong>${p.name}</strong> — ${selectedColor} — está confirmado.<br>` +
+        `Entrega estimada: <strong>3–5 dias úteis</strong>.<br>` +
+        `Você receberá um e-mail de confirmação em breve.`;
+    }
+
+    // ESC key closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMA — Móveis Escandinavos | Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM — FORMA Móveis Escandinavos
+       ============================================================ */
+
+    /* --- TOKENS --- */
+    :root {
+      --ivory:      #F9F6F1;
+      --espresso:   #2C2416;
+      --warm-oak:   #C8A97A;
+      --sand:       #E8E0D5;
+      --white:      #FFFFFF;
+      --espresso-60:#7A6A52;
+      --espresso-30:#BDB0A0;
+
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+
+      --space-xs:   0.25rem;
+      --space-sm:   0.5rem;
+      --space-md:   1rem;
+      --space-lg:   1.5rem;
+      --space-xl:   2.5rem;
+      --space-2xl:  4rem;
+      --space-3xl:  6rem;
+
+      --radius-sm:  4px;
+      --radius-md:  8px;
+      --radius-lg:  16px;
+      --radius-pill:100px;
+
+      --shadow-soft: 0 4px 24px rgba(44,36,22,0.07);
+      --shadow-hover:0 12px 48px rgba(44,36,22,0.13);
+
+      --transition-fast: 150ms ease;
+      --transition-med:  300ms ease;
+      --transition-slow: 500ms ease;
+    }
+
+    /* --- RESET --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ivory);
+      color: var(--espresso);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* --- TYPOGRAPHY --- */
+    .t-display  { font-family: var(--font-serif); font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.05; letter-spacing: -0.02em; }
+    .t-h1       { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; }
+    .t-h2       { font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.2; }
+    .t-h3       { font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.3; }
+    .t-body     { font-size: 1rem; line-height: 1.7; font-weight: 300; }
+    .t-small    { font-size: 0.8125rem; line-height: 1.5; letter-spacing: 0.01em; }
+    .t-label    { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+    .t-price    { font-family: var(--font-serif); font-size: 1.375rem; letter-spacing: -0.01em; }
+
+    /* --- LAYOUT --- */
+    .container  { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-xl); }
+    .section    { padding: var(--space-3xl) 0; }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(249,246,241,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(200,169,122,0.2);
+      transition: background var(--transition-med);
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; padding: 0 var(--space-xl);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .nav__logo {
+      font-family: var(--font-serif);
+      font-size: 1.375rem;
+      letter-spacing: 0.08em;
+      color: var(--espresso);
+    }
+    .nav__logo span { color: var(--warm-oak); }
+    .nav__links { display: flex; gap: var(--space-xl); }
+    .nav__links a {
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--espresso-60);
+      position: relative;
+      transition: color var(--transition-fast);
+    }
+    .nav__links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px;
+      background: var(--warm-oak); transition: width var(--transition-med);
+    }
+    .nav__links a:hover { color: var(--espresso); }
+    .nav__links a:hover::after { width: 100%; }
+    .nav__actions { display: flex; gap: var(--space-md); align-items: center; }
+    .nav__cart-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: var(--espresso); color: var(--ivory);
+      border-radius: var(--radius-pill);
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.04em;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+    .nav__cart-btn:hover { background: var(--warm-oak); transform: translateY(-1px); }
+    .nav__cart-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px;
+      background: var(--warm-oak); color: var(--white);
+      border-radius: 50%; font-size: 10px; font-weight: 600;
+      transition: background var(--transition-fast);
+    }
+    .nav__cart-btn:hover .nav__cart-count { background: var(--ivory); color: var(--warm-oak); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      padding-top: 64px;
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .hero__content {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: var(--space-3xl) var(--space-xl) var(--space-3xl) var(--space-3xl);
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--warm-oak);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--warm-oak);
+    }
+    .hero__title { margin-bottom: var(--space-lg); }
+    .hero__title em { font-style: italic; color: var(--warm-oak); }
+    .hero__subtitle {
+      font-size: 1.0625rem; font-weight: 300; color: var(--espresso-60);
+      max-width: 36ch; line-height: 1.75;
+      margin-bottom: var(--space-2xl);
+    }
+    .hero__ctas { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+
+    .hero__image {
+      position: relative; overflow: hidden;
+    }
+    .hero__image img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 8s ease;
+    }
+    .hero__image:hover img { transform: scale(1.04); }
+    .hero__image-badge {
+      position: absolute; bottom: var(--space-xl); left: var(--space-xl);
+      background: rgba(249,246,241,0.9);
+      backdrop-filter: blur(8px);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(200,169,122,0.3);
+    }
+    .hero__image-badge .t-label { color: var(--warm-oak); margin-bottom: 4px; }
+    .hero__image-badge .t-h3 { margin-bottom: 2px; }
+    .hero__image-badge .t-small { color: var(--espresso-60); }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+    .btn--primary {
+      background: var(--espresso); color: var(--ivory);
+      border: 1.5px solid var(--espresso);
+    }
+    .btn--primary:hover {
+      background: var(--warm-oak); border-color: var(--warm-oak);
+      transform: translateY(-2px); box-shadow: var(--shadow-hover);
+    }
+    .btn--outline {
+      background: transparent; color: var(--espresso);
+      border: 1.5px solid var(--espresso);
+    }
+    .btn--outline:hover {
+      background: var(--espresso); color: var(--ivory);
+      transform: translateY(-2px);
+    }
+    .btn--ghost {
+      background: transparent; color: var(--espresso-60);
+      border: 1.5px solid transparent; padding: 14px 20px;
+    }
+    .btn--ghost:hover { color: var(--espresso); }
+    .btn--oak {
+      background: var(--warm-oak); color: var(--white);
+      border: 1.5px solid var(--warm-oak);
+    }
+    .btn--oak:hover {
+      background: var(--espresso); border-color: var(--espresso);
+      transform: translateY(-2px);
+    }
+    .btn--sm { padding: 9px 18px; font-size: 0.8125rem; }
+    .btn--full { width: 100%; justify-content: center; }
+
+    /* ============================================================
+       SECTION HEADER
+       ============================================================ */
+    .section-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: var(--space-2xl);
+      gap: var(--space-xl);
+    }
+    .section-header__content { max-width: 48ch; }
+    .section-header__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--warm-oak); margin-bottom: var(--space-sm);
+    }
+    .section-header__eyebrow::before {
+      content: ''; display: inline-block; width: 24px; height: 1px; background: var(--warm-oak);
+    }
+    .section-header__subtitle { color: var(--espresso-60); font-weight: 300; margin-top: var(--space-sm); }
+
+    /* ============================================================
+       FILTERS
+       ============================================================ */
+    .filters {
+      display: flex; gap: var(--space-sm); flex-wrap: wrap;
+      margin-bottom: var(--space-2xl);
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--sand);
+      background: var(--white);
+      font-size: 0.8125rem; font-weight: 500; color: var(--espresso-60);
+      letter-spacing: 0.03em;
+      transition: all var(--transition-fast);
+    }
+    .filter-btn:hover { border-color: var(--warm-oak); color: var(--espresso); }
+    .filter-btn.active {
+      background: var(--espresso); border-color: var(--espresso);
+      color: var(--ivory);
+    }
+
+    /* ============================================================
+       PRODUCT GRID
+       ============================================================ */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+    }
+
+    /* ============================================================
+       PRODUCT CARD
+       ============================================================ */
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow var(--transition-med), transform var(--transition-med);
+      position: relative;
+    }
+    .product-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    /* Image wrapper */
+    .product-card__img-wrap {
+      position: relative; overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--sand);
+    }
+    .product-card__img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity var(--transition-slow), transform var(--transition-slow);
+    }
+    .product-card__img.fade-out { opacity: 0; }
+    .product-card__img-alt {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0;
+      transition: opacity var(--transition-slow);
+    }
+    .product-card__img-alt.fade-in { opacity: 1; }
+
+    .product-card__badge {
+      position: absolute; top: 14px; left: 14px;
+      padding: 4px 10px;
+      background: var(--espresso); color: var(--ivory);
+      border-radius: var(--radius-pill);
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    /* Hover specs overlay */
+    .product-card__specs {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(249,246,241,0.97);
+      backdrop-filter: blur(8px);
+      padding: var(--space-lg);
+      transform: translateY(100%);
+      transition: transform var(--transition-med);
+      border-top: 1px solid rgba(200,169,122,0.3);
+    }
+    .product-card:hover .product-card__specs { transform: translateY(0); }
+    .product-card__specs-title {
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--warm-oak); margin-bottom: var(--space-sm);
+    }
+    .product-card__specs-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6px 16px; margin-bottom: var(--space-md);
+    }
+    .product-card__specs-item { font-size: 0.8125rem; color: var(--espresso-60); }
+    .product-card__specs-item strong { color: var(--espresso); font-weight: 500; }
+    .product-card__add-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--espresso); color: var(--ivory);
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.04em;
+      text-align: center;
+      transition: background var(--transition-fast);
+      border: none; cursor: pointer;
+    }
+    .product-card__add-btn:hover { background: var(--warm-oak); }
+
+    /* Card body */
+    .product-card__body { padding: var(--space-lg); }
+    .product-card__material {
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--warm-oak); margin-bottom: 6px;
+    }
+    .product-card__name {
+      font-family: var(--font-serif); font-size: 1.1875rem;
+      color: var(--espresso); margin-bottom: 4px;
+    }
+    .product-card__desc {
+      font-size: 0.8125rem; color: var(--espresso-60); font-weight: 300;
+      line-height: 1.6; margin-bottom: var(--space-md);
+    }
+    .product-card__footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-card__price { font-family: var(--font-serif); font-size: 1.25rem; }
+    .product-card__price-note { font-size: 0.6875rem; color: var(--espresso-60); margin-top: 2px; }
+
+    /* Color switcher */
+    .product-card__colors {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .color-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+      box-shadow: 0 0 0 1px rgba(44,36,22,0.2);
+    }
+    .color-dot:hover { transform: scale(1.2); }
+    .color-dot.active { border-color: var(--espresso); box-shadow: 0 0 0 1px var(--espresso); }
+    .color-dot--oak     { background: #C8A97A; }
+    .color-dot--walnut  { background: #5C3D1E; }
+    .color-dot--white   { background: #F5F5F5; }
+    .color-dot--black   { background: #1C1C1C; }
+
+    /* hidden flag */
+    .product-card[data-filtered="hidden"] {
+      display: none;
+    }
+
+    /* ============================================================
+       ROOM CONFIGURATOR
+       ============================================================ */
+    .room-section { background: var(--espresso); color: var(--ivory); }
+    .room-section .section-header__eyebrow { color: var(--warm-oak); }
+    .room-section .section-header__eyebrow::before { background: var(--warm-oak); }
+    .room-section .section-header__subtitle { color: rgba(249,246,241,0.6); }
+
+    .room-wrapper {
+      display: grid; grid-template-columns: 1fr 380px; gap: var(--space-xl);
+      align-items: start;
+    }
+    .room-canvas {
+      position: relative;
+      aspect-ratio: 16/10;
+      background: linear-gradient(160deg, #3A3025 0%, #28200F 100%);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    /* CSS-drawn room floor / wall */
+    .room-canvas::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 42%;
+      background: linear-gradient(to top, #1E1709 0%, #2A2010 100%);
+      border-top: 1px solid rgba(200,169,122,0.2);
+    }
+    .room-canvas::after {
+      content: '';
+      position: absolute; bottom: 42%; left: 0; right: 0; top: 0;
+      background: linear-gradient(to bottom, #2E2618 0%, #3A3025 100%);
+    }
+
+    .room-item {
+      position: absolute; z-index: 2;
+      cursor: pointer;
+      transition: all var(--transition-med);
+      border-radius: var(--radius-sm);
+      outline: 2px solid transparent;
+      outline-offset: 4px;
+    }
+    .room-item:hover { outline-color: rgba(200,169,122,0.6); }
+    .room-item.active { outline-color: var(--warm-oak); }
+    .room-item.inactive { opacity: 0.2; filter: grayscale(0.8); }
+
+    .room-item img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm); }
+
+    /* Room item positions */
+    .room-item--sofa   { bottom: 44%; left: 20%; width: 38%; }
+    .room-item--table  { bottom: 44%; left: 32%; width: 16%; }
+    .room-item--shelf  { top: 8%; right: 8%; width: 18%; height: 70%; }
+    .room-item--lamp   { bottom: 44%; right: 22%; width: 8%; }
+    .room-item--rug {
+      bottom: 42%; left: 18%;
+      width: 46%; height: 8%;
+      background: rgba(200,169,122,0.25);
+      border-radius: var(--radius-sm);
+      z-index: 1;
+    }
+
+    .room-label {
+      position: absolute; z-index: 10;
+      transform: translateX(-50%);
+      background: var(--warm-oak); color: var(--white);
+      padding: 3px 8px; border-radius: var(--radius-pill);
+      font-size: 0.625rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity var(--transition-fast);
+    }
+    .room-item:hover .room-label { opacity: 1; }
+
+    .room-sidebar { color: var(--ivory); }
+    .room-sidebar__title {
+      font-family: var(--font-serif); font-size: 1.5rem;
+      margin-bottom: var(--space-md);
+    }
+    .room-sidebar__hint {
+      font-size: 0.8125rem; color: rgba(249,246,241,0.55); font-weight: 300;
+      margin-bottom: var(--space-xl);
+      line-height: 1.7;
+    }
+    .room-sidebar__list { display: flex; flex-direction: column; gap: 10px; }
+    .room-toggle-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(200,169,122,0.15);
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+      cursor: pointer;
+    }
+    .room-toggle-item:hover { background: rgba(255,255,255,0.1); border-color: rgba(200,169,122,0.35); }
+    .room-toggle-item.active { background: rgba(200,169,122,0.15); border-color: var(--warm-oak); }
+    .room-toggle-item__name { font-size: 0.875rem; font-weight: 500; }
+    .room-toggle-item__price { font-size: 0.8125rem; color: var(--warm-oak); }
+    .room-toggle__dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: background var(--transition-fast);
+    }
+    .room-toggle-item.active .room-toggle__dot { background: var(--warm-oak); }
+    .room-sidebar__total {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(200,169,122,0.2);
+    }
+    .room-sidebar__total-label { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(249,246,241,0.5); margin-bottom: 6px; }
+    .room-sidebar__total-price { font-family: var(--font-serif); font-size: 2rem; color: var(--warm-oak); }
+
+    /* ============================================================
+       MATERIALS STRIP
+       ============================================================ */
+    .materials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xl);
+    }
+    .material-card {
+      padding: var(--space-xl);
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--sand);
+      transition: box-shadow var(--transition-med), transform var(--transition-med);
+    }
+    .material-card:hover {
+      box-shadow: var(--shadow-hover); transform: translateY(-3px);
+    }
+    .material-swatch {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+    }
+    .material-card__name { font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: var(--space-sm); }
+    .material-card__desc { font-size: 0.875rem; color: var(--espresso-60); font-weight: 300; line-height: 1.7; }
+    .material-card__tags { display: flex; gap: 6px; margin-top: var(--space-md); flex-wrap: wrap; }
+    .tag {
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--ivory);
+      border: 1px solid var(--sand);
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.06em;
+      color: var(--espresso-60);
+    }
+
+    /* ============================================================
+       BRAND VALUES
+       ============================================================ */
+    .values-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl);
+    }
+    .value-item { text-align: center; padding: var(--space-xl) var(--space-md); }
+    .value-icon {
+      width: 56px; height: 56px;
+      background: var(--ivory);
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--space-lg);
+      font-size: 1.5rem;
+    }
+    .value-item h3 { font-family: var(--font-serif); font-size: 1.0625rem; margin-bottom: var(--space-sm); }
+    .value-item p { font-size: 0.8125rem; color: var(--espresso-60); line-height: 1.7; }
+
+    /* ============================================================
+       NEWSLETTER STRIP
+       ============================================================ */
+    .newsletter { background: var(--sand); }
+    .newsletter__inner {
+      display: flex; align-items: center; gap: var(--space-2xl);
+      max-width: 800px; margin: 0 auto; text-align: center;
+      flex-direction: column;
+    }
+    .newsletter__title { font-family: var(--font-serif); font-size: 2rem; }
+    .newsletter__sub { color: var(--espresso-60); font-weight: 300; }
+    .newsletter__form { display: flex; gap: var(--space-md); width: 100%; max-width: 480px; }
+    .newsletter__input {
+      flex: 1; padding: 14px 18px;
+      background: var(--white); border: 1.5px solid rgba(200,169,122,0.4);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans); font-size: 0.875rem; color: var(--espresso);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .newsletter__input:focus { border-color: var(--warm-oak); }
+    .newsletter__input::placeholder { color: var(--espresso-30); }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer { background: var(--espresso); color: rgba(249,246,241,0.7); }
+    .footer__top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-2xl); padding: var(--space-2xl) 0;
+    }
+    .footer__brand .nav__logo { margin-bottom: var(--space-md); }
+    .footer__brand p { font-size: 0.875rem; font-weight: 300; line-height: 1.7; max-width: 28ch; }
+    .footer__col h4 {
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--warm-oak); margin-bottom: var(--space-lg);
+    }
+    .footer__col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer__col ul li a { font-size: 0.875rem; transition: color var(--transition-fast); }
+    .footer__col ul li a:hover { color: var(--ivory); }
+    .footer__bottom {
+      border-top: 1px solid rgba(200,169,122,0.15);
+      padding: var(--space-lg) 0;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem;
+    }
+
+    /* ============================================================
+       CART DRAWER
+       ============================================================ */
+    .drawer-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(44,36,22,0.5);
+      backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--transition-med);
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 600;
+      width: 420px; max-width: 100vw;
+      background: var(--ivory);
+      transform: translateX(100%);
+      transition: transform var(--transition-med);
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 40px rgba(44,36,22,0.12);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+
+    .cart-drawer__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-xl);
+      border-bottom: 1px solid var(--sand);
+    }
+    .cart-drawer__title { font-family: var(--font-serif); font-size: 1.375rem; }
+    .cart-drawer__close {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; border: 1.5px solid var(--sand);
+      font-size: 1.1rem; color: var(--espresso-60);
+      transition: all var(--transition-fast); cursor: pointer;
+      background: none;
+    }
+    .cart-drawer__close:hover { border-color: var(--espresso); color: var(--espresso); }
+
+    .cart-drawer__items { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+    .cart-empty {
+      text-align: center; padding: var(--space-2xl) var(--space-xl);
+      color: var(--espresso-60); font-weight: 300;
+    }
+    .cart-empty .t-h3 { margin-bottom: var(--space-sm); }
+
+    .cart-item {
+      display: grid; grid-template-columns: 72px 1fr auto;
+      gap: var(--space-md); align-items: center;
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--sand);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item__img {
+      width: 72px; height: 72px; border-radius: var(--radius-sm);
+      object-fit: cover; background: var(--sand);
+    }
+    .cart-item__name { font-family: var(--font-serif); font-size: 0.9375rem; margin-bottom: 4px; }
+    .cart-item__variant { font-size: 0.75rem; color: var(--espresso-60); margin-bottom: 6px; }
+    .cart-item__price { font-size: 0.9375rem; font-weight: 500; }
+    .cart-item__qty {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 6px;
+    }
+    .qty-btn {
+      width: 24px; height: 24px;
+      border: 1.5px solid var(--sand);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--espresso-60);
+      cursor: pointer; background: none;
+      transition: all var(--transition-fast); line-height: 1;
+    }
+    .qty-btn:hover { border-color: var(--espresso); color: var(--espresso); }
+    .qty-val { font-size: 0.875rem; font-weight: 500; min-width: 16px; text-align: center; }
+    .cart-item__remove {
+      font-size: 0.6875rem; color: var(--espresso-30); cursor: pointer;
+      transition: color var(--transition-fast); background: none; border: none;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      align-self: start; margin-top: 4px;
+    }
+    .cart-item__remove:hover { color: var(--espresso); }
+
+    .cart-drawer__footer {
+      padding: var(--space-xl);
+      border-top: 1px solid var(--sand);
+    }
+    .cart-drawer__summary { margin-bottom: var(--space-lg); }
+    .cart-summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0;
+      font-size: 0.875rem; color: var(--espresso-60);
+    }
+    .cart-summary-row.total {
+      padding-top: var(--space-md);
+      margin-top: var(--space-sm);
+      border-top: 1px solid var(--sand);
+      font-size: 1rem; color: var(--espresso); font-weight: 500;
+    }
+    .cart-summary-row.total .t-price { font-size: 1.375rem; }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast-container {
+      position: fixed; bottom: var(--space-xl); right: var(--space-xl); z-index: 1000;
+      display: flex; flex-direction: column; gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--espresso); color: var(--ivory);
+      padding: 12px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 0.875rem; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: var(--shadow-hover);
+      transform: translateX(120%);
+      transition: transform var(--transition-med);
+      pointer-events: all;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast__icon { color: var(--warm-oak); font-size: 1rem; }
+
+    /* ============================================================
+       DESIGN SYSTEM DOCS SECTION
+       ============================================================ */
+    .ds-section { background: var(--white); }
+    .ds-section-title {
+      font-family: var(--font-serif); font-size: 1.5rem;
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--sand);
+      margin-bottom: var(--space-xl);
+    }
+    .ds-grid { display: grid; gap: var(--space-xl); }
+    .ds-grid--2 { grid-template-columns: 1fr 1fr; }
+    .ds-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+    .ds-swatch-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+    .ds-swatch {
+      display: flex; flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .ds-swatch__block {
+      width: 88px; height: 88px; border-radius: var(--radius-md);
+      border: 1px solid rgba(44,36,22,0.1);
+    }
+    .ds-swatch__name { font-size: 0.75rem; font-weight: 500; }
+    .ds-swatch__hex  { font-size: 0.6875rem; color: var(--espresso-60); font-family: monospace; }
+
+    .ds-type-sample { margin-bottom: var(--space-lg); }
+    .ds-type-sample + .ds-type-sample { border-top: 1px solid var(--sand); padding-top: var(--space-lg); }
+    .ds-type-meta { font-size: 0.6875rem; color: var(--espresso-60); font-family: monospace; margin-bottom: 6px; }
+
+    .ds-buttons-row { display: flex; gap: var(--space-md); flex-wrap: wrap; align-items: center; }
+    .ds-bg-espresso { background: var(--espresso); padding: var(--space-lg); border-radius: var(--radius-md); }
+
+    /* ============================================================
+       SCROLL FADE IN
+       ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .room-wrapper { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer__top { grid-template-columns: 1fr 1fr; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero__image { height: 50vw; }
+    }
+    @media (max-width: 640px) {
+      :root { --space-xl: 1.5rem; --space-2xl: 2.5rem; --space-3xl: 4rem; }
+      .product-grid { grid-template-columns: 1fr; }
+      .materials-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .footer__top { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+      .cart-drawer { width: 100vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back button -->
+  <a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+  <!-- ====== NAV ====== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <div class="nav__logo">FORMA<span>.</span></div>
+      <ul class="nav__links">
+        <li><a href="#products">Coleção</a></li>
+        <li><a href="#room">Configurar</a></li>
+        <li><a href="#materials">Materiais</a></li>
+        <li><a href="#design-system">Design System</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="nav__cart-btn" id="cartTrigger">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Carrinho
+          <span class="nav__cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="hero__content">
+      <div class="hero__eyebrow">Nova Coleção 2025</div>
+      <h1 class="t-display hero__title">Design que<br>dura <em>gerações</em></h1>
+      <p class="hero__subtitle t-body">Móveis escandinavos criados para perdurar. Cada peça é uma conversa entre a natureza, o artesanato e a vida cotidiana.</p>
+      <div class="hero__ctas">
+        <a href="#products" class="btn btn--primary">Ver Coleção</a>
+        <a href="#room" class="btn btn--outline">Monte seu Ambiente</a>
+      </div>
+    </div>
+    <div class="hero__image">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&q=80" alt="Sala de estar escandinava moderna" loading="eager">
+      <div class="hero__image-badge">
+        <div class="t-label">Destaque</div>
+        <div class="t-h3">Sofá Bergen</div>
+        <div class="t-small">Linho natural · R$ 4.800</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PRODUCTS ====== -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__content">
+          <div class="section-header__eyebrow">Nossa Coleção</div>
+          <h2 class="t-h1">Peças para cada espaço</h2>
+          <p class="section-header__subtitle t-body">Mobiliário de alto padrão com madeiras certificadas e tecidos naturais selecionados a mão.</p>
+        </div>
+        <a href="#" class="btn btn--ghost btn--sm">Ver tudo →</a>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters reveal">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="madeira">Madeira</button>
+        <button class="filter-btn" data-filter="tecido">Tecido</button>
+        <button class="filter-btn" data-filter="metal">Metal</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="product-grid" id="productGrid">
+
+        <!-- Product 1: Cadeira Forma -->
+        <article class="product-card reveal" data-material="madeira" data-name="Cadeira Forma" data-price="890">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80" alt="Cadeira Forma — Carvalho Natural" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80&sat=-70" alt="Cadeira Forma — Nogueira" loading="lazy">
+            <div class="product-card__badge">Bestseller</div>
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 82 cm</div>
+                <div class="product-card__specs-item"><strong>L:</strong> 56 cm</div>
+                <div class="product-card__specs-item"><strong>P:</strong> 52 cm</div>
+                <div class="product-card__specs-item"><strong>Peso:</strong> 6,5 kg</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">Carvalho maciço · acabamento natural</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Cadeira Forma',890,'Carvalho Natural','https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Madeira de Carvalho</div>
+            <div class="product-card__name">Cadeira Forma</div>
+            <div class="product-card__desc">Assento acolchoado com espuma de alta resiliência, estrutura em carvalho maciço com encaixe japonês.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":890,"walnut":1040,"white":890}'>R$ 890</div>
+                <div class="product-card__price-note">ou 10× R$ 89</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Carvalho Natural"></button>
+                <button class="color-dot color-dot--walnut" data-color="walnut" title="Nogueira"></button>
+                <button class="color-dot color-dot--white" data-color="white" title="Branco Leitoso"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 2: Mesa de Centro Oslo -->
+        <article class="product-card reveal" data-material="madeira" data-name="Mesa de Centro Oslo" data-price="1290">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80" alt="Mesa de Centro Oslo" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80&sat=-90&bri=10" alt="Mesa Oslo — Nogueira" loading="lazy">
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 42 cm</div>
+                <div class="product-card__specs-item"><strong>L:</strong> 120 cm</div>
+                <div class="product-card__specs-item"><strong>P:</strong> 60 cm</div>
+                <div class="product-card__specs-item"><strong>Peso:</strong> 18 kg</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">Tampo maciço 4 cm · pernas torneadas</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Mesa de Centro Oslo',1290,'Carvalho Natural','https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Madeira de Carvalho</div>
+            <div class="product-card__name">Mesa de Centro Oslo</div>
+            <div class="product-card__desc">Tampo em madeira maciça com acabamento oleado que preserva a textura natural e a cor quente do carvalho.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":1290,"walnut":1490,"white":1190}'>R$ 1.290</div>
+                <div class="product-card__price-note">ou 10× R$ 129</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Carvalho Natural"></button>
+                <button class="color-dot color-dot--walnut" data-color="walnut" title="Nogueira"></button>
+                <button class="color-dot color-dot--white" data-color="white" title="Branco Cru"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 3: Estante Modular -->
+        <article class="product-card reveal" data-material="madeira" data-name="Estante Modular" data-price="2100">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=800&q=80" alt="Estante Modular" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=800&q=80&sat=-60" alt="Estante Modular — Nogueira" loading="lazy">
+            <div class="product-card__badge">Novo</div>
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 180 cm</div>
+                <div class="product-card__specs-item"><strong>L:</strong> 90 cm</div>
+                <div class="product-card__specs-item"><strong>P:</strong> 28 cm</div>
+                <div class="product-card__specs-item"><strong>Peso:</strong> 32 kg</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">5 prateleiras · sistema modular expansível</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Estante Modular',2100,'Carvalho Natural','https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Madeira de Carvalho</div>
+            <div class="product-card__name">Estante Modular</div>
+            <div class="product-card__desc">Sistema expansível com encaixes sem parafusos. Design que cresce com você — adicione módulos conforme a necessidade.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":2100,"walnut":2450,"black":2200}'>R$ 2.100</div>
+                <div class="product-card__price-note">ou 10× R$ 210</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Carvalho Natural"></button>
+                <button class="color-dot color-dot--walnut" data-color="walnut" title="Nogueira Escura"></button>
+                <button class="color-dot color-dot--black" data-color="black" title="Ébano"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 4: Cama Nórdica -->
+        <article class="product-card reveal" data-material="madeira" data-name="Cama Nórdica" data-price="3400">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Cama Nórdica" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80&sat=-50" alt="Cama Nórdica — Nogueira" loading="lazy">
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 90 cm</div>
+                <div class="product-card__specs-item"><strong>L:</strong> 200 cm</div>
+                <div class="product-card__specs-item"><strong>P:</strong> 160 cm</div>
+                <div class="product-card__specs-item"><strong>Cama:</strong> Queen</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">Estrado em ripas · cabeceira acolchoada</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Cama Nórdica',3400,'Carvalho Natural','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Madeira de Carvalho</div>
+            <div class="product-card__name">Cama Nórdica</div>
+            <div class="product-card__desc">Cabeceira em linho natural com ripas de ventilação para o colchão. O quarto que convida ao descanso verdadeiro.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":3400,"walnut":3800,"white":3200}'>R$ 3.400</div>
+                <div class="product-card__price-note">ou 12× R$ 283</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Carvalho Natural"></button>
+                <button class="color-dot color-dot--walnut" data-color="walnut" title="Nogueira"></button>
+                <button class="color-dot color-dot--white" data-color="white" title="Bétula Branca"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 5: Luminária Arco -->
+        <article class="product-card reveal" data-material="metal" data-name="Luminária Arco" data-price="650">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="Luminária Arco" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80&sat=-80" alt="Luminária Arco — Preto" loading="lazy">
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 165 cm</div>
+                <div class="product-card__specs-item"><strong>Raio:</strong> 80 cm</div>
+                <div class="product-card__specs-item"><strong>Base:</strong> 32 cm</div>
+                <div class="product-card__specs-item"><strong>Potência:</strong> 15W LED</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">Aço escovado · cúpula orientável</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Luminária Arco',650,'Aço Escovado','https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Aço Escovado</div>
+            <div class="product-card__name">Luminária Arco</div>
+            <div class="product-card__desc">Braço em aço escovado com articulação de 360°. Iluminação precisa para leitura ou atmosfera difusa para relaxar.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":650,"black":680,"white":650}'>R$ 650</div>
+                <div class="product-card__price-note">ou 6× R$ 108</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Dourado Escovado"></button>
+                <button class="color-dot color-dot--black" data-color="black" title="Preto Fosco"></button>
+                <button class="color-dot color-dot--white" data-color="white" title="Cromo"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 6: Sofá Bergen -->
+        <article class="product-card reveal" data-material="tecido" data-name="Sofá Bergen" data-price="4800">
+          <div class="product-card__img-wrap">
+            <img class="product-card__img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80" alt="Sofá Bergen" loading="lazy">
+            <img class="product-card__img-alt" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80&sat=-40&con=5" alt="Sofá Bergen — Cinza" loading="lazy">
+            <div class="product-card__badge">Premium</div>
+            <div class="product-card__specs">
+              <div class="product-card__specs-title">Especificações</div>
+              <div class="product-card__specs-grid">
+                <div class="product-card__specs-item"><strong>A:</strong> 78 cm</div>
+                <div class="product-card__specs-item"><strong>L:</strong> 240 cm</div>
+                <div class="product-card__specs-item"><strong>P:</strong> 95 cm</div>
+                <div class="product-card__specs-item"><strong>Lugares:</strong> 3</div>
+              </div>
+              <div class="product-card__specs-item" style="margin-bottom:10px;font-size:.8rem;color:var(--espresso-60)">Linho belga · pernas em carvalho</div>
+              <button class="product-card__add-btn" onclick="addToCart(this,'Sofá Bergen',4800,'Linho Natural','https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80')">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__material">Linho Natural</div>
+            <div class="product-card__name">Sofá Bergen</div>
+            <div class="product-card__desc">Estofamento em linho belga de alto fio com almofadas de plumas. Estrutura interna em pínus reflorestado certificado.</div>
+            <div class="product-card__footer">
+              <div>
+                <div class="product-card__price" data-prices='{"oak":4800,"walnut":5200,"white":4600}'>R$ 4.800</div>
+                <div class="product-card__price-note">ou 18× R$ 266</div>
+              </div>
+              <div class="product-card__colors">
+                <button class="color-dot color-dot--oak active" data-color="oak" title="Areia Natural"></button>
+                <button class="color-dot color-dot--walnut" data-color="walnut" title="Terracota"></button>
+                <button class="color-dot color-dot--white" data-color="white" title="Branco Gelo"></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ROOM CONFIGURATOR ====== -->
+  <section class="section room-section" id="room">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__content">
+          <div class="section-header__eyebrow">Monte seu Ambiente</div>
+          <h2 class="t-h1" style="color:var(--ivory)">Visualize antes de decidir</h2>
+          <p class="section-header__subtitle t-body">Clique nos móveis para ativar ou desativar cada peça no ambiente. Veja como combinam.</p>
+        </div>
+      </div>
+
+      <div class="room-wrapper reveal">
+        <!-- Room Canvas -->
+        <div class="room-canvas" id="roomCanvas">
+          <!-- Rug -->
+          <div class="room-item room-item--rug" id="ri-rug"></div>
+
+          <!-- Sofa -->
+          <div class="room-item room-item--sofa active" id="ri-sofa" data-name="Sofá Bergen" data-price="4800" onclick="toggleRoomItem(this)">
+            <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=400&q=70" alt="Sofá Bergen">
+            <div class="room-label">Sofá Bergen</div>
+          </div>
+
+          <!-- Table -->
+          <div class="room-item room-item--table active" id="ri-table" data-name="Mesa Oslo" data-price="1290" onclick="toggleRoomItem(this)">
+            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&q=70" alt="Mesa Oslo">
+            <div class="room-label">Mesa Oslo</div>
+          </div>
+
+          <!-- Shelf -->
+          <div class="room-item room-item--shelf active" id="ri-shelf" data-name="Estante" data-price="2100" onclick="toggleRoomItem(this)">
+            <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400&q=70" alt="Estante">
+            <div class="room-label">Estante</div>
+          </div>
+
+          <!-- Lamp -->
+          <div class="room-item room-item--lamp active" id="ri-lamp" data-name="Luminária Arco" data-price="650" onclick="toggleRoomItem(this)">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&q=70" alt="Luminária">
+            <div class="room-label">Luminária</div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="room-sidebar">
+          <div class="room-sidebar__title">Itens no ambiente</div>
+          <div class="room-sidebar__hint">Clique para adicionar ou remover cada móvel da visualização. O total atualiza em tempo real.</div>
+
+          <div class="room-sidebar__list" id="roomToggleList">
+            <div class="room-toggle-item active" data-target="ri-sofa" onclick="toggleRoomSidebar(this)">
+              <div>
+                <div class="room-toggle-item__name">Sofá Bergen</div>
+                <div class="room-toggle-item__price">R$ 4.800</div>
+              </div>
+              <div class="room-toggle__dot"></div>
+            </div>
+            <div class="room-toggle-item active" data-target="ri-table" onclick="toggleRoomSidebar(this)">
+              <div>
+                <div class="room-toggle-item__name">Mesa de Centro Oslo</div>
+                <div class="room-toggle-item__price">R$ 1.290</div>
+              </div>
+              <div class="room-toggle__dot"></div>
+            </div>
+            <div class="room-toggle-item active" data-target="ri-shelf" onclick="toggleRoomSidebar(this)">
+              <div>
+                <div class="room-toggle-item__name">Estante Modular</div>
+                <div class="room-toggle-item__price">R$ 2.100</div>
+              </div>
+              <div class="room-toggle__dot"></div>
+            </div>
+            <div class="room-toggle-item active" data-target="ri-lamp" onclick="toggleRoomSidebar(this)">
+              <div>
+                <div class="room-toggle-item__name">Luminária Arco</div>
+                <div class="room-toggle-item__price">R$ 650</div>
+              </div>
+              <div class="room-toggle__dot"></div>
+            </div>
+          </div>
+
+          <div class="room-sidebar__total">
+            <div class="room-sidebar__total-label">Total do ambiente</div>
+            <div class="room-sidebar__total-price" id="roomTotal">R$ 8.840</div>
+          </div>
+
+          <div style="margin-top:var(--space-lg)">
+            <button class="btn btn--oak btn--full" onclick="addRoomToCart()">Adicionar Ambiente ao Carrinho</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MATERIALS ====== -->
+  <section class="section" id="materials">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__content">
+          <div class="section-header__eyebrow">Nossos Materiais</div>
+          <h2 class="t-h1">Origem e intenção</h2>
+          <p class="section-header__subtitle t-body">Cada material é escolhido não apenas pela beleza, mas pela durabilidade, origem sustentável e sensação ao toque.</p>
+        </div>
+      </div>
+
+      <div class="materials-grid">
+        <div class="material-card reveal">
+          <div class="material-swatch" style="background: linear-gradient(135deg, #C8A97A 0%, #8B6840 100%);"></div>
+          <div class="material-card__name">Madeira de Carvalho</div>
+          <div class="material-card__desc">Proveniente de florestas certificadas FSC na Europa, o carvalho europeu é conhecido por seus anéis expressivos e durabilidade excepcional. Cada peça é única, levando a história da árvore para o seu lar.</div>
+          <div class="material-card__tags">
+            <span class="tag">FSC Certificado</span>
+            <span class="tag">80+ anos durabilidade</span>
+            <span class="tag">Acabamento oleado</span>
+          </div>
+        </div>
+        <div class="material-card reveal">
+          <div class="material-swatch" style="background: linear-gradient(135deg, #E8DFD0 0%, #C9B99A 100%);"></div>
+          <div class="material-card__name">Linho Natural</div>
+          <div class="material-card__desc">Tecido em linho belga de alto fio, com textura que melhora com o tempo e o uso. Regulador térmico natural, fresco no verão e acolhedor no inverno — o material ideal para estofamento escandinavos.</div>
+          <div class="material-card__tags">
+            <span class="tag">Belga A.O.P.</span>
+            <span class="tag">Hipoalergênico</span>
+            <span class="tag">Lavável</span>
+          </div>
+        </div>
+        <div class="material-card reveal">
+          <div class="material-swatch" style="background: linear-gradient(135deg, #9B9B9B 0%, #4A4A4A 100%);"></div>
+          <div class="material-card__name">Aço Escovado</div>
+          <div class="material-card__desc">Aço inoxidável 304 com tratamento de escovamento manual que cria uma textura única e resistente. Utilizado em bases, pernas e acessórios — a frieza do metal equilibrada pela warmth da madeira.</div>
+          <div class="material-card__tags">
+            <span class="tag">Inox 304</span>
+            <span class="tag">Anti-corrosão</span>
+            <span class="tag">Escovado à mão</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== VALUES ====== -->
+  <section class="section" style="background:var(--sand)">
+    <div class="container">
+      <div class="section-header reveal" style="justify-content:center;text-align:center">
+        <div class="section-header__content" style="max-width:48ch;margin:0 auto">
+          <div class="section-header__eyebrow" style="justify-content:center">Por que FORMA</div>
+          <h2 class="t-h1">Princípios que guiam cada peça</h2>
+        </div>
+      </div>
+      <div class="values-grid">
+        <div class="value-item reveal">
+          <div class="value-icon">🌿</div>
+          <h3>Sustentabilidade</h3>
+          <p>100% das madeiras com certificação FSC. Processos de acabamento com óleos naturais livres de VOC.</p>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-icon">🔨</div>
+          <h3>Artesanato</h3>
+          <p>Cada peça passa por pelo menos 12 horas de trabalho manual. Encaixes sem cola ou parafusos visíveis.</p>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-icon">♻️</div>
+          <h3>Durabilidade</h3>
+          <p>Projetado para durar gerações. Garantia de 25 anos na estrutura. Peças de reposição disponíveis para sempre.</p>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-icon">📦</div>
+          <h3>Embalagem Zero</h3>
+          <p>Entregue em embalagem 100% biodegradável. Coleta de embalagem para reuso inclusa no frete.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== NEWSLETTER ====== -->
+  <section class="section newsletter">
+    <div class="container">
+      <div class="newsletter__inner reveal">
+        <div>
+          <div class="section-header__eyebrow" style="justify-content:center;margin-bottom:var(--space-md)">Para os que apreciam o essencial</div>
+          <h2 class="newsletter__title">Antes de todo mundo.</h2>
+          <p class="newsletter__sub t-body" style="margin-top:var(--space-sm)">Novidades, lançamentos e inspiração escandinava diretamente para você. Sem spam, só beleza.</p>
+        </div>
+        <form class="newsletter__form" onsubmit="return false">
+          <input type="email" class="newsletter__input" placeholder="seu@email.com">
+          <button type="submit" class="btn btn--primary">Assinar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DESIGN SYSTEM DOCS ====== -->
+  <section class="section ds-section" id="design-system">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__content">
+          <div class="section-header__eyebrow">Documentação</div>
+          <h2 class="t-h1">Design System FORMA</h2>
+          <p class="section-header__subtitle t-body">Tokens, tipografia, componentes e padrões de interação que compõem a identidade visual da marca.</p>
+        </div>
+      </div>
+
+      <!-- Colors -->
+      <div class="ds-section-title reveal">Paleta de Cores</div>
+      <div class="ds-swatch-row reveal" style="margin-bottom:var(--space-2xl)">
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#F9F6F1;border:1px solid #E8E0D5"></div>
+          <div class="ds-swatch__name">Ivory</div>
+          <div class="ds-swatch__hex">#F9F6F1</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#2C2416"></div>
+          <div class="ds-swatch__name">Espresso</div>
+          <div class="ds-swatch__hex">#2C2416</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#C8A97A"></div>
+          <div class="ds-swatch__name">Warm Oak</div>
+          <div class="ds-swatch__hex">#C8A97A</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#E8E0D5;border:1px solid #d4ccc2"></div>
+          <div class="ds-swatch__name">Sand</div>
+          <div class="ds-swatch__hex">#E8E0D5</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#FFFFFF;border:1px solid #E8E0D5"></div>
+          <div class="ds-swatch__name">White</div>
+          <div class="ds-swatch__hex">#FFFFFF</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#7A6A52"></div>
+          <div class="ds-swatch__name">Espresso 60</div>
+          <div class="ds-swatch__hex">#7A6A52</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__block" style="background:#BDB0A0"></div>
+          <div class="ds-swatch__name">Espresso 30</div>
+          <div class="ds-swatch__hex">#BDB0A0</div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="ds-section-title reveal">Tipografia</div>
+      <div style="margin-bottom:var(--space-2xl)">
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Serif Display / Display — clamp(3rem, 6vw, 5.5rem) / lh 1.05</div>
+          <div class="t-display">Design que<br>dura gerações</div>
+        </div>
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Serif Display / H1 — clamp(2rem, 4vw, 3.5rem) / lh 1.1</div>
+          <div class="t-h1">Móveis para cada espaço</div>
+        </div>
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Serif Display / H2 — clamp(1.5rem, 3vw, 2.25rem) / lh 1.2</div>
+          <div class="t-h2">Madeira de Carvalho Europeu</div>
+        </div>
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Serif Display / H3 — 1.25rem / lh 1.3</div>
+          <div class="t-h3">Sofá Bergen — Linho Natural</div>
+        </div>
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Sans / Body — 1rem / weight 300 / lh 1.7</div>
+          <div class="t-body" style="max-width:60ch">Móveis escandinavos criados para perdurar. Cada peça é uma conversa entre a natureza, o artesanato e a vida cotidiana que acontece ao redor delas.</div>
+        </div>
+        <div class="ds-type-sample reveal">
+          <div class="ds-type-meta">DM Sans / Label — 0.6875rem / weight 500 / ls 0.12em / uppercase</div>
+          <div class="t-label" style="color:var(--warm-oak)">Nova Coleção 2025</div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="ds-section-title reveal">Botões</div>
+      <div style="margin-bottom:var(--space-2xl)">
+        <div class="ds-buttons-row reveal" style="margin-bottom:var(--space-lg)">
+          <button class="btn btn--primary">Primary</button>
+          <button class="btn btn--outline">Outline</button>
+          <button class="btn btn--oak">Warm Oak</button>
+          <button class="btn btn--ghost">Ghost →</button>
+        </div>
+        <div class="ds-bg-espresso ds-buttons-row reveal">
+          <button class="btn btn--oak">Adicionar ao Carrinho</button>
+          <button class="btn btn--outline" style="border-color:rgba(249,246,241,.4);color:var(--ivory)">Ver Detalhes</button>
+        </div>
+      </div>
+
+      <!-- Component Cards -->
+      <div class="ds-section-title reveal">Componentes</div>
+      <div class="ds-grid ds-grid--2 reveal" style="margin-bottom:var(--space-xl)">
+        <div style="background:var(--ivory);border:1px solid var(--sand);border-radius:var(--radius-lg);padding:var(--space-xl)">
+          <div class="t-label" style="color:var(--warm-oak);margin-bottom:var(--space-md)">Color Switcher</div>
+          <p class="t-small" style="color:var(--espresso-60);margin-bottom:var(--space-md)">Cada produto tem 3–4 variantes de cor. Clique nos dots para ver a transição suave.</p>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="color-dot color-dot--oak active"></div>
+            <div class="color-dot color-dot--walnut"></div>
+            <div class="color-dot color-dot--white"></div>
+            <div class="color-dot color-dot--black"></div>
+            <span class="t-small" style="color:var(--espresso-60);margin-left:6px">→ Carvalho / Nogueira / Branco / Ébano</span>
+          </div>
+        </div>
+        <div style="background:var(--ivory);border:1px solid var(--sand);border-radius:var(--radius-lg);padding:var(--space-xl)">
+          <div class="t-label" style="color:var(--warm-oak);margin-bottom:var(--space-md)">Hover Reveal Specs</div>
+          <p class="t-small" style="color:var(--espresso-60);margin-bottom:var(--space-md)">Cards de produto revelam dimensões e CTA ao passar o mouse. Transição translateY(100%) → translateY(0).</p>
+          <div style="background:var(--sand);border-radius:var(--radius-md);padding:var(--space-md)">
+            <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-oak);margin-bottom:6px">Especificações</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:.8rem;color:var(--espresso-60)">
+              <span><strong>A:</strong> 82 cm</span>
+              <span><strong>L:</strong> 56 cm</span>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--ivory);border:1px solid var(--sand);border-radius:var(--radius-lg);padding:var(--space-xl)">
+          <div class="t-label" style="color:var(--warm-oak);margin-bottom:var(--space-md)">Material Filter</div>
+          <p class="t-small" style="color:var(--espresso-60);margin-bottom:var(--space-md)">Filtros com transição de fade. Cards ocultos via display:none com delay para o efeito.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div class="filter-btn active">Todos</div>
+            <div class="filter-btn">Madeira</div>
+            <div class="filter-btn">Tecido</div>
+            <div class="filter-btn">Metal</div>
+          </div>
+        </div>
+        <div style="background:var(--ivory);border:1px solid var(--sand);border-radius:var(--radius-lg);padding:var(--space-xl)">
+          <div class="t-label" style="color:var(--warm-oak);margin-bottom:var(--space-md)">Cart Drawer</div>
+          <p class="t-small" style="color:var(--espresso-60);margin-bottom:var(--space-md)">Drawer lateral com translateX(100%) → translateX(0). Overlay com blur. Qty controls e totais reactivos.</p>
+          <button class="btn btn--primary btn--sm" onclick="openCart()">Abrir Carrinho →</button>
+        </div>
+      </div>
+
+      <!-- Spacing -->
+      <div class="ds-section-title reveal">Espaçamento</div>
+      <div style="display:flex;gap:var(--space-lg);align-items:flex-end;margin-bottom:var(--space-2xl)" class="reveal">
+        <div style="text-align:center">
+          <div style="width:16px;height:4px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">xs<br>4px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:32px;height:8px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">sm<br>8px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:48px;height:16px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">md<br>16px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:64px;height:24px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">lg<br>24px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;height:40px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">xl<br>40px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:96px;height:64px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">2xl<br>64px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:112px;height:96px;background:var(--warm-oak);margin:0 auto 6px;border-radius:2px"></div>
+          <div class="t-small" style="color:var(--espresso-60)">3xl<br>96px</div>
+        </div>
+      </div>
+
+      <!-- Border Radius -->
+      <div class="ds-section-title reveal">Border Radius</div>
+      <div style="display:flex;gap:var(--space-lg);align-items:center;margin-bottom:var(--space-2xl)" class="reveal">
+        <div style="text-align:center">
+          <div style="width:80px;height:80px;background:var(--sand);border-radius:4px;border:1px solid var(--warm-oak)"></div>
+          <div class="t-small" style="margin-top:8px;color:var(--espresso-60)">sm · 4px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;height:80px;background:var(--sand);border-radius:8px;border:1px solid var(--warm-oak)"></div>
+          <div class="t-small" style="margin-top:8px;color:var(--espresso-60)">md · 8px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;height:80px;background:var(--sand);border-radius:16px;border:1px solid var(--warm-oak)"></div>
+          <div class="t-small" style="margin-top:8px;color:var(--espresso-60)">lg · 16px</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;height:80px;background:var(--sand);border-radius:100px;border:1px solid var(--warm-oak)"></div>
+          <div class="t-small" style="margin-top:8px;color:var(--espresso-60)">pill · 100px</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="nav__logo" style="color:var(--ivory)">FORMA<span>.</span></div>
+          <p>Móveis escandinavos criados para durar gerações. Design que respeita a natureza e celebra o cotidiano.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Coleção</h4>
+          <ul>
+            <li><a href="#">Sala de Estar</a></li>
+            <li><a href="#">Quarto</a></li>
+            <li><a href="#">Home Office</a></li>
+            <li><a href="#">Iluminação</a></li>
+            <li><a href="#">Novidades</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Nossa História</a></li>
+            <li><a href="#">Sustentabilidade</a></li>
+            <li><a href="#">Artesãos</a></li>
+            <li><a href="#">Showroom</a></li>
+            <li><a href="#">Carreiras</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Suporte</h4>
+          <ul>
+            <li><a href="#">Entrega & Montagem</a></li>
+            <li><a href="#">Devoluções</a></li>
+            <li><a href="#">Garantia</a></li>
+            <li><a href="#">Cuidados com o produto</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 FORMA Móveis Escandinavos. Design com propósito.</span>
+        <span>Feito com intenção.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== CART DRAWER ====== -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <div class="cart-drawer__title">Seu Carrinho</div>
+      <button class="cart-drawer__close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-drawer__items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="t-h3">Carrinho vazio</div>
+        <p class="t-body" style="margin-top:8px">Adicione algum móvel para começar.</p>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__summary" id="cartSummary">
+        <div class="cart-summary-row"><span>Subtotal</span><span id="cartSubtotal">R$ 0</span></div>
+        <div class="cart-summary-row"><span>Frete</span><span>Grátis</span></div>
+        <div class="cart-summary-row total"><span>Total</span><span class="t-price" id="cartTotal2">R$ 0</span></div>
+      </div>
+      <button class="btn btn--primary btn--full" style="font-size:.9375rem">Finalizar Compra →</button>
+    </div>
+  </div>
+
+  <!-- ====== TOAST ====== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ====== JAVASCRIPT ====== -->
+  <script>
+    /* ==========================================
+       COLOR SWITCHER
+       ========================================== */
+    document.querySelectorAll('.product-card').forEach(card => {
+      const colorDots = card.querySelectorAll('.color-dot');
+      const mainImg   = card.querySelector('.product-card__img');
+      const altImg    = card.querySelector('.product-card__img-alt');
+      const priceEl   = card.querySelector('.product-card__price');
+
+      colorDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          // Update active state
+          colorDots.forEach(d => d.classList.remove('active'));
+          dot.classList.add('active');
+
+          const color = dot.dataset.color;
+
+          // Price update
+          if (priceEl) {
+            try {
+              const prices = JSON.parse(priceEl.dataset.prices);
+              if (prices[color]) {
+                const val = prices[color];
+                priceEl.textContent = 'R$ ' + val.toLocaleString('pt-BR');
+                // Update card data price for cart
+                card.dataset.price = val;
+              }
+            } catch(e) {}
+          }
+
+          // Image crossfade
+          if (color !== 'oak') {
+            mainImg.classList.add('fade-out');
+            altImg.classList.add('fade-in');
+          } else {
+            mainImg.classList.remove('fade-out');
+            altImg.classList.remove('fade-in');
+          }
+        });
+      });
+    });
+
+    /* ==========================================
+       MATERIAL FILTER
+       ========================================== */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        productCards.forEach(card => {
+          const mat = card.dataset.material;
+          if (filter === 'todos' || mat === filter) {
+            card.removeAttribute('data-filtered');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(16px)';
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              });
+            });
+          } else {
+            card.style.transition = 'opacity 0.25s ease';
+            card.style.opacity = '0';
+            setTimeout(() => {
+              card.setAttribute('data-filtered', 'hidden');
+            }, 260);
+          }
+        });
+      });
+    });
+
+    /* ==========================================
+       CART
+       ========================================== */
+    let cart = [];
+
+    function openCart() {
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      document.getElementById('cartDrawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('cartTrigger').addEventListener('click', openCart);
+
+    function addToCart(btn, name, price, variant, img) {
+      const existing = cart.find(i => i.name === name && i.variant === variant);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ id: Date.now(), name, price, variant, img, qty: 1 });
+      }
+      renderCart();
+      showToast('✓  ' + name + ' adicionado ao carrinho');
+      openCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cartItems');
+      const emptyEl   = document.getElementById('cartEmpty');
+      const countEl   = document.getElementById('cartCount');
+      const subtotalEl = document.getElementById('cartSubtotal');
+      const totalEl   = document.getElementById('cartTotal2');
+
+      const totalQty   = cart.reduce((s, i) => s + i.qty, 0);
+      const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+      countEl.textContent = totalQty;
+      subtotalEl.textContent = 'R$ ' + totalPrice.toLocaleString('pt-BR');
+      totalEl.textContent   = 'R$ ' + totalPrice.toLocaleString('pt-BR');
+
+      // Clear items (keep empty)
+      const existing = container.querySelectorAll('.cart-item');
+      existing.forEach(el => el.remove());
+
+      if (cart.length === 0) {
+        emptyEl.style.display = 'block';
+        return;
+      }
+      emptyEl.style.display = 'none';
+
+      cart.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.dataset.id = item.id;
+        el.innerHTML = `
+          <img class="cart-item__img" src="${item.img}" alt="${item.name}">
+          <div>
+            <div class="cart-item__name">${item.name}</div>
+            <div class="cart-item__variant">${item.variant}</div>
+            <div class="cart-item__price">R$ ${(item.price * item.qty).toLocaleString('pt-BR')}</div>
+            <div class="cart-item__qty">
+              <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+              <span class="qty-val">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id}, +1)">+</button>
+            </div>
+          </div>
+          <div>
+            <button class="cart-item__remove" onclick="removeFromCart(${item.id})">Remover</button>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      renderCart();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      renderCart();
+    }
+
+    /* ==========================================
+       TOAST
+       ========================================== */
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = msg;
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => toast.classList.add('show'));
+      });
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 3000);
+    }
+
+    /* ==========================================
+       ROOM CONFIGURATOR
+       ========================================== */
+    const roomPrices = {
+      'ri-sofa':  4800,
+      'ri-table': 1290,
+      'ri-shelf': 2100,
+      'ri-lamp':  650
+    };
+
+    function updateRoomTotal() {
+      const items = document.querySelectorAll('#roomToggleList .room-toggle-item.active');
+      let total = 0;
+      items.forEach(item => {
+        const target = item.dataset.target;
+        total += roomPrices[target] || 0;
+      });
+      document.getElementById('roomTotal').textContent = 'R$ ' + total.toLocaleString('pt-BR');
+    }
+
+    function toggleRoomItem(el) {
+      const id = el.id;
+      const isActive = el.classList.contains('active');
+      el.classList.toggle('active');
+      el.classList.toggle('inactive', isActive);
+      // Sync sidebar
+      const sidebarItem = document.querySelector(`[data-target="${id}"]`);
+      if (sidebarItem) sidebarItem.classList.toggle('active', !isActive);
+      updateRoomTotal();
+    }
+
+    function toggleRoomSidebar(sidebarItem) {
+      const target = sidebarItem.dataset.target;
+      const roomItem = document.getElementById(target);
+      const isActive = sidebarItem.classList.contains('active');
+      sidebarItem.classList.toggle('active');
+      if (roomItem) {
+        roomItem.classList.toggle('active', !isActive);
+        roomItem.classList.toggle('inactive', isActive);
+      }
+      updateRoomTotal();
+    }
+
+    function addRoomToCart() {
+      const activeItems = document.querySelectorAll('#roomToggleList .room-toggle-item.active');
+      const names = {
+        'ri-sofa':  { name: 'Sofá Bergen',          img: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80', variant: 'Linho Natural' },
+        'ri-table': { name: 'Mesa de Centro Oslo',   img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80', variant: 'Carvalho Natural' },
+        'ri-shelf': { name: 'Estante Modular',       img: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=800&q=80', variant: 'Carvalho Natural' },
+        'ri-lamp':  { name: 'Luminária Arco',        img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80', variant: 'Aço Escovado' }
+      };
+      activeItems.forEach(sItem => {
+        const target = sItem.dataset.target;
+        const info = names[target];
+        if (info) addToCart(null, info.name, roomPrices[target], info.variant, info.img);
+      });
+      showToast('Ambiente adicionado ao carrinho!');
+    }
+
+    /* ==========================================
+       SCROLL REVEAL
+       ========================================== */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 60 + 'ms';
+      revealObserver.observe(el);
+    });
+
+    /* ==========================================
+       INIT
+       ========================================== */
+    renderCart();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa dos Sonhos — Granja Viana | Terra Nova Imóveis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ─── RESET & BASE ─────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --espresso:      #2C1810;
+    --gold:          #C4965A;
+    --linen:         #F5F0E8;
+    --warm-brown:    #8B7355;
+    --white:         #FFFFFF;
+    --gold-light:    #DEB87A;
+    --espresso-mid:  #4A2E22;
+    --linen-dark:    #EDE7D9;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--linen);
+    color: var(--espresso);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  /* ─── SCROLL PROGRESS BAR ──────────────────────────────────── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    z-index: 10000;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── READ TIME BADGE ──────────────────────────────────────── */
+  #read-badge {
+    position: fixed;
+    top: 12px; right: 20px;
+    z-index: 9998;
+    background: rgba(44,24,16,0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--linen);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(196,150,90,0.3);
+  }
+
+  /* ─── STICKY PROPERTY SUMMARY ──────────────────────────────── */
+  #sticky-summary {
+    position: fixed;
+    right: 0; top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    z-index: 9000;
+    width: 240px;
+    background: var(--espresso);
+    color: var(--linen);
+    padding: 28px 24px;
+    border-radius: 16px 0 0 16px;
+    box-shadow: -8px 0 40px rgba(44,24,16,0.25);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #sticky-summary.visible {
+    transform: translateY(-50%) translateX(0);
+  }
+  #sticky-summary .prop-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  #sticky-summary .prop-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    margin-bottom: 20px;
+  }
+  #sticky-summary .prop-spec {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--linen-dark);
+    margin-bottom: 8px;
+  }
+  #sticky-summary .prop-spec .icon {
+    width: 16px; height: 16px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  #sticky-summary .divider {
+    height: 1px;
+    background: rgba(196,150,90,0.2);
+    margin: 18px 0;
+  }
+  #sticky-summary .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    color: var(--espresso);
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  #sticky-summary .cta-btn:hover {
+    background: var(--gold-light);
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────────── */
+  #hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+  }
+  #hero-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+  }
+  #hero-img.loaded { transform: scale(1); }
+  #hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(44,24,16,0.15) 0%,
+      rgba(44,24,16,0.05) 40%,
+      rgba(44,24,16,0.65) 80%,
+      rgba(44,24,16,0.85) 100%
+    );
+  }
+  #hero-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 60px 80px;
+  }
+  #hero-agency {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  #hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 90px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 12px;
+  }
+  #hero-subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(245,240,232,0.85);
+    margin-bottom: 32px;
+    max-width: 560px;
+  }
+  #hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .hero-stat {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(245,240,232,0.75);
+    letter-spacing: .03em;
+  }
+  .hero-stat strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white);
+    font-family: 'Playfair Display', serif;
+  }
+  #hero-scroll {
+    position: absolute;
+    bottom: 32px; right: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(245,240,232,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, rgba(196,150,90,0.8), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.5; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ─── MAIN CONTENT ─────────────────────────────────────────── */
+  main { position: relative; }
+
+  /* ─── EDITORIAL INTRO ───────────────────────────────────────── */
+  .editorial-intro {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 100px 40px 80px;
+    text-align: center;
+  }
+  .chapter-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .chapter-label::before,
+  .chapter-label::after {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .intro-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 32px;
+    color: var(--espresso);
+  }
+  .intro-text {
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.8;
+    color: var(--warm-brown);
+    font-weight: 300;
+  }
+  .thin-rule {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 48px auto;
+    opacity: 0.6;
+  }
+
+  /* ─── SECTIONS ─────────────────────────────────────────────── */
+  .story-section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  }
+  .story-section.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── SPLIT LAYOUT ─────────────────────────────────────────── */
+  .split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+    max-height: 800px;
+  }
+  .split-section.reverse { direction: rtl; }
+  .split-section.reverse > * { direction: ltr; }
+  .split-image {
+    overflow: hidden;
+    position: relative;
+  }
+  .split-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  .split-image:hover img { transform: scale(1.03); }
+  .split-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 72px;
+    background: var(--white);
+  }
+  .split-section.alt .split-text {
+    background: var(--espresso);
+    color: var(--linen);
+  }
+  .split-section.alt .chapter-label { color: var(--gold); }
+  .split-section.alt .section-heading { color: var(--white); }
+  .split-section.alt .section-text { color: rgba(245,240,232,0.75); }
+  .split-section.alt .pull-quote {
+    border-left-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 28px;
+    color: var(--espresso);
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--warm-brown);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2vw, 24px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--espresso-mid);
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+    margin: 32px 0;
+  }
+
+  /* ─── FULL-WIDTH IMAGE ──────────────────────────────────────── */
+  .fullwidth-img-wrap {
+    width: 100%; height: 60vh;
+    min-height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+  .fullwidth-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 12s linear;
+  }
+  .fullwidth-img-wrap.parallax-active img {
+    transform: translateY(-8%);
+  }
+  .fullwidth-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px 60px;
+    background: linear-gradient(to top, rgba(44,24,16,0.7), transparent);
+    color: rgba(245,240,232,0.8);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SPECS BAND ────────────────────────────────────────────── */
+  .specs-band {
+    background: var(--espresso);
+    padding: 60px 80px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+  .spec-item {}
+  .spec-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .spec-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .spec-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+  }
+
+  /* ─── GALLERY ───────────────────────────────────────────────── */
+  .gallery-section {
+    padding: 80px;
+    background: var(--linen-dark);
+  }
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .gallery-thumb {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .gallery-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .gallery-thumb:hover img { transform: scale(1.08); }
+  .gallery-thumb-overlay {
+    position: absolute; inset: 0;
+    background: rgba(44,24,16,0);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s;
+  }
+  .gallery-thumb:hover .gallery-thumb-overlay {
+    background: rgba(44,24,16,0.3);
+  }
+  .gallery-zoom {
+    opacity: 0;
+    color: white;
+    font-size: 28px;
+    transition: opacity 0.3s;
+  }
+  .gallery-thumb:hover .gallery-zoom { opacity: 1; }
+
+  /* ─── LIGHTBOX ──────────────────────────────────────────────── */
+  #lightbox {
+    position: fixed; inset: 0;
+    z-index: 99000;
+    background: rgba(10,5,3,0.96);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  #lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  #lightbox-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+    transform: scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  #lightbox.open #lightbox-img { transform: scale(1); }
+  #lightbox-close {
+    position: absolute; top: 24px; right: 28px;
+    background: none; border: none; cursor: pointer;
+    color: white; font-size: 32px; line-height: 1;
+    opacity: 0.7; transition: opacity 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  #lightbox-close:hover { opacity: 1; }
+  #lightbox-counter {
+    position: absolute; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: .1em;
+  }
+  .lb-nav {
+    position: absolute; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white; font-size: 24px;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+  .lb-nav:hover { background: rgba(196,150,90,0.3); }
+  #lb-prev { left: 24px; }
+  #lb-next { right: 24px; }
+
+  /* ─── GARDEN SECTION ────────────────────────────────────────── */
+  .garden-section {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    min-height: 600px;
+  }
+  .garden-image {
+    position: relative; overflow: hidden;
+  }
+  .garden-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .garden-text {
+    background: var(--linen);
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  /* ─── AGENT CARD ─────────────────────────────────────────────── */
+  .agent-section {
+    background: var(--espresso);
+    padding: 100px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .agent-section-header {
+    text-align: center;
+    color: var(--linen);
+    margin-bottom: 60px;
+  }
+  .agent-section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .agent-section-header p {
+    font-size: 16px;
+    color: rgba(245,240,232,0.6);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* CSS 3D Card Flip */
+  .card-flip-container {
+    perspective: 1200px;
+    width: 420px;
+    max-width: 100%;
+    height: 500px;
+  }
+  .card-flip-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card-flip-container:hover .card-flip-inner {
+    transform: rotateY(180deg);
+  }
+  .card-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .card-front {
+    background: var(--linen);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 48px 40px; text-align: center;
+  }
+  .agent-portrait {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--gold);
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(44,24,16,0.3);
+  }
+  .agent-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 6px;
+  }
+  .agent-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    margin-bottom: 24px;
+  }
+  .agent-agency {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: .05em;
+    margin-bottom: 20px;
+  }
+  .agent-contact-info {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--espresso-mid);
+  }
+  .flip-hint {
+    margin-top: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    opacity: 0.7;
+  }
+  .card-back {
+    background: #1a0f0a;
+    transform: rotateY(180deg);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 40px;
+  }
+  .card-back h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .card-back p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 28px;
+  }
+  .contact-form-inner {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .form-field {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(196,150,90,0.25);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    resize: none;
+  }
+  .form-field::placeholder { color: rgba(245,240,232,0.3); }
+  .form-field:focus { border-color: var(--gold); }
+  .form-submit {
+    background: var(--gold);
+    color: var(--espresso);
+    border: none; border-radius: 8px;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--gold-light); }
+
+  /* ─── FOOTER ────────────────────────────────────────────────── */
+  footer {
+    background: #1a0f0a;
+    padding: 48px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: .05em;
+  }
+  .footer-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(245,240,232,0.35);
+    letter-spacing: .04em;
+  }
+
+  /* ─── DECORATIVE ────────────────────────────────────────────── */
+  .ornament {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--gold);
+    opacity: 0.4;
+    padding: 20px 0;
+  }
+
+  .features-list {
+    list-style: none;
+    margin-top: 24px;
+  }
+  .features-list li {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--warm-brown);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(139,115,85,0.15);
+  }
+  .features-list li::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .split-section.alt .features-list li {
+    color: rgba(245,240,232,0.6);
+    border-bottom-color: rgba(196,150,90,0.12);
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    #hero-content { padding: 40px 32px; }
+    #hero-scroll { right: 32px; bottom: 120px; }
+    .split-section { grid-template-columns: 1fr; max-height: none; }
+    .split-section .split-image { height: 320px; }
+    .split-section.reverse { direction: ltr; }
+    .split-text { padding: 48px 32px; }
+    .specs-band { grid-template-columns: repeat(3, 1fr); padding: 48px 32px; }
+    .gallery-section { padding: 48px 24px; }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    .garden-section { grid-template-columns: 1fr; }
+    .garden-image { height: 320px; }
+    .garden-text { padding: 48px 32px; }
+    .agent-section { padding: 60px 24px; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    #sticky-summary { display: none; }
+    .editorial-intro { padding: 60px 24px 48px; }
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .specs-band { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .hero-meta { gap: 20px; }
+    #hero-title { font-size: 36px; }
+    #read-badge { display: none; }
+    .gallery-section { padding: 40px 16px; }
+    #lb-prev { left: 8px; }
+    #lb-next { right: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Back button -->
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<!-- Scroll progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Read time badge -->
+<div id="read-badge">Leitura: 3 min</div>
+
+<!-- Sticky property summary -->
+<div id="sticky-summary">
+  <div class="prop-price">R$ 5.800.000</div>
+  <div class="prop-label">Granja Viana, SP</div>
+  <div class="prop-spec">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+    </svg>
+    580 m² construídos
+  </div>
+  <div class="prop-spec">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 10h18M7 10V6a1 1 0 011-1h8a1 1 0 011 1v4M5 21V10M19 21V10"/>
+    </svg>
+    5 quartos
+  </div>
+  <div class="prop-spec">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="3" y="11" width="18" height="10" rx="1"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+    </svg>
+    6 vagas cobertas
+  </div>
+  <div class="prop-spec">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/>
+    </svg>
+    Piscina aquecida
+  </div>
+  <div class="divider"></div>
+  <a href="#contato" class="cta-btn">Agendar Visita</a>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Galeria de imagens">
+  <button id="lightbox-close" aria-label="Fechar">&times;</button>
+  <button class="lb-nav" id="lb-prev" aria-label="Anterior">&#8592;</button>
+  <img id="lightbox-img" src="" alt="Imagem da galeria">
+  <button class="lb-nav" id="lb-next" aria-label="Próxima">&#8594;</button>
+  <div id="lightbox-counter"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  HERO                                                          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <img id="hero-img"
+    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"
+    alt="Casa dos Sonhos — Granja Viana, arquitetura externa"
+    loading="eager">
+  <div id="hero-overlay"></div>
+  <div id="hero-content">
+    <p id="hero-agency">Terra Nova Imóveis &nbsp;&mdash;&nbsp; Alto Padrão</p>
+    <h1 id="hero-title">Casa dos<br>Sonhos</h1>
+    <p id="hero-subtitle">Uma residência que conta a história de quem escolheu viver com intenção — em Granja Viana.</p>
+    <div id="hero-meta">
+      <div class="hero-stat">
+        <strong>R$ 5.800.000</strong>
+        Valor
+      </div>
+      <div class="hero-stat">
+        <strong>580 m²</strong>
+        Área construída
+      </div>
+      <div class="hero-stat">
+        <strong>5</strong>
+        Quartos
+      </div>
+      <div class="hero-stat">
+        <strong>Granja Viana</strong>
+        Localização
+      </div>
+    </div>
+  </div>
+  <div id="hero-scroll">
+    <div class="scroll-line"></div>
+    Role
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  INTRO                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="editorial-intro story-section">
+  <div class="chapter-label">Prólogo</div>
+  <h2 class="intro-heading">Algumas casas você visita.<br>Esta, você sente.</h2>
+  <div class="thin-rule"></div>
+  <p class="intro-text">
+    Há lugares que transformam o ar ao nosso redor. Que têm uma qualidade de luz particular,
+    uma sequência de espaços que convida ao silêncio. Esta residência em Granja Viana foi
+    concebida para ser exatamente isso — não apenas uma casa, mas um estado de espírito.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  SPECS BAND                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="specs-band story-section">
+  <div class="spec-item">
+    <span class="spec-icon">⊡</span>
+    <div class="spec-value">580</div>
+    <div class="spec-label">m² construídos</div>
+  </div>
+  <div class="spec-item">
+    <span class="spec-icon">◻</span>
+    <div class="spec-value">5</div>
+    <div class="spec-label">Quartos</div>
+  </div>
+  <div class="spec-item">
+    <span class="spec-icon">◈</span>
+    <div class="spec-value">2</div>
+    <div class="spec-label">Suítes master</div>
+  </div>
+  <div class="spec-item">
+    <span class="spec-icon">◉</span>
+    <div class="spec-value">6</div>
+    <div class="spec-label">Vagas cobertas</div>
+  </div>
+  <div class="spec-item">
+    <span class="spec-icon">◎</span>
+    <div class="spec-value">1</div>
+    <div class="spec-label">Adega climatizada</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  CAPÍTULO 1 — A Chegada                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="split-section story-section">
+  <div class="split-image">
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"
+         alt="Fachada da residência — A Chegada" loading="lazy">
+  </div>
+  <div class="split-text">
+    <div class="chapter-label">Capítulo I</div>
+    <h2 class="section-heading">A Chegada</h2>
+    <p class="section-text">
+      O portão se abre e a fachada revela-se aos poucos — pedra natural, madeira nobre,
+      vidro que dialoga com a vegetação. A alameda de bromélias conduz o visitante a
+      uma entrada que já é, por si só, uma declaração de intenções.
+    </p>
+    <blockquote class="pull-quote">
+      "A arquitetura é a vontade de uma época traduzida em espaço."
+    </blockquote>
+    <ul class="features-list">
+      <li>Portão eletrônico com câmera de alta resolução</li>
+      <li>Hall de entrada com pé-direito duplo de 7 metros</li>
+      <li>Pisos em mármore Travertino Romano</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  CAPÍTULO 2 — O Coração                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="split-section reverse alt story-section">
+  <div class="split-image">
+    <img src="https://images.unsplash.com/photo-1600210491892-03d54741ef5e?w=1200&q=80"
+         alt="Sala de estar principal" loading="lazy">
+  </div>
+  <div class="split-text">
+    <div class="chapter-label">Capítulo II</div>
+    <h2 class="section-heading">O Coração da Casa</h2>
+    <p class="section-text">
+      A sala de estar principal integra-se à sala de jantar e à varanda gourmet em um
+      único fluir generoso de 120 m². Aqui, a luz natural é protagonista: os painéis
+      de vidro retráteis dissolvem os limites entre dentro e fora.
+    </p>
+    <blockquote class="pull-quote">
+      "Um espaço projetado para reunir, mas silencioso o suficiente para introspection."
+    </blockquote>
+    <ul class="features-list">
+      <li>120 m² de área social integrada</li>
+      <li>Lareira italiana em mármore Calacatta</li>
+      <li>Home theater embutido com 4K Dolby Atmos</li>
+      <li>Adega com capacidade para 800 garrafas</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  FULL-WIDTH — Cozinha                                          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="fullwidth-img-wrap story-section" id="parallax-kitchen">
+  <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1600&q=80"
+       alt="Cozinha gourmet" loading="lazy">
+  <div class="fullwidth-caption">Cozinha gourmet — equipada por Miele &amp; Sub-Zero</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  CAPÍTULO 3 — O Refúgio                                       -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="split-section story-section">
+  <div class="split-image">
+    <img src="https://images.unsplash.com/photo-1600607687644-c7171b48b6b1?w=1200&q=80"
+         alt="Suíte master" loading="lazy">
+  </div>
+  <div class="split-text">
+    <div class="chapter-label">Capítulo III</div>
+    <h2 class="section-heading">O Refúgio<br>Privado</h2>
+    <p class="section-text">
+      A suíte master foi concebida como um santuário particular. Closet com iluminação
+      circadiana, banheiro em onix verde com banheira de imersão, e uma varanda
+      privativa que olha para o jardim. O lugar onde cada dia começa com intenção.
+    </p>
+    <blockquote class="pull-quote">
+      "O quarto perfeito é aquele que você nunca quer deixar — e sempre quer retornar."
+    </blockquote>
+    <ul class="features-list">
+      <li>2 suítes master com closets planejados</li>
+      <li>Banheira de imersão Porcelanosa</li>
+      <li>Automação de iluminação circadiana Lutron</li>
+      <li>Varanda privativa com vista para o jardim</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  GALERIA                                                       -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="gallery-section story-section">
+  <div class="gallery-header">
+    <div class="chapter-label">Galeria</div>
+    <h2 class="section-heading" style="margin-bottom:0">A Experiência em Imagens</h2>
+  </div>
+  <div class="gallery-grid" id="gallery-grid">
+    <!-- thumbnails injected by JS -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  CAPÍTULO 4 — O Jardim                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="garden-section story-section">
+  <div class="garden-image">
+    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200&q=80"
+         alt="Piscina e jardim" loading="lazy">
+  </div>
+  <div class="garden-text">
+    <div class="chapter-label">Capítulo IV</div>
+    <h2 class="section-heading">O Jardim</h2>
+    <p class="section-text">
+      O paisagismo, assinado por Burle Marx Projetos, converte o terreno de 1.200 m²
+      em uma sequência de experiências — da piscina aquecida ao pergolado com jacuzzi,
+      do pomar orgânico à churrasqueira de pedra que aquece as noites frias de inverno.
+    </p>
+    <p class="section-text">
+      A piscina de 15 metros, aquecida por energia solar, dialoga com a casa por meio
+      de um deck em madeira Cumaru que conecta os ambientes sem interrupção visual.
+    </p>
+    <ul class="features-list">
+      <li>Piscina aquecida 15m × 5m com raia</li>
+      <li>Jacuzzi externa para 8 pessoas</li>
+      <li>Churrasqueira em pedra sabão artesanal</li>
+      <li>Pomar com árvores frutíferas nativas</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  CAPÍTULO 5 — A Experiência                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="editorial-intro story-section" style="padding-top:100px;padding-bottom:100px;">
+  <div class="chapter-label">Capítulo V</div>
+  <h2 class="intro-heading" style="font-size:clamp(28px,4vw,52px);">A Experiência</h2>
+  <div class="thin-rule"></div>
+  <p class="intro-text" style="max-width:680px;margin:0 auto 32px;">
+    Granja Viana é o lar de quem escolheu a qualidade de vida sem abrir mão da
+    conectividade. A 28 minutos do centro de São Paulo, rodeada de natureza,
+    com a melhor infraestrutura escolar e gastronômica da grande São Paulo.
+  </p>
+  <p class="intro-text" style="max-width:680px;margin:0 auto;">
+    Esta residência não é apenas um endereço. É a versão mais completa de uma vida
+    bem construída. O próximo capítulo pode ser o seu.
+  </p>
+  <div class="ornament" style="margin-top:48px;">&#10022;</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  FULL-WIDTH — Interior detalhe                                 -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="fullwidth-img-wrap story-section">
+  <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80"
+       alt="Detalhe de interior design" loading="lazy">
+  <div class="fullwidth-caption">Detalhes que revelam intenção — design de interiores exclusivo</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  AGENT CONTACT CARD                                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="agent-section story-section" id="contato">
+  <div class="agent-section-header">
+    <div class="chapter-label" style="justify-content:center;color:var(--gold);">Próximo Passo</div>
+    <h2>Vamos Conversar</h2>
+    <p>Passe o cursor sobre o cartão para entrar em contato</p>
+  </div>
+
+  <div class="card-flip-container">
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-front">
+        <img class="agent-portrait"
+             src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=400&q=80"
+             alt="Carlos Mendes">
+        <div class="agent-name">Carlos Mendes</div>
+        <div class="agent-title">Especialista em Alto Padrão</div>
+        <div class="agent-agency">Terra Nova Imóveis</div>
+        <div class="agent-contact-info">+55 11 99999-0000</div>
+        <p class="flip-hint">↔ Passe o cursor para contato</p>
+      </div>
+
+      <!-- BACK — contact form -->
+      <div class="card-face card-back">
+        <h3>Agendar Visita</h3>
+        <p>Respondemos em até 2 horas úteis.</p>
+        <form class="contact-form-inner" onsubmit="handleFormSubmit(event)">
+          <input class="form-field" type="text" placeholder="Seu nome" required>
+          <input class="form-field" type="email" placeholder="Seu e-mail" required>
+          <textarea class="form-field" rows="3" placeholder="Mensagem (opcional)"></textarea>
+          <button type="submit" class="form-submit">Enviar Mensagem →</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  FOOTER                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">Terra Nova Imóveis</div>
+  <div class="footer-copy">© 2024 Terra Nova Imóveis. Todos os direitos reservados. CRECI-SP 12345-J</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── HERO IMAGE LOAD ──────────────────────────────────────── */
+  const heroImg = document.getElementById('hero-img');
+  if (heroImg.complete) {
+    heroImg.classList.add('loaded');
+  } else {
+    heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
+  }
+
+  /* ── SCROLL PROGRESS BAR ──────────────────────────────────── */
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = progress + '%';
+  }
+
+  /* ── STICKY SUMMARY ───────────────────────────────────────── */
+  const stickySummary = document.getElementById('sticky-summary');
+  const heroEl = document.getElementById('hero');
+  function updateSticky() {
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    if (heroBottom < 0) {
+      stickySummary.classList.add('visible');
+    } else {
+      stickySummary.classList.remove('visible');
+    }
+  }
+
+  /* ── INTERSECTION OBSERVER — Section reveals ──────────────── */
+  const sections = document.querySelectorAll('.story-section');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+  sections.forEach(section => revealObserver.observe(section));
+
+  /* ── SCROLL HANDLER ───────────────────────────────────────── */
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateProgress();
+        updateSticky();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* ── GALLERY ──────────────────────────────────────────────── */
+  const galleryImages = [
+    {
+      src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+      alt: 'Fachada exterior'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1600210491892-03d54741ef5e?w=800&q=80',
+      alt: 'Sala de estar'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80',
+      alt: 'Cozinha gourmet'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1600607687644-c7171b48b6b1?w=800&q=80',
+      alt: 'Suíte master'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&q=80',
+      alt: 'Jardim e piscina'
+    }
+  ];
+
+  const galleryGrid = document.getElementById('gallery-grid');
+  galleryImages.forEach((img, index) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'gallery-thumb';
+    thumb.setAttribute('role', 'button');
+    thumb.setAttribute('tabindex', '0');
+    thumb.setAttribute('aria-label', `Ver ${img.alt}`);
+    thumb.innerHTML = `
+      <img src="${img.src}" alt="${img.alt}" loading="lazy">
+      <div class="gallery-thumb-overlay">
+        <span class="gallery-zoom">+</span>
+      </div>
+    `;
+    thumb.addEventListener('click', () => openLightbox(index));
+    thumb.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(index);
+      }
+    });
+    galleryGrid.appendChild(thumb);
+  });
+
+  /* ── LIGHTBOX ─────────────────────────────────────────────── */
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCounter = document.getElementById('lightbox-counter');
+  const lbClose = document.getElementById('lightbox-close');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    const img = galleryImages[currentIndex];
+    lbImg.src = img.src.replace('w=800', 'w=1400');
+    lbImg.alt = img.alt;
+    lbCounter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightbox();
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    updateLightbox();
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', prevImage);
+  lbNext.addEventListener('click', nextImage);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
+  });
+
+  /* ── FORM SUBMIT ──────────────────────────────────────────── */
+  window.handleFormSubmit = function(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Enviado! ✓';
+    btn.style.background = '#4CAF50';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Enviar Mensagem →';
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 3000);
+  };
+
+  /* ── CTA SMOOTH SCROLL ────────────────────────────────────── */
+  document.querySelectorAll('a[href="#contato"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('contato').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* ── INIT ─────────────────────────────────────────────────── */
+  updateProgress();
+  updateSticky();
+
+})();
+</script>
+</body>
+</html>

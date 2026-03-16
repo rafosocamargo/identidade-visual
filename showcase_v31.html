@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHURRASQUEIRO PRO — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #1C1208;
+    --ember: #CC4400;
+    --ember-dark: #A33500;
+    --ember-light: #E05520;
+    --forest: #4A7C59;
+    --forest-dark: #366347;
+    --cream: #F5E6C8;
+    --cream-dark: #E8D4A8;
+    --saddle: #8B4513;
+    --saddle-light: #A0522D;
+    --white: #FFFFFF;
+    --gray-100: #F8F4EE;
+    --gray-200: #EDE5D8;
+    --gray-400: #B8A88A;
+    --gray-600: #7A6B55;
+    --gray-800: #3D3020;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--charcoal);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* BACK BUTTON */
+  .back-btn {
+    position: fixed; top: 16px; left: 16px; z-index: 9999;
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    color: #fff; text-decoration: none;
+    font-family: system-ui, sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .03em;
+    border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(0,0,0,0.8); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+    background: rgba(28,18,8,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 3px solid var(--ember);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--ember);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cream); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--cream); text-decoration: none;
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ember); }
+  .nav-cart {
+    background: var(--ember); color: white;
+    border: none; padding: 10px 20px;
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    cursor: pointer; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .nav-cart:hover { background: var(--ember-dark); }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden; padding-top: 64px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1600&q=80');
+    background-size: cover; background-position: center;
+    filter: brightness(0.35);
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(28,18,8,0.7) 0%, rgba(204,68,0,0.15) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 760px; padding: 80px 60px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--ember); color: white;
+    font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 6px 16px; margin-bottom: 24px;
+    border-radius: 2px;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 700; line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+  .hero h1 .accent { color: var(--ember); display: block; }
+  .hero-sub {
+    font-size: 20px; color: var(--gray-400);
+    margin-bottom: 40px; max-width: 480px;
+    font-weight: 500; line-height: 1.5;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ember); color: white;
+    border: 3px solid var(--ember);
+    padding: 16px 36px; font-family: 'Oswald', sans-serif;
+    font-size: 16px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer; border-radius: 2px;
+    transition: all 0.2s; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--ember-dark); border-color: var(--ember-dark); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    border: 3px solid var(--cream);
+    padding: 16px 36px; font-family: 'Oswald', sans-serif;
+    font-size: 16px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer; border-radius: 2px;
+    transition: all 0.2s; text-decoration: none; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--cream); color: var(--charcoal); transform: translateY(-2px); }
+  .hero-stats {
+    position: absolute; bottom: 40px; right: 60px; z-index: 2;
+    display: flex; gap: 40px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 700;
+    color: var(--ember); line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 11px; color: var(--gray-400);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;
+  }
+
+  /* SECTION */
+  section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-full { padding: 80px 0; max-width: none; margin: 0; }
+  .section-label {
+    font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+    color: var(--ember); text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 52px); font-weight: 700;
+    color: var(--cream); margin-bottom: 16px; line-height: 1.1;
+  }
+  .section-desc {
+    font-size: 16px; color: var(--gray-400); max-width: 560px;
+    line-height: 1.7; margin-bottom: 48px;
+  }
+  .divider {
+    width: 60px; height: 4px; background: var(--ember);
+    margin-bottom: 24px; border-radius: 2px;
+  }
+
+  /* PRODUCTS GRID */
+  .products-section { background: var(--gray-800); padding: 80px 0; }
+  .products-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+  .product-card {
+    background: var(--charcoal);
+    border: 2px solid var(--gray-800);
+    border-radius: 4px; overflow: hidden;
+    transition: all 0.3s; cursor: pointer;
+    position: relative;
+  }
+  .product-card:hover { border-color: var(--ember); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(204,68,0,0.2); }
+  .product-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .product-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--ember); color: white;
+    font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 10px; border-radius: 2px;
+  }
+  .product-info { padding: 20px; }
+  .product-name {
+    font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600;
+    color: var(--cream); margin-bottom: 8px; text-transform: uppercase;
+  }
+  .product-desc { font-size: 13px; color: var(--gray-400); margin-bottom: 16px; line-height: 1.5; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price {
+    font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700;
+    color: var(--ember);
+  }
+  .product-add {
+    background: var(--forest); color: white; border: none;
+    padding: 8px 16px; font-family: 'Oswald', sans-serif;
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; cursor: pointer; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .product-add:hover { background: var(--forest-dark); }
+
+  /* CONFIGURATOR */
+  .configurator-section { background: var(--gray-800); padding: 80px 0; }
+  .configurator-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .configurator-grid { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; margin-top: 48px; }
+  .config-panel { background: var(--charcoal); border: 2px solid var(--gray-600); border-radius: 4px; padding: 32px; }
+  .config-group { margin-bottom: 32px; }
+  .config-label {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .config-label .step {
+    background: var(--ember); color: white; width: 22px; height: 22px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .config-options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .config-option {
+    border: 2px solid var(--gray-600); background: transparent; color: var(--gray-400);
+    padding: 10px 18px; font-family: 'Oswald', sans-serif;
+    font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+    cursor: pointer; border-radius: 2px; transition: all 0.2s;
+  }
+  .config-option:hover { border-color: var(--ember); color: var(--cream); }
+  .config-option.active { background: var(--ember); border-color: var(--ember); color: white; }
+  .config-extras { display: flex; flex-direction: column; gap: 12px; }
+  .config-extra {
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+    padding: 12px 16px; border: 2px solid var(--gray-600); border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .config-extra:hover { border-color: var(--forest); }
+  .config-extra.checked { border-color: var(--forest); background: rgba(74,124,89,0.1); }
+  .config-extra input { display: none; }
+  .config-extra-check {
+    width: 20px; height: 20px; border: 2px solid var(--gray-400);
+    border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .config-extra.checked .config-extra-check {
+    background: var(--forest); border-color: var(--forest);
+  }
+  .config-extra-check svg { display: none; }
+  .config-extra.checked .config-extra-check svg { display: block; }
+  .config-extra-info { flex: 1; }
+  .config-extra-name {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .config-extra-price { font-size: 12px; color: var(--ember); margin-top: 2px; }
+
+  .config-summary {
+    background: var(--charcoal); border: 3px solid var(--ember);
+    border-radius: 4px; padding: 32px; position: sticky; top: 80px;
+  }
+  .summary-title {
+    font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
+    color: var(--cream); text-transform: uppercase; margin-bottom: 24px;
+  }
+  .summary-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--gray-800);
+  }
+  .summary-item:last-of-type { border-bottom: none; }
+  .summary-item-name { font-size: 13px; color: var(--gray-400); }
+  .summary-item-val {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream);
+  }
+  .summary-total {
+    margin-top: 20px; padding-top: 20px;
+    border-top: 3px solid var(--ember);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .summary-total-label {
+    font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700;
+    color: var(--cream); text-transform: uppercase;
+  }
+  .summary-total-price {
+    font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 700;
+    color: var(--ember); line-height: 1;
+    transition: all 0.3s;
+  }
+  .summary-total-price.bump {
+    transform: scale(1.15);
+    color: var(--cream);
+  }
+  .share-btn {
+    width: 100%; margin-top: 20px;
+    background: transparent; border: 2px solid var(--forest);
+    color: var(--forest); padding: 12px;
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    cursor: pointer; border-radius: 2px; transition: all 0.2s;
+  }
+  .share-btn:hover { background: var(--forest); color: white; }
+  .share-url {
+    margin-top: 12px; padding: 10px 14px;
+    background: var(--gray-800); border: 1px solid var(--gray-600);
+    border-radius: 2px; font-size: 11px; color: var(--gray-400);
+    word-break: break-all; display: none;
+  }
+  .share-url.visible { display: block; }
+
+  /* CALCULATOR */
+  .calc-section { background: var(--charcoal); padding: 80px 0; }
+  .calc-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .calc-grid { display: grid; grid-template-columns: 420px 1fr; gap: 48px; align-items: start; margin-top: 48px; }
+  .calc-controls { background: var(--gray-800); border-radius: 4px; padding: 32px; }
+  .calc-field { margin-bottom: 28px; }
+  .calc-field-label {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 14px; display: flex; justify-content: space-between;
+  }
+  .calc-field-label span {
+    color: var(--ember); font-size: 18px; font-weight: 700;
+  }
+  .range-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px; background: var(--gray-600);
+    border-radius: 3px; outline: none; cursor: pointer;
+  }
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--ember); cursor: pointer;
+    border: 3px solid var(--cream);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: transform 0.1s;
+  }
+  .range-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .duration-options { display: flex; gap: 8px; }
+  .duration-option {
+    flex: 1; padding: 10px; text-align: center;
+    border: 2px solid var(--gray-600); background: transparent;
+    color: var(--gray-400); cursor: pointer;
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500;
+    text-transform: uppercase; border-radius: 2px; transition: all 0.2s;
+  }
+  .duration-option:hover { border-color: var(--ember); color: var(--cream); }
+  .duration-option.active { background: var(--ember); border-color: var(--ember); color: white; }
+  .meat-options { display: flex; gap: 8px; }
+  .meat-option {
+    flex: 1; padding: 12px 6px; text-align: center;
+    border: 2px solid var(--gray-600); background: transparent;
+    color: var(--gray-400); cursor: pointer;
+    font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    border-radius: 2px; transition: all 0.2s;
+  }
+  .meat-option:hover { border-color: var(--saddle); color: var(--cream); }
+  .meat-option.active { background: var(--saddle); border-color: var(--saddle); color: white; }
+
+  .calc-results { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .calc-card {
+    background: var(--gray-800); border: 2px solid var(--gray-600);
+    border-radius: 4px; padding: 20px; text-align: center;
+    transition: all 0.4s;
+  }
+  .calc-card.highlight { border-color: var(--ember); background: rgba(204,68,0,0.08); }
+  .calc-card-icon { font-size: 28px; margin-bottom: 8px; }
+  .calc-card-label {
+    font-size: 11px; color: var(--gray-400); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 8px;
+    font-family: 'Oswald', sans-serif; font-weight: 500;
+  }
+  .calc-card-value {
+    font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700;
+    color: var(--ember); line-height: 1;
+    transition: all 0.3s;
+  }
+  .calc-card-value.updating {
+    transform: scale(0.8); opacity: 0.4;
+  }
+  .calc-card-unit { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+  .calc-total {
+    grid-column: 1/-1;
+    background: linear-gradient(135deg, var(--ember) 0%, var(--ember-dark) 100%);
+    border: none; padding: 24px;
+  }
+  .calc-total .calc-card-label { color: rgba(255,255,255,0.8); }
+  .calc-total .calc-card-value { color: white; font-size: 36px; }
+  .calc-total .calc-card-unit { color: rgba(255,255,255,0.7); }
+
+  /* COMMUNITY FEED */
+  .feed-section { background: var(--gray-800); padding: 80px 0; }
+  .feed-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .feed-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feed-card {
+    background: var(--charcoal); border: 2px solid var(--gray-600);
+    border-radius: 4px; padding: 24px;
+    transition: all 0.3s;
+  }
+  .feed-card:hover { border-color: var(--forest); transform: translateY(-2px); }
+  .feed-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .feed-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .feed-user-name {
+    font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .feed-user-loc { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .feed-text { font-size: 14px; color: var(--gray-400); line-height: 1.7; margin-bottom: 16px; }
+  .feed-footer { display: flex; align-items: center; justify-content: space-between; }
+  .feed-tag {
+    font-size: 11px; color: var(--forest);
+    font-family: 'Oswald', sans-serif; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    background: rgba(74,124,89,0.15); padding: 4px 10px; border-radius: 2px;
+  }
+  .feed-like {
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+    background: none; border: none; padding: 6px 10px;
+    border-radius: 20px; transition: all 0.2s;
+  }
+  .feed-like:hover { background: rgba(204,68,0,0.1); }
+  .heart-icon { font-size: 18px; transition: all 0.2s; line-height: 1; }
+  .heart-icon.liked {
+    animation: heartBounce 0.4s ease;
+  }
+  .like-count {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--gray-400);
+    transition: color 0.2s;
+  }
+  .feed-like.liked .like-count { color: var(--ember); }
+  @keyframes heartBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.4); }
+    60% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
+  .load-more-wrap { text-align: center; margin-top: 36px; }
+  .load-more-btn {
+    background: transparent; border: 3px solid var(--ember);
+    color: var(--ember); padding: 14px 40px;
+    font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    cursor: pointer; border-radius: 2px; transition: all 0.3s;
+  }
+  .load-more-btn:hover { background: var(--ember); color: white; }
+  .feed-card.new-card {
+    animation: slideInUp 0.4s ease forwards;
+  }
+  @keyframes slideInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: var(--charcoal); padding: 80px 0; }
+  .testimonials-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .testimonial-card {
+    position: relative; border-radius: 4px; overflow: hidden;
+    cursor: pointer; aspect-ratio: 4/3;
+    transition: transform 0.3s;
+    border: 2px solid var(--gray-600);
+  }
+  .testimonial-card:hover { transform: scale(1.02); border-color: var(--ember); }
+  .testimonial-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .testimonial-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(28,18,8,0.9) 0%, rgba(28,18,8,0.2) 60%);
+  }
+  .testimonial-play {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 56px; height: 56px; background: rgba(204,68,0,0.85);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: all 0.3s;
+    border: 3px solid white;
+  }
+  .testimonial-card:hover .testimonial-play { opacity: 1; }
+  .testimonial-play svg { margin-left: 4px; }
+  .testimonial-content {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
+  }
+  .testimonial-quote {
+    font-size: 14px; color: var(--cream); line-height: 1.5;
+    margin-bottom: 12px; font-style: italic;
+  }
+  .testimonial-author {
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--ember); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* VIDEO MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.92);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    padding: 20px;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-content {
+    background: var(--charcoal); border: 2px solid var(--ember);
+    border-radius: 4px; overflow: hidden; max-width: 720px; width: 100%;
+    transform: scale(0.9); transition: transform 0.3s;
+    position: relative;
+  }
+  .modal-overlay.open .modal-content { transform: scale(1); }
+  .modal-close {
+    position: absolute; top: 12px; right: 12px; z-index: 10;
+    background: rgba(0,0,0,0.6); border: none; color: white;
+    width: 36px; height: 36px; border-radius: 50%; font-size: 18px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--ember); }
+  .video-player { position: relative; aspect-ratio: 16/9; background: #000; }
+  .video-player img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+  .video-controls {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end; padding: 24px;
+  }
+  .video-big-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px; height: 72px; background: rgba(204,68,0,0.9);
+    border-radius: 50%; border: 3px solid white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .video-big-play:hover { background: var(--ember); transform: translate(-50%, -50%) scale(1.1); }
+  .video-bar {
+    width: 100%; display: flex; align-items: center; gap: 12px;
+    background: rgba(0,0,0,0.6); padding: 12px 16px; border-radius: 4px;
+  }
+  .video-progress {
+    flex: 1; height: 4px; background: rgba(255,255,255,0.3);
+    border-radius: 2px; overflow: hidden;
+  }
+  .video-progress-fill {
+    height: 100%; background: var(--ember); width: 35%;
+    border-radius: 2px;
+  }
+  .video-time { font-size: 12px; color: rgba(255,255,255,0.7); font-family: 'Oswald', sans-serif; }
+  .modal-info { padding: 20px; }
+  .modal-info h3 {
+    font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
+    color: var(--cream); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .modal-info p { font-size: 14px; color: var(--gray-400); line-height: 1.6; }
+
+  /* LOYALTY */
+  .loyalty-section { background: var(--gray-800); padding: 80px 0; }
+  .loyalty-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .loyalty-container { margin-top: 48px; }
+  .tier-selector { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+  .tier-btn {
+    padding: 12px 24px; font-family: 'Oswald', sans-serif;
+    font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    border: 3px solid var(--gray-600); background: transparent;
+    color: var(--gray-400); cursor: pointer; border-radius: 2px; transition: all 0.2s;
+  }
+  .tier-btn.bronze { --tier-color: #CD7F32; }
+  .tier-btn.prata { --tier-color: #A8A9AD; }
+  .tier-btn.ouro { --tier-color: #FFD700; }
+  .tier-btn.master { --tier-color: var(--ember); }
+  .tier-btn.active {
+    border-color: var(--tier-color, var(--ember));
+    color: var(--tier-color, var(--ember));
+    background: rgba(0,0,0,0.2);
+  }
+  .tier-btn:hover {
+    border-color: var(--tier-color, var(--ember));
+    color: var(--tier-color, var(--ember));
+  }
+
+  .loyalty-card {
+    background: var(--charcoal); border: 3px solid var(--gray-600);
+    border-radius: 4px; padding: 36px; max-width: 700px;
+    transition: border-color 0.3s;
+  }
+  .loyalty-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .tier-name {
+    font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: color 0.3s;
+  }
+  .tier-badge {
+    font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 6px 16px; border-radius: 2px; border: 2px solid currentColor;
+  }
+  .points-section { margin-bottom: 28px; }
+  .points-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .points-label {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .points-val { font-size: 13px; color: var(--gray-400); }
+  .points-val strong { color: var(--ember); font-family: 'Oswald', sans-serif; font-size: 15px; }
+  .points-bar {
+    height: 12px; background: var(--gray-800); border-radius: 6px; overflow: hidden;
+    border: 1px solid var(--gray-600);
+  }
+  .points-fill {
+    height: 100%; border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+  }
+  .benefits-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .benefit-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s;
+  }
+  .benefit-item.unlocked { border-color: var(--forest); background: rgba(74,124,89,0.1); }
+  .benefit-item.locked { border-color: var(--gray-600); opacity: 0.5; filter: grayscale(0.5); }
+  .benefit-icon { font-size: 16px; flex-shrink: 0; }
+  .benefit-text { font-size: 13px; line-height: 1.3; }
+  .benefit-text strong {
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.04em;
+    display: block;
+  }
+  .benefit-text span { font-size: 11px; color: var(--gray-400); }
+
+  /* FOOTER */
+  footer {
+    background: #0D0905; border-top: 4px solid var(--ember);
+    padding: 60px 40px 40px; max-width: none;
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand-name {
+    font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700;
+    color: var(--ember); text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+  .footer-brand-desc { font-size: 14px; color: var(--gray-400); line-height: 1.7; max-width: 280px; margin-bottom: 24px; }
+  .social-links { display: flex; gap: 12px; }
+  .social-link {
+    width: 40px; height: 40px; background: var(--gray-800);
+    border: 2px solid var(--gray-600); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray-400); font-size: 16px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-link:hover { border-color: var(--ember); color: var(--ember); }
+  .footer-col h4 {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--cream); text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    color: var(--gray-400); text-decoration: none; font-size: 14px;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--ember); }
+  .footer-bottom {
+    border-top: 1px solid var(--gray-800); padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 12px; color: var(--gray-600); }
+</style>
+</head>
+<body>
+
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">CHURRASQUEIRO <span>PRO</span></a>
+  <div class="nav-links">
+    <a href="#produtos">Produtos</a>
+    <a href="#monte">Monte sua Grelha</a>
+    <a href="#calculadora">Calculadora</a>
+    <a href="#comunidade">Comunidade</a>
+    <a href="#clube">Clube</a>
+  </div>
+  <button class="nav-cart">🔥 Ver Carrinho (0)</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🔥 Equipamentos para Churrasco</div>
+    <h1>
+      EQUIPE SEU
+      <span class="accent">CHURRASCO</span>
+      DOS SONHOS
+    </h1>
+    <p class="hero-sub">Ferramentas, churrasqueiras e acessórios para quem leva a grelha a sério. Qualidade profissional, espírito de quintal.</p>
+    <div class="hero-ctas">
+      <a href="#produtos" class="btn-primary">Ver Produtos</a>
+      <a href="#monte" class="btn-outline">Monte sua Churrasqueira</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">120K+</div>
+      <div class="hero-stat-label">Churrasqueiros</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4.9★</div>
+      <div class="hero-stat-label">Avaliação Média</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">15 Anos</div>
+      <div class="hero-stat-label">Na Brasa</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products-section" id="produtos">
+  <div class="products-inner">
+    <div class="section-label">Nossa Linha</div>
+    <div class="section-title">EQUIPAMENTOS DE VERDADE</div>
+    <div class="divider"></div>
+    <div class="section-desc">Do iniciante ao mestre das brasas, temos tudo que você precisa para um churrasco inesquecível.</div>
+    <div class="products-grid">
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Churrasqueira" class="product-img">
+        <div class="product-badge">Best Seller</div>
+        <div class="product-info">
+          <div class="product-name">Churrasqueira Inox Pro</div>
+          <div class="product-desc">Aço inox 304, grelha dupla removível, regulagem de altura. Feita para durar décadas.</div>
+          <div class="product-footer">
+            <div class="product-price">R$1.890</div>
+            <button class="product-add">+ Carrinho</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Kit Ferramentas" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Kit Ferramentas</div>
+          <div class="product-desc">Espátula, garfo trinchante, pinça e pegador. Aço inox, cabo de madeira nobre.</div>
+          <div class="product-footer">
+            <div class="product-price">R$290</div>
+            <button class="product-add">+ Carrinho</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="Termômetro" class="product-img">
+        <div class="product-badge">Novo</div>
+        <div class="product-info">
+          <div class="product-name">Termômetro Digital</div>
+          <div class="product-desc">Leitura instantânea em 3 segundos. Precisão ±0.5°C. Display backlit.</div>
+          <div class="product-footer">
+            <div class="product-price">R$189</div>
+            <button class="product-add">+ Carrinho</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80" alt="Carvão" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Carvão Premium 10kg</div>
+          <div class="product-desc">Eucalipto selecionado, baixa fumaça, alta durabilidade. Brasa uniforme e duradoura.</div>
+          <div class="product-footer">
+            <div class="product-price">R$89</div>
+            <button class="product-add">+ Carrinho</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80" alt="Espetos" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Espetos Inox 6pçs</div>
+          <div class="product-desc">60cm, aço inox 18/8, ponta bisel dupla. Conjunto com suporte de faca incluso.</div>
+          <div class="product-footer">
+            <div class="product-price">R$149</div>
+            <button class="product-add">+ Carrinho</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIGURATOR -->
+<div class="configurator-section" id="monte">
+  <div class="configurator-inner">
+    <div class="section-label">Personalize</div>
+    <div class="section-title">MONTE SUA CHURRASQUEIRA</div>
+    <div class="divider"></div>
+    <div class="section-desc">Configure a churrasqueira ideal para o seu espaço e estilo. Veja o preço atualizar em tempo real.</div>
+    <div class="configurator-grid">
+      <div class="config-panel">
+        <div class="config-group">
+          <div class="config-label"><span class="step">1</span> Tipo</div>
+          <div class="config-options" id="cfg-type">
+            <button class="config-option active" data-price="0" onclick="setConfig('type', this, 0)">A Carvão</button>
+            <button class="config-option" data-price="400" onclick="setConfig('type', this, 400)">A Gás</button>
+            <button class="config-option" data-price="300" onclick="setConfig('type', this, 300)">Elétrica</button>
+          </div>
+        </div>
+        <div class="config-group">
+          <div class="config-label"><span class="step">2</span> Tamanho</div>
+          <div class="config-options" id="cfg-size">
+            <button class="config-option active" data-price="0" onclick="setConfig('size', this, 0)">Pequena</button>
+            <button class="config-option" data-price="200" onclick="setConfig('size', this, 200)">Média</button>
+            <button class="config-option" data-price="500" onclick="setConfig('size', this, 500)">Grande</button>
+            <button class="config-option" data-price="900" onclick="setConfig('size', this, 900)">Profissional</button>
+          </div>
+        </div>
+        <div class="config-group">
+          <div class="config-label"><span class="step">3</span> Material</div>
+          <div class="config-options" id="cfg-material">
+            <button class="config-option active" data-price="0" onclick="setConfig('material', this, 0)">Aço Inox</button>
+            <button class="config-option" data-price="150" onclick="setConfig('material', this, 150)">Ferro Fundido</button>
+            <button class="config-option" data-price="-100" onclick="setConfig('material', this, -100)">Alumínio</button>
+          </div>
+        </div>
+        <div class="config-group">
+          <div class="config-label"><span class="step">4</span> Extras</div>
+          <div class="config-extras" id="cfg-extras">
+            <label class="config-extra" onclick="toggleExtra(this, 189)">
+              <input type="checkbox">
+              <div class="config-extra-check">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="config-extra-info">
+                <div class="config-extra-name">Termômetro Integrado</div>
+                <div class="config-extra-price">+ R$189</div>
+              </div>
+            </label>
+            <label class="config-extra" onclick="toggleExtra(this, 120)">
+              <input type="checkbox">
+              <div class="config-extra-check">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="config-extra-info">
+                <div class="config-extra-name">Rodas com Trava</div>
+                <div class="config-extra-price">+ R$120</div>
+              </div>
+            </label>
+            <label class="config-extra" onclick="toggleExtra(this, 90)">
+              <input type="checkbox">
+              <div class="config-extra-check">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="config-extra-info">
+                <div class="config-extra-name">Prateleira Lateral</div>
+                <div class="config-extra-price">+ R$90</div>
+              </div>
+            </label>
+            <label class="config-extra" onclick="toggleExtra(this, 75)">
+              <input type="checkbox">
+              <div class="config-extra-check">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="config-extra-info">
+                <div class="config-extra-name">Capa Protetora</div>
+                <div class="config-extra-price">+ R$75</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-summary">
+        <div class="summary-title">Sua Configuração</div>
+        <div class="summary-item">
+          <span class="summary-item-name">Tipo</span>
+          <span class="summary-item-val" id="sum-type">A Carvão</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-item-name">Tamanho</span>
+          <span class="summary-item-val" id="sum-size">Pequena</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-item-name">Material</span>
+          <span class="summary-item-val" id="sum-material">Aço Inox</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-item-name">Extras</span>
+          <span class="summary-item-val" id="sum-extras">Nenhum</span>
+        </div>
+        <div class="summary-total">
+          <span class="summary-total-label">Total</span>
+          <span class="summary-total-price" id="sum-total">R$1.890</span>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:20px;text-align:center;">Adicionar ao Carrinho</button>
+        <button class="share-btn" onclick="shareConfig()">Compartilhar Configuração</button>
+        <div class="share-url" id="share-url"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="calc-section" id="calculadora">
+  <div class="calc-inner">
+    <div class="section-label">Planeje com precisão</div>
+    <div class="section-title">CALCULADORA DO CHURRASCO</div>
+    <div class="divider"></div>
+    <div class="section-desc">Quantas pessoas? Qual o estilo? A gente calcula tudo que você precisa comprar — sem desperdício, sem faltar.</div>
+    <div class="calc-grid">
+      <div class="calc-controls">
+        <div class="calc-field">
+          <div class="calc-field-label">
+            Número de Convidados
+            <span id="guests-val">10</span>
+          </div>
+          <input type="range" class="range-slider" id="guests-slider" min="1" max="50" value="10" oninput="updateCalc()">
+        </div>
+        <div class="calc-field">
+          <div class="calc-field-label">Duração do Churrasco</div>
+          <div class="duration-options">
+            <button class="duration-option active" data-mult="1" onclick="setDuration(this)">2h</button>
+            <button class="duration-option" data-mult="1.2" onclick="setDuration(this)">3h</button>
+            <button class="duration-option" data-mult="1.5" onclick="setDuration(this)">4h+</button>
+          </div>
+        </div>
+        <div class="calc-field">
+          <div class="calc-field-label">Estilo de Churrasco</div>
+          <div class="meat-options">
+            <button class="meat-option" data-meat="0.8" onclick="setMeat(this)">Simples</button>
+            <button class="meat-option active" data-meat="1.0" onclick="setMeat(this)">Médio</button>
+            <button class="meat-option" data-meat="1.3" onclick="setMeat(this)">Carnívoro</button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-results" id="calc-results">
+        <div class="calc-card" id="card-picanha">
+          <div class="calc-card-icon">🥩</div>
+          <div class="calc-card-label">Picanha</div>
+          <div class="calc-card-value" id="val-picanha">2.0</div>
+          <div class="calc-card-unit">kg</div>
+        </div>
+        <div class="calc-card" id="card-fraldinha">
+          <div class="calc-card-icon">🍖</div>
+          <div class="calc-card-label">Fraldinha</div>
+          <div class="calc-card-value" id="val-fraldinha">1.5</div>
+          <div class="calc-card-unit">kg</div>
+        </div>
+        <div class="calc-card" id="card-linguica">
+          <div class="calc-card-icon">🌭</div>
+          <div class="calc-card-label">Linguiça</div>
+          <div class="calc-card-value" id="val-linguica">1.2</div>
+          <div class="calc-card-unit">kg</div>
+        </div>
+        <div class="calc-card" id="card-frango">
+          <div class="calc-card-icon">🍗</div>
+          <div class="calc-card-label">Frango</div>
+          <div class="calc-card-value" id="val-frango">1.0</div>
+          <div class="calc-card-unit">kg</div>
+        </div>
+        <div class="calc-card highlight" id="card-carvao">
+          <div class="calc-card-icon">🔥</div>
+          <div class="calc-card-label">Carvão</div>
+          <div class="calc-card-value" id="val-carvao">3.0</div>
+          <div class="calc-card-unit">kg</div>
+        </div>
+        <div class="calc-card highlight" id="card-cerveja">
+          <div class="calc-card-icon">🍺</div>
+          <div class="calc-card-label">Bebidas</div>
+          <div class="calc-card-value" id="val-cerveja">20</div>
+          <div class="calc-card-unit">unidades</div>
+        </div>
+        <div class="calc-card calc-total">
+          <div class="calc-card-icon">💰</div>
+          <div class="calc-card-label">Custo Estimado Carnes</div>
+          <div class="calc-card-value" id="val-custo">R$320</div>
+          <div class="calc-card-unit">com nossos produtos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY FEED -->
+<div class="feed-section" id="comunidade">
+  <div class="feed-inner">
+    <div class="feed-header">
+      <div>
+        <div class="section-label">Comunidade</div>
+        <div class="section-title">DICAS DE +120MIL CHURRASQUEIROS</div>
+        <div class="divider"></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Oswald',sans-serif;font-size:15px;color:var(--gray-400);">Faça parte da nossa</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--ember);">COMUNIDADE APAIXONADA</div>
+      </div>
+    </div>
+    <div class="feed-grid" id="feed-grid">
+      <!-- Cards injected by JS -->
+    </div>
+    <div class="load-more-wrap">
+      <button class="load-more-btn" onclick="loadMore()">Carregar mais dicas</button>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-section">
+  <div class="testimonials-inner">
+    <div class="section-label">Depoimentos</div>
+    <div class="section-title">QUEM JÁ ACENDEU A BRASA</div>
+    <div class="divider"></div>
+    <div class="section-desc">Histórias reais de churrasqueiros que encontraram o equipamento certo.</div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card" onclick="openModal(0)">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Depoimento" class="testimonial-img">
+        <div class="testimonial-overlay"></div>
+        <div class="testimonial-play">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="white"><path d="M1 1L17 10L1 19V1Z"/></svg>
+        </div>
+        <div class="testimonial-content">
+          <div class="testimonial-quote">"A Churrasqueira Inox Pro mudou completamente meu final de semana. Distribui calor de forma perfeita, sem aqueles pontos frios de sempre."</div>
+          <div class="testimonial-author">— Carlos Mendes, São Paulo</div>
+        </div>
+      </div>
+      <div class="testimonial-card" onclick="openModal(1)">
+        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80" alt="Depoimento" class="testimonial-img">
+        <div class="testimonial-overlay"></div>
+        <div class="testimonial-play">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="white"><path d="M1 1L17 10L1 19V1Z"/></svg>
+        </div>
+        <div class="testimonial-content">
+          <div class="testimonial-quote">"Comprei o kit completo para o churrasco do meu aniversário. 30 pessoas, 4 horas, ninguém ficou com fome. O termômetro foi um divisor de águas."</div>
+          <div class="testimonial-author">— Ana Rodrigues, Belo Horizonte</div>
+        </div>
+      </div>
+      <div class="testimonial-card" onclick="openModal(2)">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="Depoimento" class="testimonial-img">
+        <div class="testimonial-overlay"></div>
+        <div class="testimonial-play">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="white"><path d="M1 1L17 10L1 19V1Z"/></svg>
+        </div>
+        <div class="testimonial-content">
+          <div class="testimonial-quote">"Profissional de cozinha faz anos. Nunca achei um equipamento de churrasco que chegasse perto da qualidade que o CHURRASQUEIRO PRO entrega."</div>
+          <div class="testimonial-author">— Chef Renato Lima, Rio de Janeiro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOYALTY -->
+<div class="loyalty-section" id="clube">
+  <div class="loyalty-inner">
+    <div class="section-label">Programa de Fidelidade</div>
+    <div class="section-title">CLUBE DO CHURRASQUEIRO</div>
+    <div class="divider"></div>
+    <div class="section-desc">Acumule pontos a cada compra e desbloqueie benefícios exclusivos para verdadeiros mestres da brasa.</div>
+    <div class="loyalty-container">
+      <div class="tier-selector">
+        <button class="tier-btn bronze active" onclick="setTier('bronze', this)">🥉 Bronze</button>
+        <button class="tier-btn prata" onclick="setTier('prata', this)">🥈 Prata</button>
+        <button class="tier-btn ouro" onclick="setTier('ouro', this)">🥇 Ouro</button>
+        <button class="tier-btn master" onclick="setTier('master', this)">🔥 Master</button>
+      </div>
+      <div class="loyalty-card" id="loyalty-card">
+        <div class="loyalty-card-header">
+          <div class="tier-name" id="tier-name">Bronze</div>
+          <div class="tier-badge" id="tier-badge">Iniciante</div>
+        </div>
+        <div class="points-section">
+          <div class="points-header">
+            <div class="points-label">Pontos</div>
+            <div class="points-val"><strong id="pts-current">850</strong> / <span id="pts-next">1.500</span> pts para o próximo nível</div>
+          </div>
+          <div class="points-bar">
+            <div class="points-fill" id="points-fill" style="width:57%;background:var(--ember)"></div>
+          </div>
+        </div>
+        <div class="benefits-list" id="benefits-list">
+          <!-- Benefits injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">CHURRASQUEIRO PRO</div>
+        <div class="footer-brand-desc">Equipamentos e acessórios para quem leva o churrasco a sério. Qualidade de churrasqueiro profissional para o seu quintal.</div>
+        <div class="social-links">
+          <a class="social-link" href="#">📷</a>
+          <a class="social-link" href="#">📘</a>
+          <a class="social-link" href="#">🐦</a>
+          <a class="social-link" href="#">📺</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Produtos</h4>
+        <ul>
+          <li><a href="#">Churrasqueiras</a></li>
+          <li><a href="#">Ferramentas</a></li>
+          <li><a href="#">Espetos</a></li>
+          <li><a href="#">Termômetros</a></li>
+          <li><a href="#">Carvão</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Clube Churrasqueiro</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Trabalhe Conosco</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Atendimento</h4>
+        <ul>
+          <li><a href="#">Frete e Entrega</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+          <li><a href="#">Garantia</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 CHURRASQUEIRO PRO. Todos os direitos reservados.</div>
+      <div class="footer-copy">Feito com 🔥 para churrasqueiros apaixonados</div>
+    </div>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="video-modal" onclick="closeModalOutside(event)">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="video-player">
+      <img id="modal-img" src="" alt="Video">
+      <div class="video-controls">
+        <div class="video-big-play">
+          <svg width="22" height="26" viewBox="0 0 22 26" fill="white"><path d="M1 1L21 13L1 25V1Z"/></svg>
+        </div>
+        <div class="video-bar">
+          <span class="video-time">1:24</span>
+          <div class="video-progress"><div class="video-progress-fill"></div></div>
+          <span class="video-time">4:02</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-info">
+      <h3 id="modal-title">Depoimento</h3>
+      <p id="modal-desc">Confira o depoimento completo deste churrasqueiro apaixonado.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ CONFIGURATOR ============
+const BASE_PRICE = 1890;
+let configPrices = { type: 0, size: 0, material: 0, extras: 0 };
+let configNames = { type: 'A Carvão', size: 'Pequena', material: 'Aço Inox' };
+
+function setConfig(group, btn, price) {
+  const container = btn.parentElement;
+  container.querySelectorAll('.config-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  configPrices[group] = price;
+  configNames[group] = btn.textContent;
+  document.getElementById('sum-' + group).textContent = btn.textContent;
+  updateSummary();
+}
+
+function toggleExtra(label, price) {
+  event.stopPropagation();
+  label.classList.toggle('checked');
+  const checked = document.querySelectorAll('.config-extra.checked');
+  const names = [];
+  let total = 0;
+  checked.forEach(el => {
+    names.push(el.querySelector('.config-extra-name').textContent);
+    total += parseInt(el.getAttribute('data-price') || 0);
+  });
+  label.setAttribute('data-price', price);
+  // recalc all
+  let extrasTotal = 0;
+  const allExtras = document.querySelectorAll('.config-extra.checked');
+  const extraNames = [];
+  allExtras.forEach(el => {
+    const p = parseInt(el.querySelector('.config-extra-price').textContent.replace(/\D/g,''));
+    extrasTotal += p;
+    extraNames.push(el.querySelector('.config-extra-name').textContent);
+  });
+  configPrices.extras = extrasTotal;
+  document.getElementById('sum-extras').textContent = extraNames.length > 0 ? extraNames.join(', ') : 'Nenhum';
+  updateSummary();
+}
+
+function updateSummary() {
+  const total = BASE_PRICE + configPrices.type + configPrices.size + configPrices.material + configPrices.extras;
+  const el = document.getElementById('sum-total');
+  el.textContent = 'R$' + total.toLocaleString('pt-BR');
+  el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 350);
+}
+
+function shareConfig() {
+  const hash = btoa(JSON.stringify(configPrices)).substring(0, 16);
+  const url = `https://churrasqueiropro.com.br/configuracao/${hash}`;
+  const box = document.getElementById('share-url');
+  box.textContent = url;
+  box.classList.add('visible');
+  setTimeout(() => box.classList.remove('visible'), 4000);
+}
+
+// ============ CALCULATOR ============
+let calcDuration = 1.0;
+let calcMeat = 1.0;
+
+function updateCalc() {
+  const guests = parseInt(document.getElementById('guests-slider').value);
+  document.getElementById('guests-val').textContent = guests;
+
+  const perPerson = 0.4;
+  const p = guests * perPerson * calcDuration * calcMeat;
+
+  const vals = {
+    picanha: (p * 0.35).toFixed(1),
+    fraldinha: (p * 0.25).toFixed(1),
+    linguica: (p * 0.20).toFixed(1),
+    frango: (p * 0.20).toFixed(1),
+    carvao: Math.max(2, (guests * 0.3 * calcDuration).toFixed(1)),
+    cerveja: Math.ceil(guests * 2 * calcDuration)
+  };
+
+  const custo = ((parseFloat(vals.picanha) * 89) + (parseFloat(vals.fraldinha) * 55) + (parseFloat(vals.linguica) * 28) + (parseFloat(vals.frango) * 22)).toFixed(0);
+
+  const fields = ['picanha', 'fraldinha', 'linguica', 'frango', 'carvao', 'cerveja'];
+  fields.forEach(f => {
+    const el = document.getElementById('val-' + f);
+    el.classList.add('updating');
+    setTimeout(() => {
+      el.textContent = vals[f];
+      el.classList.remove('updating');
+    }, 150);
+  });
+
+  const custoEl = document.getElementById('val-custo');
+  custoEl.classList.add('updating');
+  setTimeout(() => {
+    custoEl.textContent = 'R$' + parseInt(custo).toLocaleString('pt-BR');
+    custoEl.classList.remove('updating');
+  }, 150);
+}
+
+function setDuration(btn) {
+  document.querySelectorAll('.duration-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcDuration = parseFloat(btn.dataset.mult);
+  updateCalc();
+}
+
+function setMeat(btn) {
+  document.querySelectorAll('.meat-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcMeat = parseFloat(btn.dataset.meat);
+  updateCalc();
+}
+
+// ============ COMMUNITY FEED ============
+const allPosts = [
+  { name: 'Ricardo S.', loc: 'São Paulo, SP', color: '#CC4400', tag: '🔥 Dica de Brasa', text: 'Sempre aquecimento o carvão no mínimo 30 minutos antes. Paciência é o segredo de uma picanha no ponto. Nunca apresse a brasa!', likes: 234 },
+  { name: 'Fernanda L.', loc: 'Curitiba, PR', color: '#4A7C59', tag: '🥩 Corte Premium', text: 'Sal grosso só na hora de colocar na grelha. Temperar antes tira a umidade da carne. Simples assim. O erro mais comum que vejo.', likes: 189 },
+  { name: 'Marcos A.', loc: 'Porto Alegre, RS', color: '#8B4513', tag: '⚡ Truque Rápido', text: 'Termômetro digital é obrigatório. Picanha ideal: 57-60°C internos. Acabei com churrasco mal passado na minha vida depois disso.', likes: 312 },
+  { name: 'Juliana C.', loc: 'Rio de Janeiro, RJ', color: '#CC4400', tag: '🍖 Corte Especial', text: 'Fraldinha é o corte mais subestimado do Brasil. Faz o mesmo processo da picanha, você vai se surpreender com o sabor intenso.', likes: 156 },
+  { name: 'Paulo M.', loc: 'Belo Horizonte, MG', color: '#4A7C59', tag: '🔥 Dica de Brasa', text: 'Carvão de eucalipto dura mais e faz menos fumaça. Invisto sempre no carvão premium — faz diferença total no resultado final.', likes: 278 },
+  { name: 'Carla R.', loc: 'Campinas, SP', color: '#8B4513', tag: '👨‍👩‍👧‍👦 Churras em Família', text: 'Para churrasco com crianças: linguiça primeiro, bem passada. Os adultos ficam felizes esperando pela picanha enquanto as crianças comem.', likes: 445 },
+  { name: 'Diego F.', loc: 'Florianópolis, SC', color: '#CC4400', tag: '🥩 Corte Premium', text: 'Maminha na churrasqueira: coloque com o lado da gordura para cima. A gordura vai derreter e regar a carne durante todo o processo. Incrível.', likes: 203 },
+  { name: 'Tatiane B.', loc: 'Goiânia, GO', color: '#4A7C59', tag: '⚡ Truque Rápido', text: 'Grelha fria é crime. Sempre aqueça e limpe a grelha com meio cebola antes de colocar qualquer carne. Além de limpar, lubrifica naturalmente.', likes: 167 },
+  { name: 'Roberto N.', loc: 'Salvador, BA', color: '#8B4513', tag: '🔥 Dica de Brasa', text: 'Carne de segunda na churrasqueira fica melhor que corte nobre mal preparado. Técnica é tudo. Comecei com acém e nunca mais parei.', likes: 389 },
+];
+
+let postsShown = 6;
+
+function renderPost(post, isNew = false) {
+  return `
+    <div class="feed-card${isNew ? ' new-card' : ''}">
+      <div class="feed-card-header">
+        <div class="feed-avatar" style="background:${post.color}">${post.name[0]}</div>
+        <div>
+          <div class="feed-user-name">${post.name}</div>
+          <div class="feed-user-loc">📍 ${post.loc}</div>
+        </div>
+      </div>
+      <div class="feed-text">${post.text}</div>
+      <div class="feed-footer">
+        <div class="feed-tag">${post.tag}</div>
+        <button class="feed-like" onclick="toggleLike(this)" data-liked="false">
+          <span class="heart-icon">🤍</span>
+          <span class="like-count">${post.likes}</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function initFeed() {
+  const grid = document.getElementById('feed-grid');
+  grid.innerHTML = allPosts.slice(0, postsShown).map(p => renderPost(p)).join('');
+}
+
+function loadMore() {
+  const grid = document.getElementById('feed-grid');
+  const end = Math.min(postsShown + 3, allPosts.length);
+  for (let i = postsShown; i < end; i++) {
+    grid.insertAdjacentHTML('beforeend', renderPost(allPosts[i], true));
+  }
+  postsShown = end;
+  if (postsShown >= allPosts.length) {
+    document.querySelector('.load-more-btn').textContent = 'Você viu todas as dicas!';
+    document.querySelector('.load-more-btn').disabled = true;
+  }
+}
+
+function toggleLike(btn) {
+  const isLiked = btn.dataset.liked === 'true';
+  const heart = btn.querySelector('.heart-icon');
+  const count = btn.querySelector('.like-count');
+  const current = parseInt(count.textContent);
+
+  if (isLiked) {
+    btn.dataset.liked = 'false';
+    btn.classList.remove('liked');
+    heart.textContent = '🤍';
+    count.textContent = current - 1;
+  } else {
+    btn.dataset.liked = 'true';
+    btn.classList.add('liked');
+    heart.textContent = '❤️';
+    heart.classList.add('liked');
+    setTimeout(() => heart.classList.remove('liked'), 400);
+    count.textContent = current + 1;
+  }
+}
+
+// ============ TESTIMONIALS ============
+const modalData = [
+  { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', title: 'Carlos Mendes — São Paulo', desc: 'Engenheiro e churrasqueiro de plantão. Usa a Churrasqueira Inox Pro há 2 anos em todos os finais de semana.' },
+  { img: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80', title: 'Ana Rodrigues — Belo Horizonte', desc: 'Contabilista e apaixonada por reunir família e amigos. Seu churrasco de aniversário virou tradição no bairro.' },
+  { img: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80', title: 'Chef Renato Lima — Rio de Janeiro', desc: 'Chef profissional com 15 anos de experiência. Hoje usa exclusivamente equipamentos CHURRASQUEIRO PRO em eventos.' }
+];
+
+function openModal(idx) {
+  const d = modalData[idx];
+  document.getElementById('modal-img').src = d.img;
+  document.getElementById('modal-title').textContent = d.title;
+  document.getElementById('modal-desc').textContent = d.desc;
+  document.getElementById('video-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('video-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('video-modal')) closeModal();
+}
+
+// ============ LOYALTY ============
+const tierData = {
+  bronze: {
+    name: 'Bronze', badge: 'Iniciante', color: '#CD7F32',
+    pts: 850, next: 1500, pct: 57,
+    benefits: [
+      { name: 'Frete Grátis', desc: 'Compras acima de R$200', unlocked: true },
+      { name: '5% de Desconto', desc: 'Em todos os produtos', unlocked: true },
+      { name: 'Acesso Antecipado', desc: 'Novos produtos', unlocked: false },
+      { name: 'Cashback 2%', desc: 'Em toda compra', unlocked: false },
+      { name: 'Brinde Aniversário', desc: 'Kit Ferramentas', unlocked: false },
+      { name: 'Suporte Prioritário', desc: 'Chat exclusivo', unlocked: false },
+    ]
+  },
+  prata: {
+    name: 'Prata', badge: 'Experiente', color: '#A8A9AD',
+    pts: 2100, next: 3500, pct: 60,
+    benefits: [
+      { name: 'Frete Grátis', desc: 'Em todas as compras', unlocked: true },
+      { name: '10% de Desconto', desc: 'Em todos os produtos', unlocked: true },
+      { name: 'Acesso Antecipado', desc: 'Novos produtos', unlocked: true },
+      { name: 'Cashback 3%', desc: 'Em toda compra', unlocked: true },
+      { name: 'Brinde Aniversário', desc: 'Kit Ferramentas', unlocked: false },
+      { name: 'Suporte Prioritário', desc: 'Chat exclusivo', unlocked: false },
+    ]
+  },
+  ouro: {
+    name: 'Ouro', badge: 'Mestre da Brasa', color: '#FFD700',
+    pts: 5800, next: 8000, pct: 72,
+    benefits: [
+      { name: 'Frete Grátis', desc: 'Em todas as compras', unlocked: true },
+      { name: '15% de Desconto', desc: 'Em todos os produtos', unlocked: true },
+      { name: 'Acesso Antecipado', desc: 'Novos produtos', unlocked: true },
+      { name: 'Cashback 5%', desc: 'Em toda compra', unlocked: true },
+      { name: 'Brinde Aniversário', desc: 'Carvão Premium 20kg', unlocked: true },
+      { name: 'Suporte Prioritário', desc: 'Chat exclusivo', unlocked: false },
+    ]
+  },
+  master: {
+    name: 'Master', badge: 'Lenda do Churrasco', color: '#CC4400',
+    pts: 12400, next: null, pct: 100,
+    benefits: [
+      { name: 'Frete Grátis', desc: 'Em todas as compras', unlocked: true },
+      { name: '20% de Desconto', desc: 'Em todos os produtos', unlocked: true },
+      { name: 'Acesso VIP', desc: 'Pré-lançamentos exclusivos', unlocked: true },
+      { name: 'Cashback 8%', desc: 'Em toda compra', unlocked: true },
+      { name: 'Brinde Aniversário', desc: 'Churrasqueira Inox Pro', unlocked: true },
+      { name: 'Suporte Dedicado', desc: 'Linha direta + WhatsApp', unlocked: true },
+    ]
+  }
+};
+
+function setTier(tier, btn) {
+  document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = tierData[tier];
+
+  document.getElementById('tier-name').textContent = d.name;
+  document.getElementById('tier-name').style.color = d.color;
+  document.getElementById('tier-badge').textContent = d.badge;
+  document.getElementById('tier-badge').style.color = d.color;
+  document.getElementById('tier-badge').style.borderColor = d.color;
+  document.getElementById('loyalty-card').style.borderColor = d.color;
+
+  document.getElementById('pts-current').textContent = d.pts.toLocaleString('pt-BR');
+  document.getElementById('pts-next').textContent = d.next ? d.next.toLocaleString('pt-BR') : '∞';
+
+  const fill = document.getElementById('points-fill');
+  fill.style.width = '0%';
+  fill.style.background = d.color;
+  setTimeout(() => { fill.style.width = d.pct + '%'; }, 50);
+
+  const icons = ['🚚', '💸', '⚡', '🔄', '🎁', '💬'];
+  const list = document.getElementById('benefits-list');
+  list.innerHTML = d.benefits.map((b, i) => `
+    <div class="benefit-item ${b.unlocked ? 'unlocked' : 'locked'}">
+      <div class="benefit-icon">${b.unlocked ? icons[i] : '🔒'}</div>
+      <div class="benefit-text">
+        <strong>${b.name}</strong>
+        <span>${b.desc}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ INIT ============
+initFeed();
+setTier('bronze', document.querySelector('.tier-btn.bronze'));
+updateCalc();
+</script>
+</body>
+</html>

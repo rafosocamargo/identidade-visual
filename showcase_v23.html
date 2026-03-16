@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VELVET ATELIER — Móveis Sob Medida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #0D1117;
+      --forest: #1A2F1E;
+      --gold: #C9A96E;
+      --gold-light: #E2C48A;
+      --velvet-red: #8B0000;
+      --ivory: #F5F0E8;
+      --ivory-dark: #E8E0D0;
+      --charcoal: #1C1C1C;
+      --dark-surface: #111820;
+      --card-bg: #141B22;
+      --border: rgba(201,169,110,0.2);
+      --text-muted: rgba(245,240,232,0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--ivory);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── Back Button ─── */
+    .back-btn {
+      position: fixed; top: 16px; left: 16px; z-index: 9999;
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      color: #fff; text-decoration: none;
+      font-family: system-ui, sans-serif; font-size: 12px;
+      font-weight: 500; letter-spacing: .03em;
+      border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: rgba(0,0,0,0.75); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px;
+      height: 80px;
+      background: transparent;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(13,17,23,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 400;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .nav-logo span { font-style: italic; font-weight: 300; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--ivory);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      padding: 10px 24px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--void); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=80');
+      background-size: cover; background-position: center;
+      transform: scale(1.1);
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(13,17,23,0.85) 0%,
+        rgba(26,47,30,0.6) 50%,
+        rgba(13,17,23,0.9) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 40px;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 8vw, 100px);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--ivory);
+      margin-bottom: 16px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(245,240,232,0.7);
+      margin-bottom: 48px;
+      letter-spacing: 0.05em;
+    }
+    .hero-actions { display: flex; gap: 20px; justify-content: center; align-items: center; }
+    .btn-primary {
+      padding: 16px 44px;
+      background: var(--gold);
+      color: var(--void);
+      border: none;
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      padding: 15px 44px;
+      background: transparent;
+      color: var(--ivory);
+      border: 1px solid rgba(245,240,232,0.3);
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text-muted);
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, transparent, var(--gold));
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 120px 60px; }
+    .section-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(38px, 5vw, 60px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+      margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-desc {
+      font-size: 15px; font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+    .gold-rule {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 28px 0;
+    }
+
+    /* ─── PHILOSOPHY ─── */
+    .philosophy {
+      background: var(--dark-surface);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .philosophy-image {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+    }
+    .philosophy-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8) saturate(0.9);
+      transition: transform 0.8s ease;
+    }
+    .philosophy-image:hover img { transform: scale(1.04); }
+    .philosophy-image::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,47,30,0.3), transparent);
+    }
+    .philosophy-image-frame {
+      position: absolute;
+      top: -12px; left: -12px; right: 12px; bottom: 12px;
+      border: 1px solid var(--gold);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .philosophy-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 28px; margin-top: 48px;
+    }
+    .stat-item { border-left: 2px solid var(--gold); padding-left: 20px; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px; font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label { font-size: 12px; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 6px; }
+
+    /* ─── PORTFOLIO GRID ─── */
+    .portfolio { background: var(--void); }
+    .portfolio-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    .portfolio-grid {
+      columns: 3;
+      column-gap: 20px;
+    }
+    .portfolio-item {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-item img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.85) saturate(0.8);
+      transition: all 0.5s ease;
+    }
+    .portfolio-item:hover img {
+      filter: brightness(0.6) saturate(0.7);
+      transform: scale(1.03);
+    }
+    .portfolio-item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,17,23,0.9) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: flex-end;
+      padding: 24px;
+    }
+    .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
+    .portfolio-item-info { }
+    .portfolio-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 400;
+      color: var(--ivory);
+    }
+    .portfolio-item-type {
+      font-size: 11px; letter-spacing: 0.15em;
+      color: var(--gold); margin-top: 4px;
+    }
+    .portfolio-expand-icon {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.6);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.4s;
+      color: var(--gold); font-size: 18px;
+    }
+    .portfolio-item:hover .portfolio-expand-icon { opacity: 1; }
+
+    /* ─── CONFIGURATOR ─── */
+    .configurator {
+      background: var(--dark-surface);
+      padding: 120px 0;
+    }
+    .configurator-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .config-visual {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+    }
+    .config-image {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.5s ease;
+    }
+    .config-color-overlay {
+      position: absolute; inset: 0;
+      mix-blend-mode: color;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .config-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(13,17,23,0.85);
+      border: 1px solid var(--gold);
+      padding: 8px 16px;
+      font-size: 11px; letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .config-panel { }
+    .config-panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px; font-weight: 300;
+      color: var(--ivory);
+      margin-bottom: 8px;
+    }
+    .config-panel-sub {
+      font-size: 13px; color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 40px;
+    }
+    .config-group { margin-bottom: 32px; }
+    .config-group-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .fabric-swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+    .swatch {
+      width: 52px; height: 52px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .swatch:hover { transform: scale(1.1); }
+    .swatch.active {
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+    .swatch-label {
+      position: absolute; bottom: -22px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px; letter-spacing: 0.1em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .swatch-container { display: flex; gap: 20px; flex-wrap: wrap; }
+    .swatch-wrap { position: relative; padding-bottom: 28px; }
+    .finish-options { display: flex; gap: 12px; flex-wrap: wrap; }
+    .finish-btn {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid rgba(245,240,232,0.2);
+      color: var(--ivory);
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px; letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .finish-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .finish-btn.active { background: var(--gold); border-color: var(--gold); color: var(--void); font-weight: 600; }
+    .config-price-box {
+      margin-top: 40px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      background: rgba(201,169,110,0.04);
+    }
+    .price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .price-label { font-size: 12px; letter-spacing: 0.1em; color: var(--text-muted); }
+    .price-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px; font-weight: 400;
+      color: var(--gold);
+      transition: all 0.4s ease;
+    }
+    .price-note { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+    .config-cta { margin-top: 28px; width: 100%; }
+
+    /* ─── PROCESS ─── */
+    .process {
+      background: var(--void);
+      overflow: hidden;
+    }
+    .process-header { margin-bottom: 60px; }
+    .process-scroll-container {
+      overflow-x: auto;
+      padding-bottom: 40px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+    .process-scroll-container:active { cursor: grabbing; }
+    .process-scroll-container::-webkit-scrollbar { height: 2px; }
+    .process-scroll-container::-webkit-scrollbar-track { background: rgba(245,240,232,0.1); }
+    .process-scroll-container::-webkit-scrollbar-thumb { background: var(--gold); }
+    .process-timeline {
+      display: flex;
+      min-width: max-content;
+      padding: 20px 60px 20px;
+      position: relative;
+      gap: 0;
+    }
+    .process-line {
+      position: absolute;
+      top: 52px;
+      left: 120px;
+      right: 60px;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), rgba(201,169,110,0.2));
+    }
+    .process-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      width: 200px;
+      position: relative;
+    }
+    .step-icon-wrap {
+      width: 64px; height: 64px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      background: var(--card-bg);
+      position: relative; z-index: 2;
+      transition: all 0.3s;
+    }
+    .process-step.active .step-icon-wrap {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.1);
+      box-shadow: 0 0 20px rgba(201,169,110,0.2);
+    }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 20px;
+      letter-spacing: 0.15em;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px; font-weight: 400;
+      color: var(--ivory);
+      margin-top: 8px;
+    }
+    .process-step.active .step-title { color: var(--gold); }
+    .step-desc {
+      font-size: 12px; line-height: 1.7;
+      color: var(--text-muted);
+      margin-top: 10px;
+      max-width: 160px;
+    }
+    .step-connector {
+      position: absolute;
+      top: 32px;
+      right: -20px;
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .process-step:last-child .step-connector { display: none; }
+    .step-days {
+      margin-top: 12px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      font-size: 10px; letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    /* ─── COLLECTION ─── */
+    .collection {
+      background: var(--dark-surface);
+    }
+    .collection-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .collection-item {
+      position: relative;
+      height: 420px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .collection-item.featured {
+      grid-column: span 2;
+    }
+    .collection-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.75) saturate(0.85);
+      transition: all 0.6s ease;
+    }
+    .collection-item:hover img {
+      filter: brightness(0.55) saturate(0.7);
+      transform: scale(1.04);
+    }
+    .collection-item-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px 28px;
+      background: linear-gradient(to top, rgba(13,17,23,0.95) 0%, transparent 100%);
+    }
+    .col-item-label { font-size: 10px; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 8px; }
+    .col-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: 8px;
+    }
+    .col-item-price { font-size: 13px; color: var(--text-muted); }
+    .col-item-arrow {
+      position: absolute; top: 24px; right: 24px;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,169,110,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 16px;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .collection-item:hover .col-item-arrow { opacity: 1; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials {
+      background: var(--void);
+      text-align: center;
+    }
+    .testimonials-inner { max-width: 900px; margin: 0 auto; }
+    .testimonials-carousel { position: relative; margin-top: 60px; }
+    .testimonial-slide {
+      display: none;
+      animation: fadeInSlide 0.6s ease forwards;
+    }
+    .testimonial-slide.active { display: block; }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--ivory);
+      position: relative;
+    }
+    .testimonial-quote::before {
+      content: '"';
+      font-size: 120px;
+      color: var(--gold);
+      opacity: 0.15;
+      position: absolute;
+      top: -40px; left: -20px;
+      font-style: normal;
+      line-height: 1;
+    }
+    .testimonial-author {
+      margin-top: 36px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 16px;
+    }
+    .author-line { width: 40px; height: 1px; background: var(--gold); }
+    .author-name {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .author-role { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 10px;
+      margin-top: 48px;
+    }
+    .dot {
+      width: 6px; height: 6px;
+      background: var(--border);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dot.active { background: var(--gold); width: 24px; }
+
+    /* ─── ATELIER SECTION ─── */
+    .atelier-section {
+      background: var(--forest);
+      position: relative;
+      overflow: hidden;
+    }
+    .atelier-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80') center/cover;
+      opacity: 0.05;
+    }
+    .atelier-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .atelier-image { position: relative; }
+    .atelier-image img {
+      width: 100%; height: 480px;
+      object-fit: cover;
+      filter: brightness(0.8) saturate(0.85);
+    }
+    .atelier-image-tag {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--gold);
+      color: var(--void);
+      padding: 16px 24px;
+      font-size: 12px; letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+    .atelier-features { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+    .atelier-feature {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+    }
+    .atelier-feature:last-child { border-bottom: none; }
+    .feature-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--gold);
+    }
+    .feature-text h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 400;
+      color: var(--ivory); margin-bottom: 6px;
+    }
+    .feature-text p { font-size: 13px; line-height: 1.7; color: var(--text-muted); }
+
+    /* ─── LEAD TIME BANNER ─── */
+    .leadtime-banner {
+      background: var(--gold);
+      padding: 24px 60px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 40px;
+    }
+    .leadtime-item {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .leadtime-icon { font-size: 22px; color: var(--void); }
+    .leadtime-text { }
+    .leadtime-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; color: rgba(13,17,23,0.6); text-transform: uppercase; }
+    .leadtime-value { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--void); }
+    .leadtime-sep { width: 1px; height: 40px; background: rgba(13,17,23,0.2); }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section {
+      background: var(--void);
+      text-align: center;
+      padding: 140px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: 'VELVET';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 280px;
+      color: rgba(201,169,110,0.03);
+      letter-spacing: 0.3em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-section .section-title { max-width: 700px; margin: 0 auto 20px; }
+    .cta-section .section-desc { margin: 0 auto 48px; text-align: center; }
+    .cta-actions { display: flex; gap: 20px; justify-content: center; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--charcoal);
+      padding: 80px 60px 40px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px; margin-bottom: 60px;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 400;
+      letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .footer-brand p { font-size: 13px; line-height: 1.8; color: var(--text-muted); max-width: 300px; }
+    .footer-col h5 {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      font-size: 13px; color: var(--text-muted);
+      margin-bottom: 10px; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .footer-col ul li:hover { color: var(--ivory); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,240,232,0.08);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 12px; color: var(--text-muted); }
+    .footer-social { display: flex; gap: 16px; }
+    .social-link {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 14px;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(13,17,23,0.97);
+      display: none; align-items: center; justify-content: center;
+      padding: 40px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      max-width: 1000px; width: 100%;
+      display: grid; grid-template-columns: 3fr 2fr;
+      gap: 48px; align-items: center;
+    }
+    .lightbox-image {
+      height: 540px;
+      overflow: hidden;
+    }
+    .lightbox-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .lightbox-close {
+      position: absolute; top: 28px; right: 28px;
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--ivory);
+      font-size: 20px;
+      transition: all 0.3s;
+    }
+    .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+    .lightbox-content { }
+    .lightbox-label { font-size: 10px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 12px; }
+    .lightbox-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px; font-weight: 300;
+      color: var(--ivory); margin-bottom: 20px;
+    }
+    .lightbox-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-style: italic;
+      color: rgba(245,240,232,0.7);
+      line-height: 1.7; margin-bottom: 24px;
+    }
+    .lightbox-meta { font-size: 12px; color: var(--text-muted); }
+    .lightbox-meta span { color: var(--gold); }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(13,17,23,0.95);
+      display: none; align-items: center; justify-content: center;
+      padding: 40px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      width: 100%; max-width: 600px;
+      padding: 48px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-muted);
+      font-size: 18px; transition: all 0.3s;
+    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+    .modal-progress {
+      display: flex; gap: 8px; margin-bottom: 40px;
+    }
+    .modal-step-ind {
+      flex: 1; height: 3px;
+      background: rgba(245,240,232,0.1);
+      transition: background 0.4s;
+    }
+    .modal-step-ind.done { background: var(--gold); }
+    .modal-step-ind.active { background: var(--gold); opacity: 0.6; }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 300;
+      color: var(--ivory); margin-bottom: 8px;
+    }
+    .modal-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    .form-group { margin-bottom: 24px; }
+    .form-group label {
+      display: block; font-size: 10px;
+      font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+      width: 100%; background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.15);
+      color: var(--ivory);
+      padding: 14px 18px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+      appearance: none;
+    }
+    .form-group select:focus,
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--card-bg); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .modal-actions {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: 36px;
+    }
+    .btn-back-modal {
+      background: transparent; border: none;
+      color: var(--text-muted); cursor: pointer;
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px; letter-spacing: 0.08em;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .btn-back-modal:hover { color: var(--ivory); }
+    .modal-step-label { font-size: 11px; letter-spacing: 0.1em; color: var(--text-muted); }
+
+    /* ─── DESIGN SYSTEM SHOWCASE ─── */
+    .ds-section {
+      background: var(--void);
+      padding: 80px 60px;
+      border-top: 1px solid var(--border);
+    }
+    .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+    .ds-color {
+      height: 120px;
+      display: flex; align-items: flex-end;
+      padding: 12px;
+      position: relative;
+    }
+    .ds-color-name { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; }
+    .ds-color-hex { font-size: 10px; opacity: 0.6; font-family: monospace; }
+    .ds-type-row {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 24px; align-items: baseline;
+    }
+    .ds-type-label { font-size: 10px; letter-spacing: 0.15em; color: var(--text-muted); width: 140px; flex-shrink: 0; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); opacity: 0.5; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- Back Button -->
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<!-- Navigation -->
+<nav id="mainNav">
+  <div class="nav-logo">VELVET <span>Atelier</span></div>
+  <ul class="nav-links">
+    <li><a href="#colecao">Coleção</a></li>
+    <li><a href="#configurador">Configurar</a></li>
+    <li><a href="#processo">Processo</a></li>
+    <li><a href="#atelie">Ateliê</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openModal()">Solicitar Orçamento</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content fade-up visible">
+    <p class="hero-eyebrow">Desde 1987 — São Paulo, Brasil</p>
+    <h1 class="hero-title">
+      <em>Cada peça</em><br>conta uma história
+    </h1>
+    <p class="hero-subtitle">Feito à mão, feito para você</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal()">Solicitar Orçamento</button>
+      <a href="#colecao" class="btn-outline">Ver Coleção</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Descer</span>
+  </div>
+</section>
+
+<!-- ─── LEAD TIME BANNER ─── -->
+<div class="leadtime-banner">
+  <div class="leadtime-item">
+    <span class="leadtime-icon">✦</span>
+    <div class="leadtime-text">
+      <div class="leadtime-label">Prazo de Entrega</div>
+      <div class="leadtime-value">45–90 dias úteis</div>
+    </div>
+  </div>
+  <div class="leadtime-sep"></div>
+  <div class="leadtime-item">
+    <span class="leadtime-icon">◈</span>
+    <div class="leadtime-text">
+      <div class="leadtime-label">Garantia</div>
+      <div class="leadtime-value">15 anos</div>
+    </div>
+  </div>
+  <div class="leadtime-sep"></div>
+  <div class="leadtime-item">
+    <span class="leadtime-icon">❧</span>
+    <div class="leadtime-text">
+      <div class="leadtime-label">Artesãos</div>
+      <div class="leadtime-value">Mestres certificados</div>
+    </div>
+  </div>
+  <div class="leadtime-sep"></div>
+  <div class="leadtime-item">
+    <span class="leadtime-icon">⟁</span>
+    <div class="leadtime-text">
+      <div class="leadtime-label">Materiais</div>
+      <div class="leadtime-value">Importados e nacionais</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PHILOSOPHY ─── -->
+<section class="philosophy">
+  <div class="philosophy-image fade-up">
+    <div class="philosophy-image-frame"></div>
+    <img src="https://images.unsplash.com/photo-1572297794908-f8c8953e7cce?w=800&q=80" alt="Artesão Velvet Atelier">
+  </div>
+  <div class="philosophy-text fade-up">
+    <p class="section-label">Nossa Filosofia</p>
+    <h2 class="section-title">Arte que<br><em>atravessa gerações</em></h2>
+    <div class="gold-rule"></div>
+    <p class="section-desc">
+      No Velvet Atelier, cada móvel é concebido como uma obra de arte funcional. Nossas peças nascem de um diálogo profundo com nossos clientes — entendemos seus espaços, seus gostos, sua história — antes de colocar a primeira ferramenta na madeira.
+    </p>
+    <p class="section-desc" style="margin-top:16px;">
+      Trabalhamos exclusivamente com materiais de primeira linha: madeiras nobres certificadas, couros italianos, veludos belgas e metais acabados à mão. Cada detalhe é uma decisão consciente.
+    </p>
+    <div class="philosophy-stats">
+      <div class="stat-item">
+        <div class="stat-num">37+</div>
+        <div class="stat-label">Anos de excelência</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2.400</div>
+        <div class="stat-label">Peças produzidas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">18</div>
+        <div class="stat-label">Mestres artesãos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Sob medida</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PORTFOLIO GRID ─── -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header fade-up">
+    <div>
+      <p class="section-label">Portfólio</p>
+      <h2 class="section-title">Projetos <em>realizados</em></h2>
+    </div>
+    <a href="#" class="btn-outline">Ver todos os projetos</a>
+  </div>
+  <div class="portfolio-grid fade-up">
+    <div class="portfolio-item" onclick="openLightbox(0)">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Sofá Capitonê">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Sofá Capitonê</div>
+          <div class="portfolio-item-type">Sala de Estar • Veludo Esmeralda</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(1)">
+      <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=80" alt="Armário Biblioteca">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Estante Biblioteca</div>
+          <div class="portfolio-item-type">Escritório • Nogueira e Bronze</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(2)">
+      <img src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=800&q=80" alt="Mesa de Jantar">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Mesa de Jantar</div>
+          <div class="portfolio-item-type">Sala de Jantar • Carvalho Maciço</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(3)">
+      <img src="https://images.unsplash.com/photo-1600210491892-03d54741ef5e?w=800&q=80" alt="Suite Principal">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Cama Box Cabeceira</div>
+          <div class="portfolio-item-type">Quarto • Couro Natural</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(2)" style="height:280px;">
+      <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80" alt="Interior Completo" style="height:100%;">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Residência Completa</div>
+          <div class="portfolio-item-type">Projeto Integral • Higienópolis</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(1)" style="height:280px;">
+      <img src="https://images.unsplash.com/photo-1572297794908-f8c8953e7cce?w=800&q=80" alt="Armário Walk-in" style="height:100%;">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-info">
+          <div class="portfolio-item-name">Armário Walk-in</div>
+          <div class="portfolio-item-type">Closet • Freijó e Espelho</div>
+        </div>
+      </div>
+      <div class="portfolio-expand-icon">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONFIGURATOR ─── -->
+<section class="configurator" id="configurador">
+  <div class="configurator-inner">
+    <div class="config-visual fade-up">
+      <img id="sofaImage" class="config-image" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Sofá Configurável">
+      <div id="colorOverlay" class="config-color-overlay"></div>
+      <div class="config-badge" id="configBadge">Veludo Verde — Nogueira</div>
+    </div>
+    <div class="config-panel fade-up">
+      <p class="section-label">Configurador</p>
+      <h2 class="config-panel-title">Sofá<br><em>Módulo</em></h2>
+      <p class="config-panel-sub">Personalize cada detalhe da sua peça</p>
+
+      <div class="config-group">
+        <div class="config-group-label">Tecido & Revestimento</div>
+        <div class="swatch-container">
+          <div class="swatch-wrap">
+            <div class="swatch active" data-fabric="Veludo Verde" data-color="#2D5016" onclick="selectFabric(this)"
+              style="background: linear-gradient(135deg, #2D5016, #3A6B1F); border-color: var(--gold);">
+            </div>
+            <span class="swatch-label">Veludo Verde</span>
+          </div>
+          <div class="swatch-wrap">
+            <div class="swatch" data-fabric="Couro Cognac" data-color="#7B3F00" onclick="selectFabric(this)"
+              style="background: linear-gradient(135deg, #7B3F00, #9B5520);">
+            </div>
+            <span class="swatch-label">Couro Cognac</span>
+          </div>
+          <div class="swatch-wrap">
+            <div class="swatch" data-fabric="Linho Cru" data-color="#D4C5A9" onclick="selectFabric(this)"
+              style="background: linear-gradient(135deg, #C8B89A, #D4C5A9);">
+            </div>
+            <span class="swatch-label">Linho Cru</span>
+          </div>
+          <div class="swatch-wrap">
+            <div class="swatch" data-fabric="Veludo Azul" data-color="#1A1A4E" onclick="selectFabric(this)"
+              style="background: linear-gradient(135deg, #1A1A4E, #2A2A6E);">
+            </div>
+            <span class="swatch-label">Veludo Azul</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-group">
+        <div class="config-group-label">Acabamento da Madeira</div>
+        <div class="finish-options">
+          <button class="finish-btn active" data-finish="Nogueira" data-price="0" onclick="selectFinish(this)">Nogueira</button>
+          <button class="finish-btn" data-finish="Carvalho" data-price="800" onclick="selectFinish(this)">Carvalho</button>
+          <button class="finish-btn" data-finish="Freijó" data-price="1200" onclick="selectFinish(this)">Freijó</button>
+          <button class="finish-btn" data-finish="Imbuia" data-price="2000" onclick="selectFinish(this)">Imbuia</button>
+        </div>
+      </div>
+
+      <div class="config-group">
+        <div class="config-group-label">Módulos</div>
+        <div class="finish-options">
+          <button class="finish-btn active" data-mod="2" data-mod-price="0" onclick="selectMod(this)">2 Lugares</button>
+          <button class="finish-btn" data-mod="3" data-mod-price="3200" onclick="selectMod(this)">3 Lugares</button>
+          <button class="finish-btn" data-mod="L" data-mod-price="5800" onclick="selectMod(this)">L Modular</button>
+        </div>
+      </div>
+
+      <div class="config-price-box">
+        <div class="price-row">
+          <span class="price-label">Valor estimado</span>
+          <span class="price-value" id="priceDisplay">R$ 18.500</span>
+        </div>
+        <p class="price-note">* Valor de referência. Orçamento definitivo após consulta.</p>
+        <button class="btn-primary config-cta" onclick="openModal()">Solicitar este Sofá</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COLLECTION ─── -->
+<section class="collection" id="colecao">
+  <div class="collection-header fade-up">
+    <div>
+      <p class="section-label">Coleção 2025</p>
+      <h2 class="section-title">Peças <em>assinadas</em></h2>
+    </div>
+    <p class="section-desc" style="max-width:360px;">Cada linha é desenvolvida com propósito — para durar décadas e envelhecer com dignidade.</p>
+  </div>
+  <div class="collection-grid fade-up">
+    <div class="collection-item featured">
+      <img src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=800&q=80" alt="Mesa de Jantar">
+      <div class="collection-item-info">
+        <div class="col-item-label">Destaque da Coleção</div>
+        <div class="col-item-name">Mesa de Jantar Obsidiana</div>
+        <div class="col-item-price">A partir de R$ 32.000 • Entrega em 60 dias úteis</div>
+      </div>
+      <div class="col-item-arrow">→</div>
+    </div>
+    <div class="collection-item">
+      <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=80" alt="Estante">
+      <div class="collection-item-info">
+        <div class="col-item-label">Escritório</div>
+        <div class="col-item-name">Estante Biblioteca</div>
+        <div class="col-item-price">A partir de R$ 24.500</div>
+      </div>
+      <div class="col-item-arrow">→</div>
+    </div>
+    <div class="collection-item">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Sofá">
+      <div class="collection-item-info">
+        <div class="col-item-label">Sala de Estar</div>
+        <div class="col-item-name">Sofá Módulo</div>
+        <div class="col-item-price">A partir de R$ 18.500</div>
+      </div>
+      <div class="col-item-arrow">→</div>
+    </div>
+    <div class="collection-item">
+      <img src="https://images.unsplash.com/photo-1600210491892-03d54741ef5e?w=800&q=80" alt="Quarto">
+      <div class="collection-item-info">
+        <div class="col-item-label">Suíte</div>
+        <div class="col-item-name">Cama Box Cabeceira</div>
+        <div class="col-item-price">A partir de R$ 28.000</div>
+      </div>
+      <div class="col-item-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section class="process" id="processo">
+  <div class="process-header fade-up">
+    <p class="section-label">Como trabalhamos</p>
+    <h2 class="section-title">O processo<br><em>Velvet</em></h2>
+    <p class="section-desc" style="margin-top:16px;">Cada pedido percorre um caminho cuidadoso — da primeira conversa à entrega na sua casa.</p>
+  </div>
+  <div class="process-scroll-container" id="processScroll">
+    <div class="process-timeline">
+      <div class="process-step active">
+        <div class="step-icon-wrap">☎</div>
+        <div class="step-num">01</div>
+        <div class="step-title">Consulta</div>
+        <div class="step-desc">Reunião presencial ou remota para entender seu projeto e espaço</div>
+        <div class="step-days">1–3 dias</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-icon-wrap">✏</div>
+        <div class="step-num">02</div>
+        <div class="step-title">Design</div>
+        <div class="step-desc">Elaboração de renders 3D e especificação completa dos materiais</div>
+        <div class="step-days">5–10 dias</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-icon-wrap">✓</div>
+        <div class="step-num">03</div>
+        <div class="step-title">Aprovação</div>
+        <div class="step-desc">Revisão e aprovação do projeto com ajustes finais incluídos</div>
+        <div class="step-days">2–5 dias</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-icon-wrap">⚒</div>
+        <div class="step-num">04</div>
+        <div class="step-title">Produção</div>
+        <div class="step-desc">Fabricação artesanal por mestres em nosso ateliê em São Paulo</div>
+        <div class="step-days">30–60 dias</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-icon-wrap">★</div>
+        <div class="step-num">05</div>
+        <div class="step-title">Entrega</div>
+        <div class="step-desc">Montagem e instalação por nossa equipe especializada</div>
+        <div class="step-days">1 dia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testimonials" id="depoimentos">
+  <div class="testimonials-inner">
+    <p class="section-label" style="text-align:center;">Depoimentos</p>
+    <h2 class="section-title" style="text-align:center;">O que nossos<br><em>clientes dizem</em></h2>
+    <div class="gold-rule" style="margin:28px auto;"></div>
+    <div class="testimonials-carousel">
+      <div class="testimonial-slide active">
+        <p class="testimonial-quote">
+          "O Velvet Atelier transformou completamente nosso apartamento. A estante biblioteca que encomendamos é simplesmente magnífica — exatamente como imaginávamos, mas ainda melhor. Cada detalhe foi tratado com uma atenção que eu nunca esperava encontrar."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-line"></div>
+          <div>
+            <div class="author-name">Carolina Mendonça</div>
+            <div class="author-role">Arquiteta — Higienópolis, SP</div>
+          </div>
+          <div class="author-line"></div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <p class="testimonial-quote">
+          "Investir em peças do Velvet foi a melhor decisão que tomamos para nossa casa. Já se passaram cinco anos e cada móvel parece novo — a qualidade da madeira e do acabamento é incomparável. Hoje, somos clientes para a vida."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-line"></div>
+          <div>
+            <div class="author-name">Roberto Alves & Fernanda Lima</div>
+            <div class="author-role">Empresários — Jardim Europa, SP</div>
+          </div>
+          <div class="author-line"></div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <p class="testimonial-quote">
+          "O processo inteiro foi uma experiência. Desde a primeira consulta até a entrega, a equipe do Velvet demonstrou um profissionalismo e uma paixão pelo que faz que é raro encontrar. Minha sala de jantar virou o coração da casa."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-line"></div>
+          <div>
+            <div class="author-name">Dr. Alexandre Pinheiro</div>
+            <div class="author-role">Médico — Morumbi, SP</div>
+          </div>
+          <div class="author-line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-dots">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ATELIER ─── -->
+<section class="atelier-section" id="atelie">
+  <div class="atelier-inner fade-up">
+    <div class="atelier-image">
+      <img src="https://images.unsplash.com/photo-1572297794908-f8c8953e7cce?w=800&q=80" alt="Ateliê Velvet">
+      <div class="atelier-image-tag">São Paulo, Brasil</div>
+    </div>
+    <div class="atelier-content">
+      <p class="section-label">Nosso Ateliê</p>
+      <h2 class="section-title">Onde a<br><em>madeira ganha alma</em></h2>
+      <div class="gold-rule"></div>
+      <p class="section-desc">
+        Nosso ateliê de 2.400m² em São Paulo abriga dezoito mestres artesãos com décadas de experiência. Cada profissional é especializado em uma técnica — marcenaria fina, tapeçaria, metalurgia e pintura — garantindo excelência em cada etapa.
+      </p>
+      <div class="atelier-features">
+        <div class="atelier-feature">
+          <div class="feature-icon">⟁</div>
+          <div class="feature-text">
+            <h4>Madeiras Nobres Certificadas</h4>
+            <p>Trabalhamos apenas com madeiras de manejo sustentável — nogueira, carvalho americano, freijó brasileiro e imbuia.</p>
+          </div>
+        </div>
+        <div class="atelier-feature">
+          <div class="feature-icon">◈</div>
+          <div class="feature-text">
+            <h4>Tecidos Importados</h4>
+            <p>Veludos belgas, couros italianos curtidos ao vegetal e linhos portugueses selecionados pessoalmente em feiras europeias.</p>
+          </div>
+        </div>
+        <div class="atelier-feature">
+          <div class="feature-icon">✦</div>
+          <div class="feature-text">
+            <h4>Controle de Qualidade Rigoroso</h4>
+            <p>Cada peça passa por 47 pontos de inspeção antes de deixar o ateliê. Zero tolerância a imperfeições.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="cta-inner fade-up">
+    <p class="section-label">Comece seu projeto</p>
+    <h2 class="section-title">Sua história<br><em>começa aqui</em></h2>
+    <div class="gold-rule" style="margin:28px auto;"></div>
+    <p class="section-desc" style="text-align:center;">
+      Agende uma consulta gratuita com nossa equipe de design. Sem compromisso — apenas uma conversa sobre o que você imagina para o seu espaço.
+    </p>
+    <div class="cta-actions">
+      <button class="btn-primary" onclick="openModal()">Solicitar Orçamento Gratuito</button>
+      <a href="tel:+5511999999999" class="btn-outline">+55 11 9999-9999</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DESIGN SYSTEM SECTION ─── -->
+<section class="ds-section">
+  <p class="section-label">Design System</p>
+  <h2 class="section-title" style="font-size:36px;">VELVET — Tokens & <em>Tipografia</em></h2>
+  <div class="gold-rule"></div>
+
+  <p style="font-size:11px;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:24px;text-transform:uppercase;">Paleta de Cores</p>
+  <div class="ds-grid">
+    <div class="ds-color" style="background:#0D1117;">
+      <div><div class="ds-color-name" style="color:#F5F0E8;">Void</div><div class="ds-color-hex" style="color:#F5F0E8;">#0D1117</div></div>
+    </div>
+    <div class="ds-color" style="background:#1A2F1E;">
+      <div><div class="ds-color-name" style="color:#F5F0E8;">Forest</div><div class="ds-color-hex" style="color:#F5F0E8;">#1A2F1E</div></div>
+    </div>
+    <div class="ds-color" style="background:#C9A96E;">
+      <div><div class="ds-color-name" style="color:#0D1117;">Gold</div><div class="ds-color-hex" style="color:#0D1117;">#C9A96E</div></div>
+    </div>
+    <div class="ds-color" style="background:#8B0000;">
+      <div><div class="ds-color-name" style="color:#F5F0E8;">Velvet Red</div><div class="ds-color-hex" style="color:#F5F0E8;">#8B0000</div></div>
+    </div>
+    <div class="ds-color" style="background:#F5F0E8;border:1px solid rgba(0,0,0,0.1);">
+      <div><div class="ds-color-name" style="color:#0D1117;">Ivory</div><div class="ds-color-hex" style="color:#0D1117;">#F5F0E8</div></div>
+    </div>
+    <div class="ds-color" style="background:#141B22;">
+      <div><div class="ds-color-name" style="color:#F5F0E8;">Card BG</div><div class="ds-color-hex" style="color:#F5F0E8;">#141B22</div></div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;letter-spacing:0.2em;color:var(--text-muted);margin:48px 0 24px;text-transform:uppercase;">Tipografia — Cormorant Garamond + Raleway</p>
+  <div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">Display / Hero</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--ivory);line-height:1;">Sofá Módulo</span>
+    </div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">H1 — Section Title</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--ivory);">Arte que atravessa gerações</span>
+    </div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">H2 — Card Title</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--ivory);">Mesa de Jantar Obsidiana</span>
+    </div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">Label / Eyebrow</span>
+      <span style="font-family:'Raleway',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);">Coleção 2025</span>
+    </div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">Body / Description</span>
+      <span style="font-family:'Raleway',sans-serif;font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.8;">Cada móvel é concebido como uma obra de arte funcional, nascida de um diálogo profundo.</span>
+    </div>
+    <div class="ds-type-row">
+      <span class="ds-type-label">Price / Number</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;color:var(--gold);">R$ 32.000</span>
+    </div>
+  </div>
+
+  <p style="font-size:11px;letter-spacing:0.2em;color:var(--text-muted);margin:48px 0 24px;text-transform:uppercase;">Componentes</p>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+    <button class="btn-primary">Solicitar Orçamento</button>
+    <a href="#" class="btn-outline">Ver Coleção</a>
+    <button class="nav-cta">Contato</button>
+    <button class="finish-btn active">Carvalho</button>
+    <button class="finish-btn">Nogueira</button>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">VELVET <em style="font-style:italic;font-weight:300;">Atelier</em></div>
+      <p>Móveis sob medida para quem entende que qualidade é um investimento, não um gasto. Cada peça carrega décadas de tradição artesanal.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Coleção</h5>
+      <ul>
+        <li>Sala de Estar</li>
+        <li>Sala de Jantar</li>
+        <li>Escritório</li>
+        <li>Suíte Principal</li>
+        <li>Closet & Walk-in</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Atelier</h5>
+      <ul>
+        <li>Nossa história</li>
+        <li>Artesãos</li>
+        <li>Materiais</li>
+        <li>Processo</li>
+        <li>Certificações</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <ul>
+        <li>+55 11 9999-9999</li>
+        <li>atelier@velvet.com.br</li>
+        <li>Rua Augusta, 2400</li>
+        <li>São Paulo — SP</li>
+        <li>Seg–Sex: 9h–18h</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Velvet Atelier — Todos os direitos reservados</p>
+    <div class="footer-social">
+      <div class="social-link">in</div>
+      <div class="social-link">ig</div>
+      <div class="social-link">pt</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── LIGHTBOX ─── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <div class="lightbox-image">
+      <img id="lightboxImg" src="" alt="">
+    </div>
+    <div class="lightbox-content">
+      <div class="lightbox-label" id="lightboxLabel"></div>
+      <h2 class="lightbox-title" id="lightboxTitle"></h2>
+      <p class="lightbox-quote" id="lightboxQuote"></p>
+      <div class="lightbox-meta" id="lightboxMeta"></div>
+    </div>
+  </div>
+  <div class="lightbox-close" onclick="closeLightboxDirect()">✕</div>
+</div>
+
+<!-- ─── MODAL ─── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="modal-progress">
+      <div class="modal-step-ind active" id="step-ind-1"></div>
+      <div class="modal-step-ind" id="step-ind-2"></div>
+      <div class="modal-step-ind" id="step-ind-3"></div>
+    </div>
+    <div class="modal-step-label" id="modalStepLabel">Passo 1 de 3</div>
+
+    <!-- Step 1 -->
+    <div class="form-step active" id="formStep1">
+      <h2 class="modal-title">Seu <em style="font-style:italic;color:var(--gold);">projeto</em></h2>
+      <p class="modal-subtitle">Conte-nos sobre a peça que você imagina</p>
+      <div class="form-group">
+        <label>Tipo de Peça</label>
+        <select id="tipoPeca">
+          <option value="">Selecione...</option>
+          <option>Sofá Módulo</option>
+          <option>Mesa de Jantar</option>
+          <option>Estante Biblioteca</option>
+          <option>Cama Box com Cabeceira</option>
+          <option>Armário Walk-in</option>
+          <option>Projeto Integral</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ambiente</label>
+        <select id="ambiente">
+          <option value="">Selecione...</option>
+          <option>Sala de Estar</option>
+          <option>Sala de Jantar</option>
+          <option>Quarto Principal</option>
+          <option>Escritório</option>
+          <option>Varanda Gourmet</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Estilo Desejado</label>
+        <select>
+          <option>Contemporâneo Luxo</option>
+          <option>Clássico Contemporâneo</option>
+          <option>Minimalista Premium</option>
+          <option>Art Déco Moderno</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="form-step" id="formStep2">
+      <h2 class="modal-title">Dimensões &<br><em style="font-style:italic;color:var(--gold);">material</em></h2>
+      <p class="modal-subtitle">Ajude-nos a entender o espaço</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Largura (cm)</label>
+          <input type="number" placeholder="240">
+        </div>
+        <div class="form-group">
+          <label>Profundidade (cm)</label>
+          <input type="number" placeholder="90">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Material Principal</label>
+        <select>
+          <option>Nogueira Maciça</option>
+          <option>Carvalho Americano</option>
+          <option>Freijó Nacional</option>
+          <option>Imbuia</option>
+          <option>MDF com Revestimento Premium</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Observações</label>
+        <textarea placeholder="Descreva detalhes adicionais, cores de referência, necessidades especiais..."></textarea>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="form-step" id="formStep3">
+      <h2 class="modal-title">Seus <em style="font-style:italic;color:var(--gold);">dados</em></h2>
+      <p class="modal-subtitle">Entraremos em contato em até 24 horas</p>
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" placeholder="Seu nome">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" placeholder="+55 11 99999-9999">
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Como nos conheceu?</label>
+        <select>
+          <option>Indicação de amigo</option>
+          <option>Instagram</option>
+          <option>Google</option>
+          <option>Arquiteto/Designer</option>
+          <option>Showroom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-back-modal" id="btnBack" onclick="prevStep()" style="visibility:hidden;">← Voltar</button>
+      <button class="btn-primary" id="btnNext" onclick="nextStep()">Próximo →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── PARALLAX HERO ───
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    heroBg.style.transform = `translateY(${scrollY * 0.4}px) scale(1.1)`;
+
+    // Sticky nav
+    const nav = document.getElementById('mainNav');
+    nav.classList.toggle('scrolled', scrollY > 60);
+  });
+
+  // ─── FADE UP OBSERVER ───
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => fadeObserver.observe(el));
+
+  // ─── CONFIGURATOR ───
+  let basePrice = 18500;
+  let fabricPrice = 0;
+  let finishPrice = 0;
+  let modPrice = 0;
+
+  const fabricData = {
+    'Veludo Verde': { color: '#2D5016', extra: 0 },
+    'Couro Cognac': { color: '#7B3F00', extra: 2400 },
+    'Linho Cru': { color: '#D4C5A9', extra: -800 },
+    'Veludo Azul': { color: '#1A1A4E', extra: 600 }
+  };
+
+  function selectFabric(el) {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    const fabric = el.dataset.fabric;
+    const data = fabricData[fabric];
+    fabricPrice = data.extra;
+
+    const overlay = document.getElementById('colorOverlay');
+    overlay.style.backgroundColor = data.color;
+    overlay.style.opacity = fabric === 'Linho Cru' ? '0.35' : '0.4';
+
+    updateBadge();
+    updatePrice();
+  }
+
+  function selectFinish(el) {
+    document.querySelectorAll('.finish-btn[data-finish]').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    finishPrice = parseInt(el.dataset.price);
+    updateBadge();
+    updatePrice();
+  }
+
+  function selectMod(el) {
+    document.querySelectorAll('.finish-btn[data-mod]').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    modPrice = parseInt(el.dataset['mod-price'] || el.getAttribute('data-mod-price') || 0);
+    updatePrice();
+  }
+
+  function updateBadge() {
+    const fabric = document.querySelector('.swatch.active')?.dataset.fabric || 'Veludo Verde';
+    const finish = document.querySelector('.finish-btn[data-finish].active')?.dataset.finish || 'Nogueira';
+    document.getElementById('configBadge').textContent = `${fabric} — ${finish}`;
+  }
+
+  function updatePrice() {
+    const total = basePrice + fabricPrice + finishPrice + modPrice;
+    const display = document.getElementById('priceDisplay');
+    display.style.transform = 'scale(1.05)';
+    display.textContent = `R$ ${total.toLocaleString('pt-BR')}`;
+    setTimeout(() => display.style.transform = 'scale(1)', 200);
+  }
+
+  // ─── PROCESS SCROLL (drag) ───
+  const processScroll = document.getElementById('processScroll');
+  let isDown = false, startX, scrollLeft;
+  processScroll.addEventListener('mousedown', e => {
+    isDown = true; startX = e.pageX - processScroll.offsetLeft;
+    scrollLeft = processScroll.scrollLeft;
+  });
+  processScroll.addEventListener('mouseleave', () => isDown = false);
+  processScroll.addEventListener('mouseup', () => isDown = false);
+  processScroll.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - processScroll.offsetLeft;
+    processScroll.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+
+  // ─── TESTIMONIALS ───
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.testimonial-slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  setInterval(() => goToSlide((currentSlide + 1) % slides.length), 5000);
+
+  // ─── LIGHTBOX ───
+  const lightboxData = [
+    {
+      img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+      label: 'Sala de Estar • 2024',
+      title: 'Sofá Capitonê Esmeralda',
+      quote: '"Nunca imaginei que um sofá pudesse transformar tanto um espaço. É a peça central da nossa casa."',
+      meta: 'Cliente: <span>Carolina M.</span> — Higienópolis, SP | Entregue em 52 dias úteis'
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=80',
+      label: 'Escritório • 2023',
+      title: 'Estante Biblioteca Imperial',
+      quote: '"Uma obra de arte que também é funcional. Cada prateleira foi pensada com precisão milimétrica."',
+      meta: 'Cliente: <span>Dr. Alexandre P.</span> — Morumbi, SP | Entregue em 68 dias úteis'
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=800&q=80',
+      label: 'Sala de Jantar • 2024',
+      title: 'Mesa Obsidiana para 14 Pessoas',
+      quote: '"A mesa virou o coração da família. Cada jantar agora é uma ocasião especial."',
+      meta: 'Cliente: <span>Roberto & Fernanda</span> — Jardim Europa, SP | Entregue em 75 dias úteis'
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1600210491892-03d54741ef5e?w=800&q=80',
+      label: 'Suíte Principal • 2024',
+      title: 'Cama Box com Cabeceira Estofada',
+      quote: '"Dormir ficou diferente desde que a cama chegou. O conforto é incomparável ao que tínhamos antes."',
+      meta: 'Cliente: <span>Família Rodrigues</span> — Jardins, SP | Entregue em 48 dias úteis'
+    }
+  ];
+
+  function openLightbox(idx) {
+    const data = lightboxData[idx];
+    document.getElementById('lightboxImg').src = data.img;
+    document.getElementById('lightboxLabel').textContent = data.label;
+    document.getElementById('lightboxTitle').textContent = data.title;
+    document.getElementById('lightboxQuote').textContent = data.quote;
+    document.getElementById('lightboxMeta').innerHTML = data.meta;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e.target === document.getElementById('lightbox')) {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function closeLightboxDirect() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ─── MODAL ───
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateModalUI();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    currentStep = 1;
+    updateModalUI();
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateModalUI();
+    } else {
+      // Submit
+      const btn = document.getElementById('btnNext');
+      btn.textContent = '✓ Enviado!';
+      btn.style.background = '#2D5016';
+      setTimeout(closeModal, 1800);
+      setTimeout(() => {
+        btn.textContent = 'Próximo →';
+        btn.style.background = '';
+        currentStep = 1;
+        updateModalUI();
+      }, 2000);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      updateModalUI();
+    }
+  }
+
+  function updateModalUI() {
+    // Steps
+    for (let i = 1; i <= totalSteps; i++) {
+      const el = document.getElementById(`formStep${i}`);
+      el.classList.toggle('active', i === currentStep);
+      const ind = document.getElementById(`step-ind-${i}`);
+      ind.classList.remove('done', 'active');
+      if (i < currentStep) ind.classList.add('done');
+      else if (i === currentStep) ind.classList.add('active');
+    }
+    // Labels
+    document.getElementById('modalStepLabel').textContent = `Passo ${currentStep} de ${totalSteps}`;
+    document.getElementById('btnBack').style.visibility = currentStep > 1 ? 'visible' : 'hidden';
+    const nextBtn = document.getElementById('btnNext');
+    nextBtn.textContent = currentStep < totalSteps ? 'Próximo →' : 'Enviar Solicitação';
+  }
+
+  // ─── ESC KEY ───
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeLightboxDirect();
+      closeModal();
+    }
+  });
+</script>
+</body>
+</html>

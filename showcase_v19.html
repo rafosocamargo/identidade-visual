@@ -1,0 +1,2418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MORAR+ — Urban Living Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     DESIGN SYSTEM TOKENS — Urban Living / MORAR+
+  ============================================================ */
+  :root {
+    --slate-900: #0F172A;
+    --slate-800: #1E293B;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-400: #94A3B8;
+    --slate-300: #CBD5E1;
+    --slate-200: #E2E8F0;
+    --slate-100: #F1F5F9;
+    --slate-50: #F8FAFC;
+    --teal-600: #0D9488;
+    --teal: #14B8A6;
+    --teal-400: #2DD4BF;
+    --teal-300: #5EEAD4;
+    --mint-50: #F0FDF4;
+    --emerald: #10B981;
+    --amber: #F59E0B;
+    --red: #EF4444;
+    --white: #FFFFFF;
+
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-teal: 0 8px 24px rgba(20,184,166,0.25);
+
+    --transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ============================================================
+     RESET & BASE
+  ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--slate-50);
+    color: var(--slate-800);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  img { display: block; width: 100%; object-fit: cover; }
+
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  /* ============================================================
+     BACK BUTTON
+  ============================================================ */
+  .back-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    text-decoration: none;
+    font-family: system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .03em;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(0,0,0,0.75); }
+
+  /* ============================================================
+     NAVIGATION
+  ============================================================ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--slate-200);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 32px;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.5px;
+    margin-left: 80px;
+  }
+  .nav-logo span { color: var(--teal); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--slate-600);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--slate-900); }
+
+  .nav-cta {
+    padding: 8px 18px;
+    background: var(--teal);
+    color: white !important;
+    border-radius: var(--radius-full);
+    font-weight: 600 !important;
+    transition: var(--transition) !important;
+    box-shadow: var(--shadow-teal);
+  }
+  .nav-cta:hover {
+    background: var(--teal-600) !important;
+    transform: translateY(-1px);
+    color: white !important;
+  }
+
+  /* ============================================================
+     HERO SECTION
+  ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 64px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&q=80') center/cover no-repeat;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(15,23,42,0.78) 0%,
+      rgba(15,23,42,0.52) 60%,
+      rgba(20,184,166,0.20) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 48px 24px;
+    max-width: 800px;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: rgba(20,184,166,0.20);
+    border: 1px solid rgba(20,184,166,0.40);
+    border-radius: var(--radius-full);
+    color: var(--teal-300);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--teal-400);
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+
+  /* ============================================================
+     SEARCH / FILTER BAR
+  ============================================================ */
+  .search-bar {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    box-shadow: var(--shadow-lg);
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .search-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--slate-500, #64748B);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .search-select {
+    appearance: none;
+    background: var(--slate-50);
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-sm);
+    padding: 9px 32px 9px 12px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--slate-800);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color 0.2s;
+  }
+  .search-select:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+
+  .price-range-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1.4;
+    min-width: 180px;
+  }
+
+  .price-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .range-track {
+    position: relative;
+    height: 4px;
+    background: var(--slate-200);
+    border-radius: var(--radius-full);
+    margin: 4px 0;
+  }
+
+  .range-fill {
+    position: absolute;
+    height: 100%;
+    background: var(--teal);
+    border-radius: var(--radius-full);
+    transition: var(--transition);
+  }
+
+  input[type="range"] {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+    top: 0;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--teal);
+    pointer-events: all;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .tipo-toggles {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tipo-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--slate-600);
+    background: var(--slate-100);
+    border: 1.5px solid var(--slate-200);
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .tipo-btn:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .tipo-btn.active {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+    box-shadow: var(--shadow-teal);
+  }
+
+  .search-submit {
+    padding: 10px 22px;
+    background: var(--teal);
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-teal);
+    white-space: nowrap;
+  }
+  .search-submit:hover {
+    background: var(--teal-600);
+    transform: translateY(-1px);
+  }
+
+  /* ============================================================
+     STATS BAR
+  ============================================================ */
+  .stats-bar {
+    background: white;
+    border-bottom: 1px solid var(--slate-200);
+    padding: 14px 0;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--slate-600);
+  }
+  .stat-item strong {
+    font-weight: 700;
+    color: var(--slate-900);
+    font-size: 15px;
+  }
+  .stat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+  .results-count {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--slate-500, #64748B);
+  }
+  .results-count strong { color: var(--slate-800); }
+
+  /* ============================================================
+     MAIN LAYOUT
+  ============================================================ */
+  .main-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--slate-900);
+  }
+  .section-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .section-link:hover { color: var(--teal-600); }
+
+  /* ============================================================
+     PROPERTY GRID & CARDS
+  ============================================================ */
+  .property-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .property-card {
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--slate-200);
+    transition: var(--transition);
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .property-card.filtered-out {
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    display: none;
+  }
+  .property-card.animating-in {
+    animation: cardIn 0.35s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .property-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+    border-color: var(--slate-300);
+  }
+
+  .card-img-wrap {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+  }
+  .card-img-wrap img {
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .property-card:hover .card-img-wrap img {
+    transform: scale(1.07);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+  }
+  .badge-disponivel { background: rgba(20,184,166,0.90); color: white; }
+  .badge-novo { background: rgba(16,185,129,0.90); color: white; }
+  .badge-destaque { background: rgba(245,158,11,0.92); color: white; }
+
+  .fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    z-index: 2;
+  }
+  .fav-btn:hover { transform: scale(1.15); background: white; }
+  .fav-btn.active { animation: heartPop 0.3s cubic-bezier(0.4,0,0.2,1); }
+  @keyframes heartPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+
+  .tour-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    background: rgba(15,23,42,0.80);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-full);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 2;
+  }
+  .tour-badge:hover { background: var(--teal); }
+  .tour-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal-300);
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  .card-price {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+  .card-price span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--slate-500, #64748B);
+    letter-spacing: 0;
+  }
+
+  .card-address {
+    font-size: 13px;
+    color: var(--slate-600);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .card-specs {
+    display: flex;
+    gap: 14px;
+    border-top: 1px solid var(--slate-100);
+    padding-top: 12px;
+    margin-top: 4px;
+  }
+  .spec-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--slate-600);
+    font-weight: 500;
+  }
+  .spec-icon { font-size: 14px; }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 16px;
+  }
+
+  .btn-comparar {
+    flex: 1;
+    padding: 8px;
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-600);
+    transition: var(--transition);
+  }
+  .btn-comparar:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .btn-comparar.selected {
+    border-color: var(--teal);
+    background: var(--mint-50);
+    color: var(--teal);
+  }
+
+  .btn-ver {
+    flex: 1;
+    padding: 8px;
+    background: var(--teal);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    transition: var(--transition);
+  }
+  .btn-ver:hover { background: var(--teal-600); }
+
+  /* ============================================================
+     MAP SIDEBAR
+  ============================================================ */
+  .map-sidebar {
+    position: sticky;
+    top: 80px;
+  }
+
+  .map-container {
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--slate-200);
+  }
+
+  .map-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--slate-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .map-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-800);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .map-area {
+    position: relative;
+    height: 400px;
+    background:
+      linear-gradient(rgba(226,232,240,0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(226,232,240,0.5) 1px, transparent 1px),
+      linear-gradient(rgba(226,232,240,0.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(226,232,240,0.25) 1px, transparent 1px),
+      #F0F4F8;
+    background-size: 60px 60px, 60px 60px, 20px 20px, 20px 20px;
+    overflow: hidden;
+  }
+
+  /* Street lines */
+  .map-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, transparent 30%, rgba(203,213,225,0.7) 30%, rgba(203,213,225,0.7) 32%, transparent 32%),
+      linear-gradient(to bottom, transparent 62%, rgba(203,213,225,0.7) 62%, rgba(203,213,225,0.7) 64%, transparent 64%),
+      linear-gradient(to right, transparent 25%, rgba(203,213,225,0.7) 25%, rgba(203,213,225,0.7) 27%, transparent 27%),
+      linear-gradient(to right, transparent 55%, rgba(203,213,225,0.7) 55%, rgba(203,213,225,0.7) 57%, transparent 57%),
+      linear-gradient(to right, transparent 78%, rgba(203,213,225,0.7) 78%, rgba(203,213,225,0.7) 80%, transparent 80%);
+  }
+
+  /* Parks */
+  .map-park {
+    position: absolute;
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 4px;
+  }
+
+  .map-pin {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transform: translate(-50%, -100%);
+  }
+
+  .pin-bubble {
+    background: var(--teal);
+    color: white;
+    padding: 4px 9px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    animation: pinPulse 2s ease-in-out infinite;
+    transition: var(--transition);
+    position: relative;
+  }
+  .map-pin:hover .pin-bubble {
+    background: var(--slate-900);
+    transform: scale(1.1);
+    animation: none;
+  }
+  @keyframes pinPulse {
+    0%,100% { box-shadow: 0 4px 12px rgba(20,184,166,0.30), 0 0 0 0 rgba(20,184,166,0.4); }
+    50% { box-shadow: 0 4px 12px rgba(20,184,166,0.30), 0 0 0 6px rgba(20,184,166,0); }
+  }
+
+  .pin-tail {
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--teal);
+    transition: border-top-color 0.2s;
+  }
+  .map-pin:hover .pin-tail { border-top-color: var(--slate-900); }
+
+  .pin-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--slate-200);
+    font-size: 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 20;
+    min-width: 140px;
+    text-align: center;
+  }
+  .map-pin:hover .pin-tooltip { opacity: 1; }
+  .pin-tooltip strong {
+    display: block;
+    font-weight: 700;
+    color: var(--slate-900);
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .pin-tooltip span { color: var(--teal); font-weight: 600; }
+
+  .pin-pulse-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgba(20,184,166,0.35);
+    animation: ringExpand 2s ease-out infinite;
+  }
+  @keyframes ringExpand {
+    0% { transform: translate(-50%,-50%) scale(0.5); opacity: 0.8; }
+    100% { transform: translate(-50%,-50%) scale(2); opacity: 0; }
+  }
+
+  .map-legend {
+    padding: 12px 16px;
+    border-top: 1px solid var(--slate-100);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--slate-600);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ============================================================
+     FEATURED PROPERTY (full width)
+  ============================================================ */
+  .featured-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .featured-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--slate-200);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .featured-img-wrap {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+  }
+  .featured-img-wrap img {
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .featured-card:hover .featured-img-wrap img { transform: scale(1.04); }
+
+  .featured-overlay-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    padding: 4px 12px;
+    background: rgba(245,158,11,0.92);
+    border-radius: var(--radius-full);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .featured-body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .featured-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .featured-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--slate-900);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .featured-address {
+    font-size: 14px;
+    color: var(--slate-600);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .featured-specs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--slate-50);
+    border-radius: var(--radius-sm);
+  }
+  .featured-spec {
+    text-align: center;
+  }
+  .featured-spec-val {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    display: block;
+  }
+  .featured-spec-label {
+    font-size: 11px;
+    color: var(--slate-500, #64748B);
+    font-weight: 500;
+  }
+
+  .featured-price {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--teal);
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .featured-price span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--slate-500, #64748B);
+    letter-spacing: 0;
+  }
+
+  .featured-btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-tour {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: var(--slate-900);
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-body);
+  }
+  .btn-tour:hover {
+    background: var(--teal);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-teal);
+  }
+
+  .btn-agendar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: white;
+    color: var(--slate-800);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    transition: var(--transition);
+    cursor: pointer;
+    border: 1.5px solid var(--slate-200);
+    font-family: var(--font-body);
+  }
+  .btn-agendar:hover {
+    border-color: var(--slate-300);
+    background: var(--slate-50);
+  }
+
+  /* ============================================================
+     VIRTUAL TOUR OVERLAY
+  ============================================================ */
+  .tour-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .tour-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .tour-inner {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .tour-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    animation: tourRotate 20s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes tourRotate {
+    0% { object-position: 0% 50%; }
+    50% { object-position: 100% 50%; }
+    100% { object-position: 0% 50%; }
+  }
+
+  .tour-ui {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent, rgba(0,0,0,0.7));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 32px;
+  }
+
+  .tour-compass {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px; height: 48px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: compassSpin 8s linear infinite;
+    font-size: 20px;
+  }
+  @keyframes compassSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .tour-hint {
+    text-align: center;
+    color: white;
+    margin-bottom: 16px;
+  }
+  .tour-hint h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .tour-hint p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tour-progress {
+    width: 200px;
+    height: 2px;
+    background: rgba(255,255,255,0.2);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .tour-progress-bar {
+    height: 100%;
+    background: var(--teal);
+    animation: progressMove 20s linear infinite;
+    border-radius: var(--radius-full);
+  }
+  @keyframes progressMove {
+    0% { width: 0%; }
+    50% { width: 100%; }
+    100% { width: 0%; }
+  }
+
+  .tour-close {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: none;
+    font-family: inherit;
+  }
+  .tour-close:hover { background: rgba(255,255,255,0.3); }
+
+  /* ============================================================
+     COMPARISON DRAWER
+  ============================================================ */
+  .comparison-drawer {
+    position: fixed;
+    bottom: -100%;
+    left: 0; right: 0;
+    z-index: 500;
+    background: white;
+    border-top: 1px solid var(--slate-200);
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.14);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 24px;
+    transition: bottom 0.4s cubic-bezier(0.4,0,0.2,1);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .comparison-drawer.active {
+    bottom: 0;
+  }
+
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .drawer-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--slate-900);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .drawer-title .count-badge {
+    background: var(--teal);
+    color: white;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .drawer-close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--slate-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--slate-600);
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .drawer-close:hover { background: var(--slate-200); }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr;
+    gap: 16px;
+  }
+
+  .comp-label-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 64px;
+  }
+  .comp-label {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-500, #64748B);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--slate-100);
+  }
+
+  .comp-property-col {
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .comp-property-col.empty {
+    background: var(--slate-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    border-style: dashed;
+    color: var(--slate-400);
+    font-size: 13px;
+    text-align: center;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .comp-img {
+    height: 120px;
+    overflow: hidden;
+  }
+  .comp-img img { height: 100%; }
+
+  .comp-row {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 13px;
+    color: var(--slate-800);
+    border-bottom: 1px solid var(--slate-100);
+    font-weight: 500;
+  }
+  .comp-row:last-child { border-bottom: none; }
+
+  .comp-name {
+    padding: 12px 14px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--slate-900);
+    background: var(--slate-50);
+    border-bottom: 1px solid var(--slate-200);
+  }
+
+  .comp-highlight { color: var(--teal); font-weight: 700; }
+
+  .drawer-select-hint {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--slate-400);
+    padding: 12px;
+    background: var(--slate-50);
+    border-radius: var(--radius-sm);
+  }
+
+  /* ============================================================
+     TOAST NOTIFICATION
+  ============================================================ */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2000;
+    background: var(--slate-900);
+    color: white;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* ============================================================
+     FOOTER / DESIGN SYSTEM DOCS SECTION
+  ============================================================ */
+  .ds-section {
+    background: var(--slate-900);
+    padding: 64px 24px;
+  }
+  .ds-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .ds-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .ds-sub {
+    font-size: 15px;
+    color: var(--slate-400);
+    margin-bottom: 40px;
+  }
+
+  .ds-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) {
+    .ds-grid { grid-template-columns: repeat(2,1fr); }
+  }
+
+  .ds-card {
+    background: var(--slate-800);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .ds-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  /* Color swatches */
+  .color-swatches {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .swatch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .swatch {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .swatch-info { font-size: 12px; color: var(--slate-300); }
+  .swatch-name { font-weight: 600; color: white; font-size: 11px; }
+
+  /* Typography preview */
+  .type-samples { display: flex; flex-direction: column; gap: 12px; }
+  .type-display {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .type-body { font-size: 14px; color: var(--slate-300); line-height: 1.6; }
+  .type-label {
+    font-size: 10px;
+    color: var(--slate-500, #64748B);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: -4px;
+  }
+
+  /* Component tokens */
+  .token-list { display: flex; flex-direction: column; gap: 8px; }
+  .token-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .token-name { color: var(--slate-400); }
+  .token-val {
+    color: var(--teal-300);
+    font-family: monospace;
+    font-size: 11px;
+    background: rgba(20,184,166,0.10);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Interactive states */
+  .state-demos { display: flex; flex-direction: column; gap: 8px; }
+  .state-item {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .state-default { background: var(--teal); color: white; }
+  .state-hover { background: var(--teal-600); color: white; }
+  .state-disabled { background: var(--slate-700); color: var(--slate-500, #64748B); }
+  .state-outline {
+    background: transparent;
+    border: 1.5px solid var(--teal);
+    color: var(--teal);
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 1024px) {
+    .main-layout {
+      grid-template-columns: 1fr;
+    }
+    .map-sidebar { position: static; }
+    .property-grid { grid-template-columns: repeat(2,1fr); }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-img-wrap { height: 220px; }
+    .comparison-grid { grid-template-columns: 120px 1fr 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .property-grid { grid-template-columns: 1fr; }
+    .search-bar { flex-direction: column; align-items: stretch; }
+    .nav-links { display: none; }
+    .nav-logo { margin-left: 48px; }
+    .comparison-grid { grid-template-columns: 100px 1fr 1fr; }
+    .ds-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Back Button -->
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-logo">MORAR<span>+</span></div>
+  <div class="nav-links">
+    <a href="#">Comprar</a>
+    <a href="#">Alugar</a>
+    <a href="#">Lançamentos</a>
+    <a href="#">Bairros</a>
+    <a href="#">Blog</a>
+    <a href="#" class="nav-cta">Anunciar Imóvel</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span>●</span> 1.247 imóveis disponíveis em SP
+    </div>
+    <h1 class="hero-title">
+      Encontre seu <em>apartamento</em><br>ideal na cidade
+    </h1>
+    <p class="hero-subtitle">
+      Do studio compacto ao cobertura espaçosa — morar bem na cidade nunca foi tão fácil.
+    </p>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <!-- Neighborhood -->
+      <div class="search-field">
+        <label class="search-label">Bairro</label>
+        <select class="search-select" id="filter-bairro" onchange="applyFilters()">
+          <option value="">Todos os bairros</option>
+          <option value="pinheiros">Pinheiros</option>
+          <option value="vila-madalena">Vila Madalena</option>
+          <option value="brooklin">Brooklin</option>
+          <option value="moema">Moema</option>
+          <option value="itaim">Itaim Bibi</option>
+          <option value="perdizes">Perdizes</option>
+        </select>
+      </div>
+
+      <!-- Price Range -->
+      <div class="price-range-wrap">
+        <label class="search-label">Faixa de Preço</label>
+        <div class="price-values">
+          <span id="price-min-display">R$ 380k</span>
+          <span id="price-max-display">R$ 1,2M</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill" id="range-fill"></div>
+          <input type="range" id="price-min" min="380" max="1200" value="380" step="10" oninput="updateRange()">
+          <input type="range" id="price-max" min="380" max="1200" value="1200" step="10" oninput="updateRange()">
+        </div>
+      </div>
+
+      <!-- Tipo Toggle -->
+      <div class="search-field">
+        <label class="search-label">Tipo</label>
+        <div class="tipo-toggles">
+          <button class="tipo-btn active" data-tipo="all" onclick="toggleTipo(this)">Todos</button>
+          <button class="tipo-btn" data-tipo="apartamento" onclick="toggleTipo(this)">Aptos</button>
+          <button class="tipo-btn" data-tipo="studio" onclick="toggleTipo(this)">Studios</button>
+          <button class="tipo-btn" data-tipo="casa" onclick="toggleTipo(this)">Casas</button>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button class="search-submit" onclick="applyFilters()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Buscar
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-dot"></div>
+      <strong>1.247</strong> imóveis
+    </div>
+    <div class="stat-item">
+      <div class="stat-dot"></div>
+      <strong>6</strong> bairros
+    </div>
+    <div class="stat-item">
+      <div class="stat-dot"></div>
+      <strong>R$ 380k</strong> a partir
+    </div>
+    <div class="stat-item">
+      <div class="stat-dot"></div>
+      Tour virtual em <strong>47</strong> imóveis
+    </div>
+    <div class="results-count" id="results-count">
+      Mostrando <strong>6</strong> resultados
+    </div>
+  </div>
+</div>
+
+<!-- Main Layout: Cards + Map -->
+<div class="main-layout">
+  <!-- Left: Property Grid -->
+  <div>
+    <div class="section-header">
+      <h2 class="section-title">Imóveis em Destaque</h2>
+      <a href="#" class="section-link">Ver todos →</a>
+    </div>
+
+    <div class="property-grid" id="property-grid">
+
+      <!-- Card 1 -->
+      <div class="property-card"
+        data-id="1"
+        data-bairro="vila-madalena"
+        data-tipo="apartamento"
+        data-price="580"
+        data-name="Vila Madalena Modern"
+        data-spec-area="72" data-spec-quartos="2" data-spec-banheiros="1">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80" alt="Apartamento moderno">
+          <span class="card-badge badge-novo">Novo</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 580.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rua Mourato Coelho, Vila Madalena
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 72 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 2 quartos</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 1 banheiro</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 1)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="property-card"
+        data-id="2"
+        data-bairro="pinheiros"
+        data-tipo="apartamento"
+        data-price="720"
+        data-name="Pinheiros Bright"
+        data-spec-area="89" data-spec-quartos="3" data-spec-banheiros="2">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="Apartamento iluminado">
+          <span class="card-badge badge-destaque">Destaque</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 720.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rua dos Pinheiros, 842 — Pinheiros
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 89 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 3 quartos</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 2 banheiros</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 2)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="property-card"
+        data-id="3"
+        data-bairro="brooklin"
+        data-tipo="apartamento"
+        data-price="1100"
+        data-name="Brooklin Kitchen Lux"
+        data-spec-area="110" data-spec-quartos="3" data-spec-banheiros="2">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="Cozinha moderna">
+          <span class="card-badge badge-disponivel">Disponível</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 1.100.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Av. Santo Amaro, 1560 — Brooklin
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 110 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 3 quartos</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 2 banheiros</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 3)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="property-card"
+        data-id="4"
+        data-bairro="moema"
+        data-tipo="studio"
+        data-price="420"
+        data-name="Moema Cozy Studio"
+        data-spec-area="38" data-spec-quartos="1" data-spec-banheiros="1">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80" alt="Studio aconchegante">
+          <span class="card-badge badge-novo">Novo</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 420.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Alameda Lorena, 345 — Moema
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 38 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 1 quarto</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 1 banheiro</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 4)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="property-card"
+        data-id="5"
+        data-bairro="itaim"
+        data-tipo="apartamento"
+        data-price="890"
+        data-name="Itaim Loft Style"
+        data-spec-area="95" data-spec-quartos="2" data-spec-banheiros="2">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" alt="Loft estilo">
+          <span class="card-badge badge-destaque">Destaque</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 890.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            R. Leopoldo Couto, 220 — Itaim Bibi
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 95 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 2 quartos</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 2 banheiros</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 5)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="property-card"
+        data-id="6"
+        data-bairro="perdizes"
+        data-tipo="studio"
+        data-price="380"
+        data-name="Perdizes Minimal"
+        data-spec-area="32" data-spec-quartos="1" data-spec-banheiros="1">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&q=80" alt="Apartamento minimalista">
+          <span class="card-badge badge-disponivel">Disponível</span>
+          <button class="fav-btn" onclick="toggleFav(this)" title="Favoritar">🤍</button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">R$ 380.000 <span>à vista</span></div>
+          <div class="card-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rua Cardoso de Almeida, 178 — Perdizes
+          </div>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-icon">⬛</span> 32 m²</div>
+            <div class="spec-item"><span class="spec-icon">🛏</span> 1 quarto</div>
+            <div class="spec-item"><span class="spec-icon">🚿</span> 1 banheiro</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-comparar" onclick="toggleCompare(this, 6)">⊕ Comparar</button>
+          <button class="btn-ver">Ver imóvel →</button>
+        </div>
+      </div>
+
+    </div><!-- /property-grid -->
+  </div>
+
+  <!-- Right: Map Sidebar -->
+  <div class="map-sidebar">
+    <div class="map-container">
+      <div class="map-header">
+        <div class="map-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7z"/></svg>
+          Mapa — São Paulo
+        </div>
+        <span style="font-size:12px;color:var(--slate-400);">6 imóveis</span>
+      </div>
+
+      <div class="map-area" id="map-area">
+        <!-- Parks -->
+        <div class="map-park" style="top:15%;left:5%;width:80px;height:50px;"></div>
+        <div class="map-park" style="top:55%;left:65%;width:60px;height:40px;"></div>
+
+        <!-- Map Pins -->
+        <!-- Pin 1: Vila Madalena -->
+        <div class="map-pin" style="top:35%;left:22%" data-pin="1">
+          <div class="pin-pulse-ring"></div>
+          <div class="pin-bubble">R$580k</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Vila Madalena Modern</strong>
+            <span>R$ 580.000</span>
+          </div>
+        </div>
+
+        <!-- Pin 2: Pinheiros -->
+        <div class="map-pin" style="top:48%;left:38%" data-pin="2">
+          <div class="pin-bubble">R$720k</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Pinheiros Bright</strong>
+            <span>R$ 720.000</span>
+          </div>
+        </div>
+
+        <!-- Pin 3: Brooklin -->
+        <div class="map-pin" style="top:72%;left:58%" data-pin="3">
+          <div class="pin-bubble">R$1.1M</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Brooklin Kitchen Lux</strong>
+            <span>R$ 1.100.000</span>
+          </div>
+        </div>
+
+        <!-- Pin 4: Moema -->
+        <div class="map-pin" style="top:62%;left:72%" data-pin="4">
+          <div class="pin-bubble">R$420k</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Moema Cozy Studio</strong>
+            <span>R$ 420.000</span>
+          </div>
+        </div>
+
+        <!-- Pin 5: Itaim -->
+        <div class="map-pin" style="top:55%;left:82%" data-pin="5">
+          <div class="pin-bubble">R$890k</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Itaim Loft Style</strong>
+            <span>R$ 890.000</span>
+          </div>
+        </div>
+
+        <!-- Pin 6: Perdizes -->
+        <div class="map-pin" style="top:22%;left:48%" data-pin="6">
+          <div class="pin-bubble">R$380k</div>
+          <div class="pin-tail"></div>
+          <div class="pin-tooltip">
+            <strong>Perdizes Minimal</strong>
+            <span>R$ 380.000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--teal)"></div>
+          Disponível
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--amber)"></div>
+          Destaque
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--emerald)"></div>
+          Área verde
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Property (Full Width) -->
+<div class="featured-section">
+  <div class="section-header">
+    <h2 class="section-title">Imóvel em Destaque — Tour Virtual</h2>
+    <span style="font-size:13px;color:var(--slate-500)">Seleção da semana</span>
+  </div>
+
+  <div class="featured-card">
+    <div class="featured-img-wrap">
+      <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="Pinheiros Bright featured">
+      <div class="featured-overlay-badge">🏆 Mais buscado</div>
+    </div>
+    <div class="featured-body">
+      <div class="featured-label">✦ Imóvel da Semana</div>
+      <h3 class="featured-title">Pinheiros Bright<br>Apartamento Premium</h3>
+      <div class="featured-address">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Rua dos Pinheiros, 842 — Pinheiros, São Paulo
+      </div>
+      <div class="featured-specs">
+        <div class="featured-spec">
+          <span class="featured-spec-val">89</span>
+          <span class="featured-spec-label">m²</span>
+        </div>
+        <div class="featured-spec">
+          <span class="featured-spec-val">3</span>
+          <span class="featured-spec-label">quartos</span>
+        </div>
+        <div class="featured-spec">
+          <span class="featured-spec-val">2</span>
+          <span class="featured-spec-label">banheiros</span>
+        </div>
+        <div class="featured-spec">
+          <span class="featured-spec-val">1</span>
+          <span class="featured-spec-label">vaga</span>
+        </div>
+      </div>
+      <div class="featured-price">R$ 720.000 <span>IPTU R$ 320/mês</span></div>
+      <div class="featured-btns">
+        <button class="btn-tour" onclick="openTour()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Tour Virtual 360°
+        </button>
+        <button class="btn-agendar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Agendar Visita
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Design System Documentation Section -->
+<div class="ds-section">
+  <div class="ds-inner">
+    <div class="ds-title">Urban Living — Design System</div>
+    <p class="ds-sub">Tokens, typografia, cores e estados interativos para a plataforma MORAR+</p>
+
+    <div class="ds-grid">
+      <!-- Colors -->
+      <div class="ds-card">
+        <div class="ds-card-title">Paleta de Cores</div>
+        <div class="color-swatches">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#0F172A"></div>
+            <div>
+              <div class="swatch-name">Slate 900</div>
+              <div class="swatch-info">#0F172A — Primary text</div>
+            </div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" style="background:#14B8A6"></div>
+            <div>
+              <div class="swatch-name">Teal</div>
+              <div class="swatch-info">#14B8A6 — Primary action</div>
+            </div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" style="background:#F0FDF4"></div>
+            <div>
+              <div class="swatch-name">Mint 50</div>
+              <div class="swatch-info">#F0FDF4 — Selected bg</div>
+            </div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" style="background:#E2E8F0"></div>
+            <div>
+              <div class="swatch-name">Slate 200</div>
+              <div class="swatch-info">#E2E8F0 — Borders</div>
+            </div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" style="background:#F8FAFC;border:1px solid #E2E8F0"></div>
+            <div>
+              <div class="swatch-name">Background</div>
+              <div class="swatch-info">#F8FAFC — Page bg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="ds-card">
+        <div class="ds-card-title">Tipografia</div>
+        <div class="type-samples">
+          <div>
+            <div class="type-display">MORAR+</div>
+            <div class="type-label">Plus Jakarta Sans 800 — Display</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:white;">Título de Seção</div>
+            <div class="type-label">Plus Jakarta Sans 700 — Heading</div>
+          </div>
+          <div>
+            <div class="type-body">Texto de corpo e descrições de imóveis. Legível e limpo.</div>
+            <div class="type-label">Inter 400 — Body</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--teal-300);text-transform:uppercase;letter-spacing:0.08em;">Disponível</div>
+            <div class="type-label">Inter 700 Uppercase — Label</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tokens -->
+      <div class="ds-card">
+        <div class="ds-card-title">Tokens de Espaçamento</div>
+        <div class="token-list">
+          <div class="token-item">
+            <span class="token-name">border-radius-sm</span>
+            <span class="token-val">6px</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">border-radius-md</span>
+            <span class="token-val">12px</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">border-radius-lg</span>
+            <span class="token-val">16px</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">border-radius-full</span>
+            <span class="token-val">9999px</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">shadow-teal</span>
+            <span class="token-val">teal glow</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">transition</span>
+            <span class="token-val">0.22s ease</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">card-hover</span>
+            <span class="token-val">-3px Y lift</span>
+          </div>
+          <div class="token-item">
+            <span class="token-name">img-hover-zoom</span>
+            <span class="token-val">scale(1.07)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive States -->
+      <div class="ds-card">
+        <div class="ds-card-title">Estados Interativos</div>
+        <div class="state-demos">
+          <div class="state-item state-default">Botão Primário — Default</div>
+          <div class="state-item state-hover">Botão Primário — Hover</div>
+          <div class="state-item state-outline">Botão Outline — Default</div>
+          <div class="state-item state-disabled">Botão — Desativado</div>
+          <div style="padding:8px 12px;border-radius:var(--radius-sm);border:1.5px solid #14B8A6;background:rgba(20,184,166,0.10);font-size:12px;font-weight:600;color:#14B8A6;text-align:center;">
+            Comparar — Selecionado
+          </div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-top:4px;">
+            <span style="background:rgba(20,184,166,0.90);color:white;padding:3px 10px;border-radius:9999px;font-size:10px;font-weight:700;">Disponível</span>
+            <span style="background:rgba(16,185,129,0.90);color:white;padding:3px 10px;border-radius:9999px;font-size:10px;font-weight:700;">Novo</span>
+            <span style="background:rgba(245,158,11,0.92);color:white;padding:3px 10px;border-radius:9999px;font-size:10px;font-weight:700;">Destaque</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;color:var(--slate-600);font-size:13px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);">
+      Urban Living Design System · MORAR+ Platform · Target: millennials comprando primeiro apê em SP
+    </div>
+  </div>
+</div>
+
+<!-- Virtual Tour Overlay -->
+<div class="tour-overlay" id="tour-overlay">
+  <button class="tour-close" onclick="closeTour()">✕</button>
+  <div class="tour-inner">
+    <img class="tour-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&q=80" alt="Tour Virtual 360">
+    <div class="tour-ui">
+      <div class="tour-compass">🧭</div>
+      <div class="tour-hint">
+        <h3>Tour Virtual 360° — Pinheiros Bright</h3>
+        <p>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>
+          Arraste para explorar o espaço · ESC para fechar
+        </p>
+      </div>
+      <div class="tour-progress">
+        <div class="tour-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comparison Drawer -->
+<div class="comparison-drawer" id="comparison-drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">
+      Comparar Imóveis
+      <div class="count-badge" id="compare-count">0</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+
+  <div class="comparison-grid" id="comparison-grid">
+    <!-- Labels col -->
+    <div class="comp-label-col">
+      <div class="comp-label">Foto</div>
+      <div class="comp-label">Nome</div>
+      <div class="comp-label">Preço</div>
+      <div class="comp-label">Área</div>
+      <div class="comp-label">Quartos</div>
+      <div class="comp-label">Banheiros</div>
+      <div class="comp-label">Tipo</div>
+      <div class="comp-label">Bairro</div>
+    </div>
+    <!-- Slot A -->
+    <div class="comp-property-col" id="comp-slot-0">
+      <div class="comp-property-col empty">
+        <div style="font-size:28px">⊕</div>
+        <div>Selecione um imóvel<br>para comparar</div>
+      </div>
+    </div>
+    <!-- Slot B -->
+    <div class="comp-property-col" id="comp-slot-1">
+      <div class="comp-property-col empty">
+        <div style="font-size:28px">⊕</div>
+        <div>Selecione um imóvel<br>para comparar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-select-hint" id="compare-hint">
+    Clique em "Comparar" em até 2 imóveis para ver a comparação lado a lado
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toast-icon">✓</span>
+  <span id="toast-msg">Ação realizada</span>
+</div>
+
+<script>
+  // ============================================================
+  // DATA
+  // ============================================================
+  const PROPERTIES = {
+    1: {
+      name: 'Vila Madalena Modern',
+      price: 'R$ 580.000',
+      area: '72 m²',
+      quartos: '2',
+      banheiros: '1',
+      tipo: 'Apartamento',
+      bairro: 'Vila Madalena',
+      img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&q=80'
+    },
+    2: {
+      name: 'Pinheiros Bright',
+      price: 'R$ 720.000',
+      area: '89 m²',
+      quartos: '3',
+      banheiros: '2',
+      tipo: 'Apartamento',
+      bairro: 'Pinheiros',
+      img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80'
+    },
+    3: {
+      name: 'Brooklin Kitchen Lux',
+      price: 'R$ 1.100.000',
+      area: '110 m²',
+      quartos: '3',
+      banheiros: '2',
+      tipo: 'Apartamento',
+      bairro: 'Brooklin',
+      img: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&q=80'
+    },
+    4: {
+      name: 'Moema Cozy Studio',
+      price: 'R$ 420.000',
+      area: '38 m²',
+      quartos: '1',
+      banheiros: '1',
+      tipo: 'Studio',
+      bairro: 'Moema',
+      img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&q=80'
+    },
+    5: {
+      name: 'Itaim Loft Style',
+      price: 'R$ 890.000',
+      area: '95 m²',
+      quartos: '2',
+      banheiros: '2',
+      tipo: 'Apartamento',
+      bairro: 'Itaim Bibi',
+      img: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&q=80'
+    },
+    6: {
+      name: 'Perdizes Minimal',
+      price: 'R$ 380.000',
+      area: '32 m²',
+      quartos: '1',
+      banheiros: '1',
+      tipo: 'Studio',
+      bairro: 'Perdizes',
+      img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=400&q=80'
+    }
+  };
+
+  // ============================================================
+  // PRICE RANGE SLIDER
+  // ============================================================
+  function updateRange() {
+    const minInput = document.getElementById('price-min');
+    const maxInput = document.getElementById('price-max');
+    const fill = document.getElementById('range-fill');
+
+    let minVal = parseInt(minInput.value);
+    let maxVal = parseInt(maxInput.value);
+
+    // Prevent overlap
+    if (minVal >= maxVal) {
+      if (event && event.target === minInput) minInput.value = maxVal - 10;
+      else maxInput.value = minVal + 10;
+      minVal = parseInt(minInput.value);
+      maxVal = parseInt(maxInput.value);
+    }
+
+    const range = 1200 - 380;
+    const leftPct = ((minVal - 380) / range) * 100;
+    const rightPct = ((maxVal - 380) / range) * 100;
+
+    fill.style.left = leftPct + '%';
+    fill.style.width = (rightPct - leftPct) + '%';
+
+    document.getElementById('price-min-display').textContent =
+      minVal >= 1000 ? `R$ ${(minVal/1000).toFixed(1).replace('.0','')}M` : `R$ ${minVal}k`;
+    document.getElementById('price-max-display').textContent =
+      maxVal >= 1000 ? `R$ ${(maxVal/1000).toFixed(1).replace('.0','')}M` : `R$ ${maxVal}k`;
+
+    applyFilters();
+  }
+
+  // Initialize range fill on load
+  window.addEventListener('load', () => {
+    const fill = document.getElementById('range-fill');
+    fill.style.left = '0%';
+    fill.style.width = '100%';
+  });
+
+  // ============================================================
+  // TIPO TOGGLE
+  // ============================================================
+  let activeTipo = 'all';
+  function toggleTipo(btn) {
+    document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTipo = btn.dataset.tipo;
+    applyFilters();
+  }
+
+  // ============================================================
+  // FILTER LOGIC
+  // ============================================================
+  function applyFilters() {
+    const bairro = document.getElementById('filter-bairro').value;
+    const priceMin = parseInt(document.getElementById('price-min').value);
+    const priceMax = parseInt(document.getElementById('price-max').value);
+
+    const cards = document.querySelectorAll('.property-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const cardBairro = card.dataset.bairro;
+      const cardTipo = card.dataset.tipo;
+      const cardPrice = parseInt(card.dataset.price);
+
+      const bairroMatch = !bairro || cardBairro === bairro;
+      const tipoMatch = activeTipo === 'all' || cardTipo === activeTipo;
+      const priceMatch = cardPrice >= priceMin && cardPrice <= priceMax;
+
+      if (bairroMatch && tipoMatch && priceMatch) {
+        card.classList.remove('filtered-out');
+        card.classList.add('animating-in');
+        card.addEventListener('animationend', () => card.classList.remove('animating-in'), { once: true });
+        visibleCount++;
+      } else {
+        card.classList.add('filtered-out');
+        card.classList.remove('animating-in');
+      }
+    });
+
+    document.getElementById('results-count').innerHTML =
+      `Mostrando <strong>${visibleCount}</strong> resultado${visibleCount !== 1 ? 's' : ''}`;
+  }
+
+  // ============================================================
+  // FAVORITE BUTTON
+  // ============================================================
+  function toggleFav(btn) {
+    const isFaved = btn.textContent === '❤️';
+    btn.textContent = isFaved ? '🤍' : '❤️';
+    btn.classList.toggle('active', !isFaved);
+    showToast(isFaved ? '💔' : '❤️', isFaved ? 'Removido dos favoritos' : 'Adicionado aos favoritos!');
+  }
+
+  // ============================================================
+  // VIRTUAL TOUR
+  // ============================================================
+  function openTour() {
+    document.getElementById('tour-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeTour() {
+    document.getElementById('tour-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeTour();
+      closeDrawer();
+    }
+  });
+
+  // ============================================================
+  // COMPARISON DRAWER
+  // ============================================================
+  let selectedForCompare = [];
+
+  function toggleCompare(btn, id) {
+    const alreadyIdx = selectedForCompare.indexOf(id);
+
+    if (alreadyIdx !== -1) {
+      // Deselect
+      selectedForCompare.splice(alreadyIdx, 1);
+      btn.classList.remove('selected');
+      btn.textContent = '⊕ Comparar';
+      renderComparison();
+      if (selectedForCompare.length === 0) closeDrawer();
+      return;
+    }
+
+    if (selectedForCompare.length >= 2) {
+      showToast('⚠️', 'Máximo 2 imóveis para comparar. Remova um primeiro.');
+      return;
+    }
+
+    selectedForCompare.push(id);
+    btn.classList.add('selected');
+    btn.textContent = '✓ Selecionado';
+    renderComparison();
+    document.getElementById('comparison-drawer').classList.add('active');
+  }
+
+  function renderComparison() {
+    const countEl = document.getElementById('compare-count');
+    countEl.textContent = selectedForCompare.length;
+
+    const hint = document.getElementById('compare-hint');
+
+    for (let slot = 0; slot < 2; slot++) {
+      const slotEl = document.getElementById(`comp-slot-${slot}`);
+      const propId = selectedForCompare[slot];
+
+      if (!propId) {
+        slotEl.innerHTML = `
+          <div class="comp-property-col empty">
+            <div style="font-size:28px">⊕</div>
+            <div>Selecione um imóvel<br>para comparar</div>
+          </div>`;
+        return;
+      }
+
+      const p = PROPERTIES[propId];
+      slotEl.innerHTML = `
+        <div class="comp-img"><img src="${p.img}" alt="${p.name}"></div>
+        <div class="comp-name">${p.name}</div>
+        <div class="comp-row comp-highlight">${p.price}</div>
+        <div class="comp-row">${p.area}</div>
+        <div class="comp-row">${p.quartos} quarto${p.quartos !== '1' ? 's' : ''}</div>
+        <div class="comp-row">${p.banheiros} banheiro${p.banheiros !== '1' ? 's' : ''}</div>
+        <div class="comp-row">${p.tipo}</div>
+        <div class="comp-row">${p.bairro}</div>
+      `;
+    }
+
+    if (selectedForCompare.length === 2) {
+      hint.textContent = 'Comparando os 2 imóveis selecionados. Clique em "✓ Selecionado" para remover.';
+    } else {
+      hint.textContent = 'Selecione mais 1 imóvel nos cards acima para completar a comparação.';
+    }
+  }
+
+  function closeDrawer() {
+    // Deselect all
+    selectedForCompare.forEach(id => {
+      const cards = document.querySelectorAll('.property-card');
+      cards.forEach(card => {
+        if (parseInt(card.dataset.id) === id) {
+          const btn = card.querySelector('.btn-comparar');
+          btn.classList.remove('selected');
+          btn.textContent = '⊕ Comparar';
+        }
+      });
+    });
+    selectedForCompare = [];
+    document.getElementById('compare-count').textContent = '0';
+    document.getElementById('comparison-drawer').classList.remove('active');
+
+    // Reset slots
+    for (let slot = 0; slot < 2; slot++) {
+      document.getElementById(`comp-slot-${slot}`).innerHTML = `
+        <div class="comp-property-col empty">
+          <div style="font-size:28px">⊕</div>
+          <div>Selecione um imóvel<br>para comparar</div>
+        </div>`;
+    }
+    document.getElementById('compare-hint').textContent =
+      'Clique em "Comparar" em até 2 imóveis para ver a comparação lado a lado';
+  }
+
+  // ============================================================
+  // TOAST
+  // ============================================================
+  let toastTimer;
+  function showToast(icon, msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-icon').textContent = icon;
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  // ============================================================
+  // STAGGERED PIN ANIMATIONS
+  // ============================================================
+  document.querySelectorAll('.map-pin').forEach((pin, i) => {
+    pin.querySelector('.pin-bubble').style.animationDelay = `${i * 0.35}s`;
+    const ring = pin.querySelector('.pin-pulse-ring');
+    if (ring) ring.style.animationDelay = `${i * 0.35}s`;
+  });
+</script>
+</body>
+</html>

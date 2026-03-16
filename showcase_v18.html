@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luxo Residencial — AVENIR IMÓVEIS Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+    ========================================= */
+    :root {
+      --noir:       #0A0908;
+      --gold:       #C9A96E;
+      --gold-light: #D9BE8E;
+      --gold-dark:  #A8854A;
+      --ivory:      #F5F1EB;
+      --ivory-dark: #EAE4DA;
+      --earth:      #6B5B45;
+      --white:      #FFFFFF;
+      --text-muted: #9A8C7A;
+
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-body:    'Jost', system-ui, sans-serif;
+
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  24px;
+      --space-6:  32px;
+      --space-7:  48px;
+      --space-8:  64px;
+      --space-9:  96px;
+      --space-10: 128px;
+
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition-fast: 0.2s ease;
+    }
+
+    /* =========================================
+       RESET & BASE
+    ========================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      font-weight: 300;
+      background: var(--noir);
+      color: var(--ivory);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================================
+       BACK BUTTON
+    ========================================= */
+    .back-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff;
+      text-decoration: none;
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .03em;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: background var(--transition-fast);
+    }
+    .back-btn:hover { background: rgba(0,0,0,0.8); }
+
+    /* =========================================
+       TYPOGRAPHY HELPERS
+    ========================================= */
+    .display-xl {
+      font-family: var(--ff-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .display-lg {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .display-md {
+      font-family: var(--ff-display);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .label {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .body-sm {
+      font-family: var(--ff-body);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* =========================================
+       SECTION LAYOUTS
+    ========================================= */
+    .section {
+      padding: var(--space-10) var(--space-6);
+    }
+    .section--ivory {
+      background: var(--ivory);
+      color: var(--noir);
+    }
+    .section--dark {
+      background: #100E0C;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: var(--space-8);
+    }
+    .section-header .label {
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+    .section-header h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .section-header .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin-top: var(--space-4);
+    }
+
+    /* =========================================
+       HERO WITH PARALLAX
+    ========================================= */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: -20%;
+      background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10, 9, 8, 0.92) 0%,
+        rgba(10, 9, 8, 0.4) 50%,
+        rgba(10, 9, 8, 0.15) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-10) var(--space-6);
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+    .hero-eyebrow .line {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-5);
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-family: var(--ff-body);
+      font-size: clamp(14px, 1.5vw, 16px);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: rgba(245, 241, 235, 0.7);
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      z-index: 2;
+    }
+    .hero-scroll span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* Navbar inside hero */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(10, 9, 8, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding-top: var(--space-3);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+    }
+    .navbar-logo {
+      font-family: var(--ff-display);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+    .navbar-logo span { color: var(--gold); }
+    .navbar-nav {
+      display: flex;
+      gap: var(--space-7);
+      list-style: none;
+    }
+    .navbar-nav a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      transition: color var(--transition-fast);
+    }
+    .navbar-nav a:hover { color: var(--gold); }
+
+    /* =========================================
+       PROPERTY CARDS
+    ========================================= */
+    #properties {
+      background: var(--noir);
+      padding: var(--space-10) var(--space-6);
+    }
+
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
+    }
+
+    .property-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      background: #1a1714;
+    }
+
+    .property-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .property-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .property-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10, 9, 8, 0.95) 0%,
+        rgba(10, 9, 8, 0.6) 30%,
+        rgba(10, 9, 8, 0.1) 60%,
+        transparent 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-6);
+    }
+
+    .property-card-reveal {
+      transform: translateY(calc(100% - 80px));
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .property-card:hover .property-card-reveal {
+      transform: translateY(0);
+    }
+
+    .property-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      margin-bottom: var(--space-3);
+    }
+
+    .property-title {
+      font-family: var(--ff-display);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: var(--space-2);
+    }
+
+    .property-location {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: var(--space-5);
+    }
+
+    .property-price {
+      font-family: var(--ff-display);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--gold-light);
+      margin-bottom: var(--space-5);
+    }
+
+    .property-specs {
+      display: flex;
+      gap: var(--space-5);
+      margin-bottom: var(--space-5);
+    }
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .spec-value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ivory);
+    }
+    .spec-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .btn-card {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      transition: gap var(--transition-fast);
+    }
+    .btn-card:hover { gap: var(--space-5); }
+    .btn-card::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+      transition: width var(--transition-fast);
+    }
+    .btn-card:hover::after { width: 40px; }
+
+    /* =========================================
+       MODAL
+    ========================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(10, 9, 8, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: var(--space-6);
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      transform: translateY(30px);
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .modal-backdrop.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-image {
+      position: sticky;
+      top: 0;
+      height: 100%;
+      max-height: 70vh;
+      overflow: hidden;
+    }
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-body {
+      background: #0f0d0b;
+      padding: var(--space-8) var(--space-7);
+      border: 1px solid rgba(201, 169, 110, 0.1);
+      border-left: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      background: rgba(10, 9, 8, 0.8);
+      color: var(--ivory);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all var(--transition-fast);
+    }
+    .modal-close:hover {
+      background: var(--gold);
+      color: var(--noir);
+      border-color: var(--gold);
+    }
+
+    .modal-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      margin-bottom: var(--space-5);
+    }
+    .modal-title {
+      font-family: var(--ff-display);
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: var(--space-3);
+    }
+    .modal-location {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--space-6);
+    }
+    .modal-price {
+      font-family: var(--ff-display);
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: var(--space-6);
+    }
+
+    .modal-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(201, 169, 110, 0.15);
+      margin: var(--space-5) 0;
+    }
+
+    .modal-specs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .modal-spec-item {
+      border-left: 1px solid rgba(201, 169, 110, 0.2);
+      padding-left: var(--space-4);
+    }
+    .modal-spec-value {
+      font-family: var(--ff-display);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .modal-spec-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(245, 241, 235, 0.65);
+      margin-bottom: var(--space-6);
+    }
+
+    /* =========================================
+       BUTTONS
+    ========================================= */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 32px;
+      background: var(--gold);
+      color: var(--noir);
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 32px;
+      background: transparent;
+      color: var(--gold);
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .btn-ghost:hover {
+      background: var(--gold);
+      color: var(--noir);
+    }
+
+    /* =========================================
+       BEFORE / AFTER SLIDER
+    ========================================= */
+    #comparison {
+      padding: var(--space-10) var(--space-6);
+      background: #0D0B09;
+    }
+
+    .comparison-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+    }
+
+    .comp-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .comp-img--after {
+      clip-path: inset(0 0 0 50%);
+      transition: none;
+    }
+
+    .comp-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--gold);
+      transform: translateX(-50%);
+      z-index: 5;
+      pointer-events: none;
+    }
+    .comp-handle::before,
+    .comp-handle::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      top: 50%;
+      margin-top: -22px;
+    }
+    .comp-handle::before { content: none; }
+    .comp-knob {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: var(--gold);
+      border-radius: 50%;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .comp-knob svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--noir);
+    }
+
+    .comp-label {
+      position: absolute;
+      top: var(--space-5);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: rgba(10, 9, 8, 0.7);
+      padding: 6px 14px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+    .comp-label--before {
+      left: var(--space-5);
+      color: var(--ivory);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .comp-label--after {
+      right: var(--space-5);
+      color: var(--gold);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+    }
+
+    /* =========================================
+       STATS BAR
+    ========================================= */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: #0f0d0b;
+      border-top: 1px solid rgba(201, 169, 110, 0.1);
+      border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+    }
+    .stat-item {
+      padding: var(--space-8) var(--space-6);
+      border-right: 1px solid rgba(201, 169, 110, 0.1);
+      text-align: center;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+    .stat-desc {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* =========================================
+       FLOATING FORM BUTTON
+    ========================================= */
+    .float-btn {
+      position: fixed;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      z-index: 500;
+      background: var(--gold);
+      color: var(--noir);
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 14px 22px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      box-shadow: 0 8px 40px rgba(201, 169, 110, 0.3);
+      transition: all var(--transition-fast);
+    }
+    .float-btn:hover {
+      background: var(--gold-light);
+      box-shadow: 0 12px 50px rgba(201, 169, 110, 0.45);
+      transform: translateY(-2px);
+    }
+    .float-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--noir);
+    }
+
+    /* Slide-up form panel */
+    .form-panel {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      z-index: 600;
+      width: 420px;
+      max-width: 100%;
+      background: #0f0d0b;
+      border: 1px solid rgba(201, 169, 110, 0.15);
+      border-bottom: none;
+      padding: var(--space-7);
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
+    }
+    .form-panel.open {
+      transform: translateY(0);
+    }
+
+    .form-panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+    }
+    .form-panel-title {
+      font-family: var(--ff-display);
+      font-size: 24px;
+      font-weight: 300;
+    }
+    .form-panel-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-close {
+      background: none;
+      border: 1px solid rgba(201, 169, 110, 0.2);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: all var(--transition-fast);
+    }
+    .form-close:hover { color: var(--ivory); border-color: var(--ivory); }
+
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+    .form-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+    .form-input,
+    .form-select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201, 169, 110, 0.15);
+      color: var(--ivory);
+      font-family: var(--ff-body);
+      font-size: 14px;
+      font-weight: 300;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color var(--transition-fast);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--gold);
+    }
+    .form-input::placeholder { color: rgba(154, 140, 122, 0.5); }
+    .form-select option { background: #0f0d0b; }
+
+    /* =========================================
+       DESIGN SYSTEM SECTION
+    ========================================= */
+    #design-system {
+      background: var(--ivory);
+      color: var(--noir);
+      padding: var(--space-10) var(--space-6);
+    }
+
+    .ds-section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      margin-bottom: var(--space-3);
+      color: var(--noir);
+    }
+    .ds-section-sub {
+      font-size: 13px;
+      color: var(--earth);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-10);
+    }
+
+    .ds-block {
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-10);
+      border-bottom: 1px solid var(--ivory-dark);
+    }
+    .ds-block:last-child { border-bottom: none; }
+    .ds-block-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--earth);
+      margin-bottom: var(--space-6);
+    }
+
+    /* Typography showcase */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-6);
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid rgba(107, 91, 69, 0.1);
+    }
+    .type-meta {
+      width: 200px;
+      flex-shrink: 0;
+    }
+    .type-name { font-size: 12px; font-weight: 500; color: var(--noir); }
+    .type-spec { font-size: 11px; color: var(--earth); margin-top: 2px; }
+    .type-sample { flex: 1; }
+
+    /* Color palette */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-4);
+    }
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-3);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .color-name { font-size: 11px; font-weight: 500; }
+    .color-hex { font-size: 10px; opacity: 0.7; letter-spacing: 0.05em; }
+
+    /* Buttons showcase */
+    .btn-row {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+    }
+
+    /* Badges showcase */
+    .badge-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+    }
+    .badge--available { border: 1px solid #4A7C59; color: #4A7C59; background: rgba(74, 124, 89, 0.07); }
+    .badge--exclusive { border: 1px solid var(--gold); color: var(--gold-dark); background: rgba(201, 169, 110, 0.07); }
+    .badge--new { border: 1px solid var(--noir); color: var(--noir); background: var(--noir); color: var(--ivory); }
+
+    /* Inputs showcase */
+    .input-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--space-5);
+    }
+    .ds-input {
+      background: rgba(107, 91, 69, 0.05);
+      border: 1px solid rgba(107, 91, 69, 0.25);
+      color: var(--noir);
+      font-family: var(--ff-body);
+      font-size: 14px;
+      font-weight: 300;
+      padding: 12px 14px;
+      outline: none;
+      width: 100%;
+      transition: border-color var(--transition-fast);
+    }
+    .ds-input:focus { border-color: var(--gold-dark); }
+    .ds-input::placeholder { color: rgba(107, 91, 69, 0.5); }
+    .ds-form-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--earth);
+      margin-bottom: var(--space-2);
+    }
+
+    /* Spacing scale */
+    .space-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .space-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+    .space-bar {
+      background: var(--gold);
+      height: 20px;
+    }
+    .space-info {
+      font-size: 12px;
+      color: var(--earth);
+      white-space: nowrap;
+    }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--noir);
+      border-top: 1px solid rgba(201, 169, 110, 0.1);
+      padding: var(--space-9) var(--space-6);
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-8);
+    }
+    .footer-logo {
+      font-family: var(--ff-display);
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-4);
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-tagline {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+    .footer-col-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-5);
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      transition: color var(--transition-fast);
+    }
+    .footer-links a:hover { color: var(--ivory); }
+    .footer-bottom {
+      max-width: 1280px;
+      margin: var(--space-8) auto 0;
+      padding-top: var(--space-6);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(154, 140, 122, 0.5);
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================
+       RESPONSIVENESS
+    ========================================= */
+    @media (max-width: 900px) {
+      .modal { grid-template-columns: 1fr; }
+      .modal-image { max-height: 260px; position: relative; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .stats-bar .stat-item:nth-child(2) { border-right: none; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .navbar-nav { display: none; }
+      .properties-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .form-panel { width: 100%; }
+      .modal-specs { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Scroll animation helper */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACK BUTTON -->
+  <a href="index.html" class="back-btn">← Voltar</a>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-logo">AVENIR<span>.</span></div>
+    <ul class="navbar-nav">
+      <li><a href="#properties">Imóveis</a></li>
+      <li><a href="#comparison">Visão</a></li>
+      <li><a href="#design-system">Design System</a></li>
+      <li><a href="#" onclick="openForm(); return false;">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content container">
+      <div class="hero-eyebrow">
+        <div class="line"></div>
+        <span class="label" style="color: rgba(201,169,110,0.8);">Imóveis de Alto Padrão desde 1998</span>
+      </div>
+      <h1 class="hero-title">
+        Descubra<br>
+        Propriedades<br>
+        <em>Exclusivas</em>
+      </h1>
+      <p class="hero-sub">
+        Curadoria rigorosa das residências mais sofisticadas de São Paulo.
+        Cada propriedade selecionada por excelência arquitetônica e localização privilegiada.
+      </p>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <div class="stats-bar fade-up">
+    <div class="stat-item">
+      <div class="stat-number">280+</div>
+      <div class="stat-desc">Propriedades Vendidas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">R$2B</div>
+      <div class="stat-desc">em Transações</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">25</div>
+      <div class="stat-desc">Anos de Excelência</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">98%</div>
+      <div class="stat-desc">Satisfação de Clientes</div>
+    </div>
+  </div>
+
+  <!-- ============ PROPERTIES ============ -->
+  <section id="properties">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="label">Portfólio Selecionado</span>
+        <h2>Residências em Destaque</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="properties-grid">
+
+        <!-- Card 1 -->
+        <div class="property-card fade-up" onclick="openModal(0)">
+          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Casa Alphaville" loading="lazy" />
+          <div class="property-card-overlay">
+            <div class="property-card-reveal">
+              <div class="property-badge">Disponível</div>
+              <h3 class="property-title">Casa em Condomínio</h3>
+              <p class="property-location">Alphaville, São Paulo</p>
+              <div class="property-price">R$ 4.200.000</div>
+              <div class="property-specs">
+                <div class="spec-item">
+                  <span class="spec-value">520</span>
+                  <span class="spec-label">m²</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">5</span>
+                  <span class="spec-label">Quartos</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">6</span>
+                  <span class="spec-label">Vagas</span>
+                </div>
+              </div>
+              <button class="btn-card">Ver Detalhes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="property-card fade-up" onclick="openModal(1)">
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Apartamento Jardins" loading="lazy" />
+          <div class="property-card-overlay">
+            <div class="property-card-reveal">
+              <div class="property-badge">Exclusivo</div>
+              <h3 class="property-title">Apartamento Alto Padrão</h3>
+              <p class="property-location">Jardins, São Paulo</p>
+              <div class="property-price">R$ 2.800.000</div>
+              <div class="property-specs">
+                <div class="spec-item">
+                  <span class="spec-value">280</span>
+                  <span class="spec-label">m²</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">4</span>
+                  <span class="spec-label">Quartos</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">3</span>
+                  <span class="spec-label">Vagas</span>
+                </div>
+              </div>
+              <button class="btn-card">Ver Detalhes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="property-card fade-up" onclick="openModal(2)">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Cobertura Vila Nova" loading="lazy" />
+          <div class="property-card-overlay">
+            <div class="property-card-reveal">
+              <div class="property-badge">Novo</div>
+              <h3 class="property-title">Cobertura Duplex</h3>
+              <p class="property-location">Vila Nova, São Paulo</p>
+              <div class="property-price">R$ 6.500.000</div>
+              <div class="property-specs">
+                <div class="spec-item">
+                  <span class="spec-value">480</span>
+                  <span class="spec-label">m²</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">5</span>
+                  <span class="spec-label">Quartos</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">4</span>
+                  <span class="spec-label">Vagas</span>
+                </div>
+              </div>
+              <button class="btn-card">Ver Detalhes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="property-card fade-up" onclick="openModal(3)">
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" alt="Casa Morumbi" loading="lazy" />
+          <div class="property-card-overlay">
+            <div class="property-card-reveal">
+              <div class="property-badge">Disponível</div>
+              <h3 class="property-title">Casa Moderna</h3>
+              <p class="property-location">Morumbi, São Paulo</p>
+              <div class="property-price">R$ 3.900.000</div>
+              <div class="property-specs">
+                <div class="spec-item">
+                  <span class="spec-value">410</span>
+                  <span class="spec-label">m²</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">4</span>
+                  <span class="spec-label">Quartos</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-value">5</span>
+                  <span class="spec-label">Vagas</span>
+                </div>
+              </div>
+              <button class="btn-card">Ver Detalhes</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BEFORE/AFTER SLIDER ============ -->
+  <section id="comparison" class="section--dark" style="padding: var(--space-10) var(--space-6);">
+    <div class="container">
+      <div class="section-header fade-up" style="text-align: center; align-items: center; display: flex; flex-direction: column;">
+        <span class="label">Perspectiva</span>
+        <h2 style="color: var(--ivory);">Dia & Noite</h2>
+        <div class="divider" style="margin: var(--space-4) auto 0;"></div>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: var(--space-4); max-width: 480px;">
+          Arraste o divisor para explorar a propriedade sob diferentes condições de iluminação.
+        </p>
+      </div>
+
+      <div class="comparison-wrap fade-up" id="compWrap">
+        <!-- Before: Day (left) — using luxury villa exterior daytime -->
+        <img
+          class="comp-img comp-img--before"
+          src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=80"
+          alt="Vista diurna"
+        />
+        <!-- After: Night accent (right) — using interior accent -->
+        <img
+          class="comp-img comp-img--after"
+          id="compAfter"
+          src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=1200&q=80"
+          alt="Vista noturna"
+        />
+        <div class="comp-handle" id="compHandle"></div>
+        <div class="comp-knob" id="compKnob">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.59 16.59L4 12l4.59-4.59L10 8.83 6.83 12 10 15.17L8.59 16.59zm6.82 0L20 12l-4.59-4.59L14 8.83 17.17 12 14 15.17l1.41 1.42z"/>
+          </svg>
+        </div>
+        <div class="comp-label comp-label--before">Exterior</div>
+        <div class="comp-label comp-label--after">Interior</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESIGN SYSTEM ============ -->
+  <section id="design-system">
+    <div class="container">
+      <div class="fade-up" style="margin-bottom: var(--space-10);">
+        <div class="label" style="color: var(--earth); margin-bottom: var(--space-3);">Documentação</div>
+        <h2 class="ds-section-title">Luxo Residencial<br>Design System</h2>
+        <p class="ds-section-sub">Tokens, tipografia, componentes e espaçamento que compõem a identidade visual Avenir.</p>
+      </div>
+
+      <!-- TYPOGRAPHY -->
+      <div class="ds-block fade-up">
+        <div class="ds-block-label">01 — Tipografia</div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-name">Display XL</div>
+            <div class="type-spec">Cormorant Garamond 300 · 7rem</div>
+          </div>
+          <div class="type-sample display-xl" style="color: var(--noir);">Avenir</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-name">Display LG</div>
+            <div class="type-spec">Cormorant Garamond 300 · 3.5rem</div>
+          </div>
+          <div class="type-sample display-lg" style="color: var(--noir);">Propriedades Exclusivas</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-name">Display MD</div>
+            <div class="type-spec">Cormorant Garamond 400 · 2.25rem</div>
+          </div>
+          <div class="type-sample display-md" style="color: var(--noir);">Casa em Alphaville</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-name">Label / Eyebrow</div>
+            <div class="type-spec">Jost 500 · 11px · +0.2em</div>
+          </div>
+          <div class="type-sample label" style="color: var(--earth);">Portfólio Selecionado</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-name">Body Regular</div>
+            <div class="type-spec">Jost 300 · 16px · 1.7 line</div>
+          </div>
+          <div class="type-sample" style="font-family: var(--ff-body); font-size: 16px; font-weight: 300; color: var(--earth); line-height: 1.7; max-width: 480px;">
+            A Avenir Imóveis apresenta uma curadoria rigorosa das residências mais sofisticadas da capital paulistana. Cada propriedade é selecionada por sua excelência arquitetônica e localização privilegiada.
+          </div>
+        </div>
+
+        <div class="type-row" style="border-bottom: none;">
+          <div class="type-meta">
+            <div class="type-name">Body SM / Muted</div>
+            <div class="type-spec">Jost 300 · 13px · muted</div>
+          </div>
+          <div class="type-sample body-sm">Informações complementares, metadados e legendas de imagem são exibidos nesta variação tipográfica.</div>
+        </div>
+      </div>
+
+      <!-- COLORS -->
+      <div class="ds-block fade-up">
+        <div class="ds-block-label">02 — Paleta de Cores</div>
+        <div class="color-grid">
+          <div class="color-swatch" style="background: #0A0908;">
+            <span class="color-name" style="color: #F5F1EB;">Noir</span>
+            <span class="color-hex" style="color: rgba(245,241,235,0.5);">#0A0908</span>
+          </div>
+          <div class="color-swatch" style="background: #C9A96E;">
+            <span class="color-name" style="color: #0A0908;">Champagne Gold</span>
+            <span class="color-hex" style="color: rgba(10,9,8,0.6);">#C9A96E</span>
+          </div>
+          <div class="color-swatch" style="background: #F5F1EB; border: 1px solid rgba(107,91,69,0.15);">
+            <span class="color-name" style="color: #0A0908;">Ivory</span>
+            <span class="color-hex" style="color: rgba(10,9,8,0.5);">#F5F1EB</span>
+          </div>
+          <div class="color-swatch" style="background: #6B5B45;">
+            <span class="color-name" style="color: #F5F1EB;">Earth</span>
+            <span class="color-hex" style="color: rgba(245,241,235,0.55);">#6B5B45</span>
+          </div>
+          <div class="color-swatch" style="background: #D9BE8E;">
+            <span class="color-name" style="color: #0A0908;">Gold Light</span>
+            <span class="color-hex" style="color: rgba(10,9,8,0.5);">#D9BE8E</span>
+          </div>
+          <div class="color-swatch" style="background: #9A8C7A;">
+            <span class="color-name" style="color: #F5F1EB;">Muted</span>
+            <span class="color-hex" style="color: rgba(245,241,235,0.6);">#9A8C7A</span>
+          </div>
+          <div class="color-swatch" style="background: #FFFFFF; border: 1px solid rgba(107,91,69,0.15);">
+            <span class="color-name" style="color: #0A0908;">White</span>
+            <span class="color-hex" style="color: rgba(10,9,8,0.4);">#FFFFFF</span>
+          </div>
+          <div class="color-swatch" style="background: #A8854A;">
+            <span class="color-name" style="color: #F5F1EB;">Gold Dark</span>
+            <span class="color-hex" style="color: rgba(245,241,235,0.6);">#A8854A</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPONENTS -->
+      <div class="ds-block fade-up">
+        <div class="ds-block-label">03 — Botões</div>
+        <div class="btn-row">
+          <button class="btn-primary" style="width: auto; padding: 14px 40px;">Agendar Visita</button>
+          <button class="btn-ghost" style="padding: 13px 40px; color: var(--earth); border-color: var(--earth);">Ver Portfólio</button>
+          <button class="btn-card" style="color: var(--earth);">Saiba Mais</button>
+        </div>
+        <div class="btn-row" style="margin-top: var(--space-3);">
+          <button class="btn-primary" style="width: auto; padding: 11px 28px; font-size: 11px;" disabled>Indisponível</button>
+          <button class="btn-ghost" style="padding: 10px 28px; font-size: 11px; color: var(--earth); border-color: rgba(107,91,69,0.3); opacity: 0.5;" disabled>Sem vagas</button>
+        </div>
+      </div>
+
+      <!-- BADGES -->
+      <div class="ds-block fade-up">
+        <div class="ds-block-label">04 — Badges de Status</div>
+        <div class="badge-row">
+          <span class="badge badge--available">Disponível</span>
+          <span class="badge badge--exclusive">Exclusivo</span>
+          <span class="badge badge--new">Novo</span>
+          <span class="badge" style="border: 1px solid var(--earth); color: var(--earth); background: rgba(107,91,69,0.07);">Negociação</span>
+          <span class="badge" style="border: 1px solid rgba(107,91,69,0.3); color: var(--earth); opacity: 0.5;">Vendido</span>
+        </div>
+      </div>
+
+      <!-- FORM INPUTS -->
+      <div class="ds-block fade-up">
+        <div class="ds-block-label">05 — Campos de Formulário</div>
+        <div class="input-row">
+          <div>
+            <label class="ds-form-label">Nome completo</label>
+            <input class="ds-input" type="text" placeholder="Rafael Camargo" />
+          </div>
+          <div>
+            <label class="ds-form-label">E-mail</label>
+            <input class="ds-input" type="email" placeholder="rafael@email.com" />
+          </div>
+          <div>
+            <label class="ds-form-label">Telefone</label>
+            <input class="ds-input" type="tel" placeholder="(11) 99999-0000" />
+          </div>
+          <div>
+            <label class="ds-form-label">Interesse</label>
+            <select class="ds-input" style="background: rgba(107, 91, 69, 0.05); color: var(--earth);">
+              <option>Selecione uma propriedade</option>
+              <option>Casa em Alphaville</option>
+              <option>Apartamento Jardins</option>
+              <option>Cobertura Duplex</option>
+              <option>Casa Morumbi</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPACING -->
+      <div class="ds-block fade-up" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+        <div class="ds-block-label">06 — Escala de Espaçamento</div>
+        <div class="space-grid">
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-1);"></div>
+            <span class="space-info">4px — space-1</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-2);"></div>
+            <span class="space-info">8px — space-2</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-3);"></div>
+            <span class="space-info">12px — space-3</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-4);"></div>
+            <span class="space-info">16px — space-4</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-5);"></div>
+            <span class="space-info">24px — space-5</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-6);"></div>
+            <span class="space-info">32px — space-6</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-7);"></div>
+            <span class="space-info">48px — space-7</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-8);"></div>
+            <span class="space-info">64px — space-8</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-9);"></div>
+            <span class="space-info">96px — space-9</span>
+          </div>
+          <div class="space-row">
+            <div class="space-bar" style="width: var(--space-10);"></div>
+            <span class="space-info">128px — space-10</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">AVENIR<span>.</span></div>
+        <p class="footer-tagline">
+          Curadoria refinada dos imóveis mais exclusivos de São Paulo.
+          Excelência arquitetônica, localização incomparável.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Imóveis</div>
+        <ul class="footer-links">
+          <li><a href="#">Alphaville</a></li>
+          <li><a href="#">Jardins</a></li>
+          <li><a href="#">Vila Nova</a></li>
+          <li><a href="#">Morumbi</a></li>
+          <li><a href="#">Itaim Bibi</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Serviços</div>
+        <ul class="footer-links">
+          <li><a href="#">Avaliação Gratuita</a></li>
+          <li><a href="#">Consultoria</a></li>
+          <li><a href="#">Gestão de Imóveis</a></li>
+          <li><a href="#">Financiamento</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contato</div>
+        <ul class="footer-links">
+          <li><a href="#">(11) 3000-0000</a></li>
+          <li><a href="#">contato@avenir.com.br</a></li>
+          <li><a href="#">Av. Paulista, 1000 — SP</a></li>
+          <li><a href="#" onclick="openForm(); return false;">Fale com um Corretor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 Avenir Imóveis. Todos os direitos reservados. CRECI-SP 12345J</span>
+      <span class="footer-copy">Luxo Residencial Design System v1.0</span>
+    </div>
+  </footer>
+
+  <!-- ============ PROPERTY MODAL ============ -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+    <div class="modal" id="modal">
+      <div class="modal-image">
+        <img id="modalImg" src="" alt="" />
+      </div>
+      <div class="modal-body">
+        <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+        <div class="modal-badge" id="modalBadge"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-location" id="modalLocation"></p>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-divider"></div>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <div class="modal-divider"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <button class="btn-primary" onclick="openForm()">Agendar Visita</button>
+        <div style="height: var(--space-3);"></div>
+        <button class="btn-ghost" onclick="closeModal()" style="width: 100%; color: var(--text-muted); border-color: rgba(154,140,122,0.3);">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FLOATING FORM ============ -->
+  <button class="float-btn" onclick="openForm()">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    Falar com Corretor
+  </button>
+
+  <div class="form-panel" id="formPanel">
+    <div class="form-panel-header">
+      <div>
+        <div class="form-panel-title">Fale com um<br>Corretor</div>
+        <div class="form-panel-sub">Retornaremos em até 2 horas úteis.</div>
+      </div>
+      <button class="form-close" onclick="closeForm()">&#x2715;</button>
+    </div>
+
+    <form onsubmit="handleFormSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Nome Completo</label>
+        <input class="form-input" type="text" placeholder="Seu nome" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input class="form-input" type="email" placeholder="seu@email.com" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefone / WhatsApp</label>
+        <input class="form-input" type="tel" placeholder="(11) 99999-0000" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Propriedade de Interesse</label>
+        <select class="form-select" required>
+          <option value="">Selecione...</option>
+          <option>Casa em Condomínio — Alphaville · R$ 4.200.000</option>
+          <option>Apartamento Alto Padrão — Jardins · R$ 2.800.000</option>
+          <option>Cobertura Duplex — Vila Nova · R$ 6.500.000</option>
+          <option>Casa Moderna — Morumbi · R$ 3.900.000</option>
+          <option>Outra / Consulta geral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary">Enviar Mensagem</button>
+    </form>
+  </div>
+
+  <script>
+    // ==========================================
+    // DATA
+    // ==========================================
+    const properties = [
+      {
+        badge: 'Disponível',
+        title: 'Casa em Condomínio',
+        location: 'Alphaville, São Paulo — SP',
+        price: 'R$ 4.200.000',
+        img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&q=85',
+        specs: [
+          { value: '520 m²', label: 'Área Total' },
+          { value: '5', label: 'Quartos' },
+          { value: '2', label: 'Suítes' },
+          { value: '6', label: 'Vagas' },
+        ],
+        desc: 'Residência excepcional em condomínio fechado de alto padrão em Alphaville. Projeto arquitetônico contemporâneo com pé-direito duplo, piscina aquecida, jardim paisagístico, churrasqueira gourmet e acabamentos importados. Segurança 24h, academia, quadra esportiva e clube exclusivo para condôminos.',
+      },
+      {
+        badge: 'Exclusivo',
+        title: 'Apartamento Alto Padrão',
+        location: 'Jardins, São Paulo — SP',
+        price: 'R$ 2.800.000',
+        img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1000&q=85',
+        specs: [
+          { value: '280 m²', label: 'Área Privativa' },
+          { value: '4', label: 'Quartos' },
+          { value: '3', label: 'Suítes' },
+          { value: '3', label: 'Vagas' },
+        ],
+        desc: 'Apartamento de alto padrão no coração dos Jardins, com varanda gourmet de 40m², vista privilegiada para o parque, cozinha de chef com ilha e equipamentos Miele. Lazer completo no térreo com piscina infinity, spa e salão de festas. Portaria dupla com biometria e câmeras 4K.',
+      },
+      {
+        badge: 'Novo',
+        title: 'Cobertura Duplex',
+        location: 'Vila Nova Conceição, São Paulo — SP',
+        price: 'R$ 6.500.000',
+        img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=85',
+        specs: [
+          { value: '480 m²', label: 'Área Total' },
+          { value: '5', label: 'Quartos' },
+          { value: '4', label: 'Suítes' },
+          { value: '4', label: 'Vagas' },
+        ],
+        desc: 'Cobertura duplex única em Vila Nova Conceição, com terraço privativo de 180m², piscina exclusiva no último andar e vista panorâmica de 360° para a cidade. Projeto assinado por renomado escritório de arquitetura, com materiais raros importados da Europa. Home theater, adega climatizada e elevador privativo.',
+      },
+      {
+        badge: 'Disponível',
+        title: 'Casa Moderna',
+        location: 'Morumbi, São Paulo — SP',
+        price: 'R$ 3.900.000',
+        img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1000&q=85',
+        specs: [
+          { value: '410 m²', label: 'Área Construída' },
+          { value: '4', label: 'Quartos' },
+          { value: '3', label: 'Suítes' },
+          { value: '5', label: 'Vagas' },
+        ],
+        desc: 'Casa de arquitetura contemporânea no Morumbi, em terreno de 600m². Fachada de concreto aparente com grandes janelas em vidro laminado, piscina de borda infinita, sauna seca e úmida, salão gourmet integrado ao jardim com deck de madeira cumaru. Automação residencial completa e sistema de energia solar.',
+      },
+    ];
+
+    // ==========================================
+    // PARALLAX
+    // ==========================================
+    const heroBg = document.getElementById('heroBg');
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      heroBg.style.transform = `translateY(${scrollY * 0.5}px)`;
+      navbar.classList.toggle('scrolled', scrollY > 60);
+    }, { passive: true });
+
+    // ==========================================
+    // SCROLL FADE-IN
+    // ==========================================
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ==========================================
+    // MODAL
+    // ==========================================
+    function openModal(idx) {
+      const p = properties[idx];
+      document.getElementById('modalImg').src = p.img;
+      document.getElementById('modalImg').alt = p.title;
+      document.getElementById('modalBadge').textContent = p.badge;
+      document.getElementById('modalTitle').textContent = p.title;
+      document.getElementById('modalLocation').textContent = p.location;
+      document.getElementById('modalPrice').textContent = p.price;
+      document.getElementById('modalDesc').textContent = p.desc;
+
+      const specsEl = document.getElementById('modalSpecs');
+      specsEl.innerHTML = p.specs.map(s => `
+        <div class="modal-spec-item">
+          <div class="modal-spec-value">${s.value}</div>
+          <div class="modal-spec-label">${s.label}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('modalBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target === document.getElementById('modalBackdrop')) closeModal();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeForm();
+      }
+    });
+
+    // ==========================================
+    // BEFORE/AFTER SLIDER
+    // ==========================================
+    const wrap = document.getElementById('compWrap');
+    const afterImg = document.getElementById('compAfter');
+    const handle = document.getElementById('compHandle');
+    const knob = document.getElementById('compKnob');
+    let dragging = false;
+
+    function setSliderPos(x) {
+      const rect = wrap.getBoundingClientRect();
+      let pct = (x - rect.left) / rect.width;
+      pct = Math.max(0.02, Math.min(0.98, pct));
+      const pctStr = (pct * 100).toFixed(2) + '%';
+      afterImg.style.clipPath = `inset(0 0 0 ${pctStr})`;
+      handle.style.left = pctStr;
+      knob.style.left = pctStr;
+    }
+
+    wrap.addEventListener('mousedown', (e) => { dragging = true; setSliderPos(e.clientX); });
+    window.addEventListener('mousemove', (e) => { if (dragging) setSliderPos(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; });
+
+    wrap.addEventListener('touchstart', (e) => { dragging = true; setSliderPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove', (e) => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; });
+
+    // ==========================================
+    // FORM PANEL
+    // ==========================================
+    function openForm() {
+      closeModal();
+      document.getElementById('formPanel').classList.add('open');
+    }
+
+    function closeForm() {
+      document.getElementById('formPanel').classList.remove('open');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('[type="submit"]');
+      const orig = btn.textContent;
+      btn.textContent = 'Mensagem Enviada ✓';
+      btn.style.background = '#4A7C59';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+        closeForm();
+        e.target.reset();
+      }, 2800);
+    }
+  </script>
+</body>
+</html>

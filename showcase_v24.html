@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEST — Casa Moderna | Design System Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<style>
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terracotta: #E8673A;
+    --terracotta-light: #F0875F;
+    --terracotta-dark: #C44E25;
+    --sage: #7B9E6B;
+    --sage-light: #9BBD8B;
+    --sage-dark: #5E7D51;
+    --warm-white: #F5EDE0;
+    --espresso: #2D2416;
+    --espresso-light: #4A3D2A;
+    --mustard: #F9B342;
+    --mustard-light: #FBCA72;
+    --cream: #FDF8F2;
+    --sand: #E8D5B7;
+    --midnight: #1A1F3A;
+    --teal: #2D8B8B;
+    --gold: #D4A017;
+    --forest: #3A5F3A;
+    --beige: #C8B89A;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Nunito', sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-pill: 999px;
+
+    --shadow-sm: 0 2px 8px rgba(45,36,22,.08);
+    --shadow-md: 0 8px 24px rgba(45,36,22,.12);
+    --shadow-lg: 0 16px 48px rgba(45,36,22,.16);
+    --shadow-xl: 0 24px 64px rgba(45,36,22,.20);
+
+    --transition-fast: 150ms cubic-bezier(.4,0,.2,1);
+    --transition-mid: 300ms cubic-bezier(.4,0,.2,1);
+    --transition-slow: 500ms cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--espresso);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,248,242,.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(45,36,22,.08);
+    padding: 0 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--espresso);
+  }
+
+  .logo-tagline {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-top: 2px;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .nav a {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--espresso-light);
+    text-decoration: none;
+    letter-spacing: .02em;
+    transition: color var(--transition-fast);
+  }
+
+  .nav a:hover { color: var(--terracotta); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--espresso);
+    transition: background var(--transition-fast), color var(--transition-fast);
+    position: relative;
+  }
+
+  .icon-btn:hover { background: rgba(232,103,58,.1); color: var(--terracotta); }
+
+  .icon-btn svg { width: 22px; height: 22px; }
+
+  .cart-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    background: var(--terracotta);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    transition: transform var(--transition-fast);
+  }
+
+  .cart-badge.bounce {
+    animation: badgeBounce .4s cubic-bezier(.36,.07,.19,.97);
+  }
+
+  @keyframes badgeBounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.5); }
+    60% { transform: scale(.85); }
+    80% { transform: scale(1.1); }
+  }
+
+  .btn-primary {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 24px;
+    background: var(--espresso);
+    color: var(--warm-white);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .btn-primary:hover { background: var(--terracotta); transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 92vh;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 24px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    background: var(--terracotta);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -.03em;
+    color: var(--espresso);
+    margin-bottom: 24px;
+  }
+
+  .hero-title .accent { color: var(--terracotta); }
+  .hero-title .accent-sage { color: var(--sage); }
+
+  .hero-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--espresso-light);
+    max-width: 420px;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-hero {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 40px;
+    background: var(--terracotta);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: all var(--transition-mid);
+    box-shadow: 0 8px 24px rgba(232,103,58,.35);
+  }
+
+  .btn-hero:hover {
+    background: var(--terracotta-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(232,103,58,.45);
+  }
+
+  .btn-ghost {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--espresso);
+    border: 2px solid var(--sand);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--espresso);
+    background: rgba(45,36,22,.04);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 52px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(45,36,22,.1);
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--espresso);
+    letter-spacing: -.02em;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--espresso-light);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .hero-visual {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--cream) 0%, transparent 25%);
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 48px;
+    left: -20px;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 220px;
+  }
+
+  .hero-badge-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--terracotta-light), var(--terracotta));
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+
+  .hero-badge-text { line-height: 1.3; }
+
+  .hero-badge-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--espresso);
+  }
+
+  .hero-badge-sub {
+    font-size: 11px;
+    color: var(--espresso-light);
+    margin-top: 2px;
+  }
+
+  /* ─── SECTION HEADINGS ─── */
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 2px;
+    background: var(--terracotta);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--espresso);
+    line-height: 1.1;
+  }
+
+  .section-link {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--terracotta);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1.5px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color var(--transition-fast);
+  }
+
+  .section-link:hover { border-color: var(--terracotta); }
+
+  /* ─── PRODUCT BENTO GRID ─── */
+  .products-section {
+    padding: 80px 80px;
+    background: var(--warm-white);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 280px);
+    gap: 16px;
+  }
+
+  /* Hero cell: top-left 2×2 */
+  .bento-cell:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
+  /* Medium: top-right area */
+  .bento-cell:nth-child(2) { grid-column: 3 / 4; grid-row: 1 / 2; }
+  .bento-cell:nth-child(3) { grid-column: 4 / 5; grid-row: 1 / 2; }
+  .bento-cell:nth-child(4) { grid-column: 3 / 5; grid-row: 2 / 3; }
+  /* Bottom row */
+  .bento-cell:nth-child(5) { grid-column: 1 / 2; grid-row: 3 / 4; }
+  .bento-cell:nth-child(6) { grid-column: 2 / 3; grid-row: 3 / 4; }
+  .bento-cell:nth-child(7) { grid-column: 3 / 4; grid-row: 3 / 4; }
+  .bento-cell:nth-child(8) { grid-column: 4 / 5; grid-row: 3 / 4; }
+
+  .product-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform var(--transition-mid), box-shadow var(--transition-mid);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .product-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow var(--transition-mid);
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-xl);
+    z-index: 10;
+  }
+
+  .product-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .product-card:hover .product-img { transform: scale(1.06); }
+
+  .product-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(45,36,22,.85) 0%, rgba(45,36,22,.2) 50%, transparent 100%);
+    transition: opacity var(--transition-mid);
+  }
+
+  .product-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+  }
+
+  .bento-cell:nth-child(1) .product-name { font-size: 22px; }
+
+  .product-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.8);
+    font-family: var(--font-display);
+  }
+
+  .bento-cell:nth-child(1) .product-price { font-size: 16px; }
+
+  .product-actions {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(12px);
+    transition: opacity var(--transition-mid), transform var(--transition-mid);
+  }
+
+  .product-card:hover .product-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .wish-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(253,248,242,.9);
+    backdrop-filter: blur(8px);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+    position: relative;
+    overflow: visible;
+  }
+
+  .wish-btn:hover { background: #fff; transform: scale(1.1); }
+
+  .wish-btn svg { width: 16px; height: 16px; }
+
+  .wish-btn .heart-empty { display: block; color: var(--espresso); }
+  .wish-btn .heart-filled { display: none; color: var(--terracotta); }
+
+  .wish-btn.active .heart-empty { display: none; }
+  .wish-btn.active .heart-filled { display: block; }
+
+  /* Particle burst */
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleBurst .6s ease-out forwards;
+  }
+
+  @keyframes particleBurst {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+  }
+
+  .add-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    background: var(--terracotta);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--transition-mid), transform var(--transition-mid), background var(--transition-fast);
+    letter-spacing: .02em;
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  .product-card:hover .add-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .add-btn:hover { background: var(--terracotta-dark); }
+
+  /* Add-to-cart button states */
+  .add-btn .btn-text { transition: opacity .15s; }
+  .add-btn .btn-spinner { display: none; }
+  .add-btn .btn-check { display: none; }
+
+  .add-btn.loading .btn-text { display: none; }
+  .add-btn.loading .btn-spinner { display: flex; }
+  .add-btn.loading .btn-check { display: none; }
+
+  .add-btn.done .btn-text { display: none; }
+  .add-btn.done .btn-spinner { display: none; }
+  .add-btn.done .btn-check { display: flex; }
+  .add-btn.done { background: var(--sage); }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .spinner-ring {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+  }
+
+  /* Tag badges */
+  .product-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    color: #fff;
+  }
+
+  .tag-novo { background: var(--sage); }
+  .tag-destaque { background: var(--mustard); color: var(--espresso); }
+  .tag-exclusivo { background: var(--terracotta); }
+
+  /* ─── PALETTE SECTION ─── */
+  .palette-section {
+    padding: 80px;
+    background: var(--cream);
+  }
+
+  .palette-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .palette-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .palette-card {
+    border: 2px solid transparent;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    cursor: pointer;
+    transition: all var(--transition-mid);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .palette-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: transparent;
+    transition: background var(--transition-fast);
+  }
+
+  .palette-card.active {
+    border-color: var(--terracotta);
+    box-shadow: var(--shadow-md);
+  }
+
+  .palette-card.active::before { background: var(--terracotta); }
+
+  .palette-swatches {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-fast);
+  }
+
+  .palette-card:hover .swatch { transform: scale(1.1); }
+
+  .palette-card-content { flex: 1; }
+
+  .palette-name {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 4px;
+  }
+
+  .palette-desc {
+    font-size: 13px;
+    color: var(--espresso-light);
+    line-height: 1.4;
+  }
+
+  .palette-preview-wrap {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .palette-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity var(--transition-slow);
+    position: absolute;
+    inset: 0;
+  }
+
+  .palette-preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(45,36,22,.7) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .palette-suggestions {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .suggestion-chip {
+    background: rgba(253,248,242,.9);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--espresso);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+  }
+
+  .suggestion-chip:hover { background: #fff; }
+
+  /* ─── FEATURES SECTION ─── */
+  .features-section {
+    padding: 80px;
+    background: var(--espresso);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .features-section::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232,103,58,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .features-section::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: 20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(123,158,107,.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .features-section .section-eyebrow { color: var(--terracotta-light); }
+  .features-section .section-eyebrow::before { background: var(--terracotta-light); }
+  .features-section .section-title { color: var(--warm-white); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    transition: background var(--transition-mid), transform var(--transition-mid);
+  }
+
+  .feature-card:hover {
+    background: rgba(255,255,255,.08);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .feature-icon-terra { background: rgba(232,103,58,.2); }
+  .feature-icon-sage { background: rgba(123,158,107,.2); }
+  .feature-icon-mustard { background: rgba(249,179,66,.2); }
+  .feature-icon-teal { background: rgba(45,139,139,.2); }
+
+  .feature-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--warm-white);
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(245,237,224,.6);
+  }
+
+  /* ─── NEWSLETTER SECTION ─── */
+  .newsletter-section {
+    padding: 80px;
+    background: var(--warm-white);
+  }
+
+  .newsletter-card {
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 60%, #A33A1A 100%);
+    border-radius: var(--radius-xl);
+    padding: 64px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: 10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,.07);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .newsletter-card::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: -60px;
+    width: 400px;
+    height: 400px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .newsletter-content { position: relative; z-index: 1; }
+
+  .newsletter-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 16px;
+  }
+
+  .newsletter-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 16px;
+  }
+
+  .newsletter-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.75);
+  }
+
+  .newsletter-form {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255,255,255,.2);
+    border-radius: var(--radius-pill);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .form-input::placeholder { color: rgba(255,255,255,.5); }
+
+  .form-input:focus {
+    border-color: rgba(255,255,255,.5);
+    background: rgba(255,255,255,.2);
+  }
+
+  .btn-newsletter {
+    width: 100%;
+    padding: 16px;
+    background: #fff;
+    color: var(--terracotta);
+    border: none;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-newsletter:hover {
+    background: var(--warm-white);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  }
+
+  /* ─── DESIGN SYSTEM SECTION ─── */
+  .ds-section {
+    padding: 80px;
+    background: var(--cream);
+  }
+
+  .ds-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .ds-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ds-card-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--espresso-light);
+    margin-bottom: 24px;
+  }
+
+  /* Color palette display */
+  .color-swatches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .color-chip {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+  }
+
+  .color-chip:hover { transform: scale(1.05); }
+
+  .color-chip-swatch {
+    height: 72px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px;
+  }
+
+  .color-chip-hex {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    opacity: .7;
+    font-family: monospace;
+    color: inherit;
+  }
+
+  .color-chip-name {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 8px;
+    background: rgba(45,36,22,.04);
+    color: var(--espresso);
+    font-family: var(--font-display);
+  }
+
+  /* Typography */
+  .type-samples { display: flex; flex-direction: column; gap: 16px; }
+
+  .type-sample-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--espresso-light);
+    margin-bottom: 4px;
+  }
+
+  /* Button showcase */
+  .btn-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-sm {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-fast);
+    letter-spacing: .02em;
+  }
+
+  .btn-terra { background: var(--terracotta); color: #fff; }
+  .btn-terra:hover { background: var(--terracotta-dark); transform: translateY(-1px); }
+
+  .btn-sage-c { background: var(--sage); color: #fff; }
+  .btn-sage-c:hover { background: var(--sage-dark); transform: translateY(-1px); }
+
+  .btn-mustard-c { background: var(--mustard); color: var(--espresso); }
+  .btn-mustard-c:hover { background: #E8A030; transform: translateY(-1px); }
+
+  .btn-outline-terra { background: transparent; color: var(--terracotta); border: 2px solid var(--terracotta); }
+  .btn-outline-terra:hover { background: var(--terracotta); color: #fff; }
+
+  .btn-dark { background: var(--espresso); color: var(--warm-white); }
+  .btn-dark:hover { background: #1a150d; transform: translateY(-1px); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--espresso);
+    padding: 64px 80px 32px;
+    color: rgba(245,237,224,.6);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-logo-name {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--warm-white);
+    letter-spacing: -.02em;
+    margin-bottom: 4px;
+  }
+
+  .footer-logo-tagline {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--terracotta-light);
+    margin-bottom: 20px;
+  }
+
+  .footer-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 260px;
+    margin-bottom: 24px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-btn {
+    width: 38px;
+    height: 38px;
+    background: rgba(255,255,255,.08);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border: none;
+    color: rgba(245,237,224,.6);
+  }
+
+  .social-btn:hover { background: var(--terracotta); color: #fff; }
+
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    margin-bottom: 20px;
+  }
+
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-links a {
+    font-size: 14px;
+    color: rgba(245,237,224,.55);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-links a:hover { color: var(--terracotta-light); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+  .reveal-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── TOAST ─── */
+  #toast-container {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: var(--espresso);
+    color: var(--warm-white);
+    padding: 14px 22px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: toastIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
+    border-left: 4px solid var(--terracotta);
+  }
+
+  .toast.fade-out { animation: toastOut .3s ease forwards; }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(40px) scale(.95); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to { opacity: 0; transform: translateX(40px) scale(.95); }
+  }
+
+  /* ─── PROMOTIONAL BANNER ─── */
+  .promo-bar {
+    background: linear-gradient(90deg, var(--terracotta) 0%, var(--terracotta-dark) 50%, var(--terracotta) 100%);
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+    text-align: center;
+    padding: 11px 24px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: .05em;
+  }
+
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+
+  /* ─── CATEGORY CHIPS ─── */
+  .category-row {
+    padding: 24px 80px;
+    background: var(--warm-white);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid rgba(45,36,22,.06);
+    overflow-x: auto;
+  }
+
+  .cat-chip {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 22px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--sand);
+    background: transparent;
+    color: var(--espresso-light);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .cat-chip:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+  .cat-chip.active {
+    background: var(--espresso);
+    border-color: var(--espresso);
+    color: var(--warm-white);
+  }
+</style>
+</head>
+<body>
+
+<!-- PROMO BAR -->
+<div class="promo-bar">
+  🪴 Frete grátis em compras acima de R$800 · Parcele em até 12x sem juros · Nova coleção Primavera chegou
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <span class="logo-name">NEST</span>
+    <span class="logo-tagline">Seu lar, do seu jeito</span>
+  </div>
+  <nav class="nav">
+    <a href="#">Salas</a>
+    <a href="#">Quartos</a>
+    <a href="#">Iluminação</a>
+    <a href="#">Decoração</a>
+    <a href="#">Plantas</a>
+    <a href="#">Promoções</a>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" title="Buscar">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="icon-btn" id="cart-btn" title="Carrinho">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-badge" id="cart-count">0</span>
+    </button>
+    <button class="btn-primary">Entrar</button>
+  </div>
+</header>
+
+<!-- CATEGORY CHIPS -->
+<div class="category-row">
+  <button class="cat-chip active">Tudo</button>
+  <button class="cat-chip">Poltronas</button>
+  <button class="cat-chip">Sofás</button>
+  <button class="cat-chip">Mesas</button>
+  <button class="cat-chip">Iluminação</button>
+  <button class="cat-chip">Tapetes</button>
+  <button class="cat-chip">Cômodos</button>
+  <button class="cat-chip">Espelhos</button>
+  <button class="cat-chip">Plantas & Vasos</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Coleção Primavera 2025</div>
+    <h1 class="hero-title">
+      Mobília com<br>
+      <span class="accent">personalidade</span><br>
+      para lares com<br>
+      <span class="accent-sage">história</span>
+    </h1>
+    <p class="hero-desc">Cada peça escolhida a dedo para quem acredita que casa é muito mais do que quatro paredes. É extensão de quem você é.</p>
+    <div class="hero-ctas">
+      <button class="btn-hero">Explorar Coleção</button>
+      <button class="btn-ghost">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Ver Lookbook
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">2.400+</span>
+        <span class="stat-label">Produtos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">Satisfação</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">12x</span>
+        <span class="stat-label">Sem juros</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img class="hero-image" src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1600&q=80" alt="Sala de estar colorida e moderna">
+    <div class="hero-overlay"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-icon">🏆</div>
+      <div class="hero-badge-text">
+        <div class="hero-badge-title">Premiados em 2024</div>
+        <div class="hero-badge-sub">Melhor loja de móveis online</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS BENTO GRID -->
+<section class="products-section" id="produtos">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Nossos favoritos</div>
+      <h2 class="section-title">Peças que transformam<br>qualquer ambiente</h2>
+    </div>
+    <a href="#" class="section-link">Ver todos os produtos →</a>
+  </div>
+
+  <div class="bento-grid" id="bento-grid">
+    <!-- 1: Hero cell (2×2) -->
+    <div class="bento-cell product-card" data-id="1" data-price="1290">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80" alt="Poltrona Cairo" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-destaque">Destaque</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Poltrona Cairo</div>
+        <div class="product-price">R$ 1.290 · 12x R$107</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓ Adicionado</span>
+      </button>
+    </div>
+
+    <!-- 2 -->
+    <div class="bento-cell product-card" data-id="2" data-price="480">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80" alt="Luminária Tulipa" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-novo">Novo</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Luminária Tulipa</div>
+        <div class="product-price">R$ 480</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 3 -->
+    <div class="bento-cell product-card" data-id="3" data-price="890">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1600166898405-da9535204843?w=600&q=80" alt="Tapete Berbere" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Tapete Berbere</div>
+        <div class="product-price">R$ 890</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 4: Wide cell -->
+    <div class="bento-cell product-card" data-id="4" data-price="320">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80" alt="Suporte Plantas" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-exclusivo">Exclusivo</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Suporte Plantas</div>
+        <div class="product-price">R$ 320</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 5 -->
+    <div class="bento-cell product-card" data-id="5" data-price="560">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1548871788-e9fb1ce78a5e?w=600&q=80" alt="Mesa Lateral Ferro" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Mesa Lateral Ferro</div>
+        <div class="product-price">R$ 560</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 6 -->
+    <div class="bento-cell product-card" data-id="6" data-price="3200">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&q=80" alt="Sofá Modular" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-destaque">Hot</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Sofá Modular</div>
+        <div class="product-price">R$ 3.200 · 12x R$266</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 7 -->
+    <div class="bento-cell product-card" data-id="7" data-price="1450">
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&q=80" alt="Cômoda Retrô" loading="lazy">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-novo">Novo</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Cômoda Retrô</div>
+        <div class="product-price">R$ 1.450</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+
+    <!-- 8 -->
+    <div class="bento-cell product-card" data-id="8" data-price="790">
+      <div class="product-img-wrap">
+        <!-- Espelho Arco — using a related interior image -->
+        <img class="product-img" src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600&q=80" alt="Espelho Arco" loading="lazy" style="object-position: right center;">
+        <div class="product-overlay"></div>
+      </div>
+      <span class="product-tag tag-exclusivo">Exclusivo</span>
+      <div class="product-actions">
+        <button class="wish-btn" onclick="toggleWish(this, event)">
+          <svg class="heart-empty" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg class="heart-filled" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Espelho Arco</div>
+        <div class="product-price">R$ 790</div>
+      </div>
+      <button class="add-btn" onclick="addToCart(this, event)">
+        <span class="btn-text">+ Adicionar</span>
+        <span class="btn-spinner"><div class="spinner-ring"></div></span>
+        <span class="btn-check">✓</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PALETTE SECTION -->
+<section class="palette-section reveal-item" id="paletas">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Inspire-se</div>
+      <h2 class="section-title">Paletas para<br>seu lar</h2>
+    </div>
+    <a href="#" class="section-link">Ver todos os ambientes →</a>
+  </div>
+  <div class="palette-grid">
+    <div class="palette-options" id="palette-options">
+      <!-- Terra -->
+      <div class="palette-card active" data-palette="terra" onclick="selectPalette(this)">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#E8673A;"></div>
+          <div class="swatch" style="background:#7B9E6B;"></div>
+          <div class="swatch" style="background:#F5EDE0;"></div>
+        </div>
+        <div class="palette-card-content">
+          <div class="palette-name">Terra</div>
+          <div class="palette-desc">Terracotta vibrante com toque de verde sábio</div>
+        </div>
+      </div>
+      <!-- Oceano -->
+      <div class="palette-card" data-palette="oceano" onclick="selectPalette(this)">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#2D8B8B;"></div>
+          <div class="swatch" style="background:#C8B89A;"></div>
+          <div class="swatch" style="background:#E8D5B7;"></div>
+        </div>
+        <div class="palette-card-content">
+          <div class="palette-name">Oceano</div>
+          <div class="palette-desc">Teal profundo com areia e palha quente</div>
+        </div>
+      </div>
+      <!-- Noite -->
+      <div class="palette-card" data-palette="noite" onclick="selectPalette(this)">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#1A1F3A;"></div>
+          <div class="swatch" style="background:#D4A017;"></div>
+          <div class="swatch" style="background:#F5EDE0;"></div>
+        </div>
+        <div class="palette-card-content">
+          <div class="palette-name">Noite</div>
+          <div class="palette-desc">Azul meia-noite com detalhes dourados</div>
+        </div>
+      </div>
+      <!-- Floresta -->
+      <div class="palette-card" data-palette="floresta" onclick="selectPalette(this)">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#3A5F3A;"></div>
+          <div class="swatch" style="background:#C8B89A;"></div>
+          <div class="swatch" style="background:#FDF8F2;"></div>
+        </div>
+        <div class="palette-card-content">
+          <div class="palette-name">Floresta</div>
+          <div class="palette-desc">Verde profundo com naturais e crus</div>
+        </div>
+      </div>
+      <!-- Minimal -->
+      <div class="palette-card" data-palette="minimal" onclick="selectPalette(this)">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#2D2416;"></div>
+          <div class="swatch" style="background:#888;"></div>
+          <div class="swatch" style="background:#FDF8F2;"></div>
+        </div>
+        <div class="palette-card-content">
+          <div class="palette-name">Minimal</div>
+          <div class="palette-desc">Preto, branco e cinza com elegância atemporal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-preview-wrap">
+      <img class="palette-preview-img active" id="palette-img-terra" src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1000&q=80" alt="Sala Terra" style="opacity:1;">
+      <img class="palette-preview-img" id="palette-img-oceano" src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1000&q=80" alt="Sala Oceano" style="opacity:0;">
+      <img class="palette-preview-img" id="palette-img-noite" src="https://images.unsplash.com/photo-1548871788-e9fb1ce78a5e?w=1000&q=80" alt="Sala Noite" style="opacity:0;">
+      <img class="palette-preview-img" id="palette-img-floresta" src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=1000&q=80" alt="Sala Floresta" style="opacity:0;">
+      <img class="palette-preview-img" id="palette-img-minimal" src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1000&q=80" alt="Sala Minimal" style="opacity:0;">
+      <div class="palette-preview-overlay"></div>
+      <div class="palette-suggestions" id="palette-suggestions">
+        <span class="suggestion-chip">Poltrona Cairo</span>
+        <span class="suggestion-chip">Tapete Berbere</span>
+        <span class="suggestion-chip">Suporte Plantas</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section reveal-item">
+  <div>
+    <div class="section-eyebrow">Por que NEST</div>
+    <h2 class="section-title">Experiência pensada<br>para você</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon feature-icon-terra">🚚</div>
+      <div class="feature-title">Entrega Cuidadosa</div>
+      <div class="feature-desc">Embalagem especial com montagem inclusa para pedidos acima de R$1.500. Sem estresse.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon feature-icon-sage">🔄</div>
+      <div class="feature-title">Troca Garantida</div>
+      <div class="feature-desc">30 dias para troca sem perguntas. Cores diferentes na tela? A gente resolve.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon feature-icon-mustard">💬</div>
+      <div class="feature-title">Consultoria Gratuita</div>
+      <div class="feature-desc">Decoradores parceiros disponíveis para te ajudar a montar o ambiente dos seus sonhos.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon feature-icon-teal">🌱</div>
+      <div class="feature-title">Produção Consciente</div>
+      <div class="feature-desc">Parceiros que usam madeira certificada, tintas sem VOC e embalagens 100% recicláveis.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN SYSTEM PREVIEW -->
+<section class="ds-section reveal-item">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Design System</div>
+      <h2 class="section-title">Fundações visuais<br>do NEST</h2>
+    </div>
+  </div>
+
+  <div class="ds-grid">
+    <!-- Color palette -->
+    <div class="ds-card">
+      <div class="ds-card-title">Paleta de Cores</div>
+      <div class="color-swatches">
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#E8673A; color:rgba(255,255,255,.8);">
+            <span class="color-chip-hex">#E8673A</span>
+          </div>
+          <div class="color-chip-name">Terracotta</div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#7B9E6B; color:rgba(255,255,255,.8);">
+            <span class="color-chip-hex">#7B9E6B</span>
+          </div>
+          <div class="color-chip-name">Sage</div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#F5EDE0; color:rgba(45,36,22,.5);">
+            <span class="color-chip-hex">#F5EDE0</span>
+          </div>
+          <div class="color-chip-name">Warm White</div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#2D2416; color:rgba(255,255,255,.6);">
+            <span class="color-chip-hex">#2D2416</span>
+          </div>
+          <div class="color-chip-name">Espresso</div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#F9B342; color:rgba(45,36,22,.7);">
+            <span class="color-chip-hex">#F9B342</span>
+          </div>
+          <div class="color-chip-name">Mustard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="ds-card">
+      <div class="ds-card-title">Tipografia</div>
+      <div class="type-samples">
+        <div>
+          <div class="type-sample-label">Display — Syne 800</div>
+          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--espresso);">NEST Casa Moderna</div>
+        </div>
+        <div>
+          <div class="type-sample-label">Heading — Syne 700</div>
+          <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--espresso);">Mobília com personalidade</div>
+        </div>
+        <div>
+          <div class="type-sample-label">Body — Nunito 400</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:15px;line-height:1.7;color:var(--espresso-light);">Cada peça escolhida a dedo para quem acredita que casa é muito mais do que quatro paredes.</div>
+        </div>
+        <div>
+          <div class="type-sample-label">Caption — Nunito 600</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--terracotta);">Coleção Primavera 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="ds-card" style="grid-column: 1 / -1;">
+      <div class="ds-card-title">Componentes de Ação</div>
+      <div class="btn-showcase">
+        <button class="btn-sm btn-terra">Comprar Agora</button>
+        <button class="btn-sm btn-sage-c">Adicionar ao Carrinho</button>
+        <button class="btn-sm btn-mustard-c">Ver Detalhes</button>
+        <button class="btn-sm btn-outline-terra">Lista de Desejos</button>
+        <button class="btn-sm btn-dark">Explorar Tudo</button>
+        <button class="btn-sm" style="background:var(--warm-white);color:var(--espresso);border:1.5px solid var(--sand);">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section reveal-item">
+  <div class="newsletter-card">
+    <div class="newsletter-content">
+      <div class="newsletter-eyebrow">Fique por dentro</div>
+      <h2 class="newsletter-title">Seu lar merece<br>o melhor.</h2>
+      <p class="newsletter-desc">Receba antes de todo mundo: lançamentos, promoções exclusivas e dicas dos nossos decoradores parceiros. Sem spam, prometemos.</p>
+    </div>
+    <div class="newsletter-form">
+      <div class="input-group">
+        <input type="text" class="form-input" placeholder="Seu nome">
+      </div>
+      <div class="input-group">
+        <input type="email" class="form-input" placeholder="seu@email.com">
+      </div>
+      <button class="btn-newsletter" onclick="handleNewsletter(this)">Quero receber novidades →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo-name">NEST</div>
+      <div class="footer-logo-tagline">Seu lar, do seu jeito</div>
+      <p class="footer-desc">Mobília com personalidade para lares com história. Feito para quem vive com intenção.</p>
+      <div class="social-links">
+        <button class="social-btn" title="Instagram">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="social-btn" title="Pinterest">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83l1.21-5.13s-.31-.62-.31-1.53c0-1.44.83-2.51 1.87-2.51.88 0 1.31.66 1.31 1.45 0 .88-.56 2.21-.85 3.43-.24 1.03.51 1.86 1.52 1.86 1.82 0 3.04-2.34 3.04-5.12 0-2.11-1.41-3.59-3.44-3.59-2.35 0-3.73 1.76-3.73 3.57 0 .71.27 1.47.61 1.88a.24.24 0 0 1 .06.23c-.06.26-.2.85-.23.97-.03.15-.11.19-.25.12-.92-.43-1.5-1.79-1.5-2.88 0-2.34 1.7-4.49 4.9-4.49 2.57 0 4.57 1.83 4.57 4.28 0 2.55-1.61 4.61-3.84 4.61-.75 0-1.46-.39-1.7-.85l-.46 1.73c-.17.64-.62 1.44-.92 1.93.69.21 1.42.33 2.17.33 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        </button>
+        <button class="social-btn" title="TikTok">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.86 4.86 0 0 1-1.02-.07z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Comprar</div>
+      <div class="footer-links">
+        <a href="#">Salas de Estar</a>
+        <a href="#">Quartos</a>
+        <a href="#">Home Office</a>
+        <a href="#">Jardim & Varanda</a>
+        <a href="#">Decoração</a>
+        <a href="#">Promoções</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Empresa</div>
+      <div class="footer-links">
+        <a href="#">Sobre a NEST</a>
+        <a href="#">Sustentabilidade</a>
+        <a href="#">Parceiros</a>
+        <a href="#">Blog</a>
+        <a href="#">Carreiras</a>
+        <a href="#">Imprensa</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Ajuda</div>
+      <div class="footer-links">
+        <a href="#">FAQ</a>
+        <a href="#">Entrega & Instalação</a>
+        <a href="#">Trocas & Devoluções</a>
+        <a href="#">Rastrear Pedido</a>
+        <a href="#">Consultoria de Decoração</a>
+        <a href="#">Contato</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 NEST Casa Moderna. Todos os direitos reservados.</span>
+    <div style="display:flex;gap:24px;">
+      <a href="#" style="color:rgba(245,237,224,.4);text-decoration:none;font-size:13px;transition:color .15s;" onmouseover="this.style.color='rgba(245,237,224,.8)'" onmouseout="this.style.color='rgba(245,237,224,.4)'">Privacidade</a>
+      <a href="#" style="color:rgba(245,237,224,.4);text-decoration:none;font-size:13px;transition:color .15s;" onmouseover="this.style.color='rgba(245,237,224,.8)'" onmouseout="this.style.color='rgba(245,237,224,.4)'">Termos</a>
+      <a href="#" style="color:rgba(245,237,224,.4);text-decoration:none;font-size:13px;transition:color .15s;" onmouseover="this.style.color='rgba(245,237,224,.8)'" onmouseout="this.style.color='rgba(245,237,224,.4)'">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<script>
+// ── CART STATE ──
+let cartCount = 0;
+
+function updateCartBadge(delta) {
+  cartCount += delta;
+  const badge = document.getElementById('cart-count');
+  badge.textContent = cartCount;
+  badge.classList.remove('bounce');
+  void badge.offsetWidth; // reflow to restart animation
+  badge.classList.add('bounce');
+}
+
+// ── ADD TO CART ──
+function addToCart(btn, e) {
+  e.stopPropagation();
+  if (btn.classList.contains('loading') || btn.classList.contains('done')) return;
+
+  btn.classList.add('loading');
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.classList.add('done');
+    updateCartBadge(1);
+
+    const card = btn.closest('.product-card');
+    const name = card.querySelector('.product-name').textContent;
+    showToast('🛍️ ' + name + ' adicionado!');
+
+    setTimeout(() => {
+      btn.classList.remove('done');
+    }, 2500);
+  }, 280);
+}
+
+// ── WISHLIST ──
+function toggleWish(btn, e) {
+  e.stopPropagation();
+  const wasActive = btn.classList.contains('active');
+  btn.classList.toggle('active');
+
+  if (!wasActive) {
+    burstParticles(btn, e);
+    const card = btn.closest('.product-card');
+    const name = card.querySelector('.product-name').textContent;
+    showToast('❤️ ' + name + ' na sua lista!');
+  }
+}
+
+const particleColors = ['#E8673A', '#7B9E6B', '#F9B342', '#E8673A', '#7B9E6B'];
+
+function burstParticles(btn, e) {
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const container = document.body;
+
+  for (let i = 0; i < 8; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (i / 8) * 360;
+    const dist = 28 + Math.random() * 20;
+    const tx = Math.cos((angle * Math.PI) / 180) * dist + 'px';
+    const ty = Math.sin((angle * Math.PI) / 180) * dist + 'px';
+    p.style.cssText = `
+      left: ${cx - 3}px;
+      top: ${cy - 3}px;
+      position: fixed;
+      background: ${particleColors[i % particleColors.length]};
+      --tx: ${tx};
+      --ty: ${ty};
+      z-index: 9999;
+    `;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 650);
+  }
+}
+
+// ── PALETTE EXPLORER ──
+const paletteSuggestions = {
+  terra:    ['Poltrona Cairo', 'Tapete Berbere', 'Suporte Plantas'],
+  oceano:   ['Sofá Modular', 'Mesa Lateral Ferro', 'Tapete Berbere'],
+  noite:    ['Cômoda Retrô', 'Luminária Tulipa', 'Espelho Arco'],
+  floresta: ['Suporte Plantas', 'Sofá Modular', 'Poltrona Cairo'],
+  minimal:  ['Espelho Arco', 'Mesa Lateral Ferro', 'Luminária Tulipa'],
+};
+
+let currentPalette = 'terra';
+
+function selectPalette(card) {
+  const palette = card.dataset.palette;
+  if (palette === currentPalette) return;
+
+  // Update active card
+  document.querySelectorAll('.palette-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+
+  // Fade out current image, fade in new
+  const oldImg = document.getElementById('palette-img-' + currentPalette);
+  const newImg = document.getElementById('palette-img-' + palette);
+
+  oldImg.style.transition = 'opacity 0.45s ease';
+  newImg.style.transition = 'opacity 0.45s ease';
+  oldImg.style.opacity = '0';
+  newImg.style.opacity = '1';
+
+  // Update suggestions
+  const sugs = document.getElementById('palette-suggestions');
+  sugs.style.opacity = '0';
+  setTimeout(() => {
+    sugs.innerHTML = (paletteSuggestions[palette] || [])
+      .map(name => `<span class="suggestion-chip">${name}</span>`)
+      .join('');
+    sugs.style.transition = 'opacity 0.3s ease';
+    sugs.style.opacity = '1';
+  }, 250);
+
+  currentPalette = palette;
+}
+
+// ── SCROLL REVEAL — BENTO GRID ──
+function revealBentoCards() {
+  const cards = document.querySelectorAll('#bento-grid .product-card');
+  const windowBottom = window.scrollY + window.innerHeight;
+  const grid = document.getElementById('bento-grid');
+  const gridTop = grid.getBoundingClientRect().top + window.scrollY;
+
+  if (windowBottom > gridTop + 80) {
+    cards.forEach((card, i) => {
+      setTimeout(() => {
+        card.classList.add('revealed');
+      }, i * 80);
+    });
+    window.removeEventListener('scroll', revealBentoCards);
+  }
+}
+
+window.addEventListener('scroll', revealBentoCards, { passive: true });
+// Trigger on load if already in view
+revealBentoCards();
+
+// ── SCROLL REVEAL — GENERAL ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal-item').forEach(el => revealObserver.observe(el));
+
+// ── TOAST ──
+function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('fade-out');
+    setTimeout(() => toast.remove(), 350);
+  }, 2800);
+}
+
+// ── NEWSLETTER ──
+function handleNewsletter(btn) {
+  const form = btn.closest('.newsletter-form');
+  const email = form.querySelector('input[type="email"]').value;
+  if (!email || !email.includes('@')) {
+    showToast('Por favor, insira um e-mail válido.');
+    return;
+  }
+  btn.textContent = '✓ Inscrito com sucesso!';
+  btn.style.background = '#d4f1d4';
+  btn.style.color = '#2D5E2D';
+  showToast('🌿 Bem-vindo(a) à família NEST!');
+}
+
+// ── CATEGORY CHIPS ──
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+
+// ── INITIAL BENTO CHECK ──
+setTimeout(revealBentoCards, 100);
+</script>
+</body>
+</html>

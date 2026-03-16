@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRASA — Churrascaria Premium | Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #0D0A08;
+    --charcoal-2: #181210;
+    --charcoal-3: #221A14;
+    --ember: #C84B11;
+    --ember-dark: #9C3A0D;
+    --amber: #F59D37;
+    --amber-light: #FFBE6A;
+    --bone: #E8DDD0;
+    --bone-dim: #B8A898;
+    --mahogany: #5C3317;
+    --mahogany-light: #7A4A24;
+    --smoke: rgba(13,10,8,0.85);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--bone);
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    position: fixed; top: 16px; left: 16px; z-index: 9999;
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    color: #fff; text-decoration: none;
+    font-family: system-ui, sans-serif; font-size: 12px;
+    font-weight: 500; letter-spacing: .03em;
+    border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);
+    transition: background .2s;
+  }
+  .back-btn:hover { background: rgba(200,75,17,0.6); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 72px;
+    background: linear-gradient(to bottom, rgba(13,10,8,0.97) 0%, rgba(13,10,8,0.7) 100%);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,157,55,0.12);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 900;
+    letter-spacing: .12em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--bone); font-weight: 400; font-size: 11px; display: block; letter-spacing: .3em; margin-top: -4px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--bone-dim); text-decoration: none;
+    font-size: 12px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    padding: 10px 24px;
+    background: var(--ember);
+    color: #fff; text-decoration: none;
+    font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    border-radius: 2px;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--amber); color: var(--charcoal); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80');
+    background-size: cover; background-position: center;
+    transform: scale(1.05);
+    animation: slowZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1.05); }
+    to   { transform: scale(1.12); }
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(13,10,8,0.55) 0%,
+      rgba(13,10,8,0.3) 40%,
+      rgba(13,10,8,0.75) 80%,
+      rgba(13,10,8,1) 100%
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 0 24px;
+    max-width: 860px;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+    padding: 6px 18px;
+    border: 1px solid rgba(245,157,55,0.35);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 12vw, 140px);
+    font-weight: 900;
+    line-height: .9;
+    letter-spacing: .04em;
+    color: var(--bone);
+    text-shadow: 0 4px 40px rgba(200,75,17,0.4);
+    margin-bottom: 8px;
+  }
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-style: italic;
+    color: var(--bone-dim);
+    margin-bottom: 32px;
+    letter-spacing: .04em;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(92,51,23,0.6);
+    border: 1px solid rgba(245,157,55,0.25);
+    padding: 8px 20px;
+    font-size: 12px; letter-spacing: .1em; color: var(--amber);
+    margin-bottom: 40px;
+  }
+  .hero-badge::before { content: '★'; color: var(--amber); }
+  .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 16px 40px;
+    background: var(--ember);
+    color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    border: none; cursor: pointer;
+    transition: background .25s, transform .2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--amber); color: var(--charcoal); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: 16px 40px;
+    background: transparent;
+    color: var(--bone); text-decoration: none;
+    font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    border: 1px solid rgba(232,221,208,0.4); cursor: pointer;
+    transition: border-color .25s, color .25s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+  /* ── FIRE ANIMATION ── */
+  .fire-divider {
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+    display: flex; align-items: flex-end; justify-content: center;
+    background: var(--charcoal);
+  }
+  .flame-wrap {
+    position: absolute; bottom: 0;
+    width: 100%; height: 80px;
+    display: flex; justify-content: center;
+    gap: 0;
+  }
+  .flame {
+    position: relative;
+    bottom: 0;
+    border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+    animation: flicker 1.2s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+  }
+  .f1 { width: 18px; height: 48px; background: var(--ember); animation-duration: 1.1s; animation-delay: 0s; }
+  .f2 { width: 22px; height: 64px; background: var(--amber); animation-duration: 0.9s; animation-delay: .15s; }
+  .f3 { width: 28px; height: 72px; background: var(--ember); animation-duration: 1.3s; animation-delay: .05s; }
+  .f4 { width: 32px; height: 80px; background: linear-gradient(to top, var(--ember), var(--amber)); animation-duration: 1.0s; animation-delay: .2s; }
+  .f5 { width: 38px; height: 76px; background: var(--amber); animation-duration: 0.85s; animation-delay: .1s; }
+  .f6 { width: 30px; height: 70px; background: var(--ember); animation-duration: 1.15s; animation-delay: .3s; }
+  .f7 { width: 24px; height: 60px; background: var(--amber-light); animation-duration: 1.05s; animation-delay: .08s; }
+  .f8 { width: 20px; height: 50px; background: var(--ember); animation-duration: 1.2s; animation-delay: .25s; }
+  .f9 { width: 16px; height: 42px; background: var(--amber); animation-duration: 0.95s; animation-delay: .18s; }
+  /* repeat pattern across width */
+  .flame-row {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around; align-items: flex-end;
+    padding: 0 24px;
+  }
+  .flame-inner {
+    position: absolute; bottom: 0;
+    border-radius: 50% 50% 15% 15% / 60% 60% 40% 40%;
+    transform-origin: bottom center;
+    opacity: 0.7;
+  }
+  @keyframes flicker {
+    0%   { transform: scaleX(1)   scaleY(1)   rotate(-1deg); opacity: 1; }
+    25%  { transform: scaleX(.92) scaleY(1.06) rotate(1deg); opacity: .95; }
+    50%  { transform: scaleX(1.04) scaleY(.97) rotate(0deg); opacity: 1; }
+    75%  { transform: scaleX(.96) scaleY(1.03) rotate(-1.5deg); opacity: .9; }
+    100% { transform: scaleX(1.02) scaleY(1.05) rotate(1deg); opacity: .95; }
+  }
+  @keyframes flicker2 {
+    0%   { transform: scaleX(1.04) scaleY(.95) rotate(1deg); opacity: .8; }
+    50%  { transform: scaleX(.94) scaleY(1.08) rotate(-1deg); opacity: .9; }
+    100% { transform: scaleX(1.02) scaleY(1.02) rotate(.5deg); opacity: .85; }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 96px 48px; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700; line-height: 1.1;
+    color: var(--bone); margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--amber); }
+  .section-lead {
+    font-size: 16px; line-height: 1.8; color: var(--bone-dim);
+    max-width: 560px; margin-bottom: 48px;
+  }
+  .divider-line {
+    width: 48px; height: 2px;
+    background: linear-gradient(to right, var(--ember), var(--amber));
+    margin-bottom: 48px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img {
+    width: 100%; height: 520px;
+    object-fit: cover;
+    display: block;
+  }
+  .about-img-frame {
+    position: absolute; inset: -12px -12px 12px 12px;
+    border: 1px solid rgba(245,157,55,0.25);
+    pointer-events: none;
+  }
+  .about-stat-row {
+    display: flex; gap: 40px; margin-top: 40px;
+  }
+  .about-stat { text-align: center; }
+  .about-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px; font-weight: 900;
+    color: var(--amber); line-height: 1;
+  }
+  .about-stat .lbl {
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--bone-dim); margin-top: 4px;
+  }
+
+  /* ── MENU TABS ── */
+  .menu-section { background: var(--charcoal-2); }
+  .menu-section > .inner { max-width: 1200px; margin: 0 auto; }
+  .menu-tabs {
+    display: flex; gap: 0; margin-bottom: 48px;
+    border-bottom: 1px solid rgba(232,221,208,0.1);
+  }
+  .tab-btn {
+    padding: 14px 28px;
+    background: none; border: none;
+    color: var(--bone-dim);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color .2s, border-color .2s;
+  }
+  .tab-btn:hover { color: var(--amber); }
+  .tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+  .cut-card {
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.07);
+    overflow: hidden;
+    transition: transform .25s, border-color .25s;
+  }
+  .cut-card:hover { transform: translateY(-4px); border-color: rgba(245,157,55,0.3); }
+  .cut-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .cut-body { padding: 20px; }
+  .cut-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700; color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .cut-desc { font-size: 13px; color: var(--bone-dim); line-height: 1.6; margin-bottom: 16px; }
+  .cut-point-label {
+    font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 8px;
+  }
+  .point-track {
+    position: relative; height: 6px;
+    background: rgba(232,221,208,0.1);
+    border-radius: 3px; overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .point-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: linear-gradient(to right, #B22222, #C84B11, #F59D37, #FFD580);
+    border-radius: 3px;
+    transition: width .5s ease;
+  }
+  .point-labels {
+    display: flex; justify-content: space-between;
+    font-size: 9px; color: var(--bone-dim); letter-spacing: .05em;
+  }
+
+  /* ── PRICES ── */
+  .price-section { background: var(--charcoal); }
+  .price-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; max-width: 1000px; margin: 0 auto;
+  }
+  .price-card {
+    background: var(--charcoal-3);
+    padding: 48px 36px;
+    text-align: center;
+    border: 1px solid rgba(232,221,208,0.07);
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured {
+    background: linear-gradient(135deg, #221A14 0%, #2E1C0E 100%);
+    border-color: rgba(245,157,55,0.4);
+  }
+  .price-card.featured::before {
+    content: 'MAIS POPULAR';
+    position: absolute; top: 16px; right: 0;
+    background: var(--ember);
+    color: #fff; font-size: 9px; font-weight: 700; letter-spacing: .2em;
+    padding: 4px 14px 4px 10px;
+  }
+  .price-label {
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 16px;
+  }
+  .price-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700; color: var(--bone);
+    margin-bottom: 24px;
+  }
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px; font-weight: 900;
+    color: var(--amber); line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-amount sup { font-size: 24px; vertical-align: super; }
+  .price-per { font-size: 12px; color: var(--bone-dim); margin-bottom: 32px; }
+  .price-features { list-style: none; text-align: left; margin-bottom: 32px; }
+  .price-features li {
+    font-size: 13px; color: var(--bone-dim);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(232,221,208,0.06);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .price-features li::before { content: '—'; color: var(--amber); flex-shrink: 0; }
+
+  /* ── RESERVATION ── */
+  .reservation-section { background: var(--charcoal-2); }
+  .reservation-wrap {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: start;
+  }
+  .res-group { margin-bottom: 32px; }
+  .res-label {
+    font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 14px;
+  }
+  /* Calendar */
+  .calendar { width: 100%; }
+  .cal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .cal-month {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: var(--bone);
+  }
+  .cal-nav {
+    background: none; border: 1px solid rgba(232,221,208,0.15);
+    color: var(--bone-dim); width: 32px; height: 32px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: border-color .2s, color .2s;
+  }
+  .cal-nav:hover { border-color: var(--amber); color: var(--amber); }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+  }
+  .cal-dow {
+    text-align: center; font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--bone-dim);
+    padding: 4px 0; margin-bottom: 4px;
+  }
+  .cal-day {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--bone-dim);
+    cursor: pointer; border-radius: 2px;
+    transition: background .15s, color .15s;
+    border: 1px solid transparent;
+  }
+  .cal-day:hover:not(.empty):not(.past) { background: rgba(245,157,55,0.15); color: var(--amber); }
+  .cal-day.selected { background: var(--ember); color: #fff; border-color: var(--ember); }
+  .cal-day.today { border-color: rgba(245,157,55,0.4); color: var(--amber); }
+  .cal-day.past { opacity: .3; cursor: not-allowed; }
+  .cal-day.empty { cursor: default; }
+  /* Party size */
+  .party-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .party-btn {
+    width: 44px; height: 44px;
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.12);
+    color: var(--bone-dim); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .15s;
+  }
+  .party-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .party-btn.selected { background: var(--ember); border-color: var(--ember); color: #fff; }
+  /* Time slots */
+  .time-slots { display: flex; flex-wrap: wrap; gap: 8px; }
+  .time-slot {
+    padding: 10px 16px;
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.12);
+    color: var(--bone-dim); font-size: 12px; font-weight: 700; letter-spacing: .08em;
+    cursor: pointer; transition: all .15s;
+  }
+  .time-slot:hover { border-color: var(--amber); color: var(--amber); }
+  .time-slot.selected { background: var(--ember); border-color: var(--ember); color: #fff; }
+  .res-confirm-btn {
+    width: 100%; padding: 16px;
+    background: var(--ember); color: #fff; border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    cursor: pointer; margin-top: 24px;
+    transition: background .2s;
+  }
+  .res-confirm-btn:hover { background: var(--amber); color: var(--charcoal); }
+  .res-confirmation {
+    display: none;
+    background: linear-gradient(135deg, var(--charcoal-3), #2A1A0E);
+    border: 1px solid rgba(245,157,55,0.35);
+    padding: 32px; margin-top: 24px;
+    text-align: center;
+  }
+  .res-confirmation.show { display: block; }
+  .res-conf-icon { font-size: 40px; margin-bottom: 12px; }
+  .res-conf-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 900; color: var(--amber);
+    letter-spacing: .1em; margin-bottom: 8px;
+  }
+  .res-conf-detail { font-size: 13px; color: var(--bone-dim); line-height: 1.8; }
+  .res-summary {
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.07);
+    padding: 24px;
+  }
+  .res-summary h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; color: var(--bone); margin-bottom: 16px;
+  }
+  .res-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(232,221,208,0.07);
+    font-size: 13px;
+  }
+  .res-row span:first-child { color: var(--bone-dim); }
+  .res-row span:last-child { color: var(--bone); font-weight: 700; }
+  .res-row.highlight span:last-child { color: var(--amber); }
+
+  /* ── WINE ACCORDION ── */
+  .wine-section { background: var(--charcoal); }
+  .wine-inner { max-width: 900px; margin: 0 auto; }
+  .accordion-item {
+    border-bottom: 1px solid rgba(232,221,208,0.1);
+  }
+  .accordion-trigger {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+    background: none; border: none; cursor: pointer;
+    text-align: left;
+  }
+  .accordion-trigger-left { display: flex; align-items: center; gap: 16px; }
+  .acc-icon {
+    width: 44px; height: 44px;
+    background: var(--charcoal-3);
+    border: 1px solid rgba(245,157,55,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .acc-cut { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--bone); }
+  .acc-sub { font-size: 12px; color: var(--bone-dim); margin-top: 2px; }
+  .acc-arrow {
+    font-size: 18px; color: var(--amber);
+    transition: transform .3s;
+  }
+  .accordion-item.open .acc-arrow { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s ease;
+  }
+  .accordion-item.open .accordion-body { max-height: 500px; }
+  .accordion-content {
+    padding: 0 0 28px 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .wine-card {
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.07);
+    padding: 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .wine-img {
+    width: 50px; height: 70px; object-fit: cover; flex-shrink: 0;
+  }
+  .wine-name { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--bone); margin-bottom: 4px; }
+  .wine-region { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--ember); margin-bottom: 6px; }
+  .wine-note { font-size: 12px; color: var(--bone-dim); line-height: 1.5; font-style: italic; }
+  .acc-sommelier {
+    padding: 16px; background: rgba(92,51,23,0.2);
+    border-left: 3px solid var(--amber);
+    font-size: 13px; color: var(--bone-dim); font-style: italic; line-height: 1.6;
+    grid-column: 1 / -1;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-section { background: var(--charcoal-2); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: 8px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .gallery-item {
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .gallery-item:first-child { grid-row: 1 / 3; }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform .5s ease, filter .4s ease;
+    filter: brightness(0.85);
+  }
+  .gallery-item:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.1);
+  }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,75,17,0) 0%, rgba(200,75,17,0.55) 100%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    display: flex; align-items: flex-end;
+    padding: 20px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700; color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    transform: translateY(8px);
+    transition: transform .35s ease;
+  }
+  .gallery-item:hover .gallery-overlay-text { transform: translateY(0); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--charcoal); }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1200px; margin: 0 auto;
+  }
+  .testi-card {
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.07);
+    padding: 36px 28px;
+    position: relative;
+  }
+  .testi-quote {
+    font-size: 60px; line-height: .8;
+    font-family: 'Playfair Display', serif;
+    color: var(--ember); opacity: .5;
+    margin-bottom: 16px;
+  }
+  .testi-text {
+    font-size: 14px; line-height: 1.8;
+    color: var(--bone-dim); font-style: italic;
+    margin-bottom: 24px;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--mahogany);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: var(--amber);
+    border: 2px solid rgba(245,157,55,0.3);
+  }
+  .testi-name { font-size: 14px; font-weight: 700; color: var(--bone); }
+  .testi-role { font-size: 11px; color: var(--bone-dim); }
+  .testi-stars { color: var(--amber); font-size: 13px; margin-bottom: 16px; }
+
+  /* ── DESIGN SYSTEM PALETTE ── */
+  .ds-section { background: var(--charcoal-2); }
+  .ds-inner { max-width: 1200px; margin: 0 auto; }
+  .ds-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 48px; }
+  .swatch {
+    aspect-ratio: 1;
+    display: flex; align-items: flex-end; padding: 12px;
+    position: relative;
+  }
+  .swatch-info { }
+  .swatch-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+  .swatch-hex { font-size: 10px; opacity: .7; font-family: monospace; }
+
+  /* Type samples */
+  .type-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .type-sample {
+    background: var(--charcoal-3);
+    border: 1px solid rgba(232,221,208,0.07);
+    padding: 32px;
+  }
+  .type-label { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    border-top: 1px solid rgba(232,221,208,0.08);
+    padding: 64px 48px 40px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px; max-width: 1200px; margin: 0 auto 48px;
+  }
+  .footer-brand .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 900; letter-spacing: .1em;
+    color: var(--amber); margin-bottom: 16px;
+  }
+  .footer-brand p { font-size: 13px; color: var(--bone-dim); line-height: 1.8; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 11px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: var(--bone-dim); text-decoration: none; font-size: 13px; transition: color .2s; }
+  .footer-col a:hover { color: var(--amber); }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 24px; border-top: 1px solid rgba(232,221,208,0.07);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--bone-dim);
+  }
+
+  /* ── FIRE HERO BOTTOM ── */
+  .hero-fire {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 120px; z-index: 3;
+    pointer-events: none;
+  }
+  .hf-row {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 120px;
+    display: flex; justify-content: space-around; align-items: flex-end;
+  }
+  .hf {
+    border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+    transform-origin: bottom center;
+    animation: flicker 1s ease-in-out infinite alternate;
+    flex-shrink: 0;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--charcoal); }
+  ::-webkit-scrollbar-thumb { background: var(--mahogany); }
+</style>
+</head>
+<body>
+
+<!-- BACK BUTTON -->
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:20px;border:1px solid rgba(255,255,255,0.15);">← Voltar</a>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BRASA<span>Churrascaria Premium</span></div>
+  <ul class="nav-links">
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#reserva">Reservas</a></li>
+    <li><a href="#harmonizacao">Vinhos</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+  </ul>
+  <a href="#reserva" class="nav-cta">Reservar Mesa</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Jardins · São Paulo</div>
+    <h1 class="hero-title">BRASA</h1>
+    <p class="hero-subtitle">O melhor da brasa, servido na sua mesa</p>
+    <div class="hero-badge">Reconhecida como Top 10 Churrascaria SP — Guia Comer&amp;Beber 2024</div>
+    <div class="hero-actions">
+      <a href="#reserva" class="btn-primary">Reservar Mesa</a>
+      <a href="#cardapio" class="btn-ghost">Ver Cardápio</a>
+    </div>
+  </div>
+  <!-- Fire at hero bottom -->
+  <div class="hero-fire" id="heroFire"></div>
+</section>
+
+<!-- FIRE DIVIDER -->
+<div class="fire-divider" id="fireDivider1"></div>
+
+<!-- ABOUT -->
+<section id="sobre" style="background: var(--charcoal); padding: 96px 48px;">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Interior BRASA" class="about-img">
+      <div class="about-img-frame"></div>
+    </div>
+    <div>
+      <div class="section-eyebrow">Nossa História</div>
+      <h2 class="section-title">Fogo. <em>Tradição.</em> Excelência.</h2>
+      <div class="divider-line"></div>
+      <p class="section-lead">Nascida no coração dos Jardins, a BRASA é o encontro da tradição gaúcha com a sofisticação da alta gastronomia paulistana. Cada corte é selecionado a mão, cada brasa é monitorada por churrasqueiros com décadas de experiência.</p>
+      <p style="font-size: 15px; color: var(--bone-dim); line-height: 1.8; margin-bottom: 32px;">Acreditamos que o churrasco é mais do que comida — é um ritual. Um momento de reunir, de celebrar, de desfrutar do melhor que o fogo pode oferecer.</p>
+      <div class="about-stat-row">
+        <div class="about-stat"><div class="num">12+</div><div class="lbl">Anos de história</div></div>
+        <div class="about-stat"><div class="num">28</div><div class="lbl">Cortes disponíveis</div></div>
+        <div class="about-stat"><div class="num">4.9</div><div class="lbl">Nota Google</div></div>
+        <div class="about-stat"><div class="num">180</div><div class="lbl">Lugares</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDÁPIO -->
+<section class="menu-section" id="cardapio">
+  <div class="inner">
+    <div class="section-eyebrow">Rodízio Premium</div>
+    <h2 class="section-title">Nossos <em>Cortes</em></h2>
+    <div class="divider-line"></div>
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'bovino')">🥩 Bovino</button>
+      <button class="tab-btn" onclick="switchTab(this,'suino')">🐷 Suíno</button>
+      <button class="tab-btn" onclick="switchTab(this,'frango')">🍗 Frango</button>
+      <button class="tab-btn" onclick="switchTab(this,'especiais')">✦ Especiais</button>
+    </div>
+
+    <!-- BOVINO -->
+    <div class="tab-panel active" id="panel-bovino">
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Picanha" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Picanha</div>
+          <div class="cut-desc">O corte mais nobre da BRASA. Capa de gordura generosa, sabor intenso, textura incomparável.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:35%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80" alt="Fraldinha" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Fraldinha</div>
+          <div class="cut-desc">Fibras longas e suculentas com marmoreio excepcional. Um dos favoritos dos conhecedores.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:45%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80" alt="Costela" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Costela na Brasa</div>
+          <div class="cut-desc">Assada por 12 horas em fogo baixo. Carne que desfia com o toque. Uma obra de paciência.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:65%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="Maminha" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Maminha</div>
+          <div class="cut-desc">Macia, levemente adocicada, ideal para quem aprecia carne sem excessos de gordura.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:55%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUÍNO -->
+    <div class="tab-panel" id="panel-suino">
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80" alt="Costelinha" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Costelinha Suína</div>
+          <div class="cut-desc">Marinada por 24h em ervas frescas e alho. Caramelizada na brasa com mel e pimenta.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:80%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80" alt="Linguiça" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Linguiça Artesanal</div>
+          <div class="cut-desc">Produzida na casa. Blend proprietário de temperos com pimenta-biquinho e alecrim.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:90%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRANGO -->
+    <div class="tab-panel" id="panel-frango">
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="Frango com Bacon" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Frango com Bacon</div>
+          <div class="cut-desc">Coxa e sobrecoxa envoltas em bacon crocante. Suculento, defumado, irresistível.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:95%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESPECIAIS -->
+    <div class="tab-panel" id="panel-especiais">
+      <div class="cut-card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Cordeiro" class="cut-img">
+        <div class="cut-body">
+          <div class="cut-name">Carré de Cordeiro</div>
+          <div class="cut-desc">Importado. Rosmaninho, azeite extravirgem e flor de sal. O ponto mais solicitado da casa.</div>
+          <div class="cut-point-label">Ponto Sugerido</div>
+          <div class="point-track"><div class="point-fill" style="width:30%"></div></div>
+          <div class="point-labels"><span>Mal Passado</span><span>Ao Ponto</span><span>Bem Passado</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIRE DIVIDER 2 -->
+<div class="fire-divider" id="fireDivider2"></div>
+
+<!-- PREÇOS -->
+<section class="price-section" id="precos">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow" style="text-align:center">Experiências</div>
+    <h2 class="section-title" style="text-align:center">Escolha seu <em>Ritual</em></h2>
+    <p style="text-align:center;color:var(--bone-dim);font-size:15px;max-width:480px;margin:0 auto 48px">Cada experiência é cuidadosamente desenhada para que nada falte à sua mesa.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-label">Clássico</div>
+        <div class="price-name">Rodízio Tradicional</div>
+        <div class="price-amount"><sup>R$</sup>129</div>
+        <div class="price-per">por pessoa · almoço</div>
+        <ul class="price-features">
+          <li>18 cortes de carne</li>
+          <li>Salada bar completa</li>
+          <li>Acompanhamentos clássicos</li>
+          <li>Sobremesa inclusa</li>
+        </ul>
+        <button class="btn-primary" onclick="document.getElementById('reserva').scrollIntoView({behavior:'smooth'})">Reservar</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-label">Premium</div>
+        <div class="price-name">Rodízio Premium</div>
+        <div class="price-amount"><sup>R$</sup>189</div>
+        <div class="price-per">por pessoa · jantar</div>
+        <ul class="price-features">
+          <li>28 cortes selecionados</li>
+          <li>Cordeiro e cortes especiais</li>
+          <li>Sommelier à mesa</li>
+          <li>Taça de boas-vindas</li>
+          <li>Sobremesa premium</li>
+        </ul>
+        <button class="btn-primary" onclick="document.getElementById('reserva').scrollIntoView({behavior:'smooth'})">Reservar</button>
+      </div>
+      <div class="price-card">
+        <div class="price-label">Exclusivo</div>
+        <div class="price-name">À la Carte</div>
+        <div class="price-amount" style="font-size:36px;padding-top:10px">Sob<br>Consulta</div>
+        <div class="price-per">Mesa privativa</div>
+        <ul class="price-features">
+          <li>Cortes exclusivos a vácuo</li>
+          <li>Chef dedicado à mesa</li>
+          <li>Carta de vinhos premium</li>
+          <li>Sala privativa disponível</li>
+        </ul>
+        <button class="btn-ghost" onclick="document.getElementById('reserva').scrollIntoView({behavior:'smooth'})">Consultar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section class="reservation-section" id="reserva">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow">Reserve sua experiência</div>
+    <h2 class="section-title">Reservar <em>Mesa</em></h2>
+    <div class="divider-line"></div>
+    <div class="reservation-wrap">
+      <div>
+        <!-- Calendar -->
+        <div class="res-group">
+          <div class="res-label">Escolha a data</div>
+          <div class="calendar">
+            <div class="cal-header">
+              <button class="cal-nav" onclick="calNav(-1)">‹</button>
+              <div class="cal-month" id="calMonth"></div>
+              <button class="cal-nav" onclick="calNav(1)">›</button>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+        </div>
+        <!-- Party size -->
+        <div class="res-group">
+          <div class="res-label">Número de pessoas</div>
+          <div class="party-btns" id="partyBtns">
+            <button class="party-btn" onclick="selectParty(this,'1')">1</button>
+            <button class="party-btn" onclick="selectParty(this,'2')">2</button>
+            <button class="party-btn" onclick="selectParty(this,'3')">3</button>
+            <button class="party-btn" onclick="selectParty(this,'4')">4</button>
+            <button class="party-btn" onclick="selectParty(this,'5')">5</button>
+            <button class="party-btn" onclick="selectParty(this,'6')">6</button>
+            <button class="party-btn" onclick="selectParty(this,'7')">7</button>
+            <button class="party-btn" onclick="selectParty(this,'8')">8</button>
+            <button class="party-btn" onclick="selectParty(this,'10+')">10+</button>
+          </div>
+        </div>
+        <!-- Time slots -->
+        <div class="res-group">
+          <div class="res-label">Horário</div>
+          <div class="time-slots">
+            <button class="time-slot" onclick="selectTime(this,'12h00')">12h00</button>
+            <button class="time-slot" onclick="selectTime(this,'12h30')">12h30</button>
+            <button class="time-slot" onclick="selectTime(this,'13h00')">13h00</button>
+            <button class="time-slot" onclick="selectTime(this,'19h00')">19h00</button>
+            <button class="time-slot" onclick="selectTime(this,'19h30')">19h30</button>
+            <button class="time-slot" onclick="selectTime(this,'20h00')">20h00</button>
+            <button class="time-slot" onclick="selectTime(this,'21h00')">21h00</button>
+          </div>
+        </div>
+        <button class="res-confirm-btn" onclick="confirmReservation()">Confirmar Reserva</button>
+        <div class="res-confirmation" id="resConf">
+          <div class="res-conf-icon">🔥</div>
+          <div class="res-conf-num" id="resConfNum">#BR-0000</div>
+          <div class="res-conf-detail" id="resConfDetail">
+            Reserva confirmada com sucesso!<br>
+            Um e-mail de confirmação será enviado em breve.<br>
+            <strong style="color:var(--amber)">BRASA — Rua das Flores, 142 · Jardins, SP</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="res-summary">
+          <h3>Resumo da Reserva</h3>
+          <div class="res-row"><span>Restaurante</span><span>BRASA Churrascaria</span></div>
+          <div class="res-row"><span>Data</span><span id="sumDate">—</span></div>
+          <div class="res-row"><span>Horário</span><span id="sumTime">—</span></div>
+          <div class="res-row"><span>Pessoas</span><span id="sumPeople">—</span></div>
+          <div class="res-row highlight"><span>Modalidade</span><span>Rodízio Premium</span></div>
+          <div class="res-row highlight"><span>Valor estimado</span><span id="sumTotal">—</span></div>
+        </div>
+        <div style="margin-top:24px;padding:20px;background:var(--charcoal-3);border:1px solid rgba(232,221,208,0.07);">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:12px;">Horário de Funcionamento</div>
+          <div style="font-size:13px;color:var(--bone-dim);line-height:2;">
+            <strong style="color:var(--bone)">Terça a Sexta</strong><br>
+            Almoço: 12h – 15h<br>
+            Jantar: 19h – 23h<br><br>
+            <strong style="color:var(--bone)">Sábado e Domingo</strong><br>
+            Almoço: 12h – 16h<br>
+            Jantar: 19h – 23h30
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIRE DIVIDER 3 -->
+<div class="fire-divider" id="fireDivider3"></div>
+
+<!-- WINE ACCORDION -->
+<section class="wine-section" id="harmonizacao">
+  <div class="wine-inner">
+    <div class="section-eyebrow">Sommelier BRASA</div>
+    <h2 class="section-title">Harmonização <em>Perfeita</em></h2>
+    <div class="divider-line"></div>
+    <p class="section-lead">Nossa carta de vinhos foi curada especialmente para cada corte. Deixe-se guiar pelo nosso sommelier.</p>
+
+    <div id="accordionWine">
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAcc(this)">
+          <div class="accordion-trigger-left">
+            <div class="acc-icon">🥩</div>
+            <div><div class="acc-cut">Picanha</div><div class="acc-sub">Corte nobre · Malbec ou Cabernet</div></div>
+          </div>
+          <span class="acc-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Achaval Ferrer Malbec</div>
+                <div class="wine-region">Mendoza, Argentina · 2019</div>
+                <div class="wine-note">Taninos sedosos que abraçam a gordura da picanha. Notas de ameixa preta e especiarias.</div>
+              </div>
+            </div>
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Don Melchor Cabernet</div>
+                <div class="wine-region">Valle del Maipo, Chile · 2018</div>
+                <div class="wine-note">Estrutura firme e elegante. Cassis, cedro e toque mineral — intensidade que combina com o corte.</div>
+              </div>
+            </div>
+            <div class="acc-sommelier">"A picanha pede um vinho com taninos que complementem sua gordura entremeada. Um Malbec argentino de safra madura é, na minha opinião, o par perfeito." — <strong>Carlos Mendes, Sommelier BRASA</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAcc(this)">
+          <div class="accordion-trigger-left">
+            <div class="acc-icon">🔥</div>
+            <div><div class="acc-cut">Costela na Brasa</div><div class="acc-sub">12h de fogo · Syrah ou Tempranillo</div></div>
+          </div>
+          <span class="acc-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Penfolds Shiraz Bin 28</div>
+                <div class="wine-region">Barossa Valley, Austrália · 2020</div>
+                <div class="wine-note">Defumado e encorpado. Pimenta preta, chocolate amargo — espelho da defumação da costela.</div>
+              </div>
+            </div>
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Vega Sicilia Alión</div>
+                <div class="wine-region">Ribera del Duero, Espanha · 2017</div>
+                <div class="wine-note">Elegância ibérica. Frutas vermelhas, couro e baunilha. Acidez que limpa o paladar entre garfadas.</div>
+              </div>
+            </div>
+            <div class="acc-sommelier">"A costela longa de brasa cria compostos de Maillard complexos. Precisa de um vinho que tenha a mesma profundidade — o Syrah australiano é surpreendente nessa harmonia." — <strong>Carlos Mendes</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAcc(this)">
+          <div class="accordion-trigger-left">
+            <div class="acc-icon">🐑</div>
+            <div><div class="acc-cut">Carré de Cordeiro</div><div class="acc-sub">Importado · Pinot Noir ou Bordeaux</div></div>
+          </div>
+          <span class="acc-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Domaine Drouhin Pinot Noir</div>
+                <div class="wine-region">Oregon, EUA · 2019</div>
+                <div class="wine-note">Leveza e complexidade aromática. Framboesa, terra húmida e floral — o par delicado para o cordeiro.</div>
+              </div>
+            </div>
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Château Léoville Barton</div>
+                <div class="wine-region">Saint-Julien, França · 2016</div>
+                <div class="wine-note">Clássico Bordeaux. Gravite, groselha e estrutura longa. Combina com as ervas do cordeiro.</div>
+              </div>
+            </div>
+            <div class="acc-sommelier">"O cordeiro ao rosmaninho é quase mediterrâneo. O Pinot Noir com suas notas terrosas amplifica o caráter herbal da preparação de forma extraordinária." — <strong>Carlos Mendes</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAcc(this)">
+          <div class="accordion-trigger-left">
+            <div class="acc-icon">🌿</div>
+            <div><div class="acc-cut">Linguiça Artesanal</div><div class="acc-sub">Defumada · Zinfandel ou Grenache</div></div>
+          </div>
+          <span class="acc-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Ridge Lytton Springs Zinfandel</div>
+                <div class="wine-region">Sonoma, Califórnia · 2020</div>
+                <div class="wine-note">Frutas negras exuberantes e pimenta. Robustez que combina com as especiarias da linguiça artesanal.</div>
+              </div>
+            </div>
+            <div class="wine-card">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="vinho" class="wine-img">
+              <div>
+                <div class="wine-name">Château Rayas Grenache</div>
+                <div class="wine-region">Châteauneuf-du-Pape, França · 2018</div>
+                <div class="wine-note">Acidez brilhante e notas de garrigue. Contraste refrescante ao lado da linguiça gordurosa.</div>
+              </div>
+            </div>
+            <div class="acc-sommelier">"A linguiça da casa tem pimenta-biquinho e alecrim. O Zinfandel californiano é um clássico aqui — sua exuberância frutada adora especiarias." — <strong>Carlos Mendes</strong></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="galeria">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow">Momentos BRASA</div>
+    <h2 class="section-title">Galeria de <em>Experiências</em></h2>
+    <div class="divider-line"></div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80" alt="Fogo na brasa">
+        <div class="gallery-overlay"><div class="gallery-overlay-text">Fogo & Tradição</div></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Picanha Premium">
+        <div class="gallery-overlay"><div class="gallery-overlay-text">Picanha Premium</div></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Ambiente">
+        <div class="gallery-overlay"><div class="gallery-overlay-text">Nosso Ambiente</div></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="Churrasqueiro">
+        <div class="gallery-overlay"><div class="gallery-overlay-text">Mestres da Brasa</div></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" alt="Salada Bar">
+        <div class="gallery-overlay"><div class="gallery-overlay-text">Salada Bar Premium</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow" style="text-align:center">O que dizem</div>
+    <h2 class="section-title" style="text-align:center">Nossos <em>Convidados</em></h2>
+    <div class="divider-line" style="margin:0 auto 48px"></div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <div class="testi-text">A picanha da BRASA é a melhor que já comi na vida. O ponto perfeito, a gordura na medida certa, o serviço impecável. Virou nosso restaurante de celebrações.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Marina Ferreira</div><div class="testi-role">Cliente desde 2018</div></div>
+        </div>
+      </div>
+      <div class="testi-card" style="border-color: rgba(245,157,55,0.2);">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <div class="testi-text">Trouxe clientes internacionais e ficaram boquiabertos. A harmonização com vinhos pelo sommelier elevou toda a experiência. BRASA é um orgulho paulistano.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div><div class="testi-name">Ricardo Alves</div><div class="testi-role">Executivo · Cliente VIP</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <div class="testi-text">O cordeiro ao rosmaninho e o vinho Pinot Noir recomendado pelo Carlos foram uma revelação. Um restaurante que entende verdadeiramente de gastronomia.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Ana Cristina Lopes</div><div class="testi-role">Food blogger · @acidecomer</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN SYSTEM -->
+<section class="ds-section" id="design-system">
+  <div class="ds-inner">
+    <div class="section-eyebrow">Identidade Visual</div>
+    <h2 class="section-title">Sistema de <em>Design</em></h2>
+    <div class="divider-line"></div>
+
+    <!-- PALETTE -->
+    <div style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:16px;">Paleta de Cores</div>
+    <div class="ds-grid">
+      <div class="swatch" style="background:#0D0A08;border:1px solid rgba(232,221,208,0.1)">
+        <div class="swatch-info"><div class="swatch-name" style="color:#E8DDD0">Charcoal Black</div><div class="swatch-hex" style="color:#B8A898">#0D0A08</div></div>
+      </div>
+      <div class="swatch" style="background:#C84B11">
+        <div class="swatch-info"><div class="swatch-name" style="color:#fff">Ember</div><div class="swatch-hex" style="color:rgba(255,255,255,0.7)">#C84B11</div></div>
+      </div>
+      <div class="swatch" style="background:#F59D37">
+        <div class="swatch-info"><div class="swatch-name" style="color:#0D0A08">Amber Fire</div><div class="swatch-hex" style="color:rgba(13,10,8,0.7)">#F59D37</div></div>
+      </div>
+      <div class="swatch" style="background:#E8DDD0">
+        <div class="swatch-info"><div class="swatch-name" style="color:#0D0A08">Bone White</div><div class="swatch-hex" style="color:rgba(13,10,8,0.7)">#E8DDD0</div></div>
+      </div>
+      <div class="swatch" style="background:#5C3317">
+        <div class="swatch-info"><div class="swatch-name" style="color:#E8DDD0">Mahogany</div><div class="swatch-hex" style="color:rgba(232,221,208,0.7)">#5C3317</div></div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:16px;margin-top:48px;">Tipografia</div>
+    <div class="type-samples">
+      <div class="type-sample">
+        <div class="type-label">Playfair Display — Display / Headlines</div>
+        <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--bone);line-height:1;margin-bottom:8px">BRASA</div>
+        <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--amber);line-height:1.2;margin-bottom:8px">O Melhor da Brasa</div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--bone-dim)">Churrascaria Premium · Jardins</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">Lato — Body / UI</div>
+        <div style="font-size:24px;font-weight:900;color:var(--bone);margin-bottom:8px;letter-spacing:.05em">RODÍZIO PREMIUM</div>
+        <div style="font-size:16px;font-weight:400;color:var(--bone-dim);line-height:1.8;margin-bottom:8px">Cada corte é selecionado a mão por nossos churrasqueiros especialistas, assado no ponto ideal para cada textura.</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--ember)">RESERVAR MESA — JARDINS, SP</div>
+      </div>
+    </div>
+
+    <!-- COMPONENTS -->
+    <div style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:16px;margin-top:48px;">Componentes</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:32px;">
+      <button class="btn-primary">Reservar Mesa</button>
+      <button class="btn-ghost">Ver Cardápio</button>
+      <span style="padding:6px 16px;background:var(--charcoal-3);border:1px solid rgba(245,157,55,0.3);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber)">Top 10 SP · 2024</span>
+      <span style="padding:6px 16px;background:rgba(200,75,17,0.2);border:1px solid var(--ember);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ember)">Mais Popular</span>
+    </div>
+  </div>
+</section>
+
+<!-- FIRE DIVIDER 4 -->
+<div class="fire-divider" id="fireDivider4"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">BRASA</div>
+      <p>O encontro da tradição gaúcha com a sofisticação paulistana. Cada brasa, uma história. Cada corte, um ritual.</p>
+      <div style="margin-top:24px;display:flex;gap:12px;">
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(232,221,208,0.15);display:flex;align-items:center;justify-content:center;color:var(--bone-dim);text-decoration:none;font-size:16px;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='rgba(232,221,208,0.15)';this.style.color='var(--bone-dim)'">✦</a>
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(232,221,208,0.15);display:flex;align-items:center;justify-content:center;color:var(--bone-dim);text-decoration:none;font-size:13px;font-weight:700;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='rgba(232,221,208,0.15)';this.style.color='var(--bone-dim)'">in</a>
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(232,221,208,0.15);display:flex;align-items:center;justify-content:center;color:var(--bone-dim);text-decoration:none;font-size:13px;font-weight:700;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='rgba(232,221,208,0.15)';this.style.color='var(--bone-dim)'">tw</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#cardapio">Cardápio</a></li>
+        <li><a href="#precos">Rodízio Premium</a></li>
+        <li><a href="#harmonizacao">Harmonização</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Reservas</h4>
+      <ul>
+        <li><a href="#reserva">Reservar Online</a></li>
+        <li><a href="tel:+551134567890">(11) 3456-7890</a></li>
+        <li><a href="#">Eventos Privados</a></li>
+        <li><a href="#">Sala VIP</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Endereço</h4>
+      <ul>
+        <li><a href="#">Rua das Flores, 142</a></li>
+        <li><a href="#">Jardins · São Paulo · SP</a></li>
+        <li><a href="#">CEP 01415-000</a></li>
+        <li style="margin-top:16px"><a href="#" style="color:var(--amber)">Ver no Mapa →</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 BRASA Churrascaria Premium · Todos os direitos reservados</span>
+    <span style="color:var(--ember)">★ Top 10 Churrascaria SP — Guia Comer&amp;Beber 2024</span>
+  </div>
+</footer>
+
+<script>
+// ── FIRE GENERATION ──
+function buildFire(containerId, count, minH, maxH) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const row = document.createElement('div');
+  row.className = 'flame-row';
+  const colors = [
+    'var(--ember)',
+    'var(--amber)',
+    'linear-gradient(to top, var(--ember), var(--amber))',
+    'var(--amber-light)',
+    '#FF6B1A',
+    '#FF9500'
+  ];
+  for (let i = 0; i < count; i++) {
+    const h = minH + Math.random() * (maxH - minH);
+    const w = h * (0.3 + Math.random() * 0.25);
+    const delay = (Math.random() * 1.2).toFixed(2);
+    const dur = (0.7 + Math.random() * 0.8).toFixed(2);
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const f = document.createElement('div');
+    f.className = 'flame';
+    f.style.cssText = `
+      width:${w}px;height:${h}px;
+      background:${color};
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+    `;
+    // inner smaller flame
+    const fi = document.createElement('div');
+    fi.className = 'flame-inner';
+    fi.style.cssText = `
+      width:${w*0.55}px;height:${h*0.6}px;
+      background:${color === 'var(--amber)' ? 'var(--amber-light)' : 'var(--amber)'};
+      left:${w*0.225}px;
+      animation:flicker2 ${(0.6+Math.random()*0.6).toFixed(2)}s ease-in-out infinite alternate;
+      animation-delay:${(Math.random()*0.5).toFixed(2)}s;
+    `;
+    f.appendChild(fi);
+    row.appendChild(f);
+  }
+  container.appendChild(row);
+}
+
+buildFire('heroFire', 48, 20, 110);
+buildFire('fireDivider1', 42, 12, 72);
+buildFire('fireDivider2', 42, 12, 72);
+buildFire('fireDivider3', 42, 12, 72);
+buildFire('fireDivider4', 42, 12, 72);
+
+// ── TABS ──
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + panelId).classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleAcc(trigger) {
+  const item = trigger.closest('.accordion-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── CALENDAR ──
+const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const dows = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let selectedDate = null;
+
+function renderCalendar() {
+  document.getElementById('calMonth').textContent = months[calMonth] + ' ' + calYear;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  dows.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = new Date();
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d;
+    const thisDate = new Date(calYear, calMonth, d);
+    const isPast = thisDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    if (isPast) { el.classList.add('past'); }
+    else if (isToday) { el.classList.add('today'); }
+    if (selectedDate && selectedDate.d === d && selectedDate.m === calMonth && selectedDate.y === calYear) {
+      el.classList.add('selected');
+    }
+    if (!isPast) {
+      el.onclick = () => selectDay(d, calMonth, calYear, el);
+    }
+    grid.appendChild(el);
+  }
+}
+
+function selectDay(d, m, y, el) {
+  document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDate = { d, m, y };
+  const dateStr = d + ' de ' + months[m] + ' de ' + y;
+  document.getElementById('sumDate').textContent = dateStr;
+  updateTotal();
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+renderCalendar();
+
+// ── PARTY / TIME ──
+let selectedParty = null;
+let selectedTime = null;
+
+function selectParty(btn, val) {
+  document.querySelectorAll('.party-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedParty = val;
+  document.getElementById('sumPeople').textContent = val + (val === '10+' ? '' : ' pessoa' + (val === '1' ? '' : 's'));
+  updateTotal();
+}
+
+function selectTime(btn, val) {
+  document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedTime = val;
+  document.getElementById('sumTime').textContent = val;
+}
+
+function updateTotal() {
+  if (!selectedParty) return;
+  const count = selectedParty === '10+' ? 10 : parseInt(selectedParty);
+  const price = 189;
+  const total = count * price;
+  document.getElementById('sumTotal').textContent = 'R$ ' + total.toLocaleString('pt-BR') + ' aprox.';
+}
+
+// ── RESERVATION CONFIRM ──
+function confirmReservation() {
+  if (!selectedDate || !selectedParty || !selectedTime) {
+    const missing = [];
+    if (!selectedDate) missing.push('data');
+    if (!selectedParty) missing.push('número de pessoas');
+    if (!selectedTime) missing.push('horário');
+    alert('Por favor, selecione: ' + missing.join(', '));
+    return;
+  }
+  const confNum = '#BR-' + Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('resConfNum').textContent = confNum;
+  const dateStr = selectedDate.d + ' de ' + months[selectedDate.m] + ' de ' + selectedDate.y;
+  document.getElementById('resConfDetail').innerHTML =
+    `Reserva confirmada com sucesso!<br>
+    <strong style="color:var(--amber)">${confNum}</strong><br>
+    ${dateStr} · ${selectedTime} · ${selectedParty} pessoa${selectedParty === '1' ? '' : 's'}<br><br>
+    Um e-mail de confirmação será enviado em breve.<br>
+    <strong style="color:var(--amber)">BRASA — Rua das Flores, 142 · Jardins, SP</strong>`;
+  document.getElementById('resConf').classList.add('show');
+  document.getElementById('resConf').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 80) {
+    nav.style.background = 'rgba(13,10,8,0.98)';
+  } else {
+    nav.style.background = 'linear-gradient(to bottom, rgba(13,10,8,0.97) 0%, rgba(13,10,8,0.7) 100%)';
+  }
+});
+</script>
+</body>
+</html>
