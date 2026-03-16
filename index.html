@@ -398,14 +398,16 @@
       background: var(--seg-accent, var(--gold));
     }
     .seg-mini-thumb {
-      height: 64px;
+      height: 100px;
       border-radius: 4px;
       margin-bottom: 14px;
-      background: var(--seg-accent-dim, rgba(201,168,76,.08));
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-mono); font-size: 11px;
-      color: var(--seg-accent, var(--gold)); letter-spacing: .1em;
-      font-weight: 500; overflow: hidden; position: relative;
+      overflow: hidden; position: relative;
+    }
+    /* thumb inside mini panel fills container */
+    .seg-mini-thumb .thumb {
+      position: absolute !important; inset: 0 !important;
+      width: 100% !important; height: 100% !important;
+      aspect-ratio: unset !important; border-radius: 0 !important;
     }
     .seg-mini-name {
       font-family: var(--font-display);
@@ -808,6 +810,98 @@
     .t30 .fl5{width:16px;height:40px;background:linear-gradient(0deg,#C84B11,#F59D37);animation-delay:.3s}
     @keyframes flicker{0%{transform:scaleX(1) scaleY(1)}50%{transform:scaleX(.85) scaleY(1.08)}100%{transform:scaleX(1.1) scaleY(.95)}}
     .t30 .br-logo{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:4px;color:#F59D37;text-shadow:0 0 10px rgba(245,157,55,.4);white-space:nowrap;font-weight:700}
+
+    /* ── Extra thumbs for segment panels ── */
+    .t19{background:#F8FAFC}
+    .t19::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:#14B8A6}
+    .t19 .ul-cards{position:absolute;top:16px;left:10px;right:10px;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+    .t19 .ul-c{background:#fff;border:1px solid #E2E8F0;border-radius:4px;height:36px;overflow:hidden}
+    .t19 .ul-img{width:100%;height:20px;background:#E2E8F0}
+    .t19 .ul-info{height:4px;background:#14B8A6;width:70%;margin:4px 5px 0;border-radius:2px}
+    .t19 .ul-search{position:absolute;bottom:14px;left:10px;right:10px;height:22px;background:#fff;border:1.5px solid #14B8A6;border-radius:11px;display:flex;align-items:center;padding:0 8px}
+    .t19 .ul-dot{width:6px;height:6px;background:#14B8A6;border-radius:50%}
+    .t19 .ul-bar{flex:1;height:2px;background:#E2E8F0;margin-left:6px;border-radius:1px}
+
+    .t20{background:#F5F0E8}
+    .t20 .ev-img{position:absolute;top:0;left:0;right:0;height:55%;background:linear-gradient(135deg,#8B7355 0%,#C4965A 100%)}
+    .t20 .ev-bar{position:absolute;top:0;left:0;right:0;height:3px;background:#C4965A}
+    .t20 .ev-lines{position:absolute;bottom:14px;left:12px;right:12px;display:flex;flex-direction:column;gap:5px}
+    .t20 .ev-l{height:5px;background:#2C1810;border-radius:1px}
+    .t20 .ev-l1{width:90%}
+    .t20 .ev-l2{width:75%}
+    .t20 .ev-l3{width:85%}
+    .t20 .ev-l4{width:55%;background:#C4965A}
+
+    .t22{background:#F9F6F1}
+    .t22::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#C8A97A}
+    .t22 .fm-prod{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:70%;height:60%;background:linear-gradient(135deg,#E8E0D5 60%,#C8A97A 100%);border-radius:4px}
+    .t22 .fm-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:5px}
+    .t22 .fm-d{width:8px;height:8px;border-radius:50%;border:1.5px solid #2C2416}
+    .t22 .fm-d1{background:#C8A97A}
+    .t22 .fm-d2{background:#2C2416}
+    .t22 .fm-d3{background:#F9F6F1}
+    .t22 .fm-price{position:absolute;bottom:14px;right:12px;font-size:8px;font-weight:700;color:#2C2416;letter-spacing:.5px}
+
+    .t23{background:#0D1117}
+    .t23 .vl-swatches{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+    .t23 .vl-s{width:14px;height:14px;border-radius:50%;border:1px solid rgba(201,168,110,.3)}
+    .t23 .vl-s1{background:#1A2F1E}
+    .t23 .vl-s2{background:#8B4513}
+    .t23 .vl-s3{background:#E8DDD0}
+    .t23 .vl-s4{background:#1E3A5F}
+    .t23 .vl-prod{position:absolute;top:40px;left:10%;right:10%;height:50%;background:linear-gradient(135deg,#1A2F1E,#0D1117);border:1px solid rgba(201,168,110,.2);border-radius:3px}
+    .t23 .vl-gold{position:absolute;bottom:18px;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,#C9A96E,transparent)}
+    .t23 .vl-label{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:3px;color:#C9A96E;white-space:nowrap}
+
+    .t24{background:#F5EDE0;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1.5fr 1fr 1fr;gap:4px;padding:4px}
+    .t24 .nc{border-radius:3px}
+    .t24 .n-terra{background:#E8673A;grid-row:1/2;grid-column:1/2}
+    .t24 .n-sage{background:#7B9E6B;grid-row:1/2;grid-column:2/3}
+    .t24 .n-must{background:#F9B342;grid-row:1/3;grid-column:3/4}
+    .t24 .n-dk{background:#2D2416;grid-row:2/3;grid-column:1/2}
+    .t24 .n-lt{background:#E8E0D5;grid-row:2/3;grid-column:2/3}
+    .t24 .n-t2{background:#E8673A;opacity:.5;grid-row:3/4;grid-column:1/2}
+    .t24 .n-s2{background:#7B9E6B;opacity:.6;grid-row:3/4;grid-column:2/3}
+    .t24 .n-m2{background:#F9B342;opacity:.4;grid-row:3/4;grid-column:3/4}
+
+    .t25{background:#F5F2EC}
+    .t25 .br-b1{position:absolute;top:12px;left:10px;width:52%;height:40px;background:#1A1A1A;box-shadow:4px 4px 0 #CC3300}
+    .t25 .br-b2{position:absolute;top:62px;left:24px;width:38%;height:28px;background:#CC3300;box-shadow:3px 3px 0 #1A1A1A}
+    .t25 .br-b3{position:absolute;top:100px;right:10px;width:46%;height:24px;background:#E8E0D4;border:2px solid #1A1A1A;box-shadow:3px 3px 0 #1A1A1A}
+    .t25 .br-line{position:absolute;bottom:28px;left:10px;right:10px;height:2px;background:#1A1A1A}
+    .t25 .br-tag{position:absolute;bottom:12px;left:10px;font-size:7px;font-weight:900;letter-spacing:2px;color:#1A1A1A;text-transform:uppercase}
+
+    .t28{background:#0D1117}
+    .t28 .dk-win{position:absolute;top:12px;left:10px;right:10px;bottom:14px;background:#161B22;border:1px solid #30363D;border-radius:4px}
+    .t28 .dk-dots{padding:6px 8px;display:flex;gap:4px}
+    .t28 .dk-dot{width:6px;height:6px;border-radius:50%}
+    .t28 .d-r{background:#FF5F57}
+    .t28 .d-y{background:#FEBC2E}
+    .t28 .d-g{background:#28C840}
+    .t28 .dk-lines{padding:0 8px;display:flex;flex-direction:column;gap:4px}
+    .t28 .dk-l{height:4px;border-radius:2px}
+    .t28 .dk-l1{width:60%;background:#FF7B72}
+    .t28 .dk-l2{width:80%;background:#79C0FF}
+    .t28 .dk-l3{width:50%;background:#A5D6FF}
+    .t28 .dk-l4{width:70%;background:#D2A8FF}
+    .t28 .dk-l5{width:40%;background:#79C0FF;opacity:.6}
+    .t28 .dk-cur{width:5px;height:8px;background:#E6EDF3;display:inline-block;margin-top:4px}
+
+    .t29{background:#F5F5F7}
+    .t29 .au-ring{position:absolute;top:50%;left:50%;width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#1D1D1F 0%,#555 100%);transform:translate(-50%,-58%);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+    .t29 .au-ring2{position:absolute;top:50%;left:50%;width:92px;height:92px;border-radius:50%;border:1px solid rgba(0,0,0,.08);transform:translate(-50%,-58%)}
+    .t29 .au-name{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:1px;color:#1D1D1F;white-space:nowrap;font-weight:600}
+    .t29 .au-price{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:8px;color:#0066CC;white-space:nowrap}
+
+    .t31{background:#1C1208}
+    .t31 .cp-ember{position:absolute;top:12px;left:12px;right:12px;height:40px;background:linear-gradient(135deg,#CC4400,#F59D37);border-radius:3px;display:flex;align-items:center;justify-content:center}
+    .t31 .cp-bars{position:absolute;bottom:16px;left:12px;right:12px;display:flex;gap:4px;align-items:flex-end}
+    .t31 .cp-bar{flex:1;border-radius:2px}
+    .t31 .cp-b1{height:28px;background:#CC4400}
+    .t31 .cp-b2{height:20px;background:#4A7C59}
+    .t31 .cp-b3{height:34px;background:#CC4400;opacity:.7}
+    .t31 .cp-b4{height:16px;background:#4A7C59;opacity:.8}
+    .t31 .cp-b5{height:24px;background:#8B4513}
 
     /* ══════════════════════════════════════════════════
        RESPONSIVE
@@ -1344,43 +1438,56 @@
   }
 
   /* ── Segment expand ── */
+  const THUMB_HTML = {
+    18: `<div class="thumb t18"><div class="ah-sun"></div><div class="ah-logo"><div class="ah-line"></div><div class="ah-l1">AVENIR</div><div class="ah-l2">IMÓVEIS</div><div class="ah-line"></div></div></div>`,
+    19: `<div class="thumb t19"><div class="ul-cards"><div class="ul-c"><div class="ul-img"></div><div class="ul-info"></div></div><div class="ul-c"><div class="ul-img"></div><div class="ul-info"></div></div><div class="ul-c"><div class="ul-img"></div><div class="ul-info"></div></div><div class="ul-c"><div class="ul-img"></div><div class="ul-info"></div></div></div><div class="ul-search"><div class="ul-dot"></div><div class="ul-bar"></div></div></div>`,
+    20: `<div class="thumb t20"><div class="ev-img"></div><div class="ev-bar"></div><div class="ev-lines"><div class="ev-l ev-l1"></div><div class="ev-l ev-l2"></div><div class="ev-l ev-l3"></div><div class="ev-l ev-l4"></div></div></div>`,
+    21: `<div class="thumb t21"><div class="sb-side"><div class="sb-nav sb-act"></div><div class="sb-nav"></div><div class="sb-nav"></div><div class="sb-nav"></div></div><div class="sb-main"><div class="sb-kpi"><div class="sb-k"></div><div class="sb-k"></div><div class="sb-k"></div><div class="sb-k"></div></div><div class="sb-chart"><div class="sb-b" style="height:60%"></div><div class="sb-b" style="height:80%"></div><div class="sb-b" style="height:45%"></div><div class="sb-b" style="height:90%"></div><div class="sb-b" style="height:65%"></div></div></div></div>`,
+    22: `<div class="thumb t22"><div class="fm-prod"></div><div class="fm-dots"><div class="fm-d fm-d1"></div><div class="fm-d fm-d2"></div><div class="fm-d fm-d3"></div></div><div class="fm-price">R$ 2.490</div></div>`,
+    23: `<div class="thumb t23"><div class="vl-swatches"><div class="vl-s vl-s1"></div><div class="vl-s vl-s2"></div><div class="vl-s vl-s3"></div><div class="vl-s vl-s4"></div></div><div class="vl-prod"></div><div class="vl-gold"></div><div class="vl-label">VELVET</div></div>`,
+    24: `<div class="thumb t24"><div class="nc n-terra"></div><div class="nc n-sage"></div><div class="nc n-must"></div><div class="nc n-dk"></div><div class="nc n-lt"></div><div class="nc n-t2"></div><div class="nc n-s2"></div><div class="nc n-m2"></div></div>`,
+    25: `<div class="thumb t25"><div class="br-b1"></div><div class="br-b2"></div><div class="br-b3"></div><div class="br-line"></div><div class="br-tag">BRUTO</div></div>`,
+    26: `<div class="thumb t26"><div class="nx-o1"></div><div class="nx-o2"></div><div class="nx-bars"><div class="nx-b nx-b1"></div><div class="nx-b nx-b2"></div><div class="nx-b nx-b3"></div></div><div class="nx-cursor"></div><div class="nx-pills"><div class="nx-p nx-p1"></div><div class="nx-p nx-p2"></div><div class="nx-p nx-p3"></div></div></div>`,
+    27: `<div class="thumb t27"><svg class="sy-svg" viewBox="0 0 200 150"><line x1="40" y1="37" x2="100" y2="60" stroke="#00D4FF" stroke-width=".5" opacity=".4"/><line x1="100" y1="60" x2="140" y2="30" stroke="#0066FF" stroke-width=".5" opacity=".4"/><line x1="100" y1="60" x2="70" y2="90" stroke="#7B2FFF" stroke-width=".5" opacity=".4"/><line x1="70" y1="90" x2="130" y2="105" stroke="#00D4FF" stroke-width=".5" opacity=".3"/></svg><div class="sy-nodes"><span class="sy-n n-a"></span><span class="sy-n n-b"></span><span class="sy-n n-c"></span><span class="sy-n n-d"></span><span class="sy-n n-e"></span><span class="sy-n n-f"></span></div><div class="sy-label">SYNAPSE AI</div></div>`,
+    28: `<div class="thumb t28"><div class="dk-win"><div class="dk-dots"><div class="dk-dot d-r"></div><div class="dk-dot d-y"></div><div class="dk-dot d-g"></div></div><div class="dk-lines"><div class="dk-l dk-l1"></div><div class="dk-l dk-l2"></div><div class="dk-l dk-l3"></div><div class="dk-l dk-l4"></div><div class="dk-l dk-l5"></div><div class="dk-cur"></div></div></div></div>`,
+    29: `<div class="thumb t29"><div class="au-ring"></div><div class="au-ring2"></div><div class="au-name">AURA Pro</div><div class="au-price">A partir de R$ 4.999</div></div>`,
+    30: `<div class="thumb t30"><div class="br-logo">BRASA</div><div class="br-flames"><div class="fl fl4"></div><div class="fl fl1"></div><div class="fl fl2"></div><div class="fl fl3"></div><div class="fl fl5"></div></div></div>`,
+    31: `<div class="thumb t31"><div class="cp-ember"><div class="cp-icon">🔥</div></div><div class="cp-bars"><div class="cp-bar cp-b1"></div><div class="cp-bar cp-b2"></div><div class="cp-bar cp-b3"></div><div class="cp-bar cp-b4"></div><div class="cp-bar cp-b5"></div></div></div>`,
+  };
+
   const SEG_DATA = {
     imobi: {
       accent: '#C9A84C',
-      accentDim: 'rgba(201,168,76,.12)',
       items: [
-        { v:18, name:'Luxo Residencial', desc:'Parallax hero, modal de imóvel, slider before/after' },
-        { v:19, name:'Urban Living',     desc:'Busca com filtros e range slider, mapa interativo' },
-        { v:20, name:'Casa & Vida',      desc:'Editorial magazine, lightbox, card 3D flip de corretor' },
-        { v:21, name:'SmartBroker',      desc:'SaaS dashboard, kanban drag-drop, IA de match' },
+        { v:18, name:'Luxo Residencial', desc:'Parallax hero · modal · slider before/after' },
+        { v:19, name:'Urban Living',     desc:'Busca inteligente · filtros · mapa interativo' },
+        { v:20, name:'Casa & Vida',      desc:'Editorial magazine · lightbox · card 3D flip' },
+        { v:21, name:'SmartBroker',      desc:'SaaS dashboard · kanban · IA de match' },
       ]
     },
     moveis: {
       accent: '#A78BFA',
-      accentDim: 'rgba(167,139,250,.12)',
       items: [
-        { v:22, name:'FORMA',   desc:'Escandinavo, color switcher de tecido, cart drawer' },
-        { v:23, name:'VELVET',  desc:'Dark luxury, fabric configurator, masonry lightbox' },
-        { v:24, name:'NEST',    desc:'Bento terracotta, quick-add, wishlist com partículas' },
-        { v:25, name:'BRUTO',   desc:'Neobrutalist, table builder, overlay fullscreen' },
+        { v:22, name:'FORMA',   desc:'Escandinavo · color switcher · cart drawer' },
+        { v:23, name:'VELVET',  desc:'Dark luxury · fabric configurator · masonry' },
+        { v:24, name:'NEST',    desc:'Bento terracotta · quick-add · wishlist partículas' },
+        { v:25, name:'BRUTO',   desc:'Neobrutalist · table builder · overlay fullscreen' },
       ]
     },
     tech: {
       accent: '#38BDF8',
-      accentDim: 'rgba(56,189,248,.12)',
       items: [
-        { v:26, name:'NEXUS',   desc:'SaaS, typing hero, feature tabs, pricing toggle' },
-        { v:27, name:'SYNAPSE', desc:'IA neural canvas, NLP live demo, benchmark chart' },
-        { v:28, name:'STACK',   desc:'Dev tools, live code editor, CLI animation, deploy pipeline' },
-        { v:29, name:'AURA',    desc:'Hardware Apple-style, scroll-driven reveal, buy flow' },
+        { v:26, name:'NEXUS',   desc:'SaaS · typing hero · feature tabs · pricing' },
+        { v:27, name:'SYNAPSE', desc:'IA neural canvas · NLP live demo · benchmark' },
+        { v:28, name:'STACK',   desc:'Dev tools · live code editor · CLI animation' },
+        { v:29, name:'AURA',    desc:'Hardware Apple-style · scroll reveal · buy flow' },
       ]
     },
     gastro: {
       accent: '#FB923C',
-      accentDim: 'rgba(251,146,60,.12)',
       items: [
-        { v:30, name:'BRASA',             desc:'CSS fire, reserva com calendário, galeria, accordion de vinhos' },
-        { v:31, name:'CHURRASQUEIRO PRO', desc:'Configurador BBQ, calculadora de churrasco, loyalty program' },
+        { v:30, name:'BRASA',             desc:'CSS fire · reserva com calendário · vinhos' },
+        { v:31, name:'CHURRASQUEIRO PRO', desc:'Configurador BBQ · calculadora · loyalty' },
       ]
     }
   };
@@ -1409,8 +1516,8 @@
       // Build inner HTML
       expandInner.innerHTML = data.items.map(item => `
         <a class="seg-mini-card" href="showcase_v${item.v}.html" target="_blank"
-           style="--seg-accent:${data.accent};--seg-accent-dim:${data.accentDim}">
-          <div class="seg-mini-thumb">v${item.v}</div>
+           style="--seg-accent:${data.accent}">
+          <div class="seg-mini-thumb">${THUMB_HTML[item.v] || ''}</div>
           <div class="seg-mini-name">${item.name}</div>
           <div class="seg-mini-desc">${item.desc}</div>
           <span class="seg-mini-ver">Explorar →</span>
