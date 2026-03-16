@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOLD IMPACT — Design System Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       BOLD IMPACT — Design System Tokens
+       ======================================== */
+    :root {
+      --color-primary: #000000;
+      --color-background: #FFFFFF;
+      --color-foreground: #000000;
+      --color-on-primary: #FFFFFF;
+      --color-muted: #F5F5F5;
+      --color-muted-fg: #737373;
+      --color-border: #000000;
+      --color-border-subtle: #E5E5E5;
+      --color-accent: #FF0000;
+      --color-on-accent: #FFFFFF;
+
+      --font-display: 'Archivo Black', Impact, 'Arial Black', sans-serif;
+      --font-heading: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-primary: #FFFFFF;
+        --color-background: #000000;
+        --color-foreground: #FFFFFF;
+        --color-on-primary: #000000;
+        --color-muted: #111111;
+        --color-muted-fg: #A3A3A3;
+        --color-border: #FFFFFF;
+        --color-border-subtle: #262626;
+      }
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    * {
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-background);
+      color: var(--color-foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 4px solid var(--color-border);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-bottom: var(--space-6);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       HERO — REFERENCIA MANYCHAT
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+    }
+
+    .hero-stat {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 15vw, 10rem);
+      line-height: 0.8;
+      letter-spacing: -4px;
+      color: var(--color-primary);
+      display: block;
+    }
+
+    .hero-text {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      line-height: 0.88;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-top: -0.02em;
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-6);
+      max-width: 400px;
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-6);
+    }
+
+    .hero-brand {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--color-primary);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-hero {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 5rem);
+      line-height: 0.85;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: 0.9;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+
+    .type-h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+    }
+
+    .type-h2 {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .type-h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-muted-fg);
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .type-mono {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+
+    .type-sample {
+      margin-bottom: var(--space-5);
+    }
+
+    .type-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-1);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-background);
+      color: var(--color-primary);
+    }
+
+    .btn-secondary {
+      background: var(--color-background);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-primary);
+      border-color: transparent;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+    }
+
+    .btn-ghost:hover {
+      text-decoration-thickness: 4px;
+    }
+
+    .btn-danger {
+      background: var(--color-accent);
+      color: var(--color-on-accent);
+      border-color: var(--color-accent);
+    }
+
+    .btn-danger:hover {
+      background: var(--color-background);
+      color: var(--color-accent);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 16px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 12px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      border: 2px solid var(--color-border);
+      padding: var(--space-4);
+      background: var(--color-background);
+    }
+
+    .card:hover {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .card:hover .card-meta {
+      color: var(--color-on-primary);
+      opacity: 0.6;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: var(--space-2);
+    }
+
+    .card-body {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-3);
+    }
+
+    .card-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-muted-fg);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .badge-accent {
+      background: var(--color-accent);
+      color: var(--color-on-accent);
+    }
+
+    /* ========================================
+       INPUTS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-foreground);
+      background: var(--color-background);
+      border: 2px solid var(--color-border);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: var(--color-muted-fg);
+    }
+
+    .form-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .form-input-error {
+      border-color: var(--color-accent);
+    }
+
+    .form-error {
+      font-size: 14px;
+      color: var(--color-accent);
+      margin-top: var(--space-1);
+    }
+
+    .form-helper {
+      font-size: 14px;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-thick {
+      border: none;
+      border-top: 4px solid var(--color-border);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-regular {
+      border: none;
+      border-top: 2px solid var(--color-border);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid var(--color-border-subtle);
+      margin: var(--space-3) 0;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border: 2px solid var(--color-border);
+    }
+
+    .swatch-color {
+      height: 80px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2);
+    }
+
+    .swatch-name {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-muted-fg);
+    }
+
+    /* ========================================
+       STAT BLOCKS
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 5rem);
+      line-height: 0.8;
+      letter-spacing: -3px;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-3);
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: var(--color-primary);
+    }
+
+    .spacing-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      min-width: 100px;
+      color: var(--color-muted-fg);
+    }
+
+    /* ========================================
+       SHOWCASE HEADER
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 16px;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-foreground);
+    }
+
+    .showcase-nav-links a:hover {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">BOLD IMPACT</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#colors">Colors</a></li>
+        <li><a href="#components">Components</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         SECTION: HERO (REFERENCIA MANYCHAT)
+         ======================================== -->
+    <section class="hero" id="hero">
+      <div class="hero-text">
+        <span class="hero-stat">70%</span>
+        <span>DOS</span>
+        <span>NOVOS</span>
+        <span>SEGUIDORES</span>
+        <span>NAO</span>
+        <span>ENGAJAM</span>
+      </div>
+      <div class="hero-footer">
+        <p class="hero-subtext">Chega de ignorar seus seguidores</p>
+        <span class="hero-brand">BoldImpact</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: TYPOGRAPHY
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">01 — Tipografia</p>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">Archivo Black / 5rem / line-height: 0.85 / letter-spacing: -3px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY TEXT</div>
+        <p class="type-meta">Archivo Black / 3.5rem / line-height: 0.9 / letter-spacing: -2px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">Barlow Condensed 800 / 2.5rem / line-height: 0.95 / letter-spacing: -1.5px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Barlow Condensed 700 / 2rem / line-height: 1.0 / letter-spacing: -1px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Barlow Condensed 700 / 1.5rem / line-height: 1.1 / letter-spacing: -0.5px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text — clean, readable, and functional. The body text serves the content, never competing with the bold headlines above. Keep it simple, keep it Inter.</div>
+        <p class="type-meta">Inter 400 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption text for secondary information and metadata</div>
+        <p class="type-meta">Inter 500 / 0.875rem / color: muted-fg</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL TEXT</div>
+        <p class="type-meta">Inter 700 / 0.75rem / letter-spacing: 2px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-mono">const impact = "maximum";</div>
+        <p class="type-meta">JetBrains Mono 400 / 0.875rem</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: COLORS
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">02 — Cores</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #000000;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Primary</div>
+            <div class="swatch-hex">#000000</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FFFFFF; border-bottom: 1px solid #E5E5E5;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background</div>
+            <div class="swatch-hex">#FFFFFF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F5F5F5;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted</div>
+            <div class="swatch-hex">#F5F5F5</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #737373;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted FG</div>
+            <div class="swatch-hex">#737373</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E5E5E5;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Border Subtle</div>
+            <div class="swatch-hex">#E5E5E5</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF0000;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Accent</div>
+            <div class="swatch-hex">#FF0000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: SPACING
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">03 — Espacamento</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BUTTONS
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">04 — Botoes</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY</button>
+          <button class="btn btn-secondary">SECONDARY</button>
+          <button class="btn btn-ghost">GHOST LINK</button>
+          <button class="btn btn-danger">DANGER</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">05 — Cards</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="badge" style="margin-bottom: var(--space-3); display: inline-block;">NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos da sua comunidade.</div>
+          <div class="card-meta">Marketing &bull; 2024</div>
+        </div>
+        <div class="card">
+          <span class="badge badge-outline" style="margin-bottom: var(--space-3); display: inline-block;">BETA</span>
+          <div class="card-title">AUTOMACAO</div>
+          <div class="card-body">Respostas automaticas que parecem humanas. Escale sem perder autenticidade.</div>
+          <div class="card-meta">Produto &bull; 2024</div>
+        </div>
+        <div class="card">
+          <span class="badge badge-accent" style="margin-bottom: var(--space-3); display: inline-block;">URGENTE</span>
+          <div class="card-title">CONVERSAO</div>
+          <div class="card-body">De seguidor a cliente em 3 passos. Funil otimizado por dados reais.</div>
+          <div class="card-meta">Growth &bull; 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: STATS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">06 — Stats / KPIs</p>
+
+      <div class="grid-4">
+        <div class="stat-block">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">NAO ENGAJAM</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">MAIS CONVERSAO</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">TEMPO MEDIO</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">07 — Badges</p>
+
+      <div class="btn-group">
+        <span class="badge">DEFAULT</span>
+        <span class="badge badge-outline">OUTLINE</span>
+        <span class="badge badge-accent">ACCENT</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: FORMS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">08 — Formularios</p>
+
+      <div style="max-width: 500px;">
+        <div class="form-group">
+          <label class="form-label" for="name">NOME</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">Nunca compartilharemos seu email.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">EMAIL (COM ERRO)</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">ENVIAR</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: DIVIDERS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">09 — Divisores</p>
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">THICK (4px)</p>
+      <hr class="divider-thick">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">REGULAR (2px)</p>
+      <hr class="divider-regular">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">SUBTLE (1px)</p>
+      <hr class="divider-subtle">
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer style="padding: var(--space-7) 0; border-top: 4px solid var(--color-border);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="type-h2" style="margin-bottom: var(--space-2);">BOLD IMPACT</div>
+          <p class="type-caption">Design System inspirado na identidade Manychat</p>
+        </div>
+        <div class="type-mono" style="color: var(--color-muted-fg);">v1.0</div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

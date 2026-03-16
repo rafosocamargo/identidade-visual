@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KINETIC BRUTALISM — Design System v3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700;900&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       KINETIC BRUTALISM — Design Tokens
+       ======================================== */
+    :root {
+      --color-bg: #FFFFFF;
+      --color-text: #0A0A0A;
+      --color-accent: #DFE104;
+      --color-accent-2: #FF3D00;
+      --color-border: #0A0A0A;
+      --shadow-sm: 4px 4px 0 #0A0A0A;
+      --shadow-md: 8px 8px 0 #0A0A0A;
+      --shadow-accent: 4px 4px 0 #DFE104;
+      --shadow-accent-md: 8px 8px 0 #DFE104;
+      --shadow-red: 4px 4px 0 #FF3D00;
+      --font-display: 'Lexend Mega', sans-serif;
+      --font-body: 'Public Sans', sans-serif;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 4px solid var(--color-border);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       SECTION LABEL — ZEBRA STRIPE
+       ======================================== */
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      margin-bottom: var(--space-6);
+      border: 3px solid var(--color-border);
+    }
+
+    .section-label:nth-of-type(odd),
+    .section-label.odd {
+      background: var(--color-accent);
+      color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-label.even {
+      background: var(--color-text);
+      color: var(--color-bg);
+      box-shadow: var(--shadow-accent);
+    }
+
+    /* ========================================
+       ANNOUNCEMENT BAR
+       ======================================== */
+    .announcement-bar {
+      width: 100%;
+      background: var(--color-accent);
+      border-bottom: 3px solid var(--color-border);
+      padding: 12px 0;
+      text-align: center;
+    }
+
+    .announcement-bar p {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 3px solid var(--color-border);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .showcase-nav-brand span {
+      background: var(--color-accent);
+      padding: 2px 8px;
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      display: inline-block;
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .showcase-nav-brand span:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-text);
+      padding: 6px 12px;
+      border: 3px solid transparent;
+      transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .showcase-nav-links a:hover {
+      background: var(--color-accent);
+      border-color: var(--color-border);
+      box-shadow: var(--shadow-sm);
+      transform: translate(-2px, -2px);
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-6);
+      align-items: center;
+    }
+
+    .hero-stat {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 28vw, 22rem);
+      line-height: 0.85;
+      letter-spacing: -8px;
+      color: var(--color-text);
+      display: block;
+      white-space: nowrap;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .hero-text {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: var(--color-text);
+      font-weight: 900;
+    }
+
+    .hero-text .underline-accent {
+      background-image: linear-gradient(transparent 60%, var(--color-accent) 60%);
+      background-size: 100% 100%;
+      padding-bottom: 4px;
+    }
+
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 500;
+      color: #555;
+      max-width: 340px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--color-accent);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      transform: rotate(-2deg);
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stat {
+        font-size: clamp(5rem, 40vw, 12rem);
+      }
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-5);
+      border-bottom: 2px solid #E5E5E5;
+    }
+
+    .type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .type-hero {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 0.85;
+      letter-spacing: -4px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: #888;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .swatch {
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .swatch:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .swatch-color {
+      height: 90px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2) var(--space-3);
+      border-top: 3px solid var(--color-border);
+    }
+
+    .swatch-name {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: #555;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: var(--color-text);
+      border: 2px solid var(--color-border);
+    }
+
+    .spacing-bar.accent {
+      background: var(--color-accent);
+    }
+
+    .spacing-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 120px;
+      color: #555;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 3px solid var(--color-border);
+      outline: none;
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: var(--color-text);
+      color: var(--color-bg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .btn-secondary {
+      background: var(--color-accent);
+      color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .btn-danger {
+      background: var(--color-accent-2);
+      color: #FFFFFF;
+      border-color: var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-danger:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .btn-outline {
+      background: var(--color-bg);
+      color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-outline:hover {
+      background: var(--color-accent);
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .btn-large {
+      min-height: 60px;
+      padding: 18px 52px;
+      font-size: 15px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 11px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      border: 3px solid var(--color-border);
+      padding: var(--space-5);
+      background: var(--color-bg);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-accent-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: var(--space-2);
+      line-height: 1;
+    }
+
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-3);
+      font-weight: 400;
+    }
+
+    .card-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .card-accent {
+      background: var(--color-accent);
+    }
+
+    .card-accent:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-dark {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .card-dark .card-meta {
+      color: #999;
+    }
+
+    /* ========================================
+       STATS / KPIs
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      background: var(--color-bg);
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .stat-block:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .stat-block.yellow {
+      background: var(--color-accent);
+    }
+
+    .stat-block.black {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .stat-block.black .stat-label {
+      color: #aaa;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      line-height: 0.85;
+      letter-spacing: -3px;
+      font-weight: 900;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #555;
+      margin-top: var(--space-3);
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--color-text);
+      color: var(--color-bg);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .badge:hover {
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    .badge-accent {
+      background: var(--color-accent);
+      color: var(--color-text);
+    }
+
+    .badge-red {
+      background: var(--color-accent-2);
+      color: #FFFFFF;
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .badge-outline:hover {
+      background: var(--color-accent);
+      box-shadow: var(--shadow-md);
+      transform: translate(-4px, -4px);
+    }
+
+    /* ========================================
+       FORMS / INPUTS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-text);
+      background: var(--color-bg);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      outline: none;
+      transition: box-shadow 150ms ease, transform 150ms ease;
+    }
+
+    .form-input::placeholder {
+      color: #aaa;
+      font-weight: 400;
+    }
+
+    .form-input:focus {
+      box-shadow: var(--shadow-accent-md);
+      transform: translate(-4px, -4px);
+      border-color: var(--color-border);
+    }
+
+    .form-input-error {
+      border-color: var(--color-accent-2);
+      box-shadow: var(--shadow-red);
+    }
+
+    .form-input-error:focus {
+      box-shadow: 8px 8px 0 var(--color-accent-2);
+    }
+
+    .form-error {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-accent-2);
+      margin-top: var(--space-1);
+    }
+
+    .form-helper {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: #777;
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 130px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-thick {
+      border: none;
+      border-top: 4px solid var(--color-border);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-accent {
+      border: none;
+      border-top: 4px solid var(--color-accent);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-regular {
+      border: none;
+      border-top: 3px solid var(--color-border);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid #E5E5E5;
+      margin: var(--space-3) 0;
+    }
+
+    .divider-dashed {
+      border: none;
+      border-top: 3px dashed var(--color-border);
+      margin: var(--space-4) 0;
+    }
+
+    /* ========================================
+       MARQUEE
+       ======================================== */
+    .marquee-wrapper {
+      overflow: hidden;
+      border-top: 3px solid var(--color-border);
+      border-bottom: 3px solid var(--color-border);
+      background: var(--color-accent);
+      padding: 14px 0;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marquee-scroll 18s linear infinite;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-text);
+      padding: 0 40px;
+    }
+
+    .marquee-text .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--color-text);
+      margin: 0 16px;
+      vertical-align: middle;
+    }
+
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ========================================
+       STICKER
+       ======================================== */
+    .sticker {
+      display: inline-block;
+      background: var(--color-accent);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      padding: 16px 24px;
+      transform: rotate(-3deg);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-text);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+      cursor: default;
+      line-height: 1.3;
+    }
+
+    .sticker:hover {
+      transform: rotate(0deg) translate(-4px, -4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sticker-red {
+      background: var(--color-accent-2);
+      color: #FFFFFF;
+    }
+
+    .sticker-dark {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    /* ========================================
+       BRUTAL PATTERNS SECTION
+       ======================================== */
+    .brutal-pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .brutal-pattern-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pattern-demo {
+      padding: var(--space-5);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pattern-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: var(--space-3);
+    }
+
+    .sticker-row {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      align-items: center;
+      padding: var(--space-5) 0;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .showcase-footer {
+      padding: var(--space-8) 0 var(--space-7);
+      border-top: 4px solid var(--color-border);
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -4px;
+      text-transform: uppercase;
+      color: var(--color-bg);
+    }
+
+    .footer-brand span {
+      color: var(--color-accent);
+    }
+
+    .footer-version {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #666;
+      background: var(--color-accent);
+      color: var(--color-text);
+      padding: 8px 16px;
+      border: 3px solid var(--color-bg);
+      box-shadow: var(--shadow-sm);
+      box-shadow: 4px 4px 0 #DFE104;
+    }
+
+    /* ========================================
+       UTILITY CLASSES
+       ======================================== */
+    .mt-3  { margin-top: var(--space-3); }
+    .mt-4  { margin-top: var(--space-4); }
+    .mt-5  { margin-top: var(--space-5); }
+    .mb-3  { margin-bottom: var(--space-3); }
+    .mb-4  { margin-bottom: var(--space-4); }
+    .mb-5  { margin-bottom: var(--space-5); }
+    .flex  { display: flex; }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-3 { gap: var(--space-3); }
+    .gap-4 { gap: var(--space-4); }
+    .items-center { align-items: center; }
+    .w-full { width: 100%; }
+
+    /* Sub-labels inside sections */
+    .sub-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .sub-label:first-of-type {
+      margin-top: 0;
+    }
+
+    /* Accent highlight text */
+    .highlight {
+      background: var(--color-accent);
+      padding: 0 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announcement-bar">
+    <p>KINETIC BRUTALISM DESIGN SYSTEM &mdash; RAW. AGGRESSIVE. MAXIMUM IMPACT.</p>
+  </div>
+
+  <!-- NAV -->
+  <div class="container">
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">
+        <span>KINETIC</span> BRUTALISM
+      </div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">HERO</a></li>
+        <li><a href="#typography">TYPE</a></li>
+        <li><a href="#colors">CORES</a></li>
+        <li><a href="#buttons">BOTOES</a></li>
+        <li><a href="#cards">CARDS</a></li>
+        <li><a href="#padroes">PADROES</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ========================================
+       SECTION: HERO
+       ======================================== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <span class="hero-stat">70%</span>
+        </div>
+        <div class="hero-right">
+          <div class="hero-text">
+            DOS NOVOS<br>
+            <span class="underline-accent">SEGUIDORES</span><br>
+            NAO<br>
+            ENGAJAM
+          </div>
+          <p class="hero-subtext">Chega de ignorar seus seguidores. Transforme passivos em ativos agora.</p>
+          <div class="hero-cta-row">
+            <button class="btn btn-primary btn-large">COMECAR AGORA</button>
+            <button class="btn btn-secondary">VER DEMO</button>
+            <div class="hero-badge">NOVO!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- ========================================
+         SECTION: TYPOGRAPHY
+         ======================================== -->
+    <section class="section" id="typography">
+      <div class="section-label odd">01 &mdash; Tipografia</div>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">Lexend Mega 900 / clamp(3rem, 10vw, 6rem) / line-height: 0.85 / letter-spacing: -4px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY TEXT</div>
+        <p class="type-meta">Lexend Mega 700 / clamp(2rem, 6vw, 4rem) / line-height: 0.9 / letter-spacing: -3px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">Lexend Mega 700 / 2.5rem / line-height: 0.95 / letter-spacing: -2px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Lexend Mega 700 / 2rem / line-height: 1.0 / letter-spacing: -1.5px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Lexend Mega 400 / 1.5rem / line-height: 1.1 / letter-spacing: -0.5px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text &mdash; clean, readable, and functional. Public Sans serves the content without competing with the bold headlines above. Designed for legibility at all sizes, with comfortable line spacing and weight options from 400 to 800.</div>
+        <p class="type-meta">Public Sans 400 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption text for secondary information, metadata, and helper notes. Informative and unobtrusive.</div>
+        <p class="type-meta">Public Sans 500 / 0.875rem / color: #555</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL TEXT &mdash; UPPERCASE ALLCAPS</div>
+        <p class="type-meta">Public Sans 800 / 0.75rem / letter-spacing: 3px / uppercase</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <div class="section-label even">02 &mdash; Cores</div>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FFFFFF; border-bottom: 3px solid #0A0A0A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background</div>
+            <div class="swatch-hex">#FFFFFF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0A0A0A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Primary Text</div>
+            <div class="swatch-hex">#0A0A0A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #DFE104;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Acid Yellow</div>
+            <div class="swatch-hex">#DFE104</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF3D00;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Electric Orange</div>
+            <div class="swatch-hex">#FF3D00</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #555555;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted FG</div>
+            <div class="swatch-hex">#555555</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E5E5E5;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Border Subtle</div>
+            <div class="swatch-hex">#E5E5E5</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-5); padding: var(--space-5); background: var(--color-text); border: 3px solid var(--color-border); box-shadow: var(--shadow-sm);">
+        <p class="type-label" style="color: var(--color-accent); margin-bottom: var(--space-3);">SOMBRAS OFFSET (SEM BLUR)</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4);">
+          <div style="padding: 20px; background: #fff; border: 3px solid #0A0A0A; box-shadow: 4px 4px 0 #0A0A0A; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px;">4px 4px 0 #0A0A0A</div>
+          <div style="padding: 20px; background: #fff; border: 3px solid #0A0A0A; box-shadow: 8px 8px 0 #0A0A0A; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px;">8px 8px 0 #0A0A0A</div>
+          <div style="padding: 20px; background: #fff; border: 3px solid #0A0A0A; box-shadow: 4px 4px 0 #DFE104; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px;">4px 4px 0 #DFE104</div>
+          <div style="padding: 20px; background: #fff; border: 3px solid #0A0A0A; box-shadow: 8px 8px 0 #DFE104; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px;">8px 8px 0 #DFE104</div>
+          <div style="padding: 20px; background: #fff; border: 3px solid #0A0A0A; box-shadow: 4px 4px 0 #FF3D00; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px;">4px 4px 0 #FF3D00</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <div class="section-label odd">03 &mdash; Espacamento</div>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar accent" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar accent" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar accent" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar accent" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BOTOES
+         ======================================== -->
+    <section class="section" id="buttons">
+      <div class="section-label even">04 &mdash; Botoes</div>
+
+      <p class="sub-label">VARIANTES</p>
+      <div class="btn-group mb-5">
+        <button class="btn btn-primary">PRIMARY</button>
+        <button class="btn btn-secondary">SECONDARY</button>
+        <button class="btn btn-outline">OUTLINE</button>
+        <button class="btn btn-danger">DANGER</button>
+      </div>
+
+      <p class="sub-label">TAMANHOS</p>
+      <div class="btn-group mb-5">
+        <button class="btn btn-primary btn-large">LARGE CTA</button>
+        <button class="btn btn-primary">DEFAULT</button>
+        <button class="btn btn-primary btn-small">SMALL</button>
+      </div>
+
+      <p class="sub-label">SOMBRA AMARELA NO HOVER (teste)</p>
+      <div class="btn-group mb-5">
+        <button class="btn btn-outline">HOVER ME</button>
+        <button class="btn btn-secondary btn-large">HOVER LARGE</button>
+        <button class="btn btn-danger btn-small">HOVER DANGER</button>
+      </div>
+
+      <p class="sub-label">FULL WIDTH</p>
+      <button class="btn btn-primary btn-large w-full">ENVIAR FORMULARIO AGORA</button>
+    </section>
+
+    <!-- ========================================
+         SECTION: CARDS
+         ======================================== -->
+    <section class="section" id="cards">
+      <div class="section-label odd">05 &mdash; Cards</div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="badge mb-3" style="display: inline-block;">NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos da sua comunidade digital.</div>
+          <div class="card-meta">Marketing &bull; 2025</div>
+        </div>
+        <div class="card card-accent">
+          <span class="badge mb-3" style="display: inline-block;">BETA</span>
+          <div class="card-title">AUTOMACAO</div>
+          <div class="card-body">Respostas automaticas que parecem humanas. Escale sem perder autenticidade e voz.</div>
+          <div class="card-meta">Produto &bull; 2025</div>
+        </div>
+        <div class="card card-dark">
+          <span class="badge badge-accent mb-3" style="display: inline-block;">URGENTE</span>
+          <div class="card-title">CONVERSAO</div>
+          <div class="card-body">De seguidor a cliente em 3 passos. Funil otimizado por dados reais de mercado.</div>
+          <div class="card-meta">Growth &bull; 2025</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <div class="section-label even">06 &mdash; Stats / KPIs</div>
+
+      <div class="grid-4">
+        <div class="stat-block yellow">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">NAO ENGAJAM</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">MAIS CONVERSAO</div>
+        </div>
+        <div class="stat-block black">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">TEMPO MEDIO</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BADGES
+         ======================================== -->
+    <section class="section">
+      <div class="section-label odd">07 &mdash; Badges</div>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <span class="badge">DEFAULT</span>
+        <span class="badge badge-accent">ACID YELLOW</span>
+        <span class="badge badge-red">ELECTRIC RED</span>
+        <span class="badge badge-outline">OUTLINE</span>
+      </div>
+
+      <div style="margin-top: var(--space-4); display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+        <span class="badge" style="font-size: 9px; padding: 3px 10px;">PEQUENO</span>
+        <span class="badge" style="">MEDIO</span>
+        <span class="badge" style="font-size: 14px; padding: 8px 20px;">GRANDE</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <div class="section-label even">08 &mdash; Formularios</div>
+
+      <div style="max-width: 560px;">
+        <div class="form-group">
+          <label class="form-label" for="name">NOME COMPLETO</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">Nunca compartilharemos seu email com terceiros.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">EMAIL COM ERRO</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">ENVIAR AGORA</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: DIVISORES
+         ======================================== -->
+    <section class="section">
+      <div class="section-label odd">09 &mdash; Divisores</div>
+
+      <p class="sub-label">THICK (4px) — PADRAO</p>
+      <hr class="divider-thick">
+
+      <p class="sub-label">ACCENT YELLOW (4px)</p>
+      <hr class="divider-accent">
+
+      <p class="sub-label">REGULAR (3px)</p>
+      <hr class="divider-regular">
+
+      <p class="sub-label">DASHED (3px)</p>
+      <hr class="divider-dashed">
+
+      <p class="sub-label">SUBTLE (1px)</p>
+      <hr class="divider-subtle">
+    </section>
+
+  </div><!-- end container -->
+
+  <!-- ========================================
+       SECTION: PADROES BRUTAIS (full bleed)
+       ======================================== -->
+  <section class="section" id="padroes" style="padding: 0; border-bottom: 4px solid #0A0A0A;">
+
+    <!-- MARQUEE STRIP -->
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <!-- Duplicate content for seamless loop -->
+        <span class="marquee-text">KINETIC BRUTALISM<span class="dot"></span></span>
+        <span class="marquee-text">RAW DESIGN<span class="dot"></span></span>
+        <span class="marquee-text">BOLD IMPACT<span class="dot"></span></span>
+        <span class="marquee-text">ACID YELLOW<span class="dot"></span></span>
+        <span class="marquee-text">NO BORDERS<span class="dot"></span></span>
+        <span class="marquee-text">MAXIMUM NOISE<span class="dot"></span></span>
+        <span class="marquee-text">OFFSET SHADOWS<span class="dot"></span></span>
+        <span class="marquee-text">SHARP CORNERS<span class="dot"></span></span>
+        <span class="marquee-text">KINETIC BRUTALISM<span class="dot"></span></span>
+        <span class="marquee-text">RAW DESIGN<span class="dot"></span></span>
+        <span class="marquee-text">BOLD IMPACT<span class="dot"></span></span>
+        <span class="marquee-text">ACID YELLOW<span class="dot"></span></span>
+        <span class="marquee-text">NO BORDERS<span class="dot"></span></span>
+        <span class="marquee-text">MAXIMUM NOISE<span class="dot"></span></span>
+        <span class="marquee-text">OFFSET SHADOWS<span class="dot"></span></span>
+        <span class="marquee-text">SHARP CORNERS<span class="dot"></span></span>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+      <div class="section-label even">10 &mdash; Padroes Brutais</div>
+
+      <div class="brutal-pattern-grid">
+
+        <!-- STICKERS -->
+        <div>
+          <p class="sub-label" style="margin-top: 0;">STICKERS (ROTATED BADGES)</p>
+          <p class="type-caption" style="margin-bottom: var(--space-4);">Elementos rotacionados com borda grossa e sombra offset. Hover remove a rotacao.</p>
+          <div class="sticker-row">
+            <div class="sticker">
+              ★ NOVO<br>PRODUTO!
+            </div>
+            <div class="sticker sticker-red">
+              URGENTE<br>AGIR JA
+            </div>
+            <div class="sticker sticker-dark">
+              &lt;3<br>BRUTAL
+            </div>
+          </div>
+        </div>
+
+        <!-- MARQUEE EXPLANATION -->
+        <div>
+          <p class="sub-label" style="margin-top: 0;">MARQUEE STRIP (CSS PURO)</p>
+          <p class="type-caption" style="margin-bottom: var(--space-4);">Faixa animada de texto repetido usando apenas CSS animation. Zero JavaScript. Borda superior e inferior de 3px com fundo acid yellow.</p>
+          <div class="pattern-demo">
+            <div style="overflow: hidden; border: 3px solid #0A0A0A; background: #0A0A0A; padding: 10px 0; white-space: nowrap;">
+              <div style="display: inline-block; animation: marquee-scroll 10s linear infinite;">
+                <span style="display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #DFE104; padding: 0 30px;">DEMO MARQUEE</span>
+                <span style="display: inline-block; width: 6px; height: 6px; background: #DFE104; margin: 0 12px; vertical-align: middle;"></span>
+                <span style="display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #DFE104; padding: 0 30px;">CSS ANIMATION</span>
+                <span style="display: inline-block; width: 6px; height: 6px; background: #DFE104; margin: 0 12px; vertical-align: middle;"></span>
+                <span style="display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #DFE104; padding: 0 30px;">DEMO MARQUEE</span>
+                <span style="display: inline-block; width: 6px; height: 6px; background: #DFE104; margin: 0 12px; vertical-align: middle;"></span>
+                <span style="display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #DFE104; padding: 0 30px;">CSS ANIMATION</span>
+                <span style="display: inline-block; width: 6px; height: 6px; background: #DFE104; margin: 0 12px; vertical-align: middle;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANNOUNCEMENT BAR EXAMPLE -->
+        <div style="grid-column: 1 / -1;">
+          <p class="sub-label">ANNOUNCEMENT BAR (FULL WIDTH)</p>
+          <p class="type-caption" style="margin-bottom: var(--space-4);">Barra de largura total com fundo acid yellow e texto bold uppercase. Usada no topo da pagina para comunicados urgentes.</p>
+          <div style="background: var(--color-accent); border: 3px solid var(--color-border); box-shadow: var(--shadow-sm); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <p style="font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--color-text);">NOVIDADE: VERSAO 3.0 DISPONIVEL AGORA &mdash; DOWNLOAD GRATUITO</p>
+            <button class="btn btn-primary btn-small">VER AGORA</button>
+          </div>
+        </div>
+
+        <!-- CARD WITH LIFT EFFECT DEMO -->
+        <div>
+          <p class="sub-label">LIFT EFFECT (HOVER)</p>
+          <p class="type-caption" style="margin-bottom: var(--space-4);">Passe o mouse sobre o card. Sombra muda de preto para amarelo e o elemento "sobe" 4px via transform.</p>
+          <div class="card" style="cursor: pointer;">
+            <div class="card-title">HOVER AQUI</div>
+            <div class="card-body">Sombra preta (4px 4px 0) vira sombra amarela (8px 8px 0). Elemento move -4px -4px via CSS transform.</div>
+            <div class="card-meta">transition: 150ms ease</div>
+          </div>
+        </div>
+
+        <!-- BUTTON LIFT DEMO -->
+        <div>
+          <p class="sub-label">BOTAO COM LIFT (HOVER)</p>
+          <p class="type-caption" style="margin-bottom: var(--space-4);">Todos os botoes tem sombra offset de 4px que dobra para 8px no hover, com translate(-4px, -4px) para dar efeito de elevacao.</p>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <button class="btn btn-primary" style="align-self: flex-start;">HOVER ME &rarr;</button>
+            <button class="btn btn-secondary" style="align-self: flex-start;">HOVER ME &rarr;</button>
+            <button class="btn btn-danger" style="align-self: flex-start;">HOVER ME &rarr;</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="showcase-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          KINETIC<br><span>BRUTALISM</span>
+        </div>
+        <div style="text-align: right;">
+          <div class="footer-version">v3.0 &mdash; NEOBRUTALISM</div>
+          <p style="font-family: var(--font-body); font-size: 12px; font-weight: 500; color: #666; margin-top: 12px; letter-spacing: 1px;">Based on BOLD IMPACT v1 &mdash; Kinetic Brutalism Edition</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

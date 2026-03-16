@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOLD IMPACT v5.0 — Swiss Modernism Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400;1,700&family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       BOLD IMPACT v5.0 — SWISS MODERNISM 2.0
+       International Typographic Style
+       ======================================== */
+
+    :root {
+      --color-bg:       #F7F5F0;
+      --color-primary:  #1A1A18;
+      --color-accent-r: #CC0000;
+      --color-accent-b: #002FA7;
+      --color-muted:    #EDEAE3;
+      --color-muted-fg: #6B6860;
+      --color-border:   #1A1A18;
+      --color-on-dark:  #F7F5F0;
+
+      --font-serif:  'Libre Bodoni', Georgia, serif;
+      --font-sans:   'Public Sans', system-ui, -apple-system, sans-serif;
+
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  16px;
+      --space-4:  24px;
+      --space-5:  32px;
+      --space-6:  48px;
+      --space-7:  64px;
+      --space-8:  96px;
+      --space-9: 128px;
+
+      --rule: 4px solid var(--color-border);
+      --gap: 24px;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-primary);
+      line-height: 1.618;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ========================================
+       GRID SYSTEM — 12 COLUMNS
+       ======================================== */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 64px);
+    }
+
+    .grid-12 {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gap);
+    }
+
+    .col-1  { grid-column: span 1; }
+    .col-2  { grid-column: span 2; }
+    .col-3  { grid-column: span 3; }
+    .col-4  { grid-column: span 4; }
+    .col-5  { grid-column: span 5; }
+    .col-6  { grid-column: span 6; }
+    .col-7  { grid-column: span 7; }
+    .col-8  { grid-column: span 8; }
+    .col-9  { grid-column: span 9; }
+    .col-10 { grid-column: span 10; }
+    .col-11 { grid-column: span 11; }
+    .col-12 { grid-column: span 12; }
+
+    /* ========================================
+       SECTION STRUCTURE
+       ======================================== */
+    .section {
+      position: relative;
+      padding: var(--space-8) 0;
+      border-top: var(--rule);
+    }
+
+    .section:last-of-type {
+      border-bottom: var(--rule);
+    }
+
+    /* Giant background watermark */
+    .section-watermark {
+      position: absolute;
+      top: -0.15em;
+      right: -0.02em;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 20vw;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-primary);
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Section index label */
+    .section-index {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-bottom: var(--space-5);
+    }
+
+    /* Section footnote */
+    .section-footnote {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-6);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--color-muted-fg);
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .showcase-nav {
+      border-bottom: var(--rule);
+      padding: var(--space-3) 0;
+    }
+
+    .showcase-nav .grid-12 {
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: var(--space-5);
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+
+    .nav-links a:hover {
+      color: var(--color-accent-r);
+    }
+
+    /* ========================================
+       HERO — NEWSPAPER SPLIT
+       ======================================== */
+    .hero {
+      padding: 0;
+      border-top: var(--rule);
+      min-height: 100vh;
+    }
+
+    .hero-inner {
+      align-items: stretch;
+      min-height: 100vh;
+    }
+
+    /* Left column: index + vertical rule */
+    .hero-index-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: var(--rule);
+      padding: var(--space-7) 0;
+      padding-right: var(--gap);
+    }
+
+    .hero-vol {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+    }
+
+    .hero-section-num {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-primary);
+    }
+
+    /* Right: headline content */
+    .hero-content {
+      padding: var(--space-7) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-bottom: var(--space-5);
+    }
+
+    .hero-stat-giant {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(6rem, 25vw, 22rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -4px;
+      color: var(--color-primary);
+      display: block;
+    }
+
+    .hero-claim {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-top: var(--space-5);
+    }
+
+    .hero-claim-line {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.25rem, 3vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-primary);
+    }
+
+    .hero-claim-line.accent-r {
+      color: var(--color-accent-r);
+    }
+
+    .hero-body {
+      font-family: var(--font-sans);
+      font-size: clamp(14px, 1.5vw, 17px);
+      font-weight: 300;
+      line-height: 1.618;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-6);
+      max-width: 480px;
+    }
+
+    .hero-footer-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-top: var(--space-7);
+      padding-top: var(--space-4);
+      border-top: 2px solid var(--color-border);
+    }
+
+    .hero-date {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+    }
+
+    .hero-sep {
+      flex: 1;
+      height: 1px;
+      background: var(--color-muted-fg);
+      opacity: 0.3;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    .type-row {
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--color-muted);
+    }
+
+    .type-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .type-specimen {
+      font-family: var(--font-serif);
+      font-style: italic;
+    }
+
+    .ts-hero {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -3px;
+    }
+
+    .ts-display {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -2px;
+    }
+
+    .ts-h1 {
+      font-size: clamp(1.75rem, 3vw, 3rem);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .ts-h2 {
+      font-size: clamp(1.25rem, 2vw, 2rem);
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .ts-h3 {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .ts-body {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.618;
+    }
+
+    .ts-caption {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--color-muted-fg);
+    }
+
+    .ts-label {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .ts-smallcaps {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .type-meta {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-2);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 4px solid var(--color-accent-r);
+      padding-left: var(--space-4);
+      margin: var(--space-5) 0;
+    }
+
+    .pull-quote-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--color-primary);
+    }
+
+    .pull-quote-attribution {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-3);
+    }
+
+    /* ========================================
+       COLORS — PANTONE CATALOG
+       ======================================== */
+    .swatch-catalog {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border: 2px solid var(--color-border);
+    }
+
+    .swatch-item {
+      border-right: 2px solid var(--color-border);
+    }
+
+    .swatch-item:last-child {
+      border-right: none;
+    }
+
+    .swatch-color-block {
+      height: 120px;
+    }
+
+    .swatch-data {
+      padding: var(--space-3) var(--space-3);
+      border-top: 2px solid var(--color-border);
+    }
+
+    .swatch-catalog-num {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-bottom: 4px;
+    }
+
+    .swatch-catalog-name {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .swatch-catalog-hex {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--color-muted-fg);
+      margin-top: 2px;
+    }
+
+    /* ========================================
+       SPACING
+       ======================================== */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-token {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--color-muted-fg);
+      min-width: 120px;
+    }
+
+    .spacing-visual {
+      height: 20px;
+      background: var(--color-primary);
+    }
+
+    .spacing-value {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--color-muted-fg);
+      min-width: 40px;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-on-dark);
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-bg);
+      color: var(--color-primary);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary);
+      color: var(--color-on-dark);
+    }
+
+    .btn-accent-r {
+      background: var(--color-accent-r);
+      color: #fff;
+      border-color: var(--color-accent-r);
+    }
+
+    .btn-accent-r:hover {
+      background: transparent;
+      color: var(--color-accent-r);
+    }
+
+    .btn-accent-b {
+      background: var(--color-accent-b);
+      color: #fff;
+      border-color: var(--color-accent-b);
+    }
+
+    .btn-accent-b:hover {
+      background: transparent;
+      color: var(--color-accent-b);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-primary);
+      border-color: transparent;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+    }
+
+    .btn-ghost:hover {
+      text-decoration-thickness: 3px;
+    }
+
+    .btn-lg {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 12px;
+    }
+
+    .btn-sm {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS — EDITORIAL
+       ======================================== */
+    .ed-card {
+      border: 2px solid var(--color-border);
+      background: var(--color-bg);
+    }
+
+    .ed-card:hover {
+      background: var(--color-primary);
+      color: var(--color-on-dark);
+    }
+
+    .ed-card:hover .card-cat {
+      color: var(--color-on-dark);
+      opacity: 0.5;
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+    }
+
+    .card-body-inner {
+      padding: var(--space-4);
+    }
+
+    .card-cat {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-bottom: var(--space-2);
+    }
+
+    .card-headline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--space-3);
+    }
+
+    .card-excerpt {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.618;
+      margin-bottom: var(--space-3);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid currentColor;
+      opacity: 0.5;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       STATS — BOLD SERIF NUMBERS
+       ======================================== */
+    .stat-unit {
+      padding: var(--space-6) var(--space-4);
+      border: 2px solid var(--color-border);
+      text-align: left;
+    }
+
+    .stat-number-editorial {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -2px;
+      color: var(--color-primary);
+      display: block;
+    }
+
+    .stat-rule {
+      width: 40px;
+      height: 3px;
+      background: var(--color-accent-r);
+      margin: var(--space-3) 0;
+    }
+
+    .stat-label-editorial {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .badge-primary {
+      background: var(--color-primary);
+      color: var(--color-on-dark);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .badge-red {
+      background: var(--color-accent-r);
+      color: #fff;
+    }
+
+    .badge-blue {
+      background: var(--color-accent-b);
+      color: #fff;
+    }
+
+    .badge-muted {
+      background: var(--color-muted);
+      color: var(--color-muted-fg);
+    }
+
+    /* ========================================
+       FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+      color: var(--color-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--color-primary);
+      background: var(--color-bg);
+      border: 2px solid var(--color-border);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: var(--color-muted-fg);
+      font-weight: 300;
+    }
+
+    .form-input:focus {
+      border-color: var(--color-accent-b);
+      outline: none;
+    }
+
+    .form-input-error {
+      border-color: var(--color-accent-r);
+    }
+
+    .form-error {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-accent-r);
+      margin-top: var(--space-1);
+      letter-spacing: 0.5px;
+    }
+
+    .form-helper {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 100px;
+      padding: var(--space-3);
+      resize: vertical;
+      line-height: 1.618;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .rule-thick {
+      border: none;
+      border-top: 4px solid var(--color-border);
+      margin: var(--space-5) 0;
+    }
+
+    .rule-regular {
+      border: none;
+      border-top: 2px solid var(--color-border);
+      margin: var(--space-4) 0;
+    }
+
+    .rule-subtle {
+      border: none;
+      border-top: 1px solid var(--color-muted-fg);
+      opacity: 0.3;
+      margin: var(--space-3) 0;
+    }
+
+    .rule-accent-r {
+      border: none;
+      border-top: 4px solid var(--color-accent-r);
+      margin: var(--space-5) 0;
+    }
+
+    .rule-accent-b {
+      border: none;
+      border-top: 4px solid var(--color-accent-b);
+      margin: var(--space-5) 0;
+    }
+
+    /* ========================================
+       GRID DEMO (SECTION 10)
+       ======================================== */
+    .grid-col-demo {
+      background: var(--color-muted);
+      border: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-2);
+      text-align: center;
+    }
+
+    .grid-col-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+    }
+
+    .grid-demo-row {
+      margin-bottom: var(--space-4);
+    }
+
+    .grid-demo-block {
+      padding: var(--space-4) var(--space-3);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .gdb-primary {
+      background: var(--color-primary);
+      color: var(--color-on-dark);
+    }
+
+    .gdb-accent-r {
+      background: var(--color-accent-r);
+      color: #fff;
+    }
+
+    .gdb-accent-b {
+      background: var(--color-accent-b);
+      color: #fff;
+    }
+
+    .gdb-muted {
+      background: var(--color-muted);
+      color: var(--color-primary);
+      border: 2px solid var(--color-border);
+    }
+
+    /* ========================================
+       TWO-COLUMN TEXT (MAGAZINE)
+       ======================================== */
+    .text-2col {
+      column-count: 2;
+      column-gap: calc(var(--gap) * 2);
+      column-rule: 1px solid var(--color-muted-fg);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 400;
+      line-height: 1.618;
+      color: var(--color-primary);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .showcase-footer {
+      padding: var(--space-7) 0;
+      border-top: var(--rule);
+    }
+
+    .footer-brand {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .footer-meta {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      margin-top: var(--space-2);
+    }
+
+    .footer-colophon {
+      text-align: right;
+    }
+
+    .footer-colophon-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-muted-fg);
+      line-height: 1.8;
+    }
+
+    /* ========================================
+       UTILITY
+       ======================================== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .mt-3 { margin-top: var(--space-3); }
+    .mt-4 { margin-top: var(--space-4); }
+    .mt-5 { margin-top: var(--space-5); }
+    .mt-6 { margin-top: var(--space-6); }
+    .mb-3 { margin-bottom: var(--space-3); }
+    .mb-4 { margin-bottom: var(--space-4); }
+    .mb-5 { margin-bottom: var(--space-5); }
+    .mb-6 { margin-bottom: var(--space-6); }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="showcase-nav">
+    <div class="grid-12" style="align-items: center;">
+      <div class="col-4">
+        <span class="nav-brand">Bold Impact</span>
+      </div>
+      <div class="col-8">
+        <ul class="nav-links">
+          <li><a href="#hero">Hero</a></li>
+          <li><a href="#typography">Tipografia</a></li>
+          <li><a href="#colors">Cores</a></li>
+          <li><a href="#spacing">Espacamento</a></li>
+          <li><a href="#buttons">Botoes</a></li>
+          <li><a href="#cards">Cards</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#badges">Badges</a></li>
+          <li><a href="#forms">Forms</a></li>
+          <li><a href="#dividers">Divisores</a></li>
+          <li><a href="#grid">Grid</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================
+       SECTION 00 — HERO
+       ======================================== -->
+  <section class="hero" id="hero">
+    <div class="grid-12 hero-inner">
+
+      <!-- Left: index + vertical rule -->
+      <div class="col-3 hero-index-col">
+        <span class="hero-vol">Bold Impact — Swiss Ed. — Vol. V — 2025</span>
+        <span class="hero-section-num">00</span>
+      </div>
+
+      <!-- Right: headline content -->
+      <div class="col-9 hero-content">
+        <p class="hero-eyebrow">Sistema de Design — Showcase v5.0</p>
+
+        <span class="hero-stat-giant">70%</span>
+
+        <div class="hero-claim">
+          <span class="hero-claim-line">dos novos seguidores</span>
+          <span class="hero-claim-line accent-r">não engajam.</span>
+          <span class="hero-claim-line">Isso é desperdício.</span>
+        </div>
+
+        <p class="hero-body">
+          Bold Impact é um sistema de design editorial construído sobre os princípios do Estilo Tipográfico Internacional — grid rigoroso, hierarquia racional, sem ornamentos sem função.
+        </p>
+
+        <div class="hero-footer-bar">
+          <span class="hero-date">Swiss Modernism 2.0</span>
+          <div class="hero-sep"></div>
+          <span class="hero-date">Edição 2025</span>
+          <div class="hero-sep"></div>
+          <span class="hero-date">Libre Bodoni + Public Sans</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================
+       SECTION 01 — TIPOGRAFIA
+       ======================================== -->
+  <section class="section" id="typography">
+    <div class="section-watermark" aria-hidden="true">01</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">01 — Tipografia / Type System</p>
+      </div>
+
+      <!-- Type specimen column: full width specimens -->
+      <div class="col-8">
+
+        <div class="type-row">
+          <div class="type-specimen ts-hero">Hero Editorial</div>
+          <p class="type-meta">Libre Bodoni Italic Bold / clamp(3.5rem, 9vw, 8rem) / line-height: 0.88 / tracking: −3px</p>
+        </div>
+
+        <div class="type-row">
+          <div class="type-specimen ts-display">Display — Título de Abertura</div>
+          <p class="type-meta">Libre Bodoni Italic Bold / clamp(2rem, 5vw, 4.5rem) / line-height: 0.9 / tracking: −2px</p>
+        </div>
+
+        <div class="type-row">
+          <div class="type-specimen ts-h1">Heading Level 1 — Capítulo</div>
+          <p class="type-meta">Libre Bodoni Italic Bold / clamp(1.75rem, 3vw, 3rem) / line-height: 1.0</p>
+        </div>
+
+        <div class="type-row">
+          <div class="type-specimen ts-h2">Heading Level 2 — Subcapítulo</div>
+          <p class="type-meta">Libre Bodoni Italic Regular / clamp(1.25rem, 2vw, 2rem) / line-height: 1.1</p>
+        </div>
+
+        <div class="type-row">
+          <div class="ts-h3">Heading Level 3 — Public Sans Bold</div>
+          <p class="type-meta">Public Sans 700 / 1.25rem / tracking: −0.3px / line-height: 1.2</p>
+        </div>
+
+        <div class="type-row">
+          <div class="ts-body">Corpo de texto — limpo, legível e funcional. O corpo serve ao conteúdo, nunca competindo com os títulos em Libre Bodoni acima. A proporção áurea (1.618) como line-height garante ritmo vertical perfeito.</div>
+          <p class="type-meta">Public Sans 400 / 1rem / line-height: 1.618 (golden ratio)</p>
+        </div>
+
+        <div class="type-row">
+          <div class="ts-caption">Texto de legenda — informação secundária e metadados contextuais</div>
+          <p class="type-meta">Public Sans 400 / 0.875rem / color: muted-fg</p>
+        </div>
+
+        <div class="type-row">
+          <div class="ts-label">LABEL TEXT — SMALL CAPS STYLE</div>
+          <p class="type-meta">Public Sans 700 / 0.6875rem / tracking: 3px / uppercase</p>
+        </div>
+
+        <div class="type-row">
+          <div class="ts-smallcaps">SMALL CAPS — NOMENCLATURA CATEGÓRICA</div>
+          <p class="type-meta">Public Sans 600 / 0.875rem / tracking: 2px / uppercase</p>
+        </div>
+
+      </div>
+
+      <!-- Right column: pull quote + notes -->
+      <div class="col-4">
+        <div style="position: sticky; top: 48px;">
+          <div class="pull-quote">
+            <p class="pull-quote-text">"A tipografia é a voz silenciosa do texto impresso."</p>
+            <p class="pull-quote-attribution">— Princípio Editorial</p>
+          </div>
+
+          <div style="margin-top: var(--space-6);">
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Escala Tipográfica</p>
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">Hero</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">8rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">Display</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">4.5rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">H1</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">3rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">H2</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">2rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">H3</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">1.25rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">Body</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">1rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--color-muted); padding-bottom: var(--space-1);">
+                <span class="ts-label">Caption</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">0.875rem</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span class="ts-label">Label</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--color-muted-fg);">0.6875rem</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: var(--space-6);">
+            <p style="font-family: var(--font-sans); font-size: 0.875rem; font-weight: 400; line-height: 1.618; color: var(--color-muted-fg);">
+              Dois tipos de letra apenas. Livre Bodoni para momentos de expressão — itálico é regra, não exceção. Public Sans para leitura contínua — grotesco humanista de proporcionalidade precisa.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 1.1 — Hierarquia tipográfica é lei: cada elemento tem papel definido no sistema. Violações são proibidas.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 02 — CORES
+       ======================================== -->
+  <section class="section" id="colors">
+    <div class="section-watermark" aria-hidden="true">02</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">02 — Cores / Colour System</p>
+      </div>
+
+      <div class="col-8">
+        <div class="swatch-catalog">
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #F7F5F0;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-001</p>
+              <p class="swatch-catalog-name">Background</p>
+              <p class="swatch-catalog-hex">#F7F5F0</p>
+            </div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #1A1A18;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-002</p>
+              <p class="swatch-catalog-name">Primary</p>
+              <p class="swatch-catalog-hex">#1A1A18</p>
+            </div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #CC0000;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-003</p>
+              <p class="swatch-catalog-name">Swiss Red</p>
+              <p class="swatch-catalog-hex">#CC0000</p>
+            </div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #002FA7;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-004</p>
+              <p class="swatch-catalog-name">Klein Blue</p>
+              <p class="swatch-catalog-hex">#002FA7</p>
+            </div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #EDEAE3;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-005</p>
+              <p class="swatch-catalog-name">Muted</p>
+              <p class="swatch-catalog-hex">#EDEAE3</p>
+            </div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color-block" style="background: #6B6860;"></div>
+            <div class="swatch-data">
+              <p class="swatch-catalog-num">SW-006</p>
+              <p class="swatch-catalog-name">Muted Text</p>
+              <p class="swatch-catalog-hex">#6B6860</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div style="padding: var(--space-5); border: 2px solid var(--color-border); background: var(--color-muted); height: 100%;">
+          <p class="ts-label" style="margin-bottom: var(--space-4);">Principios Cromaticos</p>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <div>
+              <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Fundo — Papel</p>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg); line-height: 1.5;">Off-white quente. Não branco puro — papel de edição de luxo.</p>
+            </div>
+            <hr class="rule-subtle" style="margin: 0;">
+            <div>
+              <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Primaria — Tinta</p>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg); line-height: 1.5;">Preto quente com subtom marrom. Nunca #000000.</p>
+            </div>
+            <hr class="rule-subtle" style="margin: 0;">
+            <div>
+              <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Vermelho — Alerta Editorial</p>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg); line-height: 1.5;">Vermelho Swiss. Destaque, urgencia, pull quotes.</p>
+            </div>
+            <hr class="rule-subtle" style="margin: 0;">
+            <div>
+              <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Azul — Profundidade</p>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg); line-height: 1.5;">Klein Blue. Lincks, estados de foco, elementos de navegacao.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color usage examples -->
+      <div class="col-12" style="margin-top: var(--space-5);">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Combinacoes em uso</p>
+        <div class="grid-12">
+          <div class="col-3" style="padding: var(--space-5); background: var(--color-primary); color: var(--color-on-dark);">
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; font-weight: 700; margin-bottom: var(--space-2);">Primario</p>
+            <p style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; opacity: 0.7;">Dark sobre light — contraste máximo</p>
+          </div>
+          <div class="col-3" style="padding: var(--space-5); background: var(--color-accent-r); color: #fff;">
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; font-weight: 700; margin-bottom: var(--space-2);">Swiss Red</p>
+            <p style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; opacity: 0.85;">Alertas, destaques, pull quotes</p>
+          </div>
+          <div class="col-3" style="padding: var(--space-5); background: var(--color-accent-b); color: #fff;">
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; font-weight: 700; margin-bottom: var(--space-2);">Klein Blue</p>
+            <p style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; opacity: 0.85;">Links, foco, elementos ativos</p>
+          </div>
+          <div class="col-3" style="padding: var(--space-5); background: var(--color-muted); border: 2px solid var(--color-border); color: var(--color-primary);">
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; font-weight: 700; margin-bottom: var(--space-2);">Muted</p>
+            <p style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; color: var(--color-muted-fg);">Fundos secundarios, cards, areas de codigo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-footnote">§ 2.1 — Paleta restrita. Seis valores. Nenhuma variacao nao catalogada é admitida. Ver catálogo SW-001 a SW-006.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 03 — ESPACAMENTO
+       ======================================== -->
+  <section class="section" id="spacing">
+    <div class="section-watermark" aria-hidden="true">03</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">03 — Espacamento / Spacing Scale</p>
+      </div>
+
+      <div class="col-6">
+        <div class="spacing-row">
+          <span class="spacing-token">--space-1</span>
+          <div class="spacing-visual" style="width: 4px;"></div>
+          <span class="spacing-value">4px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-2</span>
+          <div class="spacing-visual" style="width: 8px;"></div>
+          <span class="spacing-value">8px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-3</span>
+          <div class="spacing-visual" style="width: 16px;"></div>
+          <span class="spacing-value">16px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-4</span>
+          <div class="spacing-visual" style="width: 24px;"></div>
+          <span class="spacing-value">24px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-5</span>
+          <div class="spacing-visual" style="width: 32px;"></div>
+          <span class="spacing-value">32px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-6</span>
+          <div class="spacing-visual" style="width: 48px;"></div>
+          <span class="spacing-value">48px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-7</span>
+          <div class="spacing-visual" style="width: 64px;"></div>
+          <span class="spacing-value">64px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-8</span>
+          <div class="spacing-visual" style="width: 96px;"></div>
+          <span class="spacing-value">96px</span>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-token">--space-9</span>
+          <div class="spacing-visual" style="width: 128px;"></div>
+          <span class="spacing-value">128px</span>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="pull-quote" style="margin-top: 0;">
+          <p class="pull-quote-text">"O espacamento nao e decorativo. E estrutural."</p>
+          <p class="pull-quote-attribution">— Principio de Grid</p>
+        </div>
+        <div style="margin-top: var(--space-5);">
+          <p class="text-2col" style="column-count: 1;">
+            A escala de espacamento segue progressao geometrica baseada em 4px (1 unidade base). Cada nivel e multiplo do anterior, criando ritmo matematico que se percebe mesmo sem medi-lo. Nao existem valores arbitrarios neste sistema.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-footnote">§ 3.1 — Unidade base: 4px. Todos os espacamentos sao multiplos inteiros desta unidade. Valores fracionados sao proibidos.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 04 — BOTOES
+       ======================================== -->
+  <section class="section" id="buttons">
+    <div class="section-watermark" aria-hidden="true">04</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">04 — Botoes / Button System</p>
+      </div>
+
+      <!-- Tamanhos -->
+      <div class="col-6">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Tamanhos</p>
+        <div class="btn-group" style="flex-direction: column; align-items: flex-start;">
+          <button class="btn btn-primary btn-lg">LARGE — CTA PRINCIPAL</button>
+          <button class="btn btn-primary">DEFAULT — ACAO PADRAO</button>
+          <button class="btn btn-primary btn-sm">SMALL — ACAO SECUNDARIA</button>
+        </div>
+      </div>
+
+      <!-- Variantes -->
+      <div class="col-6">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Variantes</p>
+        <div class="btn-group" style="flex-direction: column; align-items: flex-start;">
+          <button class="btn btn-primary">PRIMARY — ACAO PRIMARIA</button>
+          <button class="btn btn-secondary">SECONDARY — OUTLINE</button>
+          <button class="btn btn-accent-r">ACCENT RED — URGENTE</button>
+          <button class="btn btn-accent-b">ACCENT BLUE — INFORMATIVO</button>
+          <button class="btn btn-ghost">GHOST — LINK TEXTUAL</button>
+        </div>
+      </div>
+
+      <!-- Composicao com badges -->
+      <div class="col-12" style="margin-top: var(--space-5);">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Composicao em Contexto</p>
+        <div style="padding: var(--space-6); background: var(--color-muted); border: 2px solid var(--color-border);">
+          <div class="grid-12">
+            <div class="col-8">
+              <p style="font-family: var(--font-serif); font-style: italic; font-size: 2rem; font-weight: 700; margin-bottom: var(--space-3);">Transforme seguidores em clientes.</p>
+              <p style="font-family: var(--font-sans); font-size: 0.9375rem; color: var(--color-muted-fg); margin-bottom: var(--space-5);">Sistema de automacao editorial. Tres passos. Zero fricao.</p>
+              <div class="btn-group">
+                <button class="btn btn-primary btn-lg">COMECAR AGORA</button>
+                <button class="btn btn-secondary">VER DEMO</button>
+              </div>
+            </div>
+            <div class="col-4" style="display: flex; align-items: center; justify-content: center;">
+              <div style="text-align: center;">
+                <span style="font-family: var(--font-serif); font-style: italic; font-size: 5rem; font-weight: 700; color: var(--color-accent-r);">3x</span>
+                <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--color-muted-fg);">Mais conversao</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-footnote">§ 4.1 — Botoes usam Public Sans 700, tracking 3px, uppercase. Altura minima: 36px (sm), 48px (default), 56px (lg). Raio: 0.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 05 — CARDS
+       ======================================== -->
+  <section class="section" id="cards">
+    <div class="section-watermark" aria-hidden="true">05</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">05 — Cards / Editorial Layout</p>
+      </div>
+
+      <!-- Card grid: magazine photo layout -->
+      <!-- Card 1: large feature -->
+      <div class="col-6">
+        <div class="ed-card" style="height: 100%;">
+          <div class="card-img-placeholder" style="background: var(--color-primary);"></div>
+          <div class="card-body-inner">
+            <p class="card-cat">Marketing &bull; Feature</p>
+            <h3 class="card-headline">70% dos novos seguidores nao engajam com seu conteudo</h3>
+            <p class="card-excerpt">A janela de engajamento inicial e de 48 horas. Depois disso, o algoritmo move o seguidor para um tier de baixa prioridade que raramente e revertido sem intervencao direta.</p>
+          </div>
+          <div class="card-footer">
+            <span>Engajamento</span>
+            <span>2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards 2 e 3 empilhados -->
+      <div class="col-3" style="display: flex; flex-direction: column; gap: var(--gap);">
+        <div class="ed-card" style="flex: 1;">
+          <div class="card-img-placeholder" style="background: var(--color-accent-r); aspect-ratio: 16/9;"></div>
+          <div class="card-body-inner">
+            <p class="card-cat">Produto &bull; Beta</p>
+            <h3 class="card-headline">Automacao que parece humana</h3>
+            <p class="card-excerpt">Escale sem perder autenticidade.</p>
+          </div>
+          <div class="card-footer">
+            <span>Produto</span>
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="ed-card" style="flex: 1;">
+          <div class="card-img-placeholder" style="background: var(--color-accent-b); aspect-ratio: 16/9;"></div>
+          <div class="card-body-inner">
+            <p class="card-cat">Growth &bull; Urgente</p>
+            <h3 class="card-headline">Funil otimizado por dados reais</h3>
+            <p class="card-excerpt">De seguidor a cliente em 3 passos.</p>
+          </div>
+          <div class="card-footer">
+            <span>Conversao</span>
+            <span>2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: editorial text-only -->
+      <div class="col-3">
+        <div class="ed-card" style="height: 100%; background: var(--color-primary); color: var(--color-on-dark);">
+          <div class="card-body-inner" style="padding: var(--space-6) var(--space-4); display: flex; flex-direction: column; height: 100%;">
+            <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; opacity: 0.5; margin-bottom: var(--space-5);">Destaque Editorial</p>
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.75rem; font-weight: 700; line-height: 1.2; flex: 1; margin-bottom: var(--space-5);">"O conteudo sem distribuicao e apenas ruido."</p>
+            <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0.5;">— Principio Bold Impact</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 5.1 — Cards seguem o layout de revista: imagens como placeholders fotograficos coloridos. Hover inverte o campo cromatico. Border: 2px solid primary.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 06 — STATS / KPIs
+       ======================================== -->
+  <section class="section" id="stats">
+    <div class="section-watermark" aria-hidden="true">06</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">06 — Stats / KPIs Editoriais</p>
+      </div>
+
+      <!-- Stat blocks -->
+      <div class="col-3">
+        <div class="stat-unit">
+          <span class="stat-number-editorial">70%</span>
+          <div class="stat-rule"></div>
+          <p class="stat-label-editorial">nao engajam</p>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-unit">
+          <span class="stat-number-editorial">3.2×</span>
+          <div class="stat-rule" style="background: var(--color-accent-b);"></div>
+          <p class="stat-label-editorial">mais conversao</p>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-unit">
+          <span class="stat-number-editorial">48h</span>
+          <div class="stat-rule"></div>
+          <p class="stat-label-editorial">janela critica</p>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-unit">
+          <span class="stat-number-editorial">98%</span>
+          <div class="stat-rule" style="background: var(--color-accent-b);"></div>
+          <p class="stat-label-editorial">satisfacao</p>
+        </div>
+      </div>
+
+      <!-- Context text: 2-column magazine -->
+      <div class="col-12" style="margin-top: var(--space-6);">
+        <hr class="rule-thick">
+        <div class="grid-12" style="margin-top: var(--space-5);">
+          <div class="col-8">
+            <p class="text-2col">
+              Os numeros acima nao sao decorativos. Cada KPI representa uma decisao de produto fundamentada em dados reais de plataformas sociais. A tipografia Libre Bodoni italic confere aos numeros peso e presenca que transcende o dado bruto — eles se tornam argumentos visuais. O traço vermelho abaixo de cada numero e uma regra editorial: separa o dado da interpretacao. Acima do traço, fato; abaixo, contexto. Esta divisao e uma convencao do jornalismo de dados europeu adotada no sistema.
+            </p>
+          </div>
+          <div class="col-4">
+            <div class="pull-quote">
+              <p class="pull-quote-text">"Um numero isolado e dado. Um numero com contexto e argumento."</p>
+              <p class="pull-quote-attribution">— Editorial Swiss 2.0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 6.1 — Numeros em Libre Bodoni Italic Bold. Labels em Public Sans 600 Small Caps. Tracos de 3px em vermelho ou azul sao elementos estruturais, nao decorativos.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 07 — BADGES
+       ======================================== -->
+  <section class="section" id="badges">
+    <div class="section-watermark" aria-hidden="true">07</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">07 — Badges / Labels Categoricos</p>
+      </div>
+
+      <div class="col-6">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Variantes</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <span class="badge badge-primary">DEFAULT</span>
+            <span style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Categoria padrao — primario sobre fundo primario</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <span class="badge badge-outline">OUTLINE</span>
+            <span style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Status nao-preenchido — contorno 2px</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <span class="badge badge-red">URGENTE</span>
+            <span style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Swiss Red — alerta, prioridade critica</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <span class="badge badge-blue">INFORMATIVO</span>
+            <span style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Klein Blue — informacao, novidade</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <span class="badge badge-muted">ARQUIVADO</span>
+            <span style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Muted — status inativo, secondary</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Badges em Contexto</p>
+        <div style="padding: var(--space-5); border: 2px solid var(--color-border);">
+          <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+            <span class="badge badge-red">NOVO</span>
+            <span class="badge badge-blue">FEATURE</span>
+            <span class="badge badge-muted">2025</span>
+          </div>
+          <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.25rem; font-weight: 700; margin-bottom: var(--space-2);">Automacao de Engajamento v2.0</p>
+          <p style="font-family: var(--font-sans); font-size: 0.875rem; color: var(--color-muted-fg);">Badges funcionam como marcadores categoricos — identificam o tipo de conteudo antes da leitura do headline.</p>
+          <div style="margin-top: var(--space-4); display: flex; gap: var(--space-3);">
+            <button class="btn btn-primary btn-sm">LER MAIS</button>
+            <span class="badge badge-outline" style="display: flex; align-items: center;">BETA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-footnote">§ 7.1 — Badges: Public Sans 700, tracking 2px, uppercase, padding 3px 10px. Sem raio. Cinco variantes catalogadas — nenhuma adicional sem aprovacao editorial.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 08 — FORMULARIOS
+       ======================================== -->
+  <section class="section" id="forms">
+    <div class="section-watermark" aria-hidden="true">08</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">08 — Formularios / Form System</p>
+      </div>
+
+      <div class="col-5">
+        <p class="ts-label" style="margin-bottom: var(--space-5);">Campos Padrão</p>
+
+        <div class="form-group">
+          <label class="form-label" for="f-name">Nome Completo</label>
+          <input class="form-input" type="text" id="f-name" placeholder="Rafael Camargo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-email">Email</label>
+          <input class="form-input" type="email" id="f-email" placeholder="editorial@boldimpact.com">
+          <p class="form-helper">Dados nao compartilhados com terceiros.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-error">Email com Erro</label>
+          <input class="form-input form-input-error" type="email" id="f-error" value="email-invalido@">
+          <p class="form-error">Formato invalido. Use nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-message">Mensagem</label>
+          <textarea class="form-input" id="f-message" placeholder="Escreva sua mensagem editorial..."></textarea>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%;">ENVIAR FORMULARIO</button>
+      </div>
+
+      <div class="col-1"></div>
+
+      <div class="col-6">
+        <p class="ts-label" style="margin-bottom: var(--space-5);">Principios de Formulario</p>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <div style="padding: var(--space-4); border-left: 4px solid var(--color-primary);">
+            <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--space-2);">Labels em Small Caps</p>
+            <p style="font-family: var(--font-sans); font-size: 13px; color: var(--color-muted-fg); line-height: 1.618;">Public Sans 700 / 10px / tracking 3px / uppercase. Label sempre acima do campo, nunca placeholder substituto.</p>
+          </div>
+          <div style="padding: var(--space-4); border-left: 4px solid var(--color-accent-b);">
+            <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--space-2);">Foco em Klein Blue</p>
+            <p style="font-family: var(--font-sans); font-size: 13px; color: var(--color-muted-fg); line-height: 1.618;">O estado de foco usa border-color: var(--color-accent-b). Nenhuma sombra — apenas a linha muda de cor.</p>
+          </div>
+          <div style="padding: var(--space-4); border-left: 4px solid var(--color-accent-r);">
+            <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--space-2);">Erro em Swiss Red</p>
+            <p style="font-family: var(--font-sans); font-size: 13px; color: var(--color-muted-fg); line-height: 1.618;">Border-color muda para #CC0000. Mensagem de erro abaixo do campo em 12px, font-weight 500. Sem icones.</p>
+          </div>
+          <div style="padding: var(--space-4); border-left: 4px solid var(--color-muted-fg);">
+            <p style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--space-2);">Altura Minima: 48px</p>
+            <p style="font-family: var(--font-sans); font-size: 13px; color: var(--color-muted-fg); line-height: 1.618;">Campos de 48px de altura. Border 2px. Sem border-radius. Padding horizontal 16px.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 8.1 — Formularios sem border-radius, sem shadows decorativas. O grid e as bordas sao os unicos elementos organizadores.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 09 — DIVISORES
+       ======================================== -->
+  <section class="section" id="dividers">
+    <div class="section-watermark" aria-hidden="true">09</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">09 — Divisores / Rule System</p>
+      </div>
+
+      <div class="col-8">
+        <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+
+          <div>
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Rule Thick — 4px Primary</p>
+            <hr class="rule-thick" style="margin: 0;">
+            <p class="type-meta" style="margin-top: var(--space-2);">border-top: 4px solid var(--color-border) — Separacao de secoes maiores</p>
+          </div>
+
+          <div>
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Rule Regular — 2px Primary</p>
+            <hr class="rule-regular" style="margin: 0;">
+            <p class="type-meta" style="margin-top: var(--space-2);">border-top: 2px solid var(--color-border) — Separacao de subsecoes</p>
+          </div>
+
+          <div>
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Rule Subtle — 1px Muted</p>
+            <hr class="rule-subtle" style="margin: 0; opacity: 1;">
+            <p class="type-meta" style="margin-top: var(--space-2);">border-top: 1px solid muted-fg / opacity 0.3 — Separacao interna</p>
+          </div>
+
+          <div>
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Rule Accent Red — 4px #CC0000</p>
+            <hr class="rule-accent-r" style="margin: 0;">
+            <p class="type-meta" style="margin-top: var(--space-2);">border-top: 4px solid var(--color-accent-r) — Pull quotes, alertas</p>
+          </div>
+
+          <div>
+            <p class="ts-label" style="margin-bottom: var(--space-3);">Rule Accent Blue — 4px #002FA7</p>
+            <hr class="rule-accent-b" style="margin: 0;">
+            <p class="type-meta" style="margin-top: var(--space-2);">border-top: 4px solid var(--color-accent-b) — Stats, destaques informativos</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div style="padding: var(--space-5); background: var(--color-muted); border: 2px solid var(--color-border);">
+          <p class="ts-label" style="margin-bottom: var(--space-4);">Hierarquia de Regras</p>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div style="width: 48px; height: 4px; background: var(--color-primary); flex-shrink: 0;"></div>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Nivel 1 — Secoes principais</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div style="width: 48px; height: 2px; background: var(--color-primary); flex-shrink: 0;"></div>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Nivel 2 — Subsecoes</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div style="width: 48px; height: 1px; background: var(--color-muted-fg); flex-shrink: 0; opacity: 0.3;"></div>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Nivel 3 — Elementos internos</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div style="width: 48px; height: 4px; background: var(--color-accent-r); flex-shrink: 0;"></div>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Destaque — Vermelho editorial</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div style="width: 48px; height: 4px; background: var(--color-accent-b); flex-shrink: 0;"></div>
+              <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg);">Informativo — Azul Klein</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 9.1 — Cinco tipos de regra catalogados. As regras sao os bones do layout — estruturam sem ornamentar. Nenhuma regra sem funcao semantica.</p>
+  </section>
+
+  <!-- ========================================
+       SECTION 10 — SISTEMA DE GRID
+       ======================================== -->
+  <section class="section" id="grid">
+    <div class="section-watermark" aria-hidden="true">10</div>
+
+    <div class="grid-12">
+      <div class="col-12">
+        <p class="section-index">10 — Sistema de Grid / 12-Column Grid Architecture</p>
+      </div>
+
+      <!-- Columns numbered 1-12 -->
+      <div class="col-12">
+        <p class="ts-label" style="margin-bottom: var(--space-3);">12 Colunas — Estrutura Base</p>
+        <div class="grid-12" style="margin-bottom: var(--space-6);">
+          <div class="grid-col-demo col-1"><span class="grid-col-label">1</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">2</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">3</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">4</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">5</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">6</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">7</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">8</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">9</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">10</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">11</span></div>
+          <div class="grid-col-demo col-1"><span class="grid-col-label">12</span></div>
+        </div>
+      </div>
+
+      <!-- Asymmetric layouts -->
+      <div class="col-12">
+        <p class="ts-label" style="margin-bottom: var(--space-4);">Layouts Assimetricos</p>
+      </div>
+
+      <!-- 4 + 8 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Split 4 + 8</p>
+        <div class="grid-12">
+          <div class="col-4 grid-demo-block gdb-accent-r">
+            <div>col-4</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Sidebar / Index / Navegacao</div>
+          </div>
+          <div class="col-8 grid-demo-block gdb-primary">
+            <div>col-8</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Conteudo principal, texto corrido, headlines</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 + 9 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Split 3 + 9</p>
+        <div class="grid-12">
+          <div class="col-3 grid-demo-block gdb-accent-b">
+            <div>col-3</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Numeracao / Categoria</div>
+          </div>
+          <div class="col-9 grid-demo-block gdb-muted">
+            <div>col-9</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Conteudo amplo — 9 de 12 colunas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 + 10 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Split 2 + 10</p>
+        <div class="grid-12">
+          <div class="col-2 grid-demo-block gdb-primary">
+            <div>col-2</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Margem / Folio</div>
+          </div>
+          <div class="col-10 grid-demo-block gdb-accent-r">
+            <div>col-10</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Quase full-width — maxima extensao de conteudo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 + 4 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Split 8 + 4 (Invertido)</p>
+        <div class="grid-12">
+          <div class="col-8 grid-demo-block gdb-muted">
+            <div>col-8</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Texto principal / Imagem de destaque</div>
+          </div>
+          <div class="col-4 grid-demo-block gdb-accent-b">
+            <div>col-4</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Pull quote / Sidebar direita</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compound: 6+3+3 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Composto 6 + 3 + 3</p>
+        <div class="grid-12">
+          <div class="col-6 grid-demo-block gdb-primary">
+            <div>col-6</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Feature principal</div>
+          </div>
+          <div class="col-3 grid-demo-block gdb-accent-r">
+            <div>col-3</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Card A</div>
+          </div>
+          <div class="col-3 grid-demo-block gdb-accent-b">
+            <div>col-3</div>
+            <div style="font-weight: 300; font-size: 10px; margin-top: 4px; letter-spacing: 0; text-transform: none;">Card B</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full 12 -->
+      <div class="col-12 grid-demo-row">
+        <p style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-muted-fg); margin-bottom: var(--space-2);">Full Width — col-12</p>
+        <div class="grid-12">
+          <div class="col-12 grid-demo-block gdb-primary" style="text-align: center;">
+            <div>col-12 — Largura completa — Titulos de secao, banners, rulers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid rules explanation -->
+      <div class="col-12" style="margin-top: var(--space-5);">
+        <hr class="rule-thick">
+        <div class="grid-12" style="margin-top: var(--space-5);">
+          <div class="col-4">
+            <p class="ts-h3" style="margin-bottom: var(--space-3);">12 Colunas</p>
+            <p style="font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.618; color: var(--color-muted-fg);">O grid de 12 colunas permite divisoes em halvings (6+6), thirds (4+4+4), quarters (3+3+3+3) e composicoes assimetricas — todas matematicamente justificadas.</p>
+          </div>
+          <div class="col-4">
+            <p class="ts-h3" style="margin-bottom: var(--space-3);">Gap: 24px</p>
+            <p style="font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.618; color: var(--color-muted-fg);">O gap de 24px corresponde a --space-4 da escala de espacamento. Consistente em todos os contextos de grid — nenhuma excecao sem justificativa.</p>
+          </div>
+          <div class="col-4">
+            <p class="ts-h3" style="margin-bottom: var(--space-3);">Assimetria Intencional</p>
+            <p style="font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.618; color: var(--color-muted-fg);">Layouts assimetricos criam tensao visual e hierarquia. A regra: o elemento mais importante recebe mais colunas. A proporcao reflete a importancia do conteudo.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-footnote">§ 10.1 — Grid de 12 colunas com gap de 24px (--space-4). Classes: .col-1 a .col-12. Container: max-width 1440px, padding clamp(20px, 4vw, 64px).</p>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="showcase-footer">
+    <div class="grid-12" style="align-items: flex-end;">
+      <div class="col-8">
+        <p class="footer-brand">Bold Impact</p>
+        <p class="footer-meta">v5.0 — Swiss Edition / International Typographic Style</p>
+        <p style="font-family: var(--font-sans); font-size: 12px; color: var(--color-muted-fg); margin-top: var(--space-3);">
+          Libre Bodoni + Public Sans &mdash; Grid 12 colunas &mdash; Espacamento base 4px &mdash; Proporcao aurea 1.618 &mdash; Sem raio, sem sombras, sem ornamentos sem funcao
+        </p>
+      </div>
+      <div class="col-4 footer-colophon">
+        <p class="footer-colophon-label">Volume V &bull; Issue 1</p>
+        <p class="footer-colophon-label">Edicao 2025</p>
+        <p class="footer-colophon-label">Swiss Modernism 2.0</p>
+        <p class="footer-colophon-label" style="margin-top: var(--space-3);">10 Secoes &bull; 6 Cores &bull; 2 Tipos de Letra</p>
+        <p class="footer-colophon-label">Grelha 12 Colunas &bull; Gap 24px</p>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-muted-fg); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-family: var(--font-serif); font-style: italic; font-size: 0.875rem; color: var(--color-muted-fg);">"A forma segue a funcao. O ornamento e crime." — Adolf Loos, 1908</span>
+      <span style="font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--color-muted-fg);">BOLD IMPACT v5.0</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

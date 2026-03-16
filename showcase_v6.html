@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOLD IMPACT v6 — CYBERPUNK</title>
+  <meta name="color-scheme" content="dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CYBERPUNK OLED DARK — Design Tokens
+       ======================================== */
+    :root {
+      --color-bg:        #000000;
+      --color-surface:   #0A0A0A;
+      --color-fg:        #E0E0E0;
+      --color-muted:     #555555;
+
+      --neon-green:      #00FF41;
+      --neon-cyan:       #00D4FF;
+      --neon-magenta:    #FF00FF;
+
+      --glow-green:      0 0 10px #00FF41, 0 0 20px #00FF41, 0 0 40px #00FF41;
+      --glow-cyan:       0 0 10px #00D4FF, 0 0 20px #00D4FF, 0 0 40px #00D4FF;
+      --glow-magenta:    0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 40px #FF00FF;
+
+      --box-glow-green:  0 0 0 1px #00FF41, 0 0 15px rgba(0,255,65,0.3), inset 0 0 15px rgba(0,255,65,0.05);
+      --box-glow-cyan:   0 0 0 1px #00D4FF, 0 0 15px rgba(0,212,255,0.3), inset 0 0 15px rgba(0,212,255,0.05);
+      --box-glow-mag:    0 0 0 1px #FF00FF, 0 0 15px rgba(255,0,255,0.3), inset 0 0 15px rgba(255,0,255,0.05);
+
+      --border-green:    rgba(0,255,65,0.4);
+      --grid-green:      rgba(0,255,65,0.05);
+
+      --font-display:    'Orbitron', monospace;
+      --font-body:       'JetBrains Mono', monospace;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: var(--box-glow-green); }
+      50%       { box-shadow: 0 0 0 1px #00FF41, 0 0 30px rgba(0,255,65,0.6), inset 0 0 30px rgba(0,255,65,0.1); }
+    }
+
+    @keyframes glitch {
+      0%   { text-shadow: none; transform: none; }
+      10%  { text-shadow: -3px 0 var(--neon-cyan), 3px 0 var(--neon-magenta); transform: translateX(-2px); }
+      20%  { text-shadow: 3px 0 var(--neon-cyan), -3px 0 var(--neon-magenta); transform: translateX(2px); }
+      30%  { text-shadow: -2px 0 var(--neon-magenta), 2px 0 var(--neon-cyan); transform: translateX(-1px); }
+      40%  { text-shadow: none; transform: none; }
+      100% { text-shadow: none; transform: none; }
+    }
+
+    @keyframes border-cycle {
+      0%   { box-shadow: var(--box-glow-green); border-color: var(--neon-green); }
+      33%  { box-shadow: var(--box-glow-cyan);  border-color: var(--neon-cyan); }
+      66%  { box-shadow: var(--box-glow-mag);   border-color: var(--neon-magenta); }
+      100% { box-shadow: var(--box-glow-green); border-color: var(--neon-green); }
+    }
+
+    @keyframes loading-text {
+      0%   { content: "LOADING_"; }
+      25%  { content: "LOADING_."; }
+      50%  { content: "LOADING_.."; }
+      75%  { content: "LOADING_..."; }
+      100% { content: "LOADING_"; }
+    }
+
+    @keyframes scanline-scroll {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 100%; }
+    }
+
+    @keyframes hud-flicker {
+      0%, 95%, 100% { opacity: 1; }
+      96%            { opacity: 0.7; }
+      97%            { opacity: 1; }
+      98%            { opacity: 0.4; }
+      99%            { opacity: 1; }
+    }
+
+    @keyframes progress-fill {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+      color-scheme: dark;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-bg);
+      background-image:
+        linear-gradient(rgba(0,255,65,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,65,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      color: var(--color-fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 1px solid var(--border-green);
+      box-shadow: 0 1px 0 0 rgba(0,255,65,0.15);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .section-label::after {
+      content: '_';
+      animation: blink 1s step-end infinite;
+      color: var(--neon-green);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border-green);
+      box-shadow: 0 1px 0 rgba(0,255,65,0.2);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+      letter-spacing: 3px;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-muted);
+      transition: color 0.15s, text-shadow 0.15s;
+    }
+
+    .showcase-nav-links a:hover {
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Scanline overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.3) 2px,
+        rgba(0, 0, 0, 0.3) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Corner bracket top-left */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: var(--space-6);
+      left: 0;
+      width: 60px;
+      height: 60px;
+      border-top: 2px solid var(--neon-green);
+      border-left: 2px solid var(--neon-green);
+      box-shadow: -2px -2px 10px rgba(0,255,65,0.3);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-stat {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 15vw, 10rem);
+      line-height: 0.8;
+      letter-spacing: -2px;
+      color: var(--neon-green);
+      display: block;
+      animation: glitch 6s ease-in-out infinite;
+    }
+
+    .hero-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 5vw, 3.5rem);
+      line-height: 1.0;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-fg);
+      margin-top: var(--space-3);
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: clamp(12px, 1.5vw, 15px);
+      font-weight: 400;
+      color: var(--color-muted);
+      margin-top: var(--space-6);
+      max-width: 400px;
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-6);
+    }
+
+    .hero-brand {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+      letter-spacing: 4px;
+    }
+
+    .hero-loading {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--neon-cyan);
+      letter-spacing: 2px;
+    }
+
+    .hero-loading::after {
+      content: 'LOADING_';
+      animation: loading-text 1.2s steps(1) infinite;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-hero {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: 0.85;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      line-height: 0.9;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-fg);
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-fg);
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-fg);
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--color-fg);
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--color-muted);
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+    }
+
+    .type-mono {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--neon-cyan);
+    }
+
+    .type-sample {
+      margin-bottom: var(--space-5);
+    }
+
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 10px;
+      color: var(--color-muted);
+      margin-top: var(--space-1);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+
+    .btn:focus-visible {
+      outline: 1px solid var(--neon-green);
+      outline-offset: 3px;
+      box-shadow: var(--glow-green);
+    }
+
+    .btn-primary {
+      background: #000000;
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      box-shadow: var(--box-glow-green);
+    }
+
+    .btn-primary:hover {
+      background: var(--neon-green);
+      color: #000000;
+      box-shadow: 0 0 0 1px var(--neon-green), 0 0 30px rgba(0,255,65,0.6);
+    }
+
+    .btn-secondary {
+      background: #000000;
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: var(--box-glow-cyan);
+    }
+
+    .btn-secondary:hover {
+      background: var(--neon-cyan);
+      color: #000000;
+      box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 30px rgba(0,212,255,0.6);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-fg);
+      border-color: transparent;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: var(--color-muted);
+    }
+
+    .btn-ghost:hover {
+      color: var(--neon-green);
+      text-decoration-color: var(--neon-green);
+      text-shadow: var(--glow-green);
+    }
+
+    .btn-danger {
+      background: #000000;
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+      box-shadow: var(--box-glow-mag);
+    }
+
+    .btn-danger:hover {
+      background: var(--neon-magenta);
+      color: #000000;
+      box-shadow: 0 0 0 1px var(--neon-magenta), 0 0 30px rgba(255,0,255,0.6);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 13px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      border: 1px solid var(--border-green);
+      border-top: 2px solid var(--neon-green);
+      padding: var(--space-4);
+      background: var(--color-surface);
+      position: relative;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--box-glow-green);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: var(--space-2);
+      color: var(--color-fg);
+    }
+
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+      color: var(--color-fg);
+      opacity: 0.8;
+    }
+
+    .card-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Cyan card variant */
+    .card-cyan {
+      border-top: 2px solid var(--neon-cyan);
+    }
+    .card-cyan:hover {
+      box-shadow: var(--box-glow-cyan);
+    }
+
+    /* Magenta card variant */
+    .card-magenta {
+      border-top: 2px solid var(--neon-magenta);
+    }
+    .card-magenta:hover {
+      box-shadow: var(--box-glow-mag);
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .badge-green {
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.2);
+    }
+
+    .badge-cyan {
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0,212,255,0.2);
+    }
+
+    .badge-magenta {
+      color: var(--neon-magenta);
+      border: 1px solid var(--neon-magenta);
+      box-shadow: 0 0 8px rgba(255,0,255,0.2);
+    }
+
+    .badge-solid-green {
+      background: var(--neon-green);
+      color: #000000;
+      border: 1px solid var(--neon-green);
+    }
+
+    /* ========================================
+       INPUTS / FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-fg);
+      background: var(--color-surface);
+      border: 1px solid rgba(0,255,65,0.3);
+      outline: none;
+      caret-color: var(--neon-green);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input::placeholder {
+      color: var(--color-muted);
+      font-style: normal;
+    }
+
+    .form-input:focus {
+      border-color: var(--neon-green);
+      box-shadow: var(--box-glow-green);
+    }
+
+    .form-input-error {
+      border-color: var(--neon-magenta) !important;
+    }
+
+    .form-input-error:focus {
+      box-shadow: var(--box-glow-mag) !important;
+    }
+
+    .form-error {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--neon-magenta);
+      margin-top: var(--space-1);
+      letter-spacing: 1px;
+    }
+
+    .form-helper {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-top: var(--space-1);
+      letter-spacing: 1px;
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-thick {
+      border: none;
+      border-top: 2px solid var(--neon-green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.4);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-regular {
+      border: none;
+      border-top: 1px solid var(--border-green);
+      box-shadow: 0 0 5px rgba(0,255,65,0.2);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid rgba(0,255,65,0.1);
+      margin: var(--space-3) 0;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border: 1px solid var(--border-green);
+    }
+
+    .swatch-color {
+      height: 80px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2);
+      background: var(--color-surface);
+    }
+
+    .swatch-name {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-fg);
+    }
+
+    .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--neon-green);
+      margin-top: 2px;
+    }
+
+    /* ========================================
+       STAT BLOCKS
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      border: 1px solid var(--border-green);
+      background: var(--color-surface);
+      position: relative;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      line-height: 0.85;
+      letter-spacing: -1px;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+    }
+
+    .stat-number-glitch {
+      animation: glitch 4s ease-in-out infinite;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-muted);
+      margin-top: var(--space-3);
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 16px;
+      background: var(--neon-green);
+      box-shadow: 0 0 6px rgba(0,255,65,0.5);
+    }
+
+    .spacing-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      min-width: 120px;
+      color: var(--color-muted);
+    }
+
+    /* ========================================
+       SECTION 10 — GLITCH EFFECTS
+       ======================================== */
+    .hud-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--border-green);
+      padding: var(--space-4);
+      animation: hud-flicker 8s ease infinite;
+      position: relative;
+    }
+
+    .hud-panel::before {
+      content: 'SYS::LIVE';
+      position: absolute;
+      top: -1px;
+      right: var(--space-3);
+      background: var(--neon-green);
+      color: #000000;
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 2px 8px;
+    }
+
+    .hud-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid rgba(0,255,65,0.1);
+      font-family: var(--font-body);
+      font-size: 12px;
+    }
+
+    .hud-row:last-child {
+      border-bottom: none;
+    }
+
+    .hud-key {
+      color: var(--color-muted);
+      letter-spacing: 2px;
+    }
+
+    .hud-val {
+      color: var(--neon-green);
+      text-shadow: 0 0 6px rgba(0,255,65,0.5);
+      font-weight: 700;
+    }
+
+    .hud-val-cyan {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 6px rgba(0,212,255,0.5);
+      font-weight: 700;
+    }
+
+    .hud-val-mag {
+      color: var(--neon-magenta);
+      text-shadow: 0 0 6px rgba(255,0,255,0.5);
+      font-weight: 700;
+    }
+
+    .glitch-text-demo {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      animation: glitch 3s ease-in-out infinite;
+    }
+
+    .neon-border-demo {
+      border: 2px solid var(--neon-green);
+      padding: var(--space-4);
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--color-fg);
+      animation: border-cycle 4s ease infinite;
+    }
+
+    .scanline-demo {
+      position: relative;
+      background: #0d0d0d;
+      border: 1px solid var(--border-green);
+      padding: var(--space-5);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .scanline-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.4) 2px,
+        rgba(0, 0, 0, 0.4) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scanline-demo-text {
+      position: relative;
+      z-index: 2;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--neon-green);
+      text-shadow: var(--glow-green);
+    }
+
+    /* Progress bar */
+    .progress-track {
+      background: var(--color-surface);
+      border: 1px solid var(--border-green);
+      height: 8px;
+      margin: var(--space-2) 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.6);
+    }
+
+    .progress-fill-cyan {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0,212,255,0.6);
+    }
+
+    .progress-fill-mag {
+      background: var(--neon-magenta);
+      box-shadow: 0 0 8px rgba(255,0,255,0.6);
+    }
+
+    .progress-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .progress-label-row span:first-child {
+      color: var(--color-muted);
+    }
+
+    .progress-label-row span:last-child {
+      color: var(--neon-green);
+    }
+
+    /* Footer bracket corner */
+    .corner-bracket-tr {
+      position: absolute;
+      top: var(--space-6);
+      right: 0;
+      width: 40px;
+      height: 40px;
+      border-top: 1px solid var(--neon-green);
+      border-right: 1px solid var(--neon-green);
+      box-shadow: 2px -2px 8px rgba(0,255,65,0.2);
+    }
+
+    .corner-bracket-bl {
+      position: absolute;
+      bottom: var(--space-6);
+      left: 0;
+      width: 40px;
+      height: 40px;
+      border-bottom: 1px solid var(--neon-green);
+      border-left: 1px solid var(--neon-green);
+      box-shadow: -2px 2px 8px rgba(0,255,65,0.2);
+    }
+
+    /* Inline code style */
+    code {
+      font-family: var(--font-body);
+      font-size: 0.85em;
+      color: var(--neon-cyan);
+      background: rgba(0,212,255,0.05);
+      border: 1px solid rgba(0,212,255,0.2);
+      padding: 1px 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">BOLD_IMPACT</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">[HERO]</a></li>
+        <li><a href="#typography">[TYPE]</a></li>
+        <li><a href="#colors">[COLORS]</a></li>
+        <li><a href="#components">[COMP]</a></li>
+        <li><a href="#glitch">[GLITCH]</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         [SYS::01] HERO
+         ======================================== -->
+    <section class="hero" id="hero">
+      <div class="corner-bracket-tr"></div>
+      <div class="corner-bracket-bl"></div>
+      <div class="hero-content">
+        <div class="hero-text">
+          <span class="hero-stat">70%</span>
+          <span style="color: var(--color-fg); letter-spacing: 6px;">DOS</span>
+          <span style="color: var(--color-fg); letter-spacing: 6px;">NOVOS</span>
+          <span style="color: var(--neon-cyan); text-shadow: var(--glow-cyan); letter-spacing: 6px;">SEGUIDORES</span>
+          <span style="color: var(--color-fg); letter-spacing: 6px;">NAO</span>
+          <span style="color: var(--neon-magenta); text-shadow: var(--glow-magenta); letter-spacing: 6px;">ENGAJAM</span>
+        </div>
+        <div class="hero-footer">
+          <div>
+            <p class="hero-subtext">// chega de ignorar seus seguidores</p>
+            <div class="hero-loading" style="margin-top: 12px;"></div>
+          </div>
+          <span class="hero-brand">BOLD_IMPACT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::01] TYPOGRAPHY
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">[SYS::01] TIPOGRAFIA</p>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">Orbitron 900 / 5rem / letter-spacing: 4px / uppercase / neon-green + glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY TEXT</div>
+        <p class="type-meta">Orbitron 700 / 3.5rem / letter-spacing: 3px / uppercase / neon-cyan + glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">Orbitron 700 / 2rem / letter-spacing: 3px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Orbitron 700 / 1.5rem / letter-spacing: 2px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Orbitron 700 / 1.1rem / letter-spacing: 2px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">// body text — monospaced and functional. The JetBrains Mono font gives every paragraph a terminal aesthetic. Clean signal through the noise. All characters equal-width, all information accessible.</div>
+        <p class="type-meta">JetBrains Mono 400 / 0.95rem / line-height: 1.7</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">// caption text for secondary data and metadata output streams</div>
+        <p class="type-meta">JetBrains Mono 400 / 0.8rem / color: muted #555555</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL_TEXT — SYSTEM OUTPUT</div>
+        <p class="type-meta">JetBrains Mono 700 / 0.7rem / letter-spacing: 3px / uppercase / neon-green</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-mono">const impact = "maximum"; // execute(&gt;_)</div>
+        <p class="type-meta">JetBrains Mono 400 / 0.875rem / neon-cyan</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::02] COLORS
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">[SYS::02] PALETA DE CORES</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #000000; border: 1px solid rgba(0,255,65,0.2);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">BG OLED</div>
+            <div class="swatch-hex">#000000</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0A0A0A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Surface</div>
+            <div class="swatch-hex">#0A0A0A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E0E0E0;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Primary Text</div>
+            <div class="swatch-hex">#E0E0E0</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #555555;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted</div>
+            <div class="swatch-hex">#555555</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00FF41; box-shadow: 0 0 20px rgba(0,255,65,0.6);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: var(--neon-green);">Neon Green</div>
+            <div class="swatch-hex">#00FF41</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00D4FF; box-shadow: 0 0 20px rgba(0,212,255,0.6);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: var(--neon-cyan);">Neon Cyan</div>
+            <div class="swatch-hex">#00D4FF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF00FF; box-shadow: 0 0 20px rgba(255,0,255,0.6);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: var(--neon-magenta);">Neon Magenta</div>
+            <div class="swatch-hex">#FF00FF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.2);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grid Lines</div>
+            <div class="swatch-hex">rgba(0,255,65,0.1)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::03] SPACING
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::03] ESPACAMENTO</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::04] BUTTONS
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">[SYS::04] BOTOES</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">// TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE_CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">// VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY</button>
+          <button class="btn btn-secondary">SECONDARY</button>
+          <button class="btn btn-ghost">GHOST_LINK</button>
+          <button class="btn btn-danger">DANGER</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::05] CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::05] CARDS</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="badge badge-green" style="margin-bottom: var(--space-3); display: inline-block;">NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">// Transforme seguidores passivos em participantes ativos da sua comunidade.</div>
+          <div class="card-meta">Marketing :: 2024</div>
+        </div>
+        <div class="card card-cyan">
+          <span class="badge badge-cyan" style="margin-bottom: var(--space-3); display: inline-block;">BETA</span>
+          <div class="card-title">AUTOMACAO</div>
+          <div class="card-body">// Respostas automaticas que parecem humanas. Escale sem perder autenticidade.</div>
+          <div class="card-meta">Produto :: 2024</div>
+        </div>
+        <div class="card card-magenta">
+          <span class="badge badge-magenta" style="margin-bottom: var(--space-3); display: inline-block;">URGENTE</span>
+          <div class="card-title">CONVERSAO</div>
+          <div class="card-body">// De seguidor a cliente em 3 passos. Funil otimizado por dados reais.</div>
+          <div class="card-meta">Growth :: 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::06] STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::06] STATS / KPIs</p>
+
+      <div class="grid-4">
+        <div class="stat-block">
+          <div class="stat-number stat-number-glitch">70%</div>
+          <div class="stat-label">NAO_ENGAJAM</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number" style="color: var(--neon-cyan); text-shadow: var(--glow-cyan);">3.2x</div>
+          <div class="stat-label">MAIS_CONVERSAO</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number" style="color: var(--neon-magenta); text-shadow: var(--glow-magenta);">24h</div>
+          <div class="stat-label">TEMPO_MEDIO</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::07] BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::07] BADGES</p>
+
+      <div class="btn-group" style="margin-bottom: var(--space-3);">
+        <span class="badge badge-green">GREEN</span>
+        <span class="badge badge-cyan">CYAN</span>
+        <span class="badge badge-magenta">MAGENTA</span>
+        <span class="badge badge-solid-green">SOLID</span>
+      </div>
+
+      <div style="margin-top: var(--space-4);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">// PROGRESS BARS</p>
+
+        <div style="margin-bottom: var(--space-3);">
+          <div class="progress-label-row">
+            <span>ENGAJAMENTO</span>
+            <span>87%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 87%;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: var(--space-3);">
+          <div class="progress-label-row" style="color: var(--neon-cyan);">
+            <span style="color: var(--color-muted);">CONVERSAO</span>
+            <span style="color: var(--neon-cyan);">64%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill progress-fill-cyan" style="width: 64%;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="progress-label-row">
+            <span>RISCO</span>
+            <span style="color: var(--neon-magenta);">31%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill progress-fill-mag" style="width: 31%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::08] FORMS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::08] FORMULARIOS</p>
+
+      <div style="max-width: 500px;">
+        <div class="form-group">
+          <label class="form-label" for="name">// NOME</label>
+          <input class="form-input" type="text" id="name" placeholder="seu_nome_completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">// EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="usuario@dominio.com">
+          <p class="form-helper">// nunca compartilharemos seu email.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error" style="color: var(--neon-magenta);">// EMAIL [ERRO_DETECTADO]</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido@">
+          <p class="form-error">// ERR: formato invalido — esperado: usuario@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">// MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="// escreva sua mensagem aqui..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">EXECUTAR_ENVIO</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         [SYS::09] DIVIDERS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">[SYS::09] DIVISORES</p>
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">THICK — 2px + GLOW</p>
+      <hr class="divider-thick">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">REGULAR — 1px + SUBTLE GLOW</p>
+      <hr class="divider-regular">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">SUBTLE — 1px / 10% OPACITY</p>
+      <hr class="divider-subtle">
+    </section>
+
+    <!-- ========================================
+         [SYS::10] GLITCH EFFECTS
+         ======================================== -->
+    <section class="section" id="glitch">
+      <p class="section-label">[SYS::10] EFEITOS DE GLITCH</p>
+
+      <div class="grid-2" style="margin-bottom: var(--space-6);">
+
+        <!-- Glitch text demo -->
+        <div>
+          <p class="type-label" style="margin-bottom: var(--space-3);">// GLITCH TEXT ANIMATION</p>
+          <div class="glitch-text-demo">SYSTEM_ERROR</div>
+          <p class="type-meta" style="margin-top: var(--space-2);">CSS keyframes — text-shadow shifting cyan + magenta duplicates on loop</p>
+        </div>
+
+        <!-- Neon border cycling -->
+        <div>
+          <p class="type-label" style="margin-bottom: var(--space-3);">// NEON BORDER CYCLE</p>
+          <div class="neon-border-demo">BORDER_ANIMATION_ACTIVE</div>
+          <p class="type-meta" style="margin-top: var(--space-2);">CSS animation — cycles green → cyan → magenta border + glow every 4s</p>
+        </div>
+
+      </div>
+
+      <div class="grid-2" style="margin-bottom: var(--space-6);">
+
+        <!-- Scanline overlay demo -->
+        <div>
+          <p class="type-label" style="margin-bottom: var(--space-3);">// SCANLINE OVERLAY</p>
+          <div class="scanline-demo">
+            <div class="scanline-demo-text">
+              [SCANNING...]<br>
+              <span style="font-size: 11px; letter-spacing: 2px; color: var(--neon-cyan); text-shadow: var(--glow-cyan);">repeating-linear-gradient :: 4px pitch</span>
+            </div>
+          </div>
+          <p class="type-meta" style="margin-top: var(--space-2);">CSS repeating-linear-gradient — 2px transparent + 2px dark overlay</p>
+        </div>
+
+        <!-- HUD data panel -->
+        <div>
+          <p class="type-label" style="margin-bottom: var(--space-3);">// HUD DATA PANEL</p>
+          <div class="hud-panel">
+            <div class="hud-row">
+              <span class="hud-key">CPU_LOAD</span>
+              <span class="hud-val">73.2%</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">MEMORY</span>
+              <span class="hud-val-cyan">4.1 GB / 16 GB</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">NETWORK_IN</span>
+              <span class="hud-val">1.24 MB/s</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">NETWORK_OUT</span>
+              <span class="hud-val-cyan">0.87 MB/s</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">THREAT_LEVEL</span>
+              <span class="hud-val-mag">ELEVATED</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">UPTIME</span>
+              <span class="hud-val">14d 07h 33m</span>
+            </div>
+            <div class="hud-row">
+              <span class="hud-key">SYSTEM_STATUS</span>
+              <span class="hud-val" style="animation: blink 1.5s step-end infinite;">ONLINE</span>
+            </div>
+          </div>
+          <p class="type-meta" style="margin-top: var(--space-2);">HUD panel with flicker animation + blinking cursor on ONLINE status</p>
+        </div>
+
+      </div>
+
+      <!-- Full-width code block demo -->
+      <p class="type-label" style="margin-bottom: var(--space-3);">// TERMINAL OUTPUT BLOCK</p>
+      <div style="background: var(--color-surface); border: 1px solid var(--border-green); padding: var(--space-4); box-shadow: var(--box-glow-green);">
+        <div style="font-family: var(--font-body); font-size: 12px; line-height: 1.8; color: var(--color-muted);">
+          <span style="color: var(--neon-green);">root@aiox:~$</span> <span style="color: var(--color-fg);">npm run build</span><br>
+          <span style="color: var(--color-muted);">&gt; bold-impact@6.0.0 build</span><br>
+          <span style="color: var(--color-muted);">&gt; vite build --mode production</span><br>
+          <br>
+          <span style="color: var(--neon-cyan);">vite v5.1.0</span> <span style="color: var(--color-muted);">building for production...</span><br>
+          <span style="color: var(--color-fg);">✓ 1,234 modules transformed.</span><br>
+          <span style="color: var(--neon-green);">dist/index.html                  1.23 kB</span><br>
+          <span style="color: var(--neon-green);">dist/assets/index-Bc7kL9mN.js  342.11 kB</span><br>
+          <br>
+          <span style="color: var(--neon-green);">[BUILD COMPLETE]</span> <span style="color: var(--color-muted);">in 2.41s</span><br>
+          <span style="color: var(--neon-green);">root@aiox:~$</span> <span style="animation: blink 1s step-end infinite; display: inline-block; background: var(--neon-green); width: 8px; height: 14px; vertical-align: middle;"></span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer style="padding: var(--space-7) 0; border-top: 1px solid var(--border-green); box-shadow: 0 -1px 0 rgba(0,255,65,0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+        <div>
+          <div style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: var(--neon-green); text-shadow: var(--glow-green); letter-spacing: 4px; margin-bottom: var(--space-2);">
+            [SYS::END] BOLD IMPACT v6.0 — CYBERPUNK
+          </div>
+          <p style="font-family: var(--font-body); font-size: 11px; color: var(--color-muted); letter-spacing: 2px;">
+            // design system inspirado na identidade Manychat — cyberpunk oled dark edition
+          </p>
+        </div>
+        <div style="font-family: var(--font-body); font-size: 11px; color: var(--neon-green); letter-spacing: 3px; text-shadow: 0 0 8px rgba(0,255,65,0.4);">
+          v6.0<span style="animation: blink 1s step-end infinite; margin-left: 2px;">_</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOLD IMPACT v7 — VAPORWAVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       BOLD IMPACT v7 — VAPORWAVE TOKENS
+       ======================================== */
+    :root {
+      --bg:           #0D0221;
+      --surface:      #1A0A3E;
+      --text:         #F0E6FF;
+      --pink:         #FF6EC7;
+      --purple:       #BF5FFF;
+      --cyan:         #00FFFF;
+      --yellow:       #FFFF00;
+      --border:       #BF5FFF;
+      --grid:         rgba(191, 95, 255, 0.15);
+      --glow-pink:    0 0 8px rgba(255, 110, 199, 0.6);
+      --glow-purple:  0 0 8px rgba(191, 95, 255, 0.4);
+      --glow-cyan:    0 0 8px rgba(0, 255, 255, 0.5);
+
+      --font-pixel: 'Press Start 2P', monospace;
+      --font-crt:   'VT323', monospace;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    * {
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      color-scheme: dark;
+    }
+
+    body {
+      font-family: var(--font-crt);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 60px 60px;
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: none;
+      font-size: 20px;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    @keyframes scanline {
+      0%   { top: -10%; }
+      100% { top: 110%; }
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% { text-shadow: 0 0 6px var(--pink), 0 0 14px var(--pink), 0 0 30px var(--pink); }
+      50%       { text-shadow: 0 0 10px var(--pink), 0 0 24px var(--pink), 0 0 50px var(--pink); }
+    }
+
+    @keyframes rainbow-shift {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 4px solid var(--border);
+      border-bottom-style: solid;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      color: var(--cyan);
+      margin-bottom: var(--space-6);
+      text-shadow: 0 0 8px var(--cyan);
+      letter-spacing: 1px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 2px solid var(--border);
+      box-shadow: 0 2px 12px rgba(191, 95, 255, 0.25);
+      position: sticky;
+      top: 0;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 100;
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-pixel);
+      font-size: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+      align-items: center;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-crt);
+      font-size: 20px;
+      text-decoration: none;
+      color: var(--purple);
+      transition: color 0.15s, text-shadow 0.15s;
+    }
+
+    .showcase-nav-links a:hover {
+      color: var(--pink);
+      text-shadow: var(--glow-pink);
+    }
+
+    .insert-coin {
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      color: var(--yellow);
+      text-shadow: 0 0 8px var(--yellow);
+      animation: blink 1s step-start infinite;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       HERO — CRT FRAME
+       ======================================== */
+    .hero-wrapper {
+      padding: var(--space-8) 0 var(--space-7);
+      position: relative;
+    }
+
+    .crt-frame {
+      position: relative;
+      border: 6px solid var(--purple);
+      box-shadow:
+        0 0 0 2px var(--bg),
+        0 0 0 4px var(--pink),
+        0 0 30px rgba(191, 95, 255, 0.4),
+        inset 0 0 60px rgba(13, 2, 33, 0.8);
+      padding: var(--space-7) var(--space-6) var(--space-6);
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(26,10,62,0.6) 0%, rgba(13,2,33,0.9) 100%);
+    }
+
+    .crt-frame::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--pink), var(--cyan), var(--purple), transparent);
+      opacity: 0.8;
+    }
+
+    .crt-frame::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      animation: scanline 4s linear infinite;
+      pointer-events: none;
+    }
+
+    .crt-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--cyan);
+      border-style: solid;
+      opacity: 0.7;
+    }
+    .crt-corner.tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .crt-corner.tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+    .crt-corner.bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+    .crt-corner.br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+    .hero-stat {
+      font-family: var(--font-pixel);
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      line-height: 1;
+      display: block;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-text {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 3.5vw, 1.8rem);
+      line-height: 1.6;
+      color: var(--text);
+      text-shadow: 0 0 6px rgba(240,230,255,0.3);
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-text .accent-word {
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .hero-subtext {
+      font-family: var(--font-crt);
+      font-size: 22px;
+      color: var(--purple);
+      margin-top: var(--space-6);
+      max-width: 480px;
+      text-shadow: var(--glow-purple);
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-5);
+    }
+
+    .hero-brand {
+      font-family: var(--font-pixel);
+      font-size: 13px;
+      color: var(--pink);
+      text-shadow: var(--glow-pink);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-6);
+    }
+
+    .type-meta {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: var(--purple);
+      margin-top: var(--space-1);
+    }
+
+    .type-hero {
+      font-family: var(--font-pixel);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      line-height: 1.2;
+      color: var(--text);
+      text-shadow: 0 0 8px rgba(240,230,255,0.3);
+    }
+
+    .type-display {
+      font-family: var(--font-pixel);
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
+      line-height: 1.3;
+      color: var(--pink);
+      text-shadow: var(--glow-pink);
+    }
+
+    .type-h1 {
+      font-family: var(--font-pixel);
+      font-size: 1.5rem;
+      line-height: 1.4;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .type-h2 {
+      font-family: var(--font-pixel);
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: var(--purple);
+      text-shadow: var(--glow-purple);
+    }
+
+    .type-h3 {
+      font-family: var(--font-pixel);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--yellow);
+      text-shadow: 0 0 8px rgba(255,255,0,0.5);
+    }
+
+    .type-body {
+      font-family: var(--font-crt);
+      font-size: 22px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .type-caption {
+      font-family: var(--font-crt);
+      font-size: 19px;
+      color: var(--purple);
+    }
+
+    .type-label {
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .type-mono {
+      font-family: var(--font-crt);
+      font-size: 22px;
+      color: var(--yellow);
+      text-shadow: 0 0 6px rgba(255,255,0,0.4);
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 28px;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      outline: none;
+      position: relative;
+      transition: box-shadow 0.15s, transform 0.1s;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      border-color: var(--pink);
+      box-shadow: var(--glow-pink), 4px 4px 0 rgba(191,95,255,0.4);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 16px rgba(255,110,199,0.8), 0 0 30px rgba(191,95,255,0.5), 4px 4px 0 rgba(191,95,255,0.6);
+    }
+
+    .btn-primary:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 8px rgba(255,110,199,0.5), 2px 2px 0 rgba(191,95,255,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--pink);
+      border: 2px solid var(--pink);
+      box-shadow: var(--glow-pink), inset 0 0 0 0 var(--pink);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 110, 199, 0.1);
+      box-shadow: 0 0 16px rgba(255,110,199,0.7);
+    }
+
+    .btn-secondary:active {
+      transform: translate(2px, 2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--cyan);
+      border: 2px solid transparent;
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-thickness: 2px;
+      text-shadow: var(--glow-cyan);
+    }
+
+    .btn-ghost:hover {
+      text-decoration-thickness: 4px;
+      text-shadow: 0 0 14px var(--cyan);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #FF2D2D, #FF6EC7);
+      color: #fff;
+      border-color: #FF2D2D;
+      box-shadow: 0 0 8px rgba(255,45,45,0.6), 4px 4px 0 rgba(255,45,45,0.3);
+    }
+
+    .btn-danger:hover {
+      box-shadow: 0 0 18px rgba(255,45,45,0.9), 4px 4px 0 rgba(255,45,45,0.5);
+    }
+
+    /* Retro press-down effect */
+    .btn-retro {
+      background: var(--purple);
+      color: #fff;
+      border: 2px solid var(--pink);
+      box-shadow:
+        4px 4px 0 var(--pink),
+        0 0 8px rgba(191,95,255,0.4);
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      padding: 12px 28px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      position: relative;
+      transition: box-shadow 0.08s, transform 0.08s;
+    }
+
+    .btn-retro:hover {
+      background: var(--pink);
+      box-shadow:
+        6px 6px 0 var(--purple),
+        0 0 16px rgba(255,110,199,0.5);
+    }
+
+    .btn-retro:active {
+      transform: translate(4px, 4px);
+      box-shadow:
+        0 0 0 var(--pink),
+        0 0 8px rgba(191,95,255,0.3);
+    }
+
+    .btn-cyan-retro {
+      background: transparent;
+      color: var(--cyan);
+      border: 2px solid var(--cyan);
+      box-shadow:
+        4px 4px 0 rgba(0,255,255,0.4),
+        var(--glow-cyan);
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      padding: 12px 28px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      position: relative;
+      transition: box-shadow 0.08s, transform 0.08s;
+    }
+
+    .btn-cyan-retro:hover {
+      background: rgba(0,255,255,0.1);
+      box-shadow:
+        6px 6px 0 rgba(0,255,255,0.5),
+        0 0 20px rgba(0,255,255,0.6);
+    }
+
+    .btn-cyan-retro:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 8px rgba(0,255,255,0.3);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 16px 44px;
+      font-size: 13px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 18px;
+      font-size: 9px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      border: 1px solid var(--border);
+      padding: var(--space-4);
+      background: var(--surface);
+      box-shadow: var(--glow-purple);
+      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--pink);
+      box-shadow: var(--glow-pink), 0 0 20px rgba(255,110,199,0.25);
+      background: #210D4F;
+    }
+
+    .card:hover .card-meta {
+      color: var(--cyan);
+    }
+
+    .card-title {
+      font-family: var(--font-pixel);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--pink);
+      text-shadow: var(--glow-pink);
+      margin-bottom: var(--space-3);
+    }
+
+    .card-body {
+      font-family: var(--font-crt);
+      font-size: 20px;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: var(--space-3);
+    }
+
+    .card-meta {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: var(--purple);
+      transition: color 0.2s;
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    .badge-pink {
+      background: var(--pink);
+      color: #0D0221;
+      box-shadow: var(--glow-pink);
+    }
+
+    .badge-cyan {
+      background: var(--cyan);
+      color: #0D0221;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .badge-yellow {
+      background: var(--yellow);
+      color: #0D0221;
+      box-shadow: 0 0 8px rgba(255,255,0,0.5);
+    }
+
+    .badge-outline-pink {
+      background: transparent;
+      color: var(--pink);
+      border: 2px solid var(--pink);
+      box-shadow: var(--glow-pink);
+    }
+
+    .badge-outline-cyan {
+      background: transparent;
+      color: var(--cyan);
+      border: 2px solid var(--cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .badge-purple {
+      background: var(--purple);
+      color: #0D0221;
+      box-shadow: var(--glow-purple);
+    }
+
+    /* ========================================
+       INPUTS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-crt);
+      font-size: 22px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-purple);
+      outline: none;
+      caret-color: var(--pink);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input::placeholder {
+      color: rgba(191, 95, 255, 0.5);
+    }
+
+    .form-input:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 2px rgba(255,110,199,0.3), var(--glow-pink);
+    }
+
+    .form-input-error {
+      border-color: #FF2D2D;
+      box-shadow: 0 0 8px rgba(255,45,45,0.5);
+    }
+
+    .form-error {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: #FF2D2D;
+      text-shadow: 0 0 6px rgba(255,45,45,0.5);
+      margin-top: var(--space-1);
+    }
+
+    .form-helper {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: var(--purple);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-pixel {
+      border: none;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--pink) 0,
+        var(--pink) 10px,
+        var(--purple) 10px,
+        var(--purple) 20px,
+        var(--cyan) 20px,
+        var(--cyan) 30px,
+        #0D0221 30px,
+        #0D0221 40px
+      );
+      margin: var(--space-5) 0;
+      box-shadow: 0 0 8px rgba(255,110,199,0.3);
+    }
+
+    .divider-neon {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pink), var(--purple), var(--cyan), transparent);
+      margin: var(--space-4) 0;
+      box-shadow: var(--glow-pink);
+    }
+
+    .divider-subtle {
+      border: none;
+      height: 1px;
+      background: rgba(191,95,255,0.3);
+      margin: var(--space-3) 0;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-purple);
+    }
+
+    .swatch-color {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch-info {
+      padding: var(--space-2);
+      background: var(--surface);
+    }
+
+    .swatch-name {
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: var(--purple);
+    }
+
+    /* ========================================
+       STAT BLOCKS
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--glow-purple);
+      transition: box-shadow 0.2s;
+    }
+
+    .stat-block:hover {
+      box-shadow: var(--glow-pink), 0 0 20px rgba(255,110,199,0.2);
+    }
+
+    .stat-number {
+      font-family: var(--font-pixel);
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      line-height: 1;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+
+    .stat-label {
+      font-family: var(--font-crt);
+      font-size: 20px;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 20px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      box-shadow: var(--glow-pink);
+    }
+
+    .spacing-label {
+      font-family: var(--font-crt);
+      font-size: 20px;
+      min-width: 140px;
+      color: var(--cyan);
+    }
+
+    /* ========================================
+       BONUS STAGE — SECTION 10
+       ======================================== */
+
+    /* Rainbow gradient text */
+    .rainbow-text {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      background: linear-gradient(
+        90deg,
+        #FF0000, #FF7700, #FFFF00, #00FF00,
+        #00FFFF, #0077FF, #FF00FF, #FF0000
+      );
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow-shift 4s linear infinite;
+      display: inline-block;
+      line-height: 1.6;
+    }
+
+    /* Neon sign effect */
+    .neon-sign {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--pink);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 10px var(--pink),
+        0 0 20px var(--pink),
+        0 0 40px var(--pink),
+        0 0 70px var(--pink);
+      animation: neon-pulse 2s ease-in-out infinite;
+      line-height: 2;
+      display: inline-block;
+    }
+
+    .neon-sign-cyan {
+      color: var(--cyan);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 10px var(--cyan),
+        0 0 20px var(--cyan),
+        0 0 40px var(--cyan);
+      animation: neon-pulse 2.4s ease-in-out infinite;
+    }
+
+    .neon-sign-purple {
+      color: var(--purple);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 10px var(--purple),
+        0 0 20px var(--purple),
+        0 0 40px var(--purple);
+      animation: neon-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* Pixel grid swatch */
+    .pixel-grid-swatch {
+      height: 100px;
+      background-image:
+        linear-gradient(rgba(191,95,255,0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(191,95,255,0.4) 1px, transparent 1px);
+      background-size: 16px 16px;
+      background-color: #0D0221;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      color: var(--purple);
+      text-shadow: var(--glow-purple);
+    }
+
+    /* Bonus stage grid items */
+    .bonus-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-purple);
+      padding: var(--space-4);
+    }
+
+    .bonus-item-label {
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+      margin-bottom: var(--space-3);
+      display: block;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      padding: var(--space-7) 0;
+      border-top: 4px solid var(--border);
+      border-top-style: solid;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--pink);
+      text-shadow: var(--glow-pink);
+      animation: neon-pulse 3s ease-in-out infinite;
+      line-height: 2;
+    }
+
+    /* ========================================
+       UTILITY
+       ======================================== */
+    .mb-3 { margin-bottom: var(--space-3); }
+    .mb-4 { margin-bottom: var(--space-4); }
+    .mb-5 { margin-bottom: var(--space-5); }
+    .mt-3 { margin-top: var(--space-3); }
+
+    .inline-block { display: inline-block; }
+
+    .star-bullet::before {
+      content: '✦ ';
+      color: var(--pink);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">BOLD IMPACT</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">★ HERO</a></li>
+        <li><a href="#typography">TYPE</a></li>
+        <li><a href="#colors">CORES</a></li>
+        <li><a href="#components">COMP</a></li>
+        <li><span class="insert-coin">★ INSERT COIN ★</span></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         SECTION: HERO (CRT FRAME)
+         ======================================== -->
+    <div class="hero-wrapper" id="hero">
+      <div class="crt-frame">
+        <div class="crt-corner tl"></div>
+        <div class="crt-corner tr"></div>
+        <div class="crt-corner bl"></div>
+        <div class="crt-corner br"></div>
+
+        <div class="hero-text">
+          <span class="hero-stat">70%</span>
+          <span>DOS</span>
+          <span>NOVOS</span>
+          <span class="accent-word">SEGUIDORES</span>
+          <span>NAO</span>
+          <span class="accent-word">ENGAJAM</span>
+        </div>
+
+        <div class="hero-footer">
+          <p class="hero-subtext">★ Chega de ignorar seus seguidores ★</p>
+          <span class="hero-brand">BoldImpact</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 01: TIPOGRAFIA
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">★ 01 — TIPOGRAFIA ★</p>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">✦ Press Start 2P / ~3rem / pixel display heading</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY PINK</div>
+        <p class="type-meta">✦ Press Start 2P / ~2rem / neon pink glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">✦ Press Start 2P / 1.5rem / cyan glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">✦ Press Start 2P / 1.1rem / purple glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">✦ Press Start 2P / 0.85rem / yellow glow</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text — VT323 CRT terminal style. The body font simulates an old cathode-ray tube monitor. Clean, retro, and still highly readable at 20px+. Keep it synth-wave.</div>
+        <p class="type-meta">✦ VT323 / 22px / line-height: 1.5</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption text for secondary information and metadata — purple tint</div>
+        <p class="type-meta">✦ VT323 / 19px / color: purple</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">★ LABEL TEXT — UPPERCASE PIXEL ★</div>
+        <p class="type-meta">✦ Press Start 2P / 10px / letter-spacing: 2px / cyan</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-mono">const vapor = "aesthetic++"; // 1989</div>
+        <p class="type-meta">✦ VT323 / 22px / yellow terminal</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 02: CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">★ 02 — PALETA VAPORWAVE ★</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0D0221;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">BACKGROUND</div>
+            <div class="swatch-hex">#0D0221</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #1A0A3E;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">SURFACE</div>
+            <div class="swatch-hex">#1A0A3E</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F0E6FF;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: #0D0221;">PRIMARY TEXT</div>
+            <div class="swatch-hex" style="color: #0D0221;">#F0E6FF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF6EC7; box-shadow: inset 0 0 20px rgba(255,110,199,0.5);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">NEON PINK</div>
+            <div class="swatch-hex">#FF6EC7</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #BF5FFF; box-shadow: inset 0 0 20px rgba(191,95,255,0.5);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">NEON PURPLE</div>
+            <div class="swatch-hex">#BF5FFF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00FFFF; box-shadow: inset 0 0 20px rgba(0,255,255,0.5);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: #0D0221;">CYAN</div>
+            <div class="swatch-hex" style="color: #0D0221;">#00FFFF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FFFF00; box-shadow: inset 0 0 20px rgba(255,255,0,0.4);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color: #0D0221;">ELECTRIC YELLOW</div>
+            <div class="swatch-hex" style="color: #0D0221;">#FFFF00</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #FF6EC7, #BF5FFF); box-shadow: inset 0 0 20px rgba(191,95,255,0.3);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">GRADIENT</div>
+            <div class="swatch-hex">#FF6EC7 → #BF5FFF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 03: ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 03 — ESPACAMENTO ★</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04: BOTOES
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">★ 04 — BOTOES ★</p>
+
+      <div class="mb-5">
+        <p class="type-label mb-3">✦ TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <p class="type-label mb-3">✦ VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">★ PRIMARY</button>
+          <button class="btn btn-secondary">◇ SECONDARY</button>
+          <button class="btn btn-ghost">✦ GHOST LINK</button>
+          <button class="btn btn-danger">✗ DANGER</button>
+        </div>
+      </div>
+
+      <div>
+        <p class="type-label mb-3">✦ RETRO PRESS-DOWN EFFECT</p>
+        <div class="btn-group">
+          <button class="btn-retro">★ PRESS ME ★</button>
+          <button class="btn-cyan-retro">◈ SELECT</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05: CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 05 — CARDS ★</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="badge badge-pink mb-3 inline-block">★ NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos da sua comunidade.</div>
+          <div class="card-meta">Marketing ✦ 2024</div>
+        </div>
+        <div class="card">
+          <span class="badge badge-outline-cyan mb-3 inline-block">◈ BETA</span>
+          <div class="card-title">AUTOMACAO</div>
+          <div class="card-body">Respostas automaticas que parecem humanas. Escale sem perder autenticidade.</div>
+          <div class="card-meta">Produto ✦ 2024</div>
+        </div>
+        <div class="card">
+          <span class="badge badge-yellow mb-3 inline-block">✗ URGENTE</span>
+          <div class="card-title">CONVERSAO</div>
+          <div class="card-body">De seguidor a cliente em 3 passos. Funil otimizado por dados reais.</div>
+          <div class="card-meta">Growth ✦ 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06: STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 06 — STATS / KPIs ★</p>
+
+      <div class="grid-4">
+        <div class="stat-block">
+          <span class="stat-number">70%</span>
+          <div class="stat-label">NAO ENGAJAM</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-number">3.2x</span>
+          <div class="stat-label">MAIS CONVERSAO</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-number">24h</span>
+          <div class="stat-label">TEMPO MEDIO</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-number">98%</span>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07: BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 07 — BADGES ★</p>
+
+      <div class="btn-group">
+        <span class="badge badge-pink">★ PINK</span>
+        <span class="badge badge-cyan">◈ CYAN</span>
+        <span class="badge badge-yellow">✦ YELLOW</span>
+        <span class="badge badge-purple">◇ PURPLE</span>
+        <span class="badge badge-outline-pink">★ OUTLINE PINK</span>
+        <span class="badge badge-outline-cyan">◈ OUTLINE CYAN</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08: FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 08 — FORMULARIOS ★</p>
+
+      <div style="max-width: 520px;">
+        <div class="form-group">
+          <label class="form-label" for="name">★ NOME DO PLAYER</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu handle aqui...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">★ EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">✦ Nunca compartilharemos seu email.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">★ EMAIL — GAME OVER</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">✗ Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">★ MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="Digite sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">★ ENVIAR ★</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09: DIVISORES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 09 — DIVISORES ★</p>
+
+      <p class="type-label mb-3">✦ PIXEL ART (4px)</p>
+      <hr class="divider-pixel">
+
+      <p class="type-label mb-3">✦ NEON GRADIENT (2px)</p>
+      <hr class="divider-neon">
+
+      <p class="type-label mb-3">✦ SUBTLE (1px)</p>
+      <hr class="divider-subtle">
+    </section>
+
+    <!-- ========================================
+         SECTION 10: BONUS STAGE
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">★ 10 — BONUS STAGE ★</p>
+
+      <div class="grid-2 mb-5">
+
+        <!-- Rainbow text -->
+        <div class="bonus-item">
+          <span class="bonus-item-label">✦ RAINBOW GRADIENT TEXT</span>
+          <div class="rainbow-text">A E S T H E T I C</div>
+        </div>
+
+        <!-- Neon sign -->
+        <div class="bonus-item">
+          <span class="bonus-item-label">✦ NEON SIGN EFFECT</span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="neon-sign">★ VAPORWAVE ★</div>
+            <div class="neon-sign neon-sign-cyan">◈ SYNTHWAVE</div>
+            <div class="neon-sign neon-sign-purple">◇ RETROWAVE</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="grid-2">
+
+        <!-- Pixel grid swatch -->
+        <div class="bonus-item">
+          <span class="bonus-item-label">✦ PIXEL GRID PATTERN</span>
+          <div class="pixel-grid-swatch">GRID 16px</div>
+          <p class="form-helper" style="margin-top: var(--space-2);">background-image: linear-gradient(purple 1px, transparent 1px)</p>
+        </div>
+
+        <!-- Retro button press styles showcase -->
+        <div class="bonus-item">
+          <span class="bonus-item-label">✦ RETRO PRESS-DOWN BUTTONS</span>
+          <p class="form-helper mb-3">Click them — feel the tactile shadow shift!</p>
+          <div class="btn-group">
+            <button class="btn-retro">PLAY</button>
+            <button class="btn-retro" style="background: var(--pink); border-color: var(--purple);">PAUSE</button>
+            <button class="btn-cyan-retro">RESET</button>
+          </div>
+          <p class="form-helper mt-3">✦ box-shadow offset moves from 4px → 0 on :active — pure CSS tactile feedback</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="footer">
+      <div class="footer-text">★ GAME OVER ★ BOLD IMPACT v7.0 — VAPORWAVE ★</div>
+      <p class="type-mono" style="margin-top: var(--space-3); color: var(--purple);">A E S T H E T I C · 1 9 8 9 · 私はあなたを愛しています</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

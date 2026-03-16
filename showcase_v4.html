@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="color-scheme: dark;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIQUID GLASS — Design System Showcase v4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========================================
+       LIQUID GLASS — Design Tokens
+       ======================================== */
+    :root {
+      --color-bg:           #070712;
+      --color-bg-gradient:  radial-gradient(ellipse at top left, #0D0D1A 0%, #060610 50%, #0A0508 100%);
+      --color-text:         #F0F0FF;
+      --color-text-muted:   rgba(240,240,255,0.5);
+      --color-gold:         #C9A84C;
+      --color-gold-light:   #E8C46A;
+      --color-gold-dim:     rgba(201,168,76,0.15);
+      --color-gold-border:  rgba(201,168,76,0.4);
+      --color-purple:       #7C3AED;
+      --color-purple-dim:   rgba(124,58,237,0.15);
+
+      --glass-bg:           rgba(255,255,255,0.05);
+      --glass-bg-hover:     rgba(255,255,255,0.08);
+      --glass-border:       rgba(255,255,255,0.1);
+      --glass-blur:         blur(20px);
+      --glass-glow:         0 0 40px rgba(201,168,76,0.15);
+      --glass-glow-hover:   0 0 60px rgba(201,168,76,0.25), 0 8px 32px rgba(0,0,0,0.4);
+
+      --font-display:       'Bodoni Moda', 'Georgia', serif;
+      --font-body:          'Jost', system-ui, sans-serif;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      background-image: var(--color-bg-gradient);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       BACKGROUND ORBS
+       ======================================== */
+    .orb {
+      position: fixed;
+      z-index: -1;
+      border-radius: 50% !important;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(124,58,237,0.15);
+      top: 10%;
+      left: 5%;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: rgba(201,168,76,0.08);
+      top: 40%;
+      right: 10%;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(124,58,237,0.1);
+      bottom: 20%;
+      left: 30%;
+    }
+
+    /* ========================================
+       GLASS MIXIN (base)
+       ======================================== */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-glow);
+      transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+    }
+
+    .glass:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--color-gold-border);
+      box-shadow: var(--glass-glow-hover);
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: var(--space-6);
+      opacity: 0.85;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,7,18,0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--color-gold);
+      letter-spacing: 1px;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-5);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-text-muted);
+      transition: color 300ms ease;
+    }
+
+    .showcase-nav-links a:hover {
+      color: var(--color-gold);
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-stat {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(5rem, 18vw, 12rem);
+      line-height: 0.85;
+      letter-spacing: -4px;
+      color: var(--color-gold);
+      display: block;
+    }
+
+    .hero-text {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -2px;
+      color: var(--color-text);
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin-top: var(--space-6);
+      max-width: 400px;
+      line-height: 1.7;
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-6);
+    }
+
+    .hero-brand {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 22px;
+      color: var(--color-gold);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-3);
+    }
+
+    .type-panel {
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-3);
+    }
+
+    .type-hero {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3rem, 10vw, 5rem);
+      line-height: 0.85;
+      letter-spacing: -3px;
+      color: var(--color-text);
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: 0.9;
+      letter-spacing: -1px;
+      color: var(--color-text);
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -1.5px;
+      color: var(--color-text);
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      color: var(--color-text);
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: 0;
+      color: var(--color-text);
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--color-text);
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--color-text-muted);
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .type-mono {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: var(--color-gold-light);
+    }
+
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: var(--space-2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
+      transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #C9A84C, #E8C46A);
+      color: #0A0A14;
+      border-color: transparent;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #E8C46A, #F5D98A);
+      box-shadow: 0 6px 36px rgba(201,168,76,0.45);
+    }
+
+    .btn-secondary {
+      background: var(--glass-bg);
+      color: var(--color-text);
+      border-color: var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+
+    .btn-secondary:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--color-gold-border);
+      box-shadow: var(--glass-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-gold);
+      border-color: transparent;
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-thickness: 1px;
+    }
+
+    .btn-ghost:hover {
+      text-decoration-thickness: 2px;
+      color: var(--color-gold-light);
+    }
+
+    .btn-danger {
+      background: rgba(220,38,38,0.15);
+      color: #FCA5A5;
+      border-color: rgba(220,38,38,0.3);
+    }
+
+    .btn-danger:hover {
+      background: rgba(220,38,38,0.25);
+      border-color: rgba(220,38,38,0.6);
+      box-shadow: 0 0 30px rgba(220,38,38,0.2);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 14px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 11px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-glow);
+      padding: var(--space-5);
+      transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+    }
+
+    .card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--color-gold-border);
+      box-shadow: var(--glass-glow-hover);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: var(--space-2);
+      color: var(--color-text);
+    }
+
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .card-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      opacity: 0.7;
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--glass-bg);
+      color: var(--color-text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .badge-gold {
+      background: rgba(201,168,76,0.15);
+      color: var(--color-gold);
+      border-color: rgba(201,168,76,0.3);
+    }
+
+    .badge-purple {
+      background: rgba(124,58,237,0.15);
+      color: #A78BFA;
+      border-color: rgba(124,58,237,0.3);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--glass-border);
+    }
+
+    .badge-danger {
+      background: rgba(220,38,38,0.12);
+      color: #FCA5A5;
+      border-color: rgba(220,38,38,0.25);
+    }
+
+    /* ========================================
+       STAT BLOCKS
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-6) var(--space-4);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-glow);
+      transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+    }
+
+    .stat-block:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--color-gold-border);
+      box-shadow: var(--glass-glow-hover);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      line-height: 0.85;
+      letter-spacing: -2px;
+      color: var(--color-gold);
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-text-muted);
+      margin-top: var(--space-3);
+    }
+
+    /* ========================================
+       FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 var(--space-4);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--color-text);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      outline: none;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease;
+    }
+
+    .form-input::placeholder {
+      color: rgba(240,240,255,0.25);
+      font-weight: 300;
+    }
+
+    .form-input:focus {
+      background: var(--glass-bg-hover);
+      border-color: var(--color-gold-border);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.12), var(--glass-glow);
+    }
+
+    .form-input-error {
+      border-color: rgba(220,38,38,0.5);
+      box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
+    }
+
+    .form-error {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+      color: #FCA5A5;
+      margin-top: var(--space-1);
+    }
+
+    .form-helper {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3) var(--space-4);
+      resize: vertical;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      transition: border-color 300ms ease, box-shadow 300ms ease;
+    }
+
+    .swatch:hover {
+      border-color: var(--color-gold-border);
+      box-shadow: var(--glass-glow);
+    }
+
+    .swatch-color {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 50%;
+      filter: blur(16px);
+      border-radius: 50% !important;
+    }
+
+    .swatch-info {
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .swatch-name {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-text);
+    }
+
+    .swatch-hex {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 20px;
+      background: linear-gradient(90deg, var(--color-gold), rgba(201,168,76,0.3));
+    }
+
+    .spacing-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      min-width: 120px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-gold {
+      border: none;
+      border-top: 1px solid var(--color-gold-border);
+      margin: var(--space-5) 0;
+      box-shadow: 0 1px 12px rgba(201,168,76,0.2);
+    }
+
+    .divider-glass {
+      border: none;
+      border-top: 1px solid var(--glass-border);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin: var(--space-3) 0;
+    }
+
+    .divider-gradient {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+      margin: var(--space-5) 0;
+      opacity: 0.5;
+    }
+
+    /* ========================================
+       SECTION 10 — GLASS EFFECTS
+       ======================================== */
+    .glass-effects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .glass-effects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Ultra Blur */
+    .glass-ultra {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: var(--space-6) var(--space-5);
+      text-align: center;
+      transition: background 300ms ease, box-shadow 300ms ease;
+    }
+
+    .glass-ultra:hover {
+      background: rgba(255,255,255,0.07);
+      box-shadow: 0 0 80px rgba(124,58,237,0.15);
+    }
+
+    /* Glow Border */
+    .glass-glow-border {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(201,168,76,0.25);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -1px 0 rgba(201,168,76,0.15),
+        0 0 40px rgba(201,168,76,0.12),
+        0 0 80px rgba(201,168,76,0.06);
+      padding: var(--space-6) var(--space-5);
+      text-align: center;
+      transition: box-shadow 300ms ease;
+    }
+
+    .glass-glow-border:hover {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -1px 0 rgba(201,168,76,0.25),
+        0 0 60px rgba(201,168,76,0.2),
+        0 0 120px rgba(201,168,76,0.1);
+    }
+
+    /* Gold Shimmer */
+    .glass-gold-shimmer {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: var(--space-6) var(--space-5);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 300ms ease;
+    }
+
+    .glass-gold-shimmer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(201,168,76,0.08) 50%,
+        rgba(232,196,106,0.12) 55%,
+        rgba(201,168,76,0.08) 60%,
+        transparent 70%
+      );
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { left: -100%; }
+      50%  { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    .glass-gold-shimmer:hover {
+      border-color: rgba(201,168,76,0.4);
+    }
+
+    .glass-effect-label {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: var(--space-2);
+    }
+
+    .glass-effect-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .glass-effect-tag {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    /* ========================================
+       INLINE UTILS
+       ======================================== */
+    .gold { color: var(--color-gold); }
+    .muted { color: var(--color-text-muted); }
+    .mb-sm { margin-bottom: var(--space-3); }
+    .mb-md { margin-bottom: var(--space-5); }
+  </style>
+</head>
+<body>
+
+  <!-- Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">Liquid Glass</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#colors">Cores</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#glass-effects">Vidro</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         HERO
+         ======================================== -->
+    <section class="hero" id="hero">
+      <p class="hero-eyebrow">Liquid Glass &mdash; Design System v4</p>
+      <div class="hero-text">
+        <span class="hero-stat">70%</span>
+        <span>dos</span>
+        <span>novos</span>
+        <span>seguidores</span>
+        <span>não</span>
+        <span>engajam</span>
+      </div>
+      <div class="hero-footer">
+        <p class="hero-subtext">Chega de ignorar seus seguidores. Dark luxury, glass precision.</p>
+        <span class="hero-brand">BoldImpact</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 01 — TIPOGRAFIA
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">01 — Tipografia</p>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-hero">Hero Text</div>
+        <p class="type-meta">Bodoni Moda 700 / 5rem / line-height: 0.85 / letter-spacing: -3px</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-display">Display Italic</div>
+        <p class="type-meta">Bodoni Moda Italic / 3.5rem / line-height: 0.9 / letter-spacing: -1px</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-h1">Heading Level One</div>
+        <p class="type-meta">Bodoni Moda 700 / 2.5rem / line-height: 1.0</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-h2">Heading Level Two</div>
+        <p class="type-meta">Bodoni Moda 700 / 2rem / line-height: 1.05</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-h3">Heading Level Three</div>
+        <p class="type-meta">Bodoni Moda 400 / 1.5rem / line-height: 1.15</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-body">Body text — clean, readable, refined. The body text in Jost 300 flows effortlessly beneath bold Bodoni Moda headlines. Lightweight, open, and deeply legible even on glass panels at low contrast.</div>
+        <p class="type-meta">Jost 300 / 1.125rem / line-height: 1.7</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-caption">Caption text for secondary information and metadata</div>
+        <p class="type-meta">Jost 400 / 0.875rem / color: text-muted</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-label">Label Text Uppercase</div>
+        <p class="type-meta">Jost 600 / 0.75rem / letter-spacing: 3px / uppercase</p>
+      </div>
+
+      <div class="glass type-panel type-sample">
+        <div class="type-mono">const glass = { blur: "20px", opacity: 0.05 };</div>
+        <p class="type-meta">Courier New / 0.875rem / color: gold-light</p>
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         SECTION 02 — CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">02 — Cores</p>
+
+      <div class="swatch-grid">
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: #070712;">
+            <div class="swatch-glow" style="background: rgba(124,58,237,0.4);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background</div>
+            <div class="swatch-hex">#070712</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="swatch-glow" style="background: rgba(255,255,255,0.15);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Glass Panel</div>
+            <div class="swatch-hex">rgba(255,255,255,0.05)</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F0F0FF;">
+            <div class="swatch-glow" style="background: rgba(240,240,255,0.6);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Primary Text</div>
+            <div class="swatch-hex">#F0F0FF</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: #C9A84C;">
+            <div class="swatch-glow" style="background: rgba(201,168,76,0.8);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Gold Accent</div>
+            <div class="swatch-hex">#C9A84C</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E8C46A;">
+            <div class="swatch-glow" style="background: rgba(232,196,106,0.8);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Gold Light</div>
+            <div class="swatch-hex">#E8C46A</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: #7C3AED;">
+            <div class="swatch-glow" style="background: rgba(124,58,237,0.8);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Purple Accent</div>
+            <div class="swatch-hex">#7C3AED</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: rgba(240,240,255,0.5);">
+            <div class="swatch-glow" style="background: rgba(240,240,255,0.3);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted Text</div>
+            <div class="swatch-hex">rgba(240,240,255,0.5)</div>
+          </div>
+        </div>
+
+        <div class="swatch">
+          <div class="swatch-color" style="background: rgba(255,255,255,0.1);">
+            <div class="swatch-glow" style="background: rgba(255,255,255,0.2);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Glass Border</div>
+            <div class="swatch-hex">rgba(255,255,255,0.1)</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 03 — ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">03 — Espacamento</p>
+
+      <div class="glass" style="padding: var(--space-5);">
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-1: 4px</span>
+          <div class="spacing-bar" style="width: 4px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-2: 8px</span>
+          <div class="spacing-bar" style="width: 8px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-3: 16px</span>
+          <div class="spacing-bar" style="width: 16px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-4: 24px</span>
+          <div class="spacing-bar" style="width: 24px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-5: 32px</span>
+          <div class="spacing-bar" style="width: 32px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-6: 48px</span>
+          <div class="spacing-bar" style="width: 48px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-7: 64px</span>
+          <div class="spacing-bar" style="width: 64px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-8: 96px</span>
+          <div class="spacing-bar" style="width: 96px;"></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">--space-9: 128px</span>
+          <div class="spacing-bar" style="width: 128px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04 — BOTOES
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">04 — Botoes</p>
+
+      <div class="glass" style="padding: var(--space-5); margin-bottom: var(--space-5);">
+        <p class="type-label gold mb-sm">Tamanhos</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div class="glass" style="padding: var(--space-5);">
+        <p class="type-label gold mb-sm">Variantes</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY</button>
+          <button class="btn btn-secondary">SECONDARY</button>
+          <button class="btn btn-ghost">GHOST LINK</button>
+          <button class="btn btn-danger">DANGER</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05 — CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">05 — Cards</p>
+
+      <div class="grid-3">
+
+        <div class="card">
+          <span class="badge badge-gold" style="margin-bottom: var(--space-3); display: inline-block;">NOVO</span>
+          <div class="card-title">Engajamento</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos da sua comunidade.</div>
+          <div class="card-meta">Marketing &bull; 2024</div>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-purple" style="margin-bottom: var(--space-3); display: inline-block;">BETA</span>
+          <div class="card-title">Automacao</div>
+          <div class="card-body">Respostas automaticas que parecem humanas. Escale sem perder autenticidade.</div>
+          <div class="card-meta">Produto &bull; 2024</div>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-danger" style="margin-bottom: var(--space-3); display: inline-block;">URGENTE</span>
+          <div class="card-title">Conversao</div>
+          <div class="card-body">De seguidor a cliente em 3 passos. Funil otimizado por dados reais.</div>
+          <div class="card-meta">Growth &bull; 2024</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06 — STATS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">06 — Stats / KPIs</p>
+
+      <div class="grid-4">
+        <div class="stat-block">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">Nao Engajam</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">Mais Conversao</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">Tempo Medio</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Satisfacao</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07 — BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">07 — Badges</p>
+
+      <div class="glass" style="padding: var(--space-5);">
+        <div class="btn-group">
+          <span class="badge">DEFAULT</span>
+          <span class="badge badge-gold">GOLD</span>
+          <span class="badge badge-purple">PURPLE</span>
+          <span class="badge badge-outline">OUTLINE</span>
+          <span class="badge badge-danger">DANGER</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08 — FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">08 — Formularios</p>
+
+      <div class="glass" style="padding: var(--space-6); max-width: 560px;">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Nome</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">Nunca compartilharemos seu email.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">Email (com erro)</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">Mensagem</label>
+          <textarea class="form-input" id="message" placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">ENVIAR</button>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09 — DIVISORES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">09 — Divisores</p>
+
+      <div class="glass" style="padding: var(--space-5);">
+
+        <p class="type-label muted mb-sm">Gold (1px + glow)</p>
+        <hr class="divider-gold">
+
+        <p class="type-label muted mb-sm">Glass (1px rgba)</p>
+        <hr class="divider-glass">
+
+        <p class="type-label muted mb-sm">Subtle (1px deep)</p>
+        <hr class="divider-subtle">
+
+        <p class="type-label muted mb-sm">Gradient (center fade)</p>
+        <hr class="divider-gradient">
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 10 — EFEITOS DE VIDRO
+         ======================================== -->
+    <section class="section" id="glass-effects">
+      <p class="section-label">10 — Efeitos de Vidro</p>
+
+      <div class="glass-effects-grid">
+
+        <!-- Ultra Blur -->
+        <div class="glass-ultra">
+          <div class="glass-effect-label">Ultra Blur</div>
+          <div class="glass-effect-desc">
+            Máxima opacidade do desfoque — backdrop-filter: blur(40px). Ideal para modais e overlays críticos onde o contexto de fundo precisa desaparecer quase completamente.
+          </div>
+          <div class="glass-effect-tag">blur: 40px &bull; opacity: 0.04</div>
+        </div>
+
+        <!-- Glow Border -->
+        <div class="glass-glow-border">
+          <div class="glass-effect-label">Glow Border</div>
+          <div class="glass-effect-desc">
+            Borda interna com brilho dourado emanando de dentro para fora. Camadas de box-shadow criam profundidade luminosa sem overload visual.
+          </div>
+          <div class="glass-effect-tag">inset glow &bull; outer glow</div>
+        </div>
+
+        <!-- Gold Shimmer -->
+        <div class="glass-gold-shimmer">
+          <div class="glass-effect-label">Gold Shimmer</div>
+          <div class="glass-effect-desc">
+            Gradiente gold em movimento via CSS animation. Reflexo sutil que atravessa o painel de forma contínua — premium sem ser distrator.
+          </div>
+          <div class="glass-effect-tag">css animation &bull; 4s loop</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer style="padding: var(--space-7) 0;">
+      <div style="border-top: 1px solid var(--color-gold-border); padding-top: var(--space-6); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3);">
+        <div>
+          <div style="font-family: var(--font-display); font-style: italic; font-size: 1.6rem; color: var(--color-gold); margin-bottom: var(--space-1);">v4.0 — Liquid Glass</div>
+          <p style="font-family: var(--font-body); font-size: 13px; font-weight: 300; color: var(--color-text-muted);">Design System &mdash; Dark Luxury Glassmorphism</p>
+        </div>
+        <div style="font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--color-text-muted);">Bodoni Moda &bull; Jost</div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
