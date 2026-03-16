@@ -296,6 +296,213 @@
       background: repeating-linear-gradient(90deg, #FF6EC7 0, #FF6EC7 10px, #BF5FFF 10px, #BF5FFF 20px, #00FFFF 20px, #00FFFF 30px);
     }
 
+    /* V8: Bauhaus */
+    .t8 { background: #F2F0EB; }
+    .t8::after { content:''; position:absolute; top:0; left:0; right:0; height:5px; background:#1C1C1C; }
+    .t8 .bh-shapes { position:absolute; top:20px; left:14px; display:flex; gap:10px; align-items:center; }
+    .t8 .bh-sq  { width:40px; height:40px; background:#D42B2B; border:2px solid #1C1C1C; }
+    .t8 .bh-tr  { width:0; height:0; border-left:22px solid transparent; border-right:22px solid transparent; border-bottom:38px solid #F5C800; }
+    .t8 .bh-ci  { width:40px; height:40px; background:#1B3A8C; border-radius:50% !important; }
+    .t8 .bh-bars { position:absolute; bottom:18px; left:14px; right:14px; display:flex; flex-direction:column; gap:6px; }
+    .t8 .bh-b  { height:8px; background:#1C1C1C; }
+    .t8 .bh-b1 { width:80%; }
+    .t8 .bh-b2 { width:55%; background:#D42B2B; }
+    .t8 .bh-b3 { width:70%; }
+
+    /* V9: Art Deco */
+    .t9 { background:#0C0B09; }
+    .t9::before { content:''; position:absolute; inset:12px; border:1px solid #C9A84C; pointer-events:none; z-index:1; }
+    .t9::after  { content:''; position:absolute; inset:16px; border:1px solid rgba(201,168,76,.3); pointer-events:none; z-index:1; }
+    .t9 .ad-sun {
+      position:absolute; top:50%; left:50%; width:160%; height:160%;
+      transform:translate(-50%,-50%);
+      background: repeating-conic-gradient(from 0deg, rgba(201,168,76,.06) 0deg 5deg, transparent 5deg 10deg);
+    }
+    .t9 .ad-title { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:2; }
+    .t9 .ad-t1 { font-size:11px; letter-spacing:6px; text-transform:uppercase; color:#C9A84C; font-weight:600; white-space:nowrap; }
+    .t9 .ad-t2 { font-size:8px; letter-spacing:3px; text-transform:uppercase; color:rgba(201,168,76,.5); margin-top:6px; white-space:nowrap; }
+    .t9 .ad-line { width:60px; height:1px; background:#C9A84C; margin:6px auto; }
+    .t9 .ad-diamond { width:8px; height:8px; background:#C9A84C; transform:rotate(45deg); margin:0 auto; }
+
+    /* V10: Constructivism */
+    .t10 { background:#F0EDE6; overflow:hidden; }
+    .t10 .cv-bar {
+      position:absolute; background:#CC1B1B;
+      width:200%; height:12px;
+      top:50%; left:-50%;
+      transform:rotate(-12deg) translateY(-50%);
+    }
+    .t10 .cv-bar2 {
+      position:absolute; background:#1A1209;
+      width:200%; height:5px;
+      top:35%; left:-50%;
+      transform:rotate(-12deg) translateY(-50%);
+    }
+    .t10 .cv-text { position:absolute; top:14px; left:14px; }
+    .t10 .cv-t1 { font-size:14px; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:#1A1209; line-height:1; }
+    .t10 .cv-t2 { font-size:9px; font-weight:700; letter-spacing:2px; color:#CC1B1B; margin-top:3px; }
+    .t10 .cv-blocks { position:absolute; bottom:14px; right:14px; display:flex; gap:4px; }
+    .t10 .cv-bl { width:18px; }
+    .t10 .cvb1 { height:40px; background:#CC1B1B; }
+    .t10 .cvb2 { height:28px; background:#1A1209; }
+    .t10 .cvb3 { height:50px; background:#CC1B1B; opacity:.4; }
+
+    /* V11: Memphis */
+    .t11 {
+      background:#FAFAF5;
+      background-image: radial-gradient(circle, rgba(255,107,157,.25) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+    .t11 .mm-blocks { position:absolute; top:12px; left:12px; right:12px; display:flex; gap:5px; }
+    .t11 .mm-b { height:48px; flex:1; }
+    .t11 .mmb1 { background:#FF6B9D; }
+    .t11 .mmb2 { background:#FFE135; }
+    .t11 .mmb3 { background:#00C5C8; }
+    .t11 .mmb4 { background:#FF6B2B; }
+    .t11 .mmb5 { background:#6B35A8; }
+    .t11 .mm-stripe {
+      position:absolute; bottom:0; left:0; right:0; height:36px;
+      background: repeating-linear-gradient(45deg, #FF6B9D 0, #FF6B9D 6px, #FFE135 6px, #FFE135 12px, #00C5C8 12px, #00C5C8 18px, #FF6B2B 18px, #FF6B2B 24px);
+      opacity:.6;
+    }
+    .t11 .mm-label { position:absolute; bottom:42px; left:14px; font-size:9px; font-weight:800; letter-spacing:2px; color:#1A1A1A; text-transform:uppercase; }
+
+    /* V12: De Stijl / Mondrian */
+    .t12 {
+      background:#F5F5F0;
+      display:grid;
+      grid-template-columns: 3fr 5px 1fr 5px 2fr;
+      grid-template-rows: 2fr 5px 1.5fr 5px 1fr;
+      gap:0;
+      padding:0;
+    }
+    .t12 .mc { background:#F5F5F0; }
+    .t12 .mg { background:#0A0A0A; }
+    .t12 .mr { background:#D62B2B; }
+    .t12 .mb { background:#1E3A8A; }
+    .t12 .my { background:#F5C800; }
+    .t12 .mw { background:#F5F5F0; }
+
+    /* V13: Magnetic Field */
+    .t13 { background: #0D0D1A; }
+    .t13 .mg-dots { position:absolute; inset:0; }
+    .t13 .mg-dots span {
+      position:absolute; width:3px; height:3px;
+      background:#6C3BFF; border-radius:50%;
+      box-shadow:0 0 4px #6C3BFF;
+    }
+    .t13 .d1  { top:20%; left:15%; }
+    .t13 .d2  { top:28%; left:32%; width:4px; height:4px; }
+    .t13 .d3  { top:18%; left:50%; }
+    .t13 .d4  { top:35%; left:65%; width:5px; height:5px; box-shadow:0 0 8px #B794F4; background:#B794F4; }
+    .t13 .d5  { top:22%; left:78%; }
+    .t13 .d6  { top:45%; left:20%; width:4px; height:4px; }
+    .t13 .d7  { top:50%; left:40%; width:6px; height:6px; background:#FF3BFF; box-shadow:0 0 10px #FF3BFF; }
+    .t13 .d8  { top:48%; left:60%; }
+    .t13 .d9  { top:42%; left:80%; width:4px; height:4px; }
+    .t13 .d10 { top:65%; left:12%; }
+    .t13 .d11 { top:70%; left:28%; width:5px; height:5px; }
+    .t13 .d12 { top:62%; left:50%; }
+    .t13 .d13 { top:68%; left:68%; width:4px; height:4px; background:#B794F4; box-shadow:0 0 6px #B794F4; }
+    .t13 .d14 { top:73%; left:82%; }
+    .t13 .d15 { top:80%; left:35%; width:3px; height:3px; }
+    .t13 .d16 { top:82%; left:55%; }
+    /* repulsion zone — cluster pushed outward */
+    .t13 .d17 { top:43%; left:44%; width:2px; height:2px; opacity:.4; }
+    .t13 .d18 { top:52%; left:54%; width:2px; height:2px; opacity:.4; }
+    .t13 .mg-ring {
+      position:absolute; top:50%; left:50%;
+      width:60px; height:60px;
+      border:1px solid rgba(108,59,255,.3);
+      border-radius:50%; transform:translate(-50%,-50%);
+    }
+    .t13 .mg-ring2 {
+      position:absolute; top:50%; left:50%;
+      width:100px; height:100px;
+      border:1px solid rgba(108,59,255,.12);
+      border-radius:50%; transform:translate(-50%,-50%);
+    }
+
+    /* V14: Depth Field */
+    .t14 { background: radial-gradient(ellipse at 50% 40%, #1C1C2E 0%, #0A0A0F 100%); }
+    .t14 .lay { position:absolute; border:1px solid rgba(200,169,110,.15); }
+    .t14 .l1 { inset:30px; opacity:.8; }
+    .t14 .l2 { inset:20px; opacity:.5; }
+    .t14 .l3 { inset:10px; opacity:.25; }
+    .t14 .gold-line { position:absolute; top:50%; left:20px; right:20px; height:1px; background:linear-gradient(90deg,transparent,#C8A96E,transparent); }
+    .t14 .fp { position:absolute; background:rgba(200,169,110,.08); border:1px solid rgba(200,169,110,.2); }
+    .t14 .fp1 { width:50%; height:26px; top:30%; left:25%; }
+    .t14 .fp2 { width:35%; height:18px; top:45%; left:10%; opacity:.6; }
+    .t14 .fp3 { width:30%; height:16px; top:55%; right:10%; opacity:.4; }
+    .t14 .dot3d { position:absolute; width:6px; height:6px; border-radius:50%; background:#C8A96E; box-shadow:0 0 8px #C8A96E; top:50%; left:50%; transform:translate(-50%,-50%); }
+
+    /* V15: Kinetic Type */
+    .t15 { background: #F5F0E8; }
+    .t15::before {
+      content:'KINETIC';
+      position:absolute; bottom:10px; left:10px;
+      font-family:'Inter',sans-serif; font-weight:900;
+      font-size:2.4rem; color:#1A1A1A; line-height:1;
+      letter-spacing:-.08em;
+    }
+    .t15 .kt-bar { position:absolute; top:0; left:0; right:0; height:6px; background:#D4380D; }
+    .t15 .kt-line { position:absolute; height:3px; background:#1A1A1A; }
+    .t15 .kl1 { top:18px; left:12px; width:70%; }
+    .t15 .kl2 { top:28px; left:12px; width:45%; background:#D4380D; }
+    .t15 .kt-letters { position:absolute; top:42px; left:12px; display:flex; gap:3px; }
+    .t15 .lt { width:14px; height:20px; background:#1A1A1A; }
+    .t15 .lt2 { width:10px; height:15px; background:#1A1A1A; opacity:.6; }
+    .t15 .lt3 { width:12px; height:25px; background:#D4380D; }
+    .t15 .lt4 { width:8px; height:12px; background:#1A1A1A; opacity:.4; }
+
+    /* V16: Bento World */
+    .t16 {
+      background: #FAFAFA;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 1.5fr 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+    }
+    .t16 .bc { border-radius:3px; }
+    .t16 .b-hero { background:#18181B; grid-row:1/2; grid-column:1/2; }
+    .t16 .b-blue { background:#3B82F6; grid-row:1/2; grid-column:2/3; }
+    .t16 .b-vio  { background:#8B5CF6; grid-row:1/3; grid-column:3/4; }
+    .t16 .b-em   { background:#10B981; grid-row:2/3; grid-column:1/2; }
+    .t16 .b-amb  { background:#F59E0B; grid-row:2/3; grid-column:2/3; }
+    .t16 .b-red  { background:#EF4444; grid-row:3/4; grid-column:1/2; }
+    .t16 .b-lt   { background:#E4E4E7; grid-row:3/4; grid-column:2/3; }
+    .t16 .b-dk   { background:#3F3F46; grid-row:3/4; grid-column:3/4; }
+
+    /* V17: Liquid Chrome */
+    .t17 { background:#050508; overflow:hidden; }
+    .t17 .blob {
+      position:absolute; width:140px; height:120px;
+      background:radial-gradient(ellipse at 40% 40%, rgba(0,212,255,.6) 0%, rgba(138,43,226,.5) 45%, rgba(255,0,128,.3) 80%, transparent 100%);
+      border-radius:60% 40% 70% 30% / 50% 60% 40% 50%;
+      top:50%; left:50%; transform:translate(-50%,-55%);
+      filter:blur(8px);
+    }
+    .t17 .blob2 {
+      position:absolute; width:80px; height:80px;
+      background:radial-gradient(ellipse at 60% 60%, rgba(255,0,128,.4) 0%, rgba(138,43,226,.2) 60%, transparent 100%);
+      border-radius:40% 60% 30% 70% / 60% 40% 70% 30%;
+      top:25%; left:20%;
+      filter:blur(12px); opacity:.7;
+    }
+    .t17 .chrome-text {
+      position:absolute; bottom:14px; left:12px;
+      font-family:'Inter',sans-serif; font-weight:900;
+      font-size:1rem; letter-spacing:.05em;
+      background:linear-gradient(90deg,#00D4FF,#8A2BE2,#FF0080);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .t17 .trail { position:absolute; border-radius:50%; }
+    .t17 .tr1 { width:6px; height:6px; background:#00D4FF; opacity:.8; top:40%; left:48%; box-shadow:0 0 6px #00D4FF; }
+    .t17 .tr2 { width:4px; height:4px; background:#8A2BE2; opacity:.6; top:45%; left:55%; box-shadow:0 0 4px #8A2BE2; }
+    .t17 .tr3 { width:3px; height:3px; background:#FF0080; opacity:.5; top:50%; left:44%; box-shadow:0 0 4px #FF0080; }
+
     @media (max-width: 900px) {
       .grid { grid-template-columns: repeat(2, 1fr); padding: 24px; gap: 2px; }
       header { padding: 28px 24px 0; }
@@ -310,7 +517,7 @@
 
   <header>
     <span class="title">Identidade Visual — Design System</span>
-    <span class="subtitle">7 variações &nbsp;·&nbsp; Clique para explorar</span>
+    <span class="subtitle">17 variações &nbsp;·&nbsp; Clique para explorar</span>
   </header>
 
   <div class="grid">
@@ -464,7 +671,222 @@
       </div>
     </a>
 
-  </div>
+    <!-- V8 -->
+    <a class="card" href="showcase_v8.html" target="_blank">
+      <div class="thumb t8">
+        <div class="bh-shapes">
+          <div class="bh-sq"></div>
+          <div class="bh-tr"></div>
+          <div class="bh-ci"></div>
+        </div>
+        <div class="bh-bars">
+          <div class="bh-b bh-b1"></div>
+          <div class="bh-b bh-b2"></div>
+          <div class="bh-b bh-b3"></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Bauhaus</div>
+          <div class="card-ver">v8 — 1919, Forma &amp; Função</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V9 -->
+    <a class="card" href="showcase_v9.html" target="_blank">
+      <div class="thumb t9">
+        <div class="ad-sun"></div>
+        <div class="ad-title">
+          <div class="ad-line"></div>
+          <div class="ad-t1">Art Déco</div>
+          <div class="ad-diamond"></div>
+          <div class="ad-t2">1920 — 1939</div>
+          <div class="ad-line"></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Art Déco</div>
+          <div class="card-ver">v9 — Ouro &amp; Geometria</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V10 -->
+    <a class="card" href="showcase_v10.html" target="_blank">
+      <div class="thumb t10">
+        <div class="cv-bar"></div>
+        <div class="cv-bar2"></div>
+        <div class="cv-text">
+          <div class="cv-t1">Construct</div>
+          <div class="cv-t2">◼ 1920s</div>
+        </div>
+        <div class="cv-blocks">
+          <div class="cv-bl cvb1"></div>
+          <div class="cv-bl cvb2"></div>
+          <div class="cv-bl cvb3"></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Construtivismo</div>
+          <div class="card-ver">v10 — Soviético, Diagonal</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V11 -->
+    <a class="card" href="showcase_v11.html" target="_blank">
+      <div class="thumb t11">
+        <div class="mm-blocks">
+          <div class="mm-b mmb1"></div>
+          <div class="mm-b mmb2"></div>
+          <div class="mm-b mmb3"></div>
+          <div class="mm-b mmb4"></div>
+          <div class="mm-b mmb5"></div>
+        </div>
+        <div class="mm-label">Memphis Design</div>
+        <div class="mm-stripe"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Memphis Design</div>
+          <div class="card-ver">v11 — 1981, Pós-moderno</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V12 -->
+    <a class="card" href="showcase_v12.html" target="_blank">
+      <div class="thumb t12">
+        <div class="mc mr"></div><div class="mg"></div><div class="mc mw"></div><div class="mg"></div><div class="mc mb"></div>
+        <div class="mg" style="grid-column:1/-1"></div>
+        <div class="mc mw"></div><div class="mg"></div><div class="mc my"></div><div class="mg"></div><div class="mc mw"></div>
+        <div class="mg" style="grid-column:1/-1"></div>
+        <div class="mc mb"></div><div class="mg"></div><div class="mc mw"></div><div class="mg"></div><div class="mc mr"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">De Stijl</div>
+          <div class="card-ver">v12 — Mondrian, Grade Pura</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V13 -->
+    <a class="card" href="showcase_v13.html" target="_blank">
+      <div class="thumb t13">
+        <div class="mg-ring"></div>
+        <div class="mg-ring2"></div>
+        <div class="mg-dots">
+          <span class="d1"></span><span class="d2"></span><span class="d3"></span>
+          <span class="d4"></span><span class="d5"></span><span class="d6"></span>
+          <span class="d7"></span><span class="d8"></span><span class="d9"></span>
+          <span class="d10"></span><span class="d11"></span><span class="d12"></span>
+          <span class="d13"></span><span class="d14"></span><span class="d15"></span>
+          <span class="d16"></span><span class="d17"></span><span class="d18"></span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Magnetic Field</div>
+          <div class="card-ver">v13 — Partículas Interativas</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V14 -->
+    <a class="card" href="showcase_v14.html" target="_blank">
+      <div class="thumb t14">
+        <div class="lay l3"></div>
+        <div class="lay l2"></div>
+        <div class="lay l1"></div>
+        <div class="gold-line"></div>
+        <div class="fp fp1"></div>
+        <div class="fp fp2"></div>
+        <div class="fp fp3"></div>
+        <div class="dot3d"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Depth Field</div>
+          <div class="card-ver">v14 — 3D Parallax Tilt</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V15 -->
+    <a class="card" href="showcase_v15.html" target="_blank">
+      <div class="thumb t15">
+        <div class="kt-bar"></div>
+        <div class="kt-line kl1"></div>
+        <div class="kt-line kl2"></div>
+        <div class="kt-letters">
+          <div class="lt"></div>
+          <div class="lt lt2"></div>
+          <div class="lt lt3"></div>
+          <div class="lt lt4"></div>
+          <div class="lt"></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Kinetic Type</div>
+          <div class="card-ver">v15 — Tipografia em Movimento</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V16 -->
+    <a class="card" href="showcase_v16.html" target="_blank">
+      <div class="thumb t16">
+        <div class="bc b-hero"></div>
+        <div class="bc b-blue"></div>
+        <div class="bc b-vio"></div>
+        <div class="bc b-em"></div>
+        <div class="bc b-amb"></div>
+        <div class="bc b-red"></div>
+        <div class="bc b-lt"></div>
+        <div class="bc b-dk"></div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Bento World</div>
+          <div class="card-ver">v16 — Grid Premium</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+    <!-- V17 -->
+    <a class="card" href="showcase_v17.html" target="_blank">
+      <div class="thumb t17">
+        <div class="blob2"></div>
+        <div class="blob"></div>
+        <span class="tr1 trail"></span>
+        <span class="tr2 trail"></span>
+        <span class="tr3 trail"></span>
+        <div class="chrome-text">LIQUID</div>
+      </div>
+      <div class="card-foot">
+        <div>
+          <div class="card-name">Liquid Chrome</div>
+          <div class="card-ver">v17 — Blob Iridescente</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+
+  </div><!-- /grid -->
 
   <footer>Bold Impact Design System Archive &nbsp;·&nbsp; 2024</footer>
 

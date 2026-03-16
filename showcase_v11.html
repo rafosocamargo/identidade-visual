@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMPHIS DESIGN — Design System Showcase v11</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700;800;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       MEMPHIS DESIGN — Design System Tokens
+       Ettore Sottsass, Milan, 1981
+       ======================================== */
+    :root {
+      --bg: #FAFAF5;
+      --fg: #1A1A1A;
+      --pink: #FF6B9D;
+      --yellow: #FFE135;
+      --teal: #00C5C8;
+      --orange: #FF6B2B;
+      --purple: #6B35A8;
+      --lime: #8BC34A;
+      --black: #1A1A1A;
+
+      --font-display: 'Raleway', sans-serif;
+      --font-body: 'Raleway', sans-serif;
+      --font-mono: 'Courier Prime', monospace;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    * {
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 400;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 5px solid var(--black);
+      position: relative;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-6);
+    }
+
+    /* Section label colors — Memphis postmodern chaos */
+    .section:nth-child(1) .section-label { color: var(--pink); }
+    .section:nth-child(2) .section-label { color: var(--teal); }
+    .section:nth-child(3) .section-label { color: var(--orange); }
+    .section:nth-child(4) .section-label { color: var(--purple); }
+    .section:nth-child(5) .section-label { color: var(--pink); }
+    .section:nth-child(6) .section-label { color: var(--lime); }
+    .section:nth-child(7) .section-label { color: var(--teal); }
+    .section:nth-child(8) .section-label { color: var(--orange); }
+    .section:nth-child(9) .section-label { color: var(--purple); }
+    .section:nth-child(10) .section-label { color: var(--pink); }
+    .section:nth-child(11) .section-label { color: var(--yellow); }
+
+    /* Section pattern backgrounds */
+    .section:nth-child(1) {
+      background-image: radial-gradient(circle, rgba(255,107,157,.12) 2px, transparent 2px);
+      background-size: 16px 16px;
+    }
+    .section:nth-child(2) {
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,197,200,.06) 8px, rgba(0,197,200,.06) 10px);
+    }
+    .section:nth-child(3) {
+      background-image: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255,107,43,.06) 8px, rgba(255,107,43,.06) 10px);
+    }
+    .section:nth-child(4) {
+      background-image: radial-gradient(circle, rgba(107,53,168,.1) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
+    }
+    .section:nth-child(5) {
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(255,107,157,.07) 10px, rgba(255,107,157,.07) 12px);
+    }
+    .section:nth-child(6) {
+      background-image: radial-gradient(circle, rgba(139,195,74,.12) 2px, transparent 2px);
+      background-size: 18px 18px;
+    }
+    .section:nth-child(7) {
+      background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,197,200,.06) 10px, rgba(0,197,200,.06) 12px);
+    }
+    .section:nth-child(8) {
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,225,53,.1) 6px, rgba(255,225,53,.1) 8px);
+    }
+    .section:nth-child(9) {
+      background-image: radial-gradient(circle, rgba(255,107,43,.1) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+    .section:nth-child(10) {
+      background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(107,53,168,.07) 6px, rgba(107,53,168,.07) 8px);
+    }
+    .section:nth-child(11) {
+      background-image: radial-gradient(circle, rgba(255,107,157,.15) 2px, transparent 2px),
+                        radial-gradient(circle, rgba(0,197,200,.1) 1.5px, transparent 1.5px);
+      background-size: 20px 20px, 10px 10px;
+      background-position: 0 0, 5px 5px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       SHOWCASE HEADER — NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 5px solid var(--black);
+      background-color: var(--yellow);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--black);
+      border-bottom: 2px solid transparent;
+    }
+
+    .showcase-nav-links a:hover {
+      border-bottom: 2px solid var(--pink);
+      color: var(--purple);
+    }
+
+    /* ========================================
+       HERO — MEMPHIS STYLE
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Memphis geometric floating shapes behind hero text */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 8%;
+      right: 6%;
+      width: 140px;
+      height: 140px;
+      background: var(--yellow);
+      border: 4px solid var(--black);
+      z-index: 0;
+      transform: rotate(12deg);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 15%;
+      right: 12%;
+      width: 80px;
+      height: 80px;
+      background: var(--teal);
+      border: 4px solid var(--black);
+      z-index: 0;
+      transform: rotate(-8deg);
+    }
+
+    .hero-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-shape-1 {
+      position: absolute;
+      top: 20%;
+      right: 18%;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 86px solid var(--pink);
+    }
+
+    .hero-shape-2 {
+      position: absolute;
+      bottom: 25%;
+      left: 5%;
+      width: 60px;
+      height: 60px;
+      background: var(--orange);
+      border: 3px solid var(--black);
+      transform: rotate(30deg);
+    }
+
+    .hero-shape-3 {
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      width: 90px;
+      height: 30px;
+      background: var(--lime);
+      border: 3px solid var(--black);
+      transform: rotate(-15deg);
+    }
+
+    .hero-shape-4 {
+      position: absolute;
+      bottom: 10%;
+      right: 5%;
+      width: 50px;
+      height: 50px;
+      background: var(--purple);
+      border: 3px solid var(--black);
+      transform: rotate(45deg);
+    }
+
+    .hero-shape-5 {
+      position: absolute;
+      top: 35%;
+      right: 3%;
+      width: 110px;
+      height: 110px;
+      border: 6px solid var(--orange);
+      background: transparent;
+    }
+
+    .hero-shape-6 {
+      position: absolute;
+      top: 55%;
+      left: 3%;
+      width: 0;
+      height: 0;
+      border-left: 35px solid transparent;
+      border-right: 35px solid transparent;
+      border-top: 60px solid var(--teal);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-text {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .hero-text .line-pink { color: var(--pink); }
+    .hero-text .line-teal { color: var(--teal); }
+    .hero-text .line-orange { color: var(--orange); }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-subtext {
+      font-family: var(--font-mono);
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--fg);
+      margin-top: var(--space-6);
+      max-width: 420px;
+      border-left: 5px solid var(--pink);
+      padding-left: var(--space-3);
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-6);
+    }
+
+    .hero-brand {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      background: var(--yellow);
+      border: 3px solid var(--black);
+      padding: 8px 16px;
+      color: var(--black);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-hero {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      line-height: 0.85;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: 0.9;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--fg);
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: #555;
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--lime);
+    }
+
+    .type-mono {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--purple);
+    }
+
+    .type-sample {
+      margin-bottom: var(--space-5);
+    }
+
+    .type-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #888;
+      margin-top: var(--space-1);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    /* ========================================
+       BUTTONS — Memphis: each one a different color
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 3px solid var(--black);
+      outline: none;
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--pink);
+      outline-offset: 3px;
+    }
+
+    /* Primary: Hot Pink */
+    .btn-primary {
+      background: var(--pink);
+      color: #fff;
+      border-color: var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .btn-primary:hover {
+      background: var(--black);
+      color: var(--pink);
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    /* Secondary: Teal */
+    .btn-secondary {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .btn-secondary:hover {
+      background: var(--black);
+      color: var(--teal);
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    /* Ghost: Orange outline */
+    .btn-ghost {
+      background: transparent;
+      color: var(--orange);
+      border: 3px solid var(--orange);
+      box-shadow: 4px 4px 0 var(--orange);
+    }
+
+    .btn-ghost:hover {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    /* Danger: Purple */
+    .btn-danger {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .btn-danger:hover {
+      background: var(--black);
+      color: var(--purple);
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    /* Lime accent button */
+    .btn-lime {
+      background: var(--lime);
+      color: var(--black);
+      border-color: var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .btn-lime:hover {
+      background: var(--black);
+      color: var(--lime);
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    .btn-large {
+      min-height: 60px;
+      padding: 18px 48px;
+      font-size: 15px;
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      box-shadow: 3px 3px 0 var(--black);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS — different colored top border each
+       ======================================== */
+    .card {
+      border: 3px solid var(--black);
+      padding: var(--space-4);
+      background: var(--bg);
+      position: relative;
+    }
+
+    .card-pink {
+      border-top: 8px solid var(--pink);
+      background-image: radial-gradient(circle, rgba(255,107,157,.06) 2px, transparent 2px);
+      background-size: 14px 14px;
+    }
+
+    .card-teal {
+      border-top: 8px solid var(--teal);
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,197,200,.06) 6px, rgba(0,197,200,.06) 8px);
+    }
+
+    .card-orange {
+      border-top: 8px solid var(--orange);
+      background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,107,43,.06) 6px, rgba(255,107,43,.06) 8px);
+    }
+
+    .card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: var(--space-2);
+      color: var(--black);
+    }
+
+    .card-body {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-3);
+      font-weight: 400;
+    }
+
+    .card-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       BADGES — each color distinct
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 2px solid var(--black);
+    }
+
+    .badge-pink {
+      background: var(--pink);
+      color: #fff;
+    }
+
+    .badge-teal {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    .badge-orange {
+      background: var(--orange);
+      color: #fff;
+    }
+
+    .badge-lime {
+      background: var(--lime);
+      color: var(--black);
+    }
+
+    .badge-purple {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .badge-yellow {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--black);
+    }
+
+    /* ========================================
+       INPUTS / FORMS — colorful labels
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+
+    /* Each label a different Memphis color */
+    .form-group:nth-child(1) .form-label { color: var(--pink); }
+    .form-group:nth-child(2) .form-label { color: var(--teal); }
+    .form-group:nth-child(3) .form-label { color: var(--orange); }
+    .form-group:nth-child(4) .form-label { color: var(--purple); }
+    .form-group:nth-child(5) .form-label { color: var(--lime); }
+
+    .form-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--fg);
+      background: #fff;
+      border: 3px solid var(--black);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: #aaa;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 4px 4px 0 var(--teal);
+    }
+
+    .form-input-error {
+      border-color: var(--orange);
+      box-shadow: 3px 3px 0 var(--orange);
+    }
+
+    .form-error {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--orange);
+      margin-top: var(--space-1);
+      font-weight: 700;
+    }
+
+    .form-helper {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--teal);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-thick {
+      border: none;
+      height: 5px;
+      background: var(--black);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-pink {
+      border: none;
+      height: 4px;
+      background: var(--pink);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-teal {
+      border: none;
+      height: 3px;
+      background: var(--teal);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-dashed {
+      border: none;
+      border-top: 3px dashed var(--orange);
+      margin: var(--space-3) 0;
+    }
+
+    .divider-dotted {
+      border: none;
+      border-top: 3px dotted var(--purple);
+      margin: var(--space-3) 0;
+    }
+
+    .divider-zigzag {
+      border: none;
+      height: 8px;
+      background-image: repeating-linear-gradient(
+        90deg,
+        var(--yellow) 0px, var(--yellow) 10px,
+        var(--pink) 10px, var(--pink) 20px,
+        var(--teal) 20px, var(--teal) 30px,
+        var(--orange) 30px, var(--orange) 40px
+      );
+      margin: var(--space-4) 0;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border: 3px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .swatch-color {
+      height: 90px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2);
+      background: #fff;
+    }
+
+    .swatch-name {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #777;
+    }
+
+    /* ========================================
+       STAT BLOCKS — each in a different Memphis color
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      border: 3px solid var(--black);
+    }
+
+    .stat-block-pink {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .stat-block-teal {
+      background: var(--teal);
+      color: #fff;
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .stat-block-orange {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .stat-block-purple {
+      background: var(--purple);
+      color: #fff;
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -2px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: var(--space-3);
+      opacity: 0.9;
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 24px;
+      border: 2px solid var(--black);
+    }
+
+    .spacing-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      min-width: 120px;
+      color: #666;
+    }
+
+    /* ========================================
+       SECTION 10 — CAOS MEMPHIS
+       Pattern swatches, geometry collage, stickers
+       ======================================== */
+
+    /* Pattern swatch tiles */
+    .pattern-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-7);
+    }
+
+    @media (max-width: 768px) {
+      .pattern-swatch-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .pattern-tile {
+      height: 140px;
+      border: 3px solid var(--black);
+      box-shadow: 5px 5px 0 var(--black);
+      position: relative;
+    }
+
+    .pattern-tile-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--black);
+      color: var(--yellow);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 8px;
+      text-align: center;
+    }
+
+    .pattern-polka {
+      background-color: #FAFAF5;
+      background-image: radial-gradient(circle, var(--pink) 3px, transparent 3px);
+      background-size: 18px 18px;
+    }
+
+    .pattern-zigzag {
+      background-color: #fff;
+      background-image:
+        repeating-linear-gradient(45deg, var(--teal) 0, var(--teal) 3px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, var(--teal) 0, var(--teal) 3px, transparent 0, transparent 50%);
+      background-size: 16px 16px;
+    }
+
+    .pattern-stripes {
+      background-color: #fff;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        var(--orange),
+        var(--orange) 4px,
+        #fff 4px,
+        #fff 14px
+      );
+    }
+
+    .pattern-checker {
+      background-color: var(--yellow);
+      background-image:
+        repeating-conic-gradient(var(--black) 0% 25%, transparent 0% 50%);
+      background-size: 20px 20px;
+      background-position: 0 0;
+    }
+
+    /* Geometry collage */
+    .geometry-collage {
+      position: relative;
+      height: 320px;
+      border: 3px solid var(--black);
+      background: var(--bg);
+      overflow: hidden;
+      margin-bottom: var(--space-7);
+      background-image: radial-gradient(circle, rgba(0,0,0,.04) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    .geo-shape {
+      position: absolute;
+    }
+
+    .geo-rect-1 {
+      width: 160px;
+      height: 90px;
+      background: var(--yellow);
+      border: 3px solid var(--black);
+      top: 20px;
+      left: 30px;
+      transform: rotate(-5deg);
+    }
+
+    .geo-circle-1 {
+      width: 120px;
+      height: 120px;
+      background: var(--pink);
+      border: 3px solid var(--black);
+      top: 40px;
+      left: 140px;
+      /* circles: use a wrapper trick since border-radius is forced 0 globally, we use clip-path */
+      clip-path: circle(50%);
+    }
+
+    .geo-tri-1 {
+      width: 0;
+      height: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-bottom: 104px solid var(--teal);
+      top: 30px;
+      right: 200px;
+    }
+
+    .geo-rect-2 {
+      width: 80px;
+      height: 80px;
+      background: var(--orange);
+      border: 3px solid var(--black);
+      bottom: 30px;
+      left: 60px;
+      transform: rotate(20deg);
+    }
+
+    .geo-rect-3 {
+      width: 200px;
+      height: 50px;
+      background: var(--purple);
+      border: 3px solid var(--black);
+      bottom: 50px;
+      left: 180px;
+      transform: rotate(-8deg);
+    }
+
+    .geo-circle-2 {
+      width: 80px;
+      height: 80px;
+      background: var(--lime);
+      border: 3px solid var(--black);
+      bottom: 40px;
+      right: 100px;
+      clip-path: circle(50%);
+    }
+
+    .geo-tri-2 {
+      width: 0;
+      height: 0;
+      border-left: 45px solid transparent;
+      border-right: 45px solid transparent;
+      border-top: 78px solid var(--yellow);
+      border: none;
+      border-left: 45px solid transparent;
+      border-right: 45px solid transparent;
+      border-bottom: 0;
+      /* override: re-declare properly */
+      top: auto;
+      bottom: 10px;
+      right: 40px;
+    }
+
+    .geo-ring {
+      width: 100px;
+      height: 100px;
+      border: 12px solid var(--orange);
+      background: transparent;
+      top: 130px;
+      right: 50px;
+    }
+
+    .geo-stripe-block {
+      width: 90px;
+      height: 90px;
+      top: 140px;
+      right: 170px;
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--pink) 0, var(--pink) 5px,
+        #fff 5px, #fff 14px
+      );
+      border: 3px solid var(--black);
+    }
+
+    .geo-dot-block {
+      width: 70px;
+      height: 70px;
+      top: 20px;
+      right: 30px;
+      background-image: radial-gradient(circle, var(--purple) 4px, transparent 4px);
+      background-size: 14px 14px;
+      background-color: #fff;
+      border: 3px solid var(--black);
+    }
+
+    .geo-label {
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      padding: 3px 8px;
+      color: var(--black);
+      top: 8px;
+      right: 8px;
+    }
+
+    /* Sticker composition */
+    .sticker-composition {
+      position: relative;
+      height: 280px;
+      background: var(--yellow);
+      border: 3px solid var(--black);
+      overflow: hidden;
+    }
+
+    .sticker {
+      position: absolute;
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+      border: 3px solid var(--black);
+      padding: 10px 18px;
+      letter-spacing: 2px;
+      font-size: 14px;
+    }
+
+    .sticker-1 {
+      background: var(--pink);
+      color: #fff;
+      top: 20px;
+      left: 30px;
+      transform: rotate(-6deg);
+      font-size: 18px;
+    }
+
+    .sticker-2 {
+      background: var(--teal);
+      color: #fff;
+      top: 60px;
+      left: 220px;
+      transform: rotate(4deg);
+    }
+
+    .sticker-3 {
+      background: var(--orange);
+      color: #fff;
+      top: 150px;
+      left: 50px;
+      transform: rotate(8deg);
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    .sticker-4 {
+      background: var(--purple);
+      color: #fff;
+      top: 30px;
+      right: 60px;
+      transform: rotate(-3deg);
+      font-size: 20px;
+    }
+
+    .sticker-5 {
+      background: var(--lime);
+      color: var(--black);
+      bottom: 30px;
+      left: 180px;
+      transform: rotate(-10deg);
+    }
+
+    .sticker-6 {
+      background: var(--black);
+      color: var(--yellow);
+      bottom: 40px;
+      right: 40px;
+      transform: rotate(5deg);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+    }
+
+    .sticker-7 {
+      background: var(--yellow);
+      color: var(--black);
+      border: 3px solid var(--black);
+      bottom: 20px;
+      left: 30px;
+      transform: rotate(-4deg);
+      font-size: 13px;
+    }
+
+    /* sticker composition label */
+    .sticker-section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: var(--space-3);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .site-footer {
+      padding: var(--space-7) 0;
+      border-top: 5px solid var(--black);
+      background: var(--black);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #aaa;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">MEMPHIS — v11.0</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#colors">Cores</a></li>
+        <li><a href="#components">Comps</a></li>
+        <li><a href="#caos">Caos</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         SECTION: HERO
+         ======================================== -->
+    <section class="hero section" id="hero">
+      <div class="hero-shapes">
+        <div class="hero-shape-1"></div>
+        <div class="hero-shape-2"></div>
+        <div class="hero-shape-3"></div>
+        <div class="hero-shape-4"></div>
+        <div class="hero-shape-5"></div>
+        <div class="hero-shape-6"></div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Memphis Design Group — Milano 1981</p>
+        <div class="hero-text">
+          <span>DECORACAO</span>
+          <span class="line-pink">PELA</span>
+          <span>DECORACAO.</span>
+          <span class="line-teal">CAOS</span>
+          <span class="line-orange">INTENCIONAL.</span>
+        </div>
+        <div class="hero-footer">
+          <p class="hero-subtext">Anti-funcionalismo. Pós-modernidade como identidade. Forma acima da função — sem desculpas.</p>
+          <span class="hero-brand">Memphis</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: TYPOGRAPHY — 01
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">01 — Tipografia</p>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO DISPLAY</div>
+        <p class="type-meta">Raleway 900 / clamp(3rem→5.5rem) / line-height: 0.85 / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY HEADING</div>
+        <p class="type-meta">Raleway 900 / clamp(2rem→3.5rem) / line-height: 0.9 / purple</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">Heading Level 1 — Teal</div>
+        <p class="type-meta">Raleway 800 / 2.5rem / line-height: 0.95 / teal</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">Heading Level 2 — Orange</div>
+        <p class="type-meta">Raleway 700 / 2rem / line-height: 1.0 / orange</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">Heading Level 3 — Pink</div>
+        <p class="type-meta">Raleway 700 / 1.5rem / uppercase / pink</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text — legível e leve. A tipografia Memphis brinca com escala e cor, mas o corpo de texto serve ao leitor. Raleway 400, generoso, respirável.</div>
+        <p class="type-meta">Raleway 400 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption — informações secundárias, metadados, créditos de imagem</div>
+        <p class="type-meta">Raleway 300 / 0.875rem / color: #555</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL TEXT — LIME</div>
+        <p class="type-meta">Raleway 700 / 0.75rem / letter-spacing: 3px / uppercase / lime</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-mono">const memphis = { year: 1981, city: "Milano", rule: "none" };</div>
+        <p class="type-meta">Courier Prime 400 / 0.9rem / purple — typewriter irony</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: COLORS — 02
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">02 — Cores</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF6B9D;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#FF6B9D;">Hot Pink</div>
+            <div class="swatch-hex">#FF6B9D</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FFE135;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#b89800;">Electric Yellow</div>
+            <div class="swatch-hex">#FFE135</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00C5C8;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#00C5C8;">Memphis Teal</div>
+            <div class="swatch-hex">#00C5C8</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF6B2B;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#FF6B2B;">Burnt Orange</div>
+            <div class="swatch-hex">#FF6B2B</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #6B35A8;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#6B35A8;">Deep Violet</div>
+            <div class="swatch-hex">#6B35A8</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #8BC34A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#6a9c2f;">Chartreuse</div>
+            <div class="swatch-hex">#8BC34A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #1A1A1A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#1A1A1A;">Black</div>
+            <div class="swatch-hex">#1A1A1A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FAFAF5; border-bottom: 2px solid #ddd;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name" style="color:#888;">Background</div>
+            <div class="swatch-hex">#FAFAF5</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: SPACING — 03
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">03 — Espacamento</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px; background: var(--pink);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px; background: var(--teal);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px; background: var(--orange);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px; background: var(--purple);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px; background: var(--lime);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px; background: var(--pink);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px; background: var(--teal);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px; background: var(--orange);"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px; background: var(--yellow); border-color: var(--black);"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BUTTONS — 04
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">04 — Botoes</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:var(--space-3);">TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:var(--space-3);">VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY</button>
+          <button class="btn btn-secondary">SECONDARY</button>
+          <button class="btn btn-ghost">GHOST</button>
+          <button class="btn btn-danger">DANGER</button>
+          <button class="btn btn-lime">LIME</button>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--purple); margin-bottom:var(--space-3);">SOMBRA MEMPHIS (offset shadow)</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">COME ENGAGE</button>
+          <button class="btn btn-secondary btn-large">LEARN MORE</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: CARDS — 05
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">05 — Cards</p>
+
+      <div class="grid-3">
+        <div class="card card-pink">
+          <span class="badge badge-pink" style="margin-bottom: var(--space-3); display: inline-block;">NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos. Memphis não pede permissão — nem você.</div>
+          <div class="card-meta">Marketing &bull; 1981</div>
+        </div>
+        <div class="card card-teal">
+          <span class="badge badge-teal" style="margin-bottom: var(--space-3); display: inline-block;">BETA</span>
+          <div class="card-title">AUTOMACAO</div>
+          <div class="card-body">Respostas automáticas com a energia de um lampeador neon de Milão. Escale sem perder autenticidade.</div>
+          <div class="card-meta">Produto &bull; 1985</div>
+        </div>
+        <div class="card card-orange">
+          <span class="badge badge-orange" style="margin-bottom: var(--space-3); display: inline-block;">URGENTE</span>
+          <div class="card-title">CONVERSAO</div>
+          <div class="card-body">De seguidor a cliente em 3 passos. Cada etapa decorada com propósito — até o funil tem estilo.</div>
+          <div class="card-meta">Growth &bull; 1988</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: STATS / KPIs — 06
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">06 — Stats / KPIs</p>
+
+      <div class="grid-4">
+        <div class="stat-block stat-block-pink">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">NAO ENGAJAM</div>
+        </div>
+        <div class="stat-block stat-block-teal">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">MAIS CONVERSAO</div>
+        </div>
+        <div class="stat-block stat-block-orange">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">TEMPO MEDIO</div>
+        </div>
+        <div class="stat-block stat-block-purple">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: BADGES — 07
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">07 — Badges</p>
+
+      <div class="btn-group" style="margin-bottom: var(--space-4);">
+        <span class="badge badge-pink">HOT PINK</span>
+        <span class="badge badge-teal">TEAL</span>
+        <span class="badge badge-orange">ORANGE</span>
+        <span class="badge badge-lime">LIME</span>
+        <span class="badge badge-purple">VIOLET</span>
+        <span class="badge badge-yellow">YELLOW</span>
+        <span class="badge badge-outline">OUTLINE</span>
+      </div>
+
+      <div class="btn-group">
+        <span class="badge badge-pink" style="font-size: 9px; padding: 3px 10px; letter-spacing: 3px;">NOVO</span>
+        <span class="badge badge-teal" style="font-size: 9px; padding: 3px 10px; letter-spacing: 3px;">BETA</span>
+        <span class="badge badge-orange" style="font-size: 9px; padding: 3px 10px; letter-spacing: 3px;">URGENTE</span>
+        <span class="badge badge-purple" style="font-size: 9px; padding: 3px 10px; letter-spacing: 3px;">PREMIUM</span>
+        <span class="badge badge-lime" style="font-size: 9px; padding: 3px 10px; letter-spacing: 3px;">LIVE</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: FORMS — 08
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">08 — Formularios</p>
+
+      <div style="max-width: 520px;">
+        <div class="form-group">
+          <label class="form-label" for="name">NOME</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">// Nunca compartilharemos seu email.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">EMAIL (COM ERRO)</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">!! Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="Escreva algo ousado..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%; justify-content: center;">ENVIAR AGORA</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION: DIVIDERS — 09
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">09 — Divisores</p>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--pink); margin-bottom:8px;">THICK BLACK (5px)</p>
+      <div class="divider-thick"></div>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--pink); margin-bottom:8px;">PINK SOLID (4px)</p>
+      <div class="divider-pink"></div>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--teal); margin-bottom:8px;">TEAL SOLID (3px)</p>
+      <div class="divider-teal"></div>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">DASHED ORANGE (3px)</p>
+      <div class="divider-dashed"></div>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); margin-bottom:8px;">DOTTED PURPLE (3px)</p>
+      <div class="divider-dotted"></div>
+
+      <p style="font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--black); margin-bottom:8px;">RAINBOW STRIPE (8px) — MEMPHIS CLASSIC</p>
+      <div class="divider-zigzag"></div>
+    </section>
+
+    <!-- ========================================
+         SECTION: CAOS MEMPHIS — 10
+         ======================================== -->
+    <section class="section" id="caos">
+      <p class="section-label">10 — Caos Memphis</p>
+
+      <!-- 4 Pattern Swatches -->
+      <p class="sticker-section-label">PADROES DE TEXTURA</p>
+      <div class="pattern-swatch-grid">
+        <div class="pattern-tile pattern-polka">
+          <div class="pattern-tile-label">POLKA DOTS</div>
+        </div>
+        <div class="pattern-tile pattern-zigzag">
+          <div class="pattern-tile-label">ZIGZAG</div>
+        </div>
+        <div class="pattern-tile pattern-stripes">
+          <div class="pattern-tile-label">DIAG STRIPES</div>
+        </div>
+        <div class="pattern-tile pattern-checker">
+          <div class="pattern-tile-label">CHECKER</div>
+        </div>
+      </div>
+
+      <!-- Geometry Collage -->
+      <p class="sticker-section-label">COLAGEM GEOMETRICA</p>
+      <div class="geometry-collage">
+        <div class="geo-label">Memphis Milano 1981</div>
+        <div class="geo-shape geo-rect-1"></div>
+        <div class="geo-shape geo-circle-1"></div>
+        <div class="geo-shape geo-tri-1"></div>
+        <div class="geo-shape geo-rect-2"></div>
+        <div class="geo-shape geo-rect-3"></div>
+        <div class="geo-shape geo-circle-2"></div>
+        <div class="geo-shape geo-ring"></div>
+        <div class="geo-shape geo-stripe-block"></div>
+        <div class="geo-shape geo-dot-block"></div>
+      </div>
+
+      <!-- Sticker Composition -->
+      <p class="sticker-section-label">COMPOSICAO DE STICKERS</p>
+      <div class="sticker-composition">
+        <div class="sticker sticker-1">ANTI-FUNCIONAL</div>
+        <div class="sticker sticker-2">POSTMODERNO</div>
+        <div class="sticker sticker-3">DECORACAO PELA DECORACAO</div>
+        <div class="sticker sticker-4">ETTORE</div>
+        <div class="sticker sticker-5">MILAO 1981</div>
+        <div class="sticker sticker-6">v11.0 — BOLD IMPACT</div>
+        <div class="sticker sticker-7">SOTTSASS GROUP</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span style="color:var(--pink);">MEMPHIS</span>
+          <span style="color:var(--yellow);"> DESIGN</span>
+          <span style="color:var(--teal);"> 1981</span>
+          <span style="color:var(--orange);"> —</span>
+          <span style="color:var(--purple);"> BOLD</span>
+          <span style="color:var(--lime);"> IMPACT</span>
+          <span style="color:#fff;"> v11.0</span>
+        </div>
+        <div class="footer-meta">Ettore Sottsass &bull; Milano &bull; Anti-functionalism forever</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

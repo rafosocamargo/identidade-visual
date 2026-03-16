@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bento World — Design System v16</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --off-white: #FAFAFA;
+      --zinc-50:   #F4F4F5;
+      --zinc-100:  #E4E4E7;
+      --zinc-200:  #D4D4D8;
+      --zinc-400:  #A1A1AA;
+      --zinc-600:  #52525B;
+      --zinc-900:  #18181B;
+      --blue:      #3B82F6;
+      --violet:    #8B5CF6;
+      --emerald:   #10B981;
+      --amber:     #F59E0B;
+      --red:       #EF4444;
+      --cell-radius: 12px;
+      --gap: 12px;
+      --shadow-base: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+      --cursor-x: 50%;
+      --cursor-y: 50%;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--off-white);
+      font-family: 'Inter', sans-serif;
+      color: var(--zinc-900);
+      overflow-x: hidden;
+    }
+
+    /* ── Cursor Orb ── */
+    #cursor-orb {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(139,92,246,0.08) 50%, transparent 70%);
+      pointer-events: none;
+      transform: translate(var(--cursor-x), var(--cursor-y)) translate(-50%, -50%);
+      transition: transform 0.08s linear;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Page Layout ── */
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Top Nav ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+    .topbar-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--zinc-900);
+    }
+    .topbar-logo span { color: var(--blue); }
+    .topbar-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--zinc-600);
+      border: 1px solid var(--zinc-100);
+      border-radius: 100px;
+      padding: 4px 12px;
+      background: white;
+    }
+    .topbar-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.25);
+    }
+
+    /* ── Bento Grid ── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto;
+      gap: var(--gap);
+    }
+
+    /* ── Base Cell ── */
+    .cell {
+      border-radius: var(--cell-radius);
+      border: 1px solid var(--zinc-100);
+      background: white;
+      box-shadow: var(--shadow-base);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition:
+        box-shadow 0.3s cubic-bezier(0.34,1.56,0.64,1),
+        transform   0.3s cubic-bezier(0.34,1.56,0.64,1),
+        border-color 0.25s ease;
+      will-change: transform, box-shadow;
+    }
+    .cell:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--zinc-200);
+      z-index: 10;
+    }
+    .cell.expanded {
+      transform: scale(1.04) !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18) !important;
+      z-index: 100 !important;
+    }
+
+    /* ── Grid Placements ── */
+    /* Row 1 */
+    .cell-hero          { grid-column: 1 / 4; grid-row: 1 / 3; min-height: 280px; }
+    .cell-stats-1       { grid-column: 4 / 5; grid-row: 1 / 2; }
+    .cell-stats-2       { grid-column: 5 / 6; grid-row: 1 / 2; }
+    .cell-stats-3       { grid-column: 6 / 7; grid-row: 1 / 2; }
+    .cell-colors        { grid-column: 4 / 7; grid-row: 2 / 4; }
+    /* Row 3 */
+    .cell-typescale     { grid-column: 1 / 3; grid-row: 3 / 5; }
+    .cell-spacing       { grid-column: 3 / 4; grid-row: 3 / 4; }
+    .cell-component     { grid-column: 3 / 4; grid-row: 4 / 5; }
+    /* Row 4 */
+    .cell-info          { grid-column: 4 / 6; grid-row: 4 / 6; }
+    .cell-icon          { grid-column: 6 / 7; grid-row: 4 / 5; }
+    /* Row 5 */
+    .cell-gradient      { grid-column: 1 / 3; grid-row: 5 / 6; }
+    .cell-tagline       { grid-column: 3 / 4; grid-row: 5 / 6; }
+    .cell-badge-row     { grid-column: 6 / 7; grid-row: 5 / 6; }
+
+    /* ══════════════════════════════════════
+       HERO CELL
+    ══════════════════════════════════════ */
+    .cell-hero {
+      background: var(--zinc-900);
+      border-color: transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      overflow: hidden;
+    }
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 120%, rgba(59,130,246,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% -10%, rgba(139,92,246,0.3) 0%, transparent 55%);
+      opacity: 0.9;
+      transition: opacity 0.6s ease;
+    }
+    .cell-hero:hover .hero-gradient { opacity: 1; }
+    .hero-noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 42px;
+      line-height: 1;
+      color: white;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+    .hero-title .accent { color: var(--blue); }
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 10px;
+      font-weight: 400;
+      position: relative;
+    }
+    /* Animated particles */
+    .hero-dot {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .cell-hero:hover .hero-dot { opacity: 1; }
+    .hero-dot:nth-child(1) { width: 4px; height: 4px; background: var(--blue); top: 18%; right: 25%; animation: float1 3s ease-in-out infinite; }
+    .hero-dot:nth-child(2) { width: 3px; height: 3px; background: var(--violet); top: 35%; right: 15%; animation: float2 4s ease-in-out infinite 0.5s; }
+    .hero-dot:nth-child(3) { width: 5px; height: 5px; background: var(--emerald); top: 55%; right: 35%; animation: float1 3.5s ease-in-out infinite 1s; }
+    @keyframes float1 { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes float2 { 0%,100% { transform: translateY(0px) translateX(0); } 50% { transform: translateY(-6px) translateX(4px); } }
+
+    /* ══════════════════════════════════════
+       STAT CELLS
+    ══════════════════════════════════════ */
+    .cell-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px;
+      min-height: 120px;
+    }
+    .stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+    }
+    .stat-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      line-height: 1;
+      color: var(--zinc-900);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-value .unit {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--zinc-400);
+      margin-left: 1px;
+    }
+    /* Radial reveal on stat cells */
+    .cell-stat::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(59,130,246,0.06) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .cell-stat:hover::after { opacity: 1; }
+
+    /* Stat color accents */
+    .cell-stats-1 .stat-value { color: var(--blue); }
+    .cell-stats-2 .stat-value { color: var(--violet); }
+    .cell-stats-3 .stat-value { color: var(--emerald); }
+
+    /* ══════════════════════════════════════
+       COLORS CELL (2×2)
+    ══════════════════════════════════════ */
+    .cell-colors {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .colors-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+      margin-bottom: 16px;
+    }
+    .color-swatches {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      align-items: stretch;
+    }
+    .swatch {
+      flex: 1;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      min-height: 80px;
+      cursor: pointer;
+      transition: flex 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .swatch:hover { flex: 2.5; }
+    .swatch-bg {
+      position: absolute;
+      inset: 0;
+      transform: scale(0);
+      border-radius: 50%;
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .swatch:hover .swatch-bg { transform: scale(3); }
+    .swatch-label {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+    .swatch:hover .swatch-label { opacity: 1; transform: translateY(0); }
+
+    .swatch-blue   { background: rgba(59,130,246,0.12);  }
+    .swatch-blue   .swatch-bg { background: #3B82F6; }
+    .swatch-blue   .swatch-label { color: white; }
+    .swatch-violet { background: rgba(139,92,246,0.12); }
+    .swatch-violet .swatch-bg { background: #8B5CF6; }
+    .swatch-violet .swatch-label { color: white; }
+    .swatch-emerald{ background: rgba(16,185,129,0.12); }
+    .swatch-emerald .swatch-bg { background: #10B981; }
+    .swatch-emerald .swatch-label { color: white; }
+    .swatch-amber  { background: rgba(245,158,11,0.12); }
+    .swatch-amber  .swatch-bg { background: #F59E0B; }
+    .swatch-amber  .swatch-label { color: white; }
+    .swatch-red    { background: rgba(239,68,68,0.12); }
+    .swatch-red    .swatch-bg { background: #EF4444; }
+    .swatch-red    .swatch-label { color: white; }
+    .swatch-dark   { background: rgba(24,24,27,0.08); }
+    .swatch-dark   .swatch-bg { background: #18181B; }
+    .swatch-dark   .swatch-label { color: white; }
+
+    /* ══════════════════════════════════════
+       TYPE SCALE CELL
+    ══════════════════════════════════════ */
+    .cell-typescale {
+      padding: 28px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .type-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+      margin-bottom: 20px;
+    }
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--zinc-50);
+      overflow: hidden;
+      position: relative;
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-size-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--zinc-400);
+      width: 28px;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .type-sample {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--zinc-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.2s ease, transform 0.3s ease;
+    }
+    .cell-typescale:hover .type-sample { color: var(--blue); }
+
+    /* Slide-up reveal: inner track */
+    .type-row-inner {
+      position: relative;
+      overflow: hidden;
+    }
+    .type-main, .type-alt {
+      display: block;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .type-alt {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      color: var(--violet);
+      font-style: italic;
+    }
+    .type-row:hover .type-main { transform: translateY(-100%); }
+    .type-row:hover .type-alt  { transform: translateY(-100%); }
+
+    /* ══════════════════════════════════════
+       SPACING CELL
+    ══════════════════════════════════════ */
+    .cell-spacing {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .spacing-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+      margin-bottom: 14px;
+    }
+    .spacing-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .spacing-label {
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--zinc-400);
+      width: 20px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .spacing-bar-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 100px;
+      background: var(--zinc-50);
+      overflow: hidden;
+    }
+    .spacing-bar {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .cell-spacing:hover .spacing-bar { transform: scaleX(1); }
+    .spacing-bar:nth-child(1) { transition-delay: 0s; }
+
+    /* ══════════════════════════════════════
+       COMPONENT CELL
+    ══════════════════════════════════════ */
+    .cell-component {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .component-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+    }
+    .btn-showcase {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--zinc-900);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 20px rgba(24,24,27,0.25);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    }
+    .btn-arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:hover .btn-arrow { transform: translateX(3px); }
+
+    /* ══════════════════════════════════════
+       INFO CELL (dark)
+    ══════════════════════════════════════ */
+    .cell-info {
+      background: var(--zinc-900);
+      border-color: transparent;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .info-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 14px;
+    }
+    .info-body {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.7);
+      flex: 1;
+    }
+    .info-body strong {
+      color: white;
+      font-weight: 600;
+    }
+    .info-footer {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .info-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+    .info-meta {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+    .info-meta strong { color: rgba(255,255,255,0.7); }
+
+    /* Shimmer on dark info cell hover */
+    .cell-info::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+      transition: left 0.6s ease;
+    }
+    .cell-info:hover::before { left: 160%; }
+
+    /* ══════════════════════════════════════
+       ICON CELL
+    ══════════════════════════════════════ */
+    .cell-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      background: white;
+    }
+    .icon-glyph {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--zinc-900), var(--zinc-600));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition:
+        transform   0.4s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow  0.3s ease,
+        background  0.3s ease;
+    }
+    .cell-icon:hover .icon-glyph {
+      transform: translateY(-6px) rotate(-5deg) scale(1.1);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 12px 28px rgba(59,130,246,0.35);
+    }
+    .icon-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--zinc-400);
+      transition: color 0.25s ease;
+    }
+    .cell-icon:hover .icon-label { color: var(--blue); }
+
+    /* ══════════════════════════════════════
+       GRADIENT CELL
+    ══════════════════════════════════════ */
+    .cell-gradient {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 110px;
+      background: white;
+      padding: 20px;
+    }
+    .gradient-track {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--blue), var(--violet), var(--emerald), var(--amber), var(--red));
+      background-size: 200% 100%;
+      animation: gradientShift 4s linear infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    .gradient-track::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(255,255,255,0.15), transparent 30%, transparent 70%, rgba(255,255,255,0.15));
+    }
+    .gradient-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    /* ══════════════════════════════════════
+       TAGLINE CELL
+    ══════════════════════════════════════ */
+    .cell-tagline {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--zinc-900);
+      border-color: transparent;
+      overflow: hidden;
+    }
+    .tagline-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 1.3;
+      color: white;
+      letter-spacing: -0.01em;
+      position: relative;
+    }
+    .tagline-text .highlight {
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 8px;
+      font-weight: 400;
+    }
+    /* Animated border glow */
+    .cell-tagline::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--blue), var(--violet), var(--emerald));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: -1;
+    }
+    .cell-tagline:hover::after { opacity: 0.5; }
+
+    /* ══════════════════════════════════════
+       BADGE CELL
+    ══════════════════════════════════════ */
+    .cell-badge-row {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
+    }
+    .badge:hover { transform: translateX(4px) scale(1.05); }
+    .badge-blue    { background: rgba(59,130,246,0.1);  color: var(--blue);    }
+    .badge-violet  { background: rgba(139,92,246,0.1);  color: var(--violet);  }
+    .badge-emerald { background: rgba(16,185,129,0.1);  color: var(--emerald); }
+    .badge-amber   { background: rgba(245,158,11,0.1);  color: var(--amber);   }
+    .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      margin-top: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--zinc-400);
+    }
+    .footer a {
+      color: var(--zinc-400);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer a:hover { color: var(--zinc-900); }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .bento {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .cell-hero          { grid-column: 1 / 3; grid-row: 1 / 3; }
+      .cell-stats-1       { grid-column: 3 / 4; grid-row: 1 / 2; }
+      .cell-stats-2       { grid-column: 4 / 5; grid-row: 1 / 2; }
+      .cell-stats-3       { grid-column: 3 / 5; grid-row: 2 / 3; }
+      .cell-colors        { grid-column: 1 / 5; grid-row: 3 / 4; }
+      .cell-typescale     { grid-column: 1 / 3; grid-row: 4 / 6; }
+      .cell-spacing       { grid-column: 3 / 5; grid-row: 4 / 5; }
+      .cell-component     { grid-column: 3 / 5; grid-row: 5 / 6; }
+      .cell-info          { grid-column: 1 / 3; grid-row: 6 / 8; }
+      .cell-icon          { grid-column: 3 / 4; grid-row: 6 / 7; }
+      .cell-gradient      { grid-column: 1 / 3; grid-row: 8 / 9; }
+      .cell-tagline       { grid-column: 3 / 5; grid-row: 7 / 8; }
+      .cell-badge-row     { grid-column: 4 / 5; grid-row: 6 / 7; }
+    }
+
+    @media (max-width: 600px) {
+      .bento { grid-template-columns: 1fr 1fr; }
+      .cell-hero      { grid-column: 1 / 3; min-height: 200px; }
+      .cell-stats-1, .cell-stats-2, .cell-stats-3 { grid-column: span 1; }
+      .cell-colors    { grid-column: 1 / 3; }
+      .cell-typescale { grid-column: 1 / 3; }
+      .cell-spacing   { grid-column: span 1; }
+      .cell-component { grid-column: span 1; }
+      .cell-info      { grid-column: 1 / 3; }
+      .cell-icon      { grid-column: span 1; }
+      .cell-gradient  { grid-column: 1 / 3; }
+      .cell-tagline   { grid-column: span 1; }
+      .cell-badge-row { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor Orb -->
+  <div id="cursor-orb"></div>
+
+  <div class="page">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-logo">Bento <span>World</span></div>
+      <div class="topbar-badge">Design System v16 — Live</div>
+    </header>
+
+    <!-- Bento Grid -->
+    <main class="bento" id="bento">
+
+      <!-- ── HERO ── -->
+      <div class="cell cell-hero" data-cell="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-noise"></div>
+        <div class="hero-dot"></div>
+        <div class="hero-dot"></div>
+        <div class="hero-dot"></div>
+        <p class="hero-eyebrow">Design System · 2025</p>
+        <h1 class="hero-title">BENTO<br/><span class="accent">WORLD</span></h1>
+        <p class="hero-sub">An asymmetric grid of crafted micro-interactions.</p>
+      </div>
+
+      <!-- ── STATS ── -->
+      <div class="cell cell-stats-1 cell-stat" data-cell="stat" data-target="17">
+        <span class="stat-label">Scales</span>
+        <span class="stat-value" data-count="17">0<span class="unit">×</span></span>
+      </div>
+      <div class="cell cell-stats-2 cell-stat" data-cell="stat" data-target="5">
+        <span class="stat-label">Fonts</span>
+        <span class="stat-value" data-count="5">0<span class="unit">t</span></span>
+      </div>
+      <div class="cell cell-stats-3 cell-stat" data-cell="stat" data-target="32">
+        <span class="stat-label">Components</span>
+        <span class="stat-value" data-count="32">0<span class="unit">+</span></span>
+      </div>
+
+      <!-- ── COLORS ── -->
+      <div class="cell cell-colors" data-cell="colors">
+        <p class="colors-header">Color Palette</p>
+        <div class="color-swatches">
+          <div class="swatch swatch-blue">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Blue 500</span>
+          </div>
+          <div class="swatch swatch-violet">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Violet 500</span>
+          </div>
+          <div class="swatch swatch-emerald">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Emerald 500</span>
+          </div>
+          <div class="swatch swatch-amber">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Amber 500</span>
+          </div>
+          <div class="swatch swatch-red">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Red 500</span>
+          </div>
+          <div class="swatch swatch-dark">
+            <div class="swatch-bg"></div>
+            <span class="swatch-label">Zinc 900</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TYPE SCALE ── -->
+      <div class="cell cell-typescale" data-cell="typescale">
+        <p class="type-header">Type Scale</p>
+        <div style="display:flex; flex-direction:column; gap:0; flex:1; justify-content:center;">
+
+          <div class="type-row">
+            <span class="type-size-label">48</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1;">
+              <span class="type-sample type-main" style="font-size:32px;">Display</span>
+              <span class="type-sample type-alt"  style="font-size:32px;">AÁÃÄÔ</span>
+            </div>
+          </div>
+
+          <div class="type-row">
+            <span class="type-size-label">32</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1.2;">
+              <span class="type-sample type-main" style="font-size:24px;">Heading</span>
+              <span class="type-sample type-alt"  style="font-size:24px;">Bold 700</span>
+            </div>
+          </div>
+
+          <div class="type-row">
+            <span class="type-size-label">24</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1.3;">
+              <span class="type-sample type-main" style="font-size:18px;">Subtitle</span>
+              <span class="type-sample type-alt"  style="font-size:18px;">Semi 600</span>
+            </div>
+          </div>
+
+          <div class="type-row">
+            <span class="type-size-label">16</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1.4;">
+              <span class="type-sample type-main" style="font-size:15px; font-weight:500;">Body</span>
+              <span class="type-sample type-alt"  style="font-size:15px; font-weight:500;">Regular</span>
+            </div>
+          </div>
+
+          <div class="type-row">
+            <span class="type-size-label">13</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1.4;">
+              <span class="type-sample type-main" style="font-size:13px; font-weight:500;">Caption</span>
+              <span class="type-sample type-alt"  style="font-size:13px; font-weight:500;">Medium</span>
+            </div>
+          </div>
+
+          <div class="type-row">
+            <span class="type-size-label">10</span>
+            <div class="type-row-inner" style="flex:1; overflow:hidden; line-height:1.5;">
+              <span class="type-sample type-main" style="font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;">OVERLINE</span>
+              <span class="type-sample type-alt"  style="font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;">LABELS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SPACING ── -->
+      <div class="cell cell-spacing" data-cell="spacing">
+        <p class="spacing-header">Spacing Scale</p>
+        <div class="spacing-rows">
+          <div class="spacing-row">
+            <span class="spacing-label">4</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:8%; transition-delay:0s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">8</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:18%; transition-delay:0.04s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">12</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:28%; transition-delay:0.08s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">16</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:38%; transition-delay:0.12s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">24</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:55%; transition-delay:0.16s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">32</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:72%; transition-delay:0.20s;"></div>
+            </div>
+          </div>
+          <div class="spacing-row">
+            <span class="spacing-label">48</span>
+            <div class="spacing-bar-track">
+              <div class="spacing-bar" style="width:90%; transition-delay:0.24s;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPONENT ── -->
+      <div class="cell cell-component" data-cell="component">
+        <p class="component-header">Components</p>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
+          <button class="btn-showcase btn-primary">
+            Get Started <span class="btn-arrow">→</span>
+          </button>
+          <button class="btn-showcase" style="background:rgba(59,130,246,0.1); color:var(--blue); border:none; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;"
+            onmouseenter="this.style.transform='translateY(-2px) scale(1.04)'; this.style.boxShadow='0 8px 20px rgba(59,130,246,0.2)'"
+            onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+            Learn More <span style="font-size:12px; transition: transform 0.2s ease;">↗</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── INFO (DARK) ── -->
+      <div class="cell cell-info" data-cell="info">
+        <div>
+          <p class="info-eyebrow">Design Philosophy</p>
+          <p class="info-body">
+            <strong>Every pixel is intentional.</strong> This system is built on the belief that <strong>constraints create creativity</strong> — a tight spacing scale, a curated palette, and a type hierarchy that breathes. Bento grids aren't just layouts. They're <strong>communication architecture</strong> for the modern web.
+          </p>
+        </div>
+        <div class="info-footer">
+          <div class="info-avatar">BW</div>
+          <div class="info-meta">
+            <strong>Design System v16</strong> · Updated 2025
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ICON ── -->
+      <div class="cell cell-icon" data-cell="icon">
+        <div class="icon-glyph">⬡</div>
+        <span class="icon-label">Tokens</span>
+      </div>
+
+      <!-- ── GRADIENT ── -->
+      <div class="cell cell-gradient" data-cell="gradient">
+        <div class="gradient-track" style="position:relative;">
+          <span class="gradient-label">Gradient System</span>
+        </div>
+      </div>
+
+      <!-- ── TAGLINE ── -->
+      <div class="cell cell-tagline" data-cell="tagline">
+        <p class="tagline-text">Built for <span class="highlight">scale</span><br/>and craft.</p>
+        <p class="tagline-sub">Every interaction, considered.</p>
+      </div>
+
+      <!-- ── BADGES ── -->
+      <div class="cell cell-badge-row" data-cell="badges">
+        <span class="badge badge-blue"><span class="badge-dot"></span>Stable</span>
+        <span class="badge badge-violet"><span class="badge-dot"></span>Tokens</span>
+        <span class="badge badge-emerald"><span class="badge-dot"></span>A11y</span>
+        <span class="badge badge-amber"><span class="badge-dot"></span>Motion</span>
+      </div>
+
+    </main><!-- /bento -->
+
+    <footer class="footer">
+      <span>Bento World</span>
+      <span style="color:#D4D4D8">·</span>
+      <span>Design System v16</span>
+      <span style="color:#D4D4D8">·</span>
+      <span>2025</span>
+    </footer>
+
+  </div><!-- /page -->
+
+  <script>
+    // ─────────────────────────────────────────
+    // 1. Cursor Orb
+    // ─────────────────────────────────────────
+    const orb = document.getElementById('cursor-orb');
+    let cx = window.innerWidth / 2;
+    let cy = window.innerHeight / 2;
+    let tx = cx, ty = cy;
+    let rafId;
+
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      orb.style.setProperty('--cursor-x', tx + 'px');
+      orb.style.setProperty('--cursor-y', ty + 'px');
+    });
+
+    // ─────────────────────────────────────────
+    // 2. Per-cell cursor position (for radial effects)
+    // ─────────────────────────────────────────
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.addEventListener('mousemove', (e) => {
+        const rect = cell.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%';
+        const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+        cell.style.setProperty('--cursor-x', x);
+        cell.style.setProperty('--cursor-y', y);
+      });
+    });
+
+    // ─────────────────────────────────────────
+    // 3. Cell click → expand toggle
+    // ─────────────────────────────────────────
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.addEventListener('click', (e) => {
+        // Don't re-expand buttons inside cells
+        if (e.target.tagName === 'BUTTON') return;
+        const wasExpanded = cell.classList.contains('expanded');
+        // Collapse all
+        document.querySelectorAll('.cell.expanded').forEach(c => c.classList.remove('expanded'));
+        if (!wasExpanded) cell.classList.add('expanded');
+      });
+    });
+
+    // ─────────────────────────────────────────
+    // 4. Stat counter on hover
+    // ─────────────────────────────────────────
+    document.querySelectorAll('.cell-stat').forEach(cell => {
+      const el  = cell.querySelector('.stat-value');
+      if (!el) return;
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const unit = el.querySelector('.unit');
+      let raf, running = false;
+
+      function countUp() {
+        running = true;
+        let start = null;
+        const duration = 600;
+        function step(ts) {
+          if (!start) start = ts;
+          const progress = Math.min((ts - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+          const current = Math.round(eased * target);
+          el.childNodes[0].textContent = current;
+          if (progress < 1) {
+            raf = requestAnimationFrame(step);
+          } else {
+            running = false;
+          }
+        }
+        raf = requestAnimationFrame(step);
+      }
+
+      function countDown() {
+        cancelAnimationFrame(raf);
+        running = false;
+        el.childNodes[0].textContent = '0';
+      }
+
+      cell.addEventListener('mouseenter', () => { cancelAnimationFrame(raf); countUp(); });
+      cell.addEventListener('mouseleave', () => { countDown(); });
+    });
+
+    // ─────────────────────────────────────────
+    // 5. Stagger entrance animation on load
+    // ─────────────────────────────────────────
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach((cell, i) => {
+      cell.style.opacity = '0';
+      cell.style.transform = 'translateY(16px)';
+      cell.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+      setTimeout(() => {
+        cell.style.opacity = '1';
+        cell.style.transform = 'translateY(0)';
+      }, 60 + i * 55);
+    });
+
+    // Re-apply hover transitions after entrance (so they aren't blocked)
+    cells.forEach((cell, i) => {
+      setTimeout(() => {
+        cell.style.transition = '';
+      }, 60 + i * 55 + 600);
+    });
+
+    // ─────────────────────────────────────────
+    // 6. Swatch bg origin tracks cursor
+    // ─────────────────────────────────────────
+    document.querySelectorAll('.swatch').forEach(swatch => {
+      swatch.addEventListener('mousemove', (e) => {
+        const rect = swatch.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%';
+        const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+        const bg = swatch.querySelector('.swatch-bg');
+        bg.style.transformOrigin = `${x} ${y}`;
+      });
+    });
+  </script>
+
+</body>
+</html>

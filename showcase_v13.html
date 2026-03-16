@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnetic Field — Design System v13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --indigo:   #6C3BFF;
+    --violet:   #B794F4;
+    --space:    #0D0D1A;
+    --ghost:    #F0EDFF;
+    --magenta:  #FF3BFF;
+    --indigo-10: rgba(108,59,255,0.10);
+    --indigo-20: rgba(108,59,255,0.20);
+    --indigo-40: rgba(108,59,255,0.40);
+    --ghost-10:  rgba(240,237,255,0.10);
+    --ghost-20:  rgba(240,237,255,0.20);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--space);
+    color: var(--ghost);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* --- Custom cursor --- */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--indigo);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.08s ease, width 0.15s ease, height 0.15s ease, background 0.15s ease;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 20px 4px rgba(108,59,255,0.7);
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(108,59,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+  }
+  body:has(a:hover) #cursor,
+  body:has(button:hover) #cursor { width: 18px; height: 18px; background: var(--magenta); }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring { width: 52px; height: 52px; border-color: rgba(255,59,255,0.5); }
+
+  /* =====================
+     HERO CANVAS SECTION
+  ===================== */
+  #hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--violet);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 10vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, var(--ghost) 30%, var(--violet) 65%, var(--indigo) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 40px rgba(108,59,255,0.4));
+  }
+
+  .hero-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(12px, 1.5vw, 15px);
+    color: var(--ghost);
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+    margin-bottom: 48px;
+  }
+
+  .hero-cta {
+    pointer-events: all;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+    opacity: 0.4;
+    animation: float 2.5s ease-in-out infinite;
+  }
+  .scroll-hint span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--violet);
+  }
+  .scroll-hint svg { animation: bounce 2s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-6px)} }
+  @keyframes bounce { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* =====================
+     DESIGN SYSTEM CONTENT
+  ===================== */
+  .ds-wrapper {
+    position: relative;
+    z-index: 20;
+    background: var(--space);
+  }
+
+  .ds-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    border-top: 1px solid var(--indigo-20);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--indigo);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--ghost);
+    margin-bottom: 48px;
+    line-height: 1.1;
+  }
+
+  /* --- TYPOGRAPHY SECTION --- */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  @media(max-width:700px){ .type-grid{ grid-template-columns:1fr; } }
+
+  .type-block { display: flex; flex-direction: column; gap: 16px; }
+
+  .type-sample-heading {
+    font-family: 'Syne', sans-serif;
+    color: var(--ghost);
+  }
+  .t-display { font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+  .t-h1 { font-size: 40px; font-weight: 700; line-height: 1.1; }
+  .t-h2 { font-size: 28px; font-weight: 600; line-height: 1.2; }
+  .t-h3 { font-size: 20px; font-weight: 600; line-height: 1.3; }
+
+  .type-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--violet);
+    opacity: 0.6;
+    letter-spacing: 0.1em;
+  }
+
+  .type-sample-mono { font-family: 'Space Mono', monospace; color: var(--ghost); }
+  .t-body { font-size: 15px; line-height: 1.7; }
+  .t-small { font-size: 13px; line-height: 1.6; }
+  .t-code {
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--indigo-10);
+    border: 1px solid var(--indigo-20);
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: var(--violet);
+  }
+
+  /* --- COLOR PALETTE --- */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--ghost-10);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .swatch:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .swatch-color { height: 100px; width: 100%; }
+  .swatch-info {
+    background: rgba(255,255,255,0.03);
+    padding: 14px 16px;
+  }
+  .swatch-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ghost);
+    margin-bottom: 4px;
+  }
+  .swatch-hex {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--violet);
+    opacity: 0.7;
+  }
+
+  /* --- BUTTONS --- */
+  .button-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    padding: 13px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: none;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, filter 0.2s ease;
+    will-change: transform;
+    overflow: hidden;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s ease;
+    border-radius: inherit;
+  }
+  .btn:hover::after { background: rgba(255,255,255,0.06); }
+
+  .btn-primary {
+    background: var(--indigo);
+    color: #fff;
+    box-shadow: 0 4px 24px rgba(108,59,255,0.3);
+  }
+  .btn-primary:hover { box-shadow: 0 8px 40px rgba(108,59,255,0.5); filter: brightness(1.1); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ghost);
+    border: 1.5px solid var(--indigo);
+    box-shadow: 0 0 0 0 rgba(108,59,255,0);
+  }
+  .btn-secondary:hover { box-shadow: 0 0 20px rgba(108,59,255,0.2); }
+
+  .btn-ghost {
+    background: var(--ghost-10);
+    color: var(--ghost);
+    border: 1px solid var(--ghost-20);
+  }
+  .btn-ghost:hover { background: rgba(240,237,255,0.12); }
+
+  .btn-magenta {
+    background: linear-gradient(135deg, var(--magenta), var(--indigo));
+    color: #fff;
+    box-shadow: 0 4px 24px rgba(255,59,255,0.3);
+  }
+  .btn-magenta:hover { box-shadow: 0 8px 40px rgba(255,59,255,0.5); }
+
+  .btn-sm { font-size: 11px; padding: 8px 18px; }
+  .btn-lg { font-size: 15px; padding: 18px 40px; border-radius: 12px; }
+
+  .btn-icon { width: 44px; height: 44px; padding: 0; border-radius: 10px; font-size: 16px; }
+
+  /* --- INPUTS --- */
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 800px;
+  }
+  @media(max-width:600px){ .input-grid{ grid-template-columns:1fr; } }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .field label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--violet);
+    opacity: 0.8;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    background: rgba(108,59,255,0.06);
+    border: 1.5px solid var(--indigo-20);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--ghost);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor: none;
+    -webkit-appearance: none;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: rgba(240,237,255,0.25); }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px var(--indigo-10), 0 0 20px rgba(108,59,255,0.15);
+    background: rgba(108,59,255,0.10);
+  }
+  .field textarea { resize: vertical; min-height: 100px; }
+  .field select option { background: #1a1030; color: var(--ghost); }
+
+  /* --- CARDS --- */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: linear-gradient(135deg, rgba(108,59,255,0.08) 0%, rgba(13,13,26,0.8) 100%);
+    border: 1px solid var(--indigo-20);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--indigo-40), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover {
+    border-color: var(--indigo-40);
+    box-shadow: 0 8px 40px rgba(108,59,255,0.12), 0 0 0 1px var(--indigo-20);
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    background: var(--indigo-20);
+    border: 1px solid var(--indigo-40);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ghost);
+    margin-bottom: 10px;
+  }
+  .card-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(240,237,255,0.55);
+  }
+  .card-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ghost-10);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    background: var(--indigo-10);
+    border: 1px solid var(--indigo-20);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  /* --- GRID SYSTEM --- */
+  .grid-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .grid-row {
+    display: grid;
+    gap: 8px;
+    height: 36px;
+  }
+  .grid-col {
+    border-radius: 6px;
+    background: var(--indigo-10);
+    border: 1px solid var(--indigo-20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--indigo);
+    letter-spacing: 0.1em;
+    transition: background 0.2s ease;
+  }
+  .grid-col:hover { background: var(--indigo-20); }
+
+  /* --- SPACING SCALE --- */
+  .spacing-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .spacing-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--violet);
+    opacity: 0.7;
+    width: 60px;
+    flex-shrink: 0;
+  }
+  .spacing-bar-wrap {
+    flex: 1;
+    height: 28px;
+    display: flex;
+    align-items: center;
+  }
+  .spacing-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--indigo), var(--violet));
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    min-width: 28px;
+    transition: filter 0.2s ease;
+  }
+  .spacing-bar:hover { filter: brightness(1.2); }
+  .spacing-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+  }
+
+  /* --- FOOTER --- */
+  .ds-footer {
+    border-top: 1px solid var(--indigo-20);
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ghost);
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+  .footer-version {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--indigo);
+    opacity: 0.6;
+  }
+
+  /* --- DIVIDER --- */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--indigo-20), transparent);
+    margin: 8px 0;
+  }
+
+  /* =====================
+     ANIMATIONS / MISC
+  ===================== */
+  @keyframes pulse-ring {
+    0% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    100% { transform: translate(-50%,-50%) scale(2.5); opacity: 0; }
+  }
+
+  .click-burst {
+    position: fixed;
+    pointer-events: none;
+    width: 10px; height: 10px;
+    border: 2px solid var(--indigo);
+    border-radius: 50%;
+    transform: translate(-50%,-50%) scale(1);
+    animation: pulse-ring 0.6s ease-out forwards;
+    z-index: 9997;
+  }
+
+  /* noise texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="hero-overlay">
+    <p class="hero-tag">Design System v13</p>
+    <h1 class="hero-title">MAGNETIC<br>FIELD</h1>
+    <p class="hero-subtitle">Interactive Forces &mdash; Push the field. Watch it return.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary btn-lg magnetic-btn">Explore System</button>
+      <button class="btn btn-secondary btn-lg magnetic-btn">View Source</button>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+      <path d="M8 0v16M1 9l7 8 7-8" stroke="rgba(183,148,244,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== DESIGN SYSTEM CONTENT ===================== -->
+<div class="ds-wrapper">
+
+  <!-- TYPOGRAPHY -->
+  <section class="ds-section">
+    <p class="section-label">01 — Typography</p>
+    <h2 class="section-title">Type Scale</h2>
+    <div class="type-grid">
+      <div class="type-block">
+        <p class="type-meta">Syne — Headings</p>
+        <div class="divider"></div>
+        <div>
+          <div class="type-sample-heading t-display">Display</div>
+          <p class="type-meta">Syne 800 · 56px · -3%</p>
+        </div>
+        <div>
+          <div class="type-sample-heading t-h1">Heading 1</div>
+          <p class="type-meta">Syne 700 · 40px · -1%</p>
+        </div>
+        <div>
+          <div class="type-sample-heading t-h2">Heading 2</div>
+          <p class="type-meta">Syne 600 · 28px</p>
+        </div>
+        <div>
+          <div class="type-sample-heading t-h3">Heading 3</div>
+          <p class="type-meta">Syne 600 · 20px</p>
+        </div>
+      </div>
+      <div class="type-block">
+        <p class="type-meta">Space Mono — Body & Code</p>
+        <div class="divider"></div>
+        <div>
+          <div class="type-sample-mono t-body">The quick brown fox jumps over the lazy dog. Particle systems create emergent complexity from simple rules applied at scale.</div>
+          <p class="type-meta" style="margin-top:8px">Space Mono 400 · 15px · 1.7</p>
+        </div>
+        <div>
+          <div class="type-sample-mono t-small" style="opacity:0.6">Caption and metadata text. Used for labels, timestamps, and auxiliary information across the system.</div>
+          <p class="type-meta" style="margin-top:8px">Space Mono 400 · 13px · 1.6</p>
+        </div>
+        <div class="t-code">
+          const magnetic = new Field();<br>
+          magnetic.repel(cursor, 120);<br>
+          magnetic.spring(0.85);
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR PALETTE -->
+  <section class="ds-section">
+    <p class="section-label">02 — Color</p>
+    <h2 class="section-title">Palette</h2>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#6C3BFF;box-shadow:inset 0 -2px 0 rgba(0,0,0,0.2)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Electric Indigo</div>
+          <div class="swatch-hex">#6C3BFF — Primary</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B794F4"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Soft Violet</div>
+          <div class="swatch-hex">#B794F4 — Secondary</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0D0D1A;border-bottom:1px solid rgba(255,255,255,0.08)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Space</div>
+          <div class="swatch-hex">#0D0D1A — Background</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F0EDFF"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ghost White</div>
+          <div class="swatch-hex">#F0EDFF — Foreground</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#FF3BFF,#6C3BFF)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Magenta Accent</div>
+          <div class="swatch-hex">#FF3BFF — Accent</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="ds-section">
+    <p class="section-label">03 — Components</p>
+    <h2 class="section-title">Buttons</h2>
+    <p style="font-size:12px;color:var(--violet);opacity:0.7;margin-bottom:32px;letter-spacing:0.05em">All buttons have magnetic attraction — hover to feel the pull.</p>
+
+    <div class="button-showcase">
+      <button class="btn btn-primary magnetic-btn">Primary Action</button>
+      <button class="btn btn-secondary magnetic-btn">Secondary</button>
+      <button class="btn btn-ghost magnetic-btn">Ghost</button>
+      <button class="btn btn-magenta magnetic-btn">&#10024; Accent</button>
+    </div>
+
+    <div class="button-showcase">
+      <button class="btn btn-primary btn-sm magnetic-btn">Small</button>
+      <button class="btn btn-primary magnetic-btn">Default</button>
+      <button class="btn btn-primary btn-lg magnetic-btn">Large Button</button>
+    </div>
+
+    <div class="button-showcase">
+      <button class="btn btn-primary btn-icon magnetic-btn" title="Add">+</button>
+      <button class="btn btn-secondary btn-icon magnetic-btn" title="Search">&#9679;</button>
+      <button class="btn btn-ghost btn-icon magnetic-btn" title="Settings">&#9881;</button>
+      <button class="btn btn-magenta btn-icon magnetic-btn" title="Star">&#9733;</button>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section class="ds-section">
+    <p class="section-label">03 — Components</p>
+    <h2 class="section-title">Form Inputs</h2>
+    <div class="input-grid">
+      <div class="field">
+        <label>Text Field</label>
+        <input type="text" placeholder="Enter value…">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="you@domain.com">
+      </div>
+      <div class="field">
+        <label>Search</label>
+        <input type="search" placeholder="Search particles…">
+      </div>
+      <div class="field">
+        <label>Select</label>
+        <select>
+          <option>Electric Indigo</option>
+          <option>Soft Violet</option>
+          <option>Magenta Accent</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label>Textarea</label>
+        <textarea placeholder="Describe your field configuration…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="ds-section">
+    <p class="section-label">03 — Components</p>
+    <h2 class="section-title">Cards</h2>
+    <p style="font-size:12px;color:var(--violet);opacity:0.7;margin-bottom:32px;letter-spacing:0.05em">Cards repel the cursor — move your mouse over them.</p>
+    <div class="cards-grid">
+      <div class="card magnetic-card">
+        <div class="card-icon">&#9889;</div>
+        <div class="card-title">Particle Engine</div>
+        <div class="card-body">High-performance canvas-based particle simulation with spring physics, velocity damping, and real-time cursor interaction.</div>
+        <div class="card-footer">
+          <span class="card-tag">Physics</span>
+          <button class="btn btn-ghost btn-sm magnetic-btn" style="margin:0">Details →</button>
+        </div>
+      </div>
+      <div class="card magnetic-card">
+        <div class="card-icon">&#9733;</div>
+        <div class="card-title">Magnetic Components</div>
+        <div class="card-body">Every interactive element responds to cursor proximity with subtle attraction and repulsion forces for a tactile feel.</div>
+        <div class="card-footer">
+          <span class="card-tag">Interaction</span>
+          <button class="btn btn-ghost btn-sm magnetic-btn" style="margin:0">Details →</button>
+        </div>
+      </div>
+      <div class="card magnetic-card">
+        <div class="card-icon">&#9670;</div>
+        <div class="card-title">Type System</div>
+        <div class="card-body">Carefully crafted typographic scale using Syne for display text and Space Mono for technical and body content.</div>
+        <div class="card-footer">
+          <span class="card-tag">Typography</span>
+          <button class="btn btn-ghost btn-sm magnetic-btn" style="margin:0">Details →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID SYSTEM -->
+  <section class="ds-section">
+    <p class="section-label">04 — Grid</p>
+    <h2 class="section-title">Grid System</h2>
+    <div class="grid-demo">
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 12">12</div>
+      </div>
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 6">6</div>
+        <div class="grid-col" style="grid-column:span 6">6</div>
+      </div>
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 4">4</div>
+        <div class="grid-col" style="grid-column:span 4">4</div>
+        <div class="grid-col" style="grid-column:span 4">4</div>
+      </div>
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 3">3</div>
+        <div class="grid-col" style="grid-column:span 3">3</div>
+        <div class="grid-col" style="grid-column:span 3">3</div>
+        <div class="grid-col" style="grid-column:span 3">3</div>
+      </div>
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 8">8</div>
+        <div class="grid-col" style="grid-column:span 4">4</div>
+      </div>
+      <div class="grid-row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="grid-col" style="grid-column:span 2">2</div>
+        <div class="grid-col" style="grid-column:span 2">2</div>
+        <div class="grid-col" style="grid-column:span 2">2</div>
+        <div class="grid-col" style="grid-column:span 2">2</div>
+        <div class="grid-col" style="grid-column:span 2">2</div>
+        <div class="grid-col" style="grid-column:span 2">2</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING SCALE -->
+  <section class="ds-section">
+    <p class="section-label">05 — Spacing</p>
+    <h2 class="section-title">Spacing Scale</h2>
+    <div class="spacing-scale">
+      <div class="spacing-row">
+        <span class="spacing-label">sp-1</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px"><span class="spacing-value" style="display:none">4px</span></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">4px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-2</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">8px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-3</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">12px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-4</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">16px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-6</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">24px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-8</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">32px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-10</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:40px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">40px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-12</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">48px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-16</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">64px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-24</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:96px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">96px</span></div>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">sp-32</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:128px"></div><span style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(240,237,255,0.3);margin-left:12px">128px</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ds-footer">
+    <span class="footer-brand">MAGNETIC FIELD</span>
+    <span class="footer-version">Design System v13 &mdash; 2024</span>
+  </footer>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // =============================================
+  // CUSTOM CURSOR
+  // =============================================
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx = -200, my = -200;
+  let rx = -200, ry = -200;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  // Ring follows with slight lag
+  (function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Click burst
+  document.addEventListener('click', e => {
+    const burst = document.createElement('div');
+    burst.className = 'click-burst';
+    burst.style.left = e.clientX + 'px';
+    burst.style.top  = e.clientY + 'px';
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 700);
+  });
+
+  // =============================================
+  // PARTICLE SYSTEM
+  // =============================================
+  const canvas = document.getElementById('particle-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  // Config
+  const CFG = {
+    count:        320,
+    repelRadius:  120,
+    repelForce:   3.0,
+    springK:      0.05,
+    damping:      0.85,
+    burstForce:   18,
+    baseRadius:   1.5,
+    maxRadius:    3.5,
+    color:        [240, 237, 255],     // ghost white
+    glowColor:    '108, 59, 255',      // indigo
+    glowBlur:     8,
+  };
+
+  let W, H, particles = [];
+  let mouse = { x: -9999, y: -9999, active: false };
+  let burst = false;
+
+  class Particle {
+    constructor(ox, oy) {
+      this.ox = ox;  // origin x
+      this.oy = oy;  // origin y
+      this.x  = ox;
+      this.y  = oy;
+      this.vx = 0;
+      this.vy = 0;
+      this.r  = CFG.baseRadius + Math.random() * 0.8;
+      // slight variation in brightness
+      this.alpha = 0.35 + Math.random() * 0.5;
+    }
+
+    update(mx, my, doBurst) {
+      let fx = 0, fy = 0;
+
+      if (doBurst) {
+        // massive burst from cursor
+        const dx = this.x - mx;
+        const dy = this.y - my;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        const angle = Math.atan2(dy, dx);
+        const force = CFG.burstForce * (1 + (CFG.repelRadius / (dist + 10)));
+        fx += Math.cos(angle) * force;
+        fy += Math.sin(angle) * force;
+      } else {
+        // normal repulsion
+        const dx = this.x - mx;
+        const dy = this.y - my;
+        const dist2 = dx*dx + dy*dy;
+        const r2 = CFG.repelRadius * CFG.repelRadius;
+        if (dist2 < r2 && dist2 > 0) {
+          const dist = Math.sqrt(dist2);
+          const norm = (CFG.repelRadius - dist) / CFG.repelRadius;
+          const force = norm * norm * CFG.repelForce;
+          fx += (dx / dist) * force;
+          fy += (dy / dist) * force;
+        }
+      }
+
+      // Spring return to origin
+      fx += (this.ox - this.x) * CFG.springK;
+      fy += (this.oy - this.y) * CFG.springK;
+
+      this.vx = (this.vx + fx) * CFG.damping;
+      this.vy = (this.vy + fy) * CFG.damping;
+      this.x += this.vx;
+      this.y += this.vy;
+    }
+
+    draw(ctx) {
+      const dx  = this.x - this.ox;
+      const dy  = this.y - this.oy;
+      const disp = Math.sqrt(dx*dx + dy*dy);
+      const t   = Math.min(disp / 80, 1); // 0..1 based on displacement
+
+      // Interpolate color: white → indigo/violet on displacement
+      const r = Math.round(CFG.color[0] * (1-t) + 108 * t);
+      const g = Math.round(CFG.color[1] * (1-t) + 59  * t);
+      const b = Math.round(CFG.color[2] * (1-t) + 255 * t);
+      const a = this.alpha + t * 0.4;
+
+      const radius = CFG.baseRadius + t * (CFG.maxRadius - CFG.baseRadius);
+
+      if (t > 0.05) {
+        ctx.shadowBlur  = CFG.glowBlur + t * 14;
+        ctx.shadowColor = `rgba(${CFG.glowColor}, ${t * 0.9})`;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+      ctx.fill();
+    }
+  }
+
+  function buildGrid() {
+    particles = [];
+    const cols = Math.round(Math.sqrt(CFG.count * (W / H)));
+    const rows = Math.round(CFG.count / cols);
+    const cellW = W / cols;
+    const cellH = H / rows;
+    const offX  = cellW / 2;
+    const offY  = cellH / 2;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        particles.push(new Particle(
+          offX + c * cellW,
+          offY + r * cellH
+        ));
+      }
+    }
+  }
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    buildGrid();
+  }
+
+  let burstFrame = 0;
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+
+    const doBurst = burst;
+    if (burst) {
+      burstFrame++;
+      if (burstFrame > 2) { burst = false; burstFrame = 0; }
+    }
+
+    // Subtle vignette
+    const vignette = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.8);
+    vignette.addColorStop(0, 'rgba(13,13,26,0)');
+    vignette.addColorStop(1, 'rgba(13,13,26,0.55)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    for (const p of particles) {
+      p.update(mouse.x, mouse.y, doBurst);
+      p.draw(ctx);
+    }
+    ctx.restore();
+    ctx.shadowBlur = 0;
+
+    requestAnimationFrame(loop);
+  }
+
+  // Mouse tracking — only affect canvas when in hero viewport
+  const hero = document.getElementById('hero');
+  document.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    if (e.clientY < rect.bottom && e.clientY > rect.top) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    } else {
+      mouse.x = -9999;
+      mouse.y = -9999;
+      mouse.active = false;
+    }
+  });
+
+  document.addEventListener('click', e => {
+    const rect = hero.getBoundingClientRect();
+    if (e.clientY < rect.bottom) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      burst = true;
+      burstFrame = 0;
+    }
+  });
+
+  // Touch support
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const t = e.touches[0];
+    mouse.x = t.clientX;
+    mouse.y = t.clientY;
+  }, { passive: false });
+
+  canvas.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    mouse.x = t.clientX;
+    mouse.y = t.clientY;
+    burst = true; burstFrame = 0;
+  });
+
+  window.addEventListener('resize', resize);
+  resize();
+  loop();
+
+  // =============================================
+  // MAGNETIC EFFECT — Buttons & Cards
+  // =============================================
+  function initMagnetic(el, options) {
+    const strength = options.strength || 0.35;
+    const radius   = options.radius   || 100;
+    const isCard   = options.isCard   || false;
+
+    let animId = null;
+    let tx = 0, ty = 0;
+    let cx = 0, cy = 0;
+
+    function onMove(e) {
+      const rect = el.getBoundingClientRect();
+      const ex = rect.left + rect.width  / 2;
+      const ey = rect.top  + rect.height / 2;
+      const dx = e.clientX - ex;
+      const dy = e.clientY - ey;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if (dist < radius) {
+        if (isCard) {
+          // Cards: slight repel
+          tx = -dx * strength * 0.4;
+          ty = -dy * strength * 0.4;
+        } else {
+          // Buttons: attract
+          tx = dx * strength;
+          ty = dy * strength;
+        }
+      } else {
+        tx = 0; ty = 0;
+      }
+    }
+
+    function onLeave() { tx = 0; ty = 0; }
+
+    function animate() {
+      cx += (tx - cx) * 0.1;
+      cy += (ty - cy) * 0.1;
+      el.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px)`;
+      animId = requestAnimationFrame(animate);
+    }
+
+    document.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseleave', onLeave);
+    animId = requestAnimationFrame(animate);
+  }
+
+  // Init all magnetic buttons
+  document.querySelectorAll('.magnetic-btn').forEach(el => {
+    initMagnetic(el, { strength: 0.45, radius: 90 });
+  });
+
+  // Init all magnetic cards (repel)
+  document.querySelectorAll('.magnetic-card').forEach(el => {
+    initMagnetic(el, { strength: 0.18, radius: 140, isCard: true });
+  });
+
+})();
+</script>
+</body>
+</html>

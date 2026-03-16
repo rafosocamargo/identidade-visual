@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEPTH FIELD — Design System v14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ─── Reset & Base ─────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void:        #0A0A0F;
+    --deep-navy:   #1C1C2E;
+    --gold:        #C8A96E;
+    --gold-bright: #D4B87A;
+    --cream:       #E8D5B0;
+    --ember:       #FF6B35;
+    --ember-dim:   #CC5228;
+    --glass-bg:    rgba(28, 28, 46, 0.55);
+    --glass-border:rgba(200, 169, 110, 0.18);
+    --text-muted:  rgba(232, 213, 176, 0.45);
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-mono:    'DM Mono', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, #1C1C2E 0%, #0A0A0F 100%);
+    background-attachment: fixed;
+    color: var(--cream);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── Grain Texture Overlay ────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ─── Custom Cursor ────────────────────────────────────── */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s linear, width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(200,169,110,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease-out, width 0.25s, height 0.25s, opacity 0.2s;
+  }
+
+  /* ─── Scrollbar ────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--void); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* ─── Depth Indicator ──────────────────────────────────── */
+  .depth-indicator {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .depth-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: 1px;
+    opacity: 0.7;
+  }
+  .depth-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.7;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── HERO SECTION ─────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 800px;
+  }
+
+  /* The tiltable inner wrapper */
+  #hero-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+  }
+  #hero-stage.tilting {
+    transition: transform 0.1s linear;
+  }
+
+  /* ─── Floating Layer Shapes ────────────────────────────── */
+  .layer {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  /* Background layer — slowest parallax */
+  .l-bg-circle-1 {
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,169,110,0.07);
+    top: 50%; left: 50%;
+    margin-top: -210px; margin-left: -210px;
+    background: radial-gradient(circle, rgba(200,169,110,0.04) 0%, transparent 70%);
+  }
+  .l-bg-circle-2 {
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,169,110,0.04);
+    top: 50%; left: 50%;
+    margin-top: -350px; margin-left: -350px;
+  }
+  .l-bg-rect-1 {
+    width: 1px; height: 55vh;
+    background: linear-gradient(180deg, transparent, rgba(200,169,110,0.15), transparent);
+    top: 22%; left: 15%;
+  }
+  .l-bg-rect-2 {
+    width: 1px; height: 40vh;
+    background: linear-gradient(180deg, transparent, rgba(200,169,110,0.10), transparent);
+    top: 30%; right: 12%;
+  }
+
+  /* Mid layer — medium parallax */
+  .l-mid-diamond {
+    width: 60px; height: 60px;
+    border: 1px solid rgba(200,169,110,0.35);
+    top: 18%; left: 18%;
+    transform: rotate(45deg);
+  }
+  .l-mid-diamond-2 {
+    width: 30px; height: 30px;
+    border: 1px solid rgba(255,107,53,0.4);
+    bottom: 25%; right: 22%;
+    transform: rotate(45deg);
+  }
+  .l-mid-circle {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    top: 35%; left: 8%;
+    box-shadow: 0 0 20px rgba(200,169,110,0.6);
+  }
+  .l-mid-circle-2 {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--ember);
+    top: 60%; right: 10%;
+    box-shadow: 0 0 15px rgba(255,107,53,0.7);
+  }
+  .l-mid-line {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.5), transparent);
+    top: 72%; left: 20%;
+  }
+
+  /* Foreground layer — fastest parallax */
+  .l-fg-bracket-left {
+    font-family: var(--font-mono);
+    font-size: 80px;
+    color: rgba(200,169,110,0.12);
+    top: 50%; left: 3%;
+    margin-top: -50px;
+    line-height: 1;
+  }
+  .l-fg-bracket-right {
+    font-family: var(--font-mono);
+    font-size: 80px;
+    color: rgba(200,169,110,0.12);
+    top: 50%; right: 3%;
+    margin-top: -50px;
+    line-height: 1;
+  }
+  .l-fg-coord {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(200,169,110,0.3);
+    letter-spacing: 0.15em;
+    bottom: 12%; left: 5%;
+  }
+  .l-fg-coord-r {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(200,169,110,0.3);
+    letter-spacing: 0.15em;
+    bottom: 12%; right: 5%;
+    text-align: right;
+  }
+
+  /* ─── Hero Content (deepest center layer) ─────────────── */
+  .hero-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    will-change: transform;
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 160px);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    background: linear-gradient(160deg, var(--cream) 30%, var(--gold) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero-title::after {
+    content: 'DEPTH FIELD';
+    position: absolute;
+    top: 4px; left: 4px;
+    background: linear-gradient(160deg, rgba(200,169,110,0.08) 30%, rgba(255,107,53,0.06) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    z-index: -1;
+  }
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(13px, 1.6vw, 18px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 48px;
+  }
+  .hero-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 48px;
+  }
+  .hero-meta {
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+  }
+  .hero-meta-item {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .hero-meta-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* ─── Scroll indicator ─────────────────────────────────── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 20;
+    animation: scrollBob 2.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .scroll-hint span {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .scroll-hint-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  @keyframes scrollBob {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── SECTION COMMONS ──────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  .section {
+    padding: 120px clamp(24px, 6vw, 100px);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 72px;
+  }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(14px, 1.5vw, 18px);
+    color: var(--text-muted);
+    margin-top: 12px;
+    max-width: 480px;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15), transparent);
+    margin: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── COMPONENTS SECTION ───────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  #components {
+    perspective: 1200px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .card-3d-wrapper {
+    perspective: 600px;
+  }
+
+  .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg) translateZ(0px);
+    transition: transform 0.12s linear, box-shadow 0.3s ease;
+    will-change: transform;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .card:hover {
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.5),
+      0 0 40px rgba(200,169,110,0.08),
+      inset 0 1px 0 rgba(232,213,176,0.12);
+  }
+  .card-idle {
+    transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,213,176,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-sheen {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+      rgba(200,169,110,0.07) 0%, transparent 50%);
+    pointer-events: none;
+    transition: background 0.1s;
+    border-radius: 16px;
+  }
+
+  .card-depth-line {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    border-radius: 16px 0 0 16px;
+  }
+  .card-depth-line.gold   { background: linear-gradient(180deg, var(--gold), transparent); }
+  .card-depth-line.ember  { background: linear-gradient(180deg, var(--ember), transparent); }
+  .card-depth-line.cream  { background: linear-gradient(180deg, var(--cream), transparent); }
+  .card-depth-line.navy   { background: linear-gradient(180deg, #4A4A7E, transparent); }
+
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+    font-size: 22px;
+  }
+  .card-icon.gold-bg  { background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.25); }
+  .card-icon.ember-bg { background: rgba(255,107,53,0.10); border: 1px solid rgba(255,107,53,0.25); }
+  .card-icon.navy-bg  { background: rgba(74,74,126,0.20); border: 1px solid rgba(74,74,126,0.35); }
+  .card-icon.cream-bg { background: rgba(232,213,176,0.08); border: 1px solid rgba(232,213,176,0.18); }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .card-desc {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .card-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid currentColor;
+  }
+  .card-badge.gold  { color: var(--gold);  border-color: rgba(200,169,110,0.35); }
+  .card-badge.ember { color: var(--ember); border-color: rgba(255,107,53,0.35); }
+  .card-badge.cream { color: var(--cream); border-color: rgba(232,213,176,0.3); }
+
+  .card-z-indicator {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+
+  /* Special card: large featured */
+  .card-featured {
+    grid-column: span 2;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  @media (max-width: 700px) { .card-featured { grid-column: span 1; flex-direction: column; } }
+
+  .card-featured-visual {
+    flex-shrink: 0;
+    width: 120px; height: 120px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(200,169,110,0.12), rgba(255,107,53,0.08));
+    border: 1px solid rgba(200,169,110,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-featured-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(200,169,110,0.15), transparent 60%);
+  }
+
+  /* Button component showcase */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: none;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), #B8953E);
+    color: var(--void);
+    box-shadow: 0 8px 24px rgba(200,169,110,0.25);
+  }
+  .btn-primary:hover { box-shadow: 0 12px 32px rgba(200,169,110,0.4); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(200,169,110,0.4);
+    color: var(--gold);
+  }
+  .btn-ghost:hover { border-color: var(--gold); background: rgba(200,169,110,0.06); }
+  .btn-ember {
+    background: linear-gradient(135deg, var(--ember), var(--ember-dim));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(255,107,53,0.25);
+  }
+
+  /* Input showcase */
+  .input-demo {
+    background: rgba(10,10,15,0.6);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+    margin-top: 16px;
+  }
+  .input-demo::placeholder { color: var(--text-muted); }
+  .input-demo:focus { border-color: rgba(200,169,110,0.6); }
+
+  /* Tag/Badge cluster */
+  .tag-cluster { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: rgba(200,169,110,0.08);
+    border: 1px solid rgba(200,169,110,0.18);
+    color: var(--gold);
+  }
+  .tag.ember { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.2); color: var(--ember); }
+  .tag.cream { background: rgba(232,213,176,0.06); border-color: rgba(232,213,176,0.15); color: var(--cream); }
+
+  /* Progress bars */
+  .progress-demo { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .progress-row { display: flex; flex-direction: column; gap: 5px; }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--text-muted); letter-spacing: 0.1em;
+  }
+  .progress-track {
+    height: 4px; background: rgba(255,255,255,0.05);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .progress-fill.gold  { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+  .progress-fill.ember { background: linear-gradient(90deg, var(--ember), #FF8A5B); }
+  .progress-fill.cream { background: linear-gradient(90deg, rgba(232,213,176,0.5), var(--cream)); }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── TYPOGRAPHY SECTION ───────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  #typography {
+    perspective: 1000px;
+  }
+
+  .typo-stage {
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+  }
+
+  .type-specimen { margin-bottom: 64px; }
+  .type-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0.7;
+  }
+  .type-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(200,169,110,0.15);
+  }
+
+  .type-display-1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--cream);
+    letter-spacing: -0.03em;
+  }
+  .type-display-2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+  .type-display-2 em { color: var(--gold); font-style: italic; }
+  .type-heading {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .type-body {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(232,213,176,0.7);
+    line-height: 1.75;
+    max-width: 65ch;
+  }
+  .type-mono-lg {
+    font-family: var(--font-mono);
+    font-size: clamp(16px, 2vw, 24px);
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  .type-mono-sm {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .type-specimen-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 64px;
+    margin-top: 48px;
+  }
+  @media (max-width: 700px) { .type-specimen-row { grid-template-columns: 1fr; } }
+
+  .type-scale-item { padding-bottom: 24px; border-bottom: 1px solid rgba(200,169,110,0.08); }
+  .type-scale-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .type-scale-name { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; }
+  .type-scale-size { font-family: var(--font-mono); font-size: 10px; color: var(--gold); opacity: 0.6; }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── COLOR PALETTE SECTION ─────────────────────────────  */
+  /* ═══════════════════════════════════════════════════════ */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: none;
+  }
+  .swatch:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .swatch-color {
+    height: 100px;
+    position: relative;
+  }
+  .swatch-color::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3));
+  }
+  .swatch-info {
+    padding: 14px 16px;
+    background: rgba(28,28,46,0.8);
+  }
+  .swatch-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .swatch-role {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── SPACING SECTION ──────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  .spacing-grid {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(200,169,110,0.06);
+    transition: background 0.2s;
+  }
+  .spacing-row:hover { background: rgba(200,169,110,0.02); }
+  .spacing-token {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .spacing-bar-wrap { flex: 1; }
+  .spacing-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--gold), rgba(200,169,110,0.3));
+  }
+  .spacing-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .spacing-rem {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(200,169,110,0.35);
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── FOOTER ────────────────────────────────────────────  */
+  /* ═══════════════════════════════════════════════════════ */
+  footer {
+    border-top: 1px solid rgba(200,169,110,0.1);
+    padding: 48px clamp(24px, 6vw, 100px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .footer-meta span { display: block; }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* ─── DEPTH LAYER PANEL (fixed UI) ─────────────────────── */
+  /* ═══════════════════════════════════════════════════════ */
+  #depth-panel {
+    position: fixed;
+    right: 28px; top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+  .depth-pip {
+    display: flex; align-items: center; gap: 8px; justify-content: flex-end;
+  }
+  .depth-pip-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.35);
+    text-align: right;
+  }
+  .depth-pip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,169,110,0.4);
+  }
+  .depth-pip-dot.active {
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(200,169,110,0.6);
+  }
+
+  /* ─── Tilt readout (debug-style overlay) ────────────────  */
+  #tilt-readout {
+    position: fixed;
+    bottom: 28px; left: 28px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(200,169,110,0.4);
+    letter-spacing: 0.12em;
+    z-index: 1000;
+    pointer-events: none;
+    line-height: 1.7;
+  }
+  #tilt-readout span { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ─── Custom Cursor ──────────────────────────────────── -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ─── Depth Panel (fixed) ───────────────────────────── -->
+<div id="depth-panel">
+  <div class="depth-pip">
+    <span class="depth-pip-label">Z+300</span>
+    <div class="depth-pip-dot active"></div>
+  </div>
+  <div class="depth-pip">
+    <span class="depth-pip-label">Z+150</span>
+    <div class="depth-pip-dot active"></div>
+  </div>
+  <div class="depth-pip">
+    <span class="depth-pip-label">Z+000</span>
+    <div class="depth-pip-dot active"></div>
+  </div>
+  <div class="depth-pip">
+    <span class="depth-pip-label">Z−150</span>
+    <div class="depth-pip-dot"></div>
+  </div>
+  <div class="depth-pip">
+    <span class="depth-pip-label">Z−300</span>
+    <div class="depth-pip-dot"></div>
+  </div>
+</div>
+
+<!-- ─── Tilt Readout ──────────────────────────────────── -->
+<div id="tilt-readout">
+  <span id="tilt-x">RX: +0.00°</span>
+  <span id="tilt-y">RY: +0.00°</span>
+  <span id="tilt-z">Z:  000.0px</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── HERO ──────────────────────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div id="hero-stage">
+
+    <!-- Depth Layer: Background (parallax speed 0.2) -->
+    <div class="layer l-bg-circle-1"  data-depth="0.10"></div>
+    <div class="layer l-bg-circle-2"  data-depth="0.06"></div>
+    <div class="layer l-bg-rect-1"    data-depth="0.12"></div>
+    <div class="layer l-bg-rect-2"    data-depth="0.12"></div>
+
+    <!-- Depth Layer: Mid (parallax speed 0.5) -->
+    <div class="layer l-mid-diamond"  data-depth="0.40"></div>
+    <div class="layer l-mid-diamond-2"data-depth="0.45"></div>
+    <div class="layer l-mid-circle"   data-depth="0.50"></div>
+    <div class="layer l-mid-circle-2" data-depth="0.55"></div>
+    <div class="layer l-mid-line"     data-depth="0.35"></div>
+
+    <!-- Depth Layer: Foreground (parallax speed 0.85) -->
+    <div class="layer l-fg-bracket-left"  data-depth="0.80">[</div>
+    <div class="layer l-fg-bracket-right" data-depth="0.80">]</div>
+    <div class="layer l-fg-coord"         data-depth="0.90">
+      X: 0.000 &nbsp;|&nbsp; Y: 0.000 &nbsp;|&nbsp; Z: 300
+    </div>
+    <div class="layer l-fg-coord-r" data-depth="0.90">
+      PARALLAX ACTIVE<br>DEPTH FIELD v14
+    </div>
+
+    <!-- Hero Content: deepest center -->
+    <div class="hero-content" data-depth="1.0" id="hero-content">
+      <div class="hero-eyebrow">Design System — 2025 Edition</div>
+      <h1 class="hero-title">DEPTH<br>FIELD</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">Design System v14 — Three Dimensional Experience</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">Playfair Display</span>
+        <div class="hero-meta-dot"></div>
+        <span class="hero-meta-item">DM Mono</span>
+        <div class="hero-meta-dot"></div>
+        <span class="hero-meta-item">5 Layers</span>
+        <div class="hero-meta-dot"></div>
+        <span class="hero-meta-item">Pure CSS 3D</span>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── COMPONENTS ────────────────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="components">
+  <div class="section">
+    <div class="section-header">
+      <div class="depth-indicator">
+        <div class="depth-bar" style="width:40px"></div>
+        <div class="depth-label">Z — 000</div>
+      </div>
+      <div class="section-tag">02 — Components</div>
+      <h2 class="section-title">System Elements</h2>
+      <p class="section-subtitle">Each card lives at a unique Z-depth, responding to hover with physical perspective tilt.</p>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- Card 1: Buttons -->
+      <div class="card-3d-wrapper">
+        <div class="card" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line gold"></div>
+          <div class="card-z-indicator">Z+240</div>
+          <div class="card-icon gold-bg">⬡</div>
+          <div class="card-title">Button System</div>
+          <div class="card-desc">Tactile controls with depth response and elevation states.</div>
+          <div class="btn-row">
+            <button class="btn btn-primary">Primary ↗</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-ember">Ember</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Typography -->
+      <div class="card-3d-wrapper">
+        <div class="card" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line cream"></div>
+          <div class="card-z-indicator">Z+180</div>
+          <div class="card-icon cream-bg">Aa</div>
+          <div class="card-title">Type Ramp</div>
+          <div class="card-desc">Playfair Display for narrative. DM Mono for precision.</div>
+          <div class="tag-cluster">
+            <span class="tag">Display</span>
+            <span class="tag cream">Heading</span>
+            <span class="tag">Body</span>
+            <span class="tag ember">Mono</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Inputs -->
+      <div class="card-3d-wrapper">
+        <div class="card" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line ember"></div>
+          <div class="card-z-indicator">Z+120</div>
+          <div class="card-icon ember-bg">◎</div>
+          <div class="card-title">Form Fields</div>
+          <div class="card-desc">Minimal input surfaces with gold-lit focus states.</div>
+          <input class="input-demo" type="text" placeholder="Enter depth coordinates…">
+        </div>
+      </div>
+
+      <!-- Card 4: Progress -->
+      <div class="card-3d-wrapper">
+        <div class="card" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line navy"></div>
+          <div class="card-z-indicator">Z+060</div>
+          <div class="card-icon navy-bg">▬</div>
+          <div class="card-title">Depth Meters</div>
+          <div class="card-desc">Progress visualization with layered elevation bars.</div>
+          <div class="progress-demo">
+            <div class="progress-row">
+              <div class="progress-meta"><span>Ambient Layer</span><span>87%</span></div>
+              <div class="progress-track"><div class="progress-fill gold" style="width:87%"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-meta"><span>Ember Depth</span><span>54%</span></div>
+              <div class="progress-track"><div class="progress-fill ember" style="width:54%"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-meta"><span>Surface Level</span><span>30%</span></div>
+              <div class="progress-track"><div class="progress-fill cream" style="width:30%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Tags -->
+      <div class="card-3d-wrapper">
+        <div class="card" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line gold"></div>
+          <div class="card-z-indicator">Z+040</div>
+          <div class="card-icon gold-bg">◈</div>
+          <div class="card-title">Taxonomy Tags</div>
+          <div class="card-desc">Classification atoms living at the surface plane.</div>
+          <div class="tag-cluster" style="margin-top:20px">
+            <span class="tag">Depth</span>
+            <span class="tag">Parallax</span>
+            <span class="tag ember">Ember</span>
+            <span class="tag cream">Layer</span>
+            <span class="tag">Z-Axis</span>
+            <span class="tag cream">Tilt</span>
+            <span class="tag ember">3D</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Featured (wide) -->
+      <div class="card-3d-wrapper" style="grid-column: span 2; --card-span:true;">
+        <div class="card card-featured" data-card>
+          <div class="card-sheen"></div>
+          <div class="card-depth-line ember"></div>
+          <div class="card-z-indicator">Z+320 — FEATURED</div>
+          <div class="card-featured-visual">◇</div>
+          <div>
+            <div class="card-badge ember" style="margin-bottom:16px">Signature Component</div>
+            <div class="card-title" style="font-size:24px">Depth Field Panel</div>
+            <div class="card-desc" style="font-size:15px">The hero component of this system. A full-width glass panel that responds to 3D perspective, layering content at staggered Z-depths. Built entirely from CSS transforms and JS mouse tracking — no WebGL, no canvas. Pure DOM geometry.</div>
+            <div class="btn-row">
+              <button class="btn btn-primary">Explore Component ↗</button>
+              <button class="btn btn-ghost">View Source</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── TYPOGRAPHY ────────────────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="typography">
+  <div class="section">
+    <div class="section-header">
+      <div class="depth-indicator">
+        <div class="depth-bar" style="width:60px"></div>
+        <div class="depth-label">Z + 150</div>
+      </div>
+      <div class="section-tag">03 — Typography</div>
+      <h2 class="section-title">Type Specimen</h2>
+      <p class="section-subtitle">Two typefaces. Infinite character. Hover this section to watch type float in space.</p>
+    </div>
+
+    <div class="typo-stage" id="typo-stage">
+
+      <div class="type-specimen">
+        <div class="type-label">Display 01 — Playfair Display 900</div>
+        <div class="type-display-1">Depth<br><em style="color:var(--gold)">& Light</em></div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-label">Display 02 — Playfair Display 700</div>
+        <div class="type-display-2">The <em>art</em> of dimensional design<br>lives in the space between layers.</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-label">Heading — Playfair Display 400</div>
+        <div class="type-heading">A system built on precision,<br>expressed through depth.</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-label">Body — Playfair Display Regular</div>
+        <p class="type-body">The Depth Field system treats every UI element as a physical object in three-dimensional space. By assigning Z-coordinates to components and responding to viewer perspective, interfaces become tactile — something you reach into, not just look at.</p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-label">Mono Large — DM Mono 400</div>
+        <div class="type-mono-lg">const depth = { z: 300, parallax: true };</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-label">Mono Small — DM Mono 400 Uppercase</div>
+        <div class="type-mono-sm">Z-AXIS — 300PX &nbsp;|&nbsp; RX +12.5° &nbsp;|&nbsp; RY −8.3° &nbsp;|&nbsp; PERSPECTIVE 800PX</div>
+      </div>
+
+      <div class="type-specimen-row">
+        <div class="type-scale-item">
+          <div class="type-scale-meta">
+            <span class="type-scale-name">Display XL</span>
+            <span class="type-scale-size">96 / 900</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:42px;font-weight:900;color:var(--cream);line-height:1">Aa Bb Cc</div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-meta">
+            <span class="type-scale-name">Display Italic</span>
+            <span class="type-scale-size">64 / 700i</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:42px;font-weight:700;font-style:italic;color:var(--gold);line-height:1">The Golden Age</div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-meta">
+            <span class="type-scale-name">Mono Regular</span>
+            <span class="type-scale-size">16 / 400</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:18px;color:var(--cream)">0123456789 ABCDEF →</div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-meta">
+            <span class="type-scale-name">Mono Light</span>
+            <span class="type-scale-size">12 / 300</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:15px;font-weight:300;color:var(--text-muted)">perspective: 800px; z-index: 300;</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── COLOR PALETTE ─────────────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="palette">
+  <div class="section">
+    <div class="section-header">
+      <div class="depth-indicator">
+        <div class="depth-bar" style="width:50px"></div>
+        <div class="depth-label">Z + 080</div>
+      </div>
+      <div class="section-tag">04 — Color</div>
+      <h2 class="section-title">Palette</h2>
+      <p class="section-subtitle">A dark luxury palette. Void backgrounds, warm amber light, ember accents.</p>
+    </div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0A0A0F"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Void</div>
+          <div class="swatch-hex">#0A0A0F</div>
+          <div class="swatch-role">Background / Base</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1C1C2E"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Navy</div>
+          <div class="swatch-hex">#1C1C2E</div>
+          <div class="swatch-role">Surface / Card BG</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#C8A96E,#D4B87A)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Antique Gold</div>
+          <div class="swatch-hex">#C8A96E</div>
+          <div class="swatch-role">Primary Accent</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E8D5B0"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-hex">#E8D5B0</div>
+          <div class="swatch-role">Primary Text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#FF6B35,#CC5228)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ember</div>
+          <div class="swatch-hex">#FF6B35</div>
+          <div class="swatch-role">Alert / CTA Accent</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.2)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gold Glass</div>
+          <div class="swatch-hex">rgba(200,169,110,0.12)</div>
+          <div class="swatch-role">Glassmorphism Fill</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── SPACING ───────────────────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="spacing">
+  <div class="section">
+    <div class="section-header">
+      <div class="depth-indicator">
+        <div class="depth-bar" style="width:35px"></div>
+        <div class="depth-label">Z + 030</div>
+      </div>
+      <div class="section-tag">05 — Spacing</div>
+      <h2 class="section-title">Scale</h2>
+      <p class="section-subtitle">Base-8 spatial rhythm. Each unit a step along the Z-axis.</p>
+    </div>
+    <div class="spacing-grid">
+      <div class="spacing-row">
+        <span class="spacing-token">--s-1</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px; height:4px; border-radius:2px; background:var(--gold);"></div></div>
+        <span class="spacing-value">4px</span>
+        <span class="spacing-rem">0.25rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-2</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8%"></div></div>
+        <span class="spacing-value">8px</span>
+        <span class="spacing-rem">0.5rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-3</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12%"></div></div>
+        <span class="spacing-value">12px</span>
+        <span class="spacing-rem">0.75rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-4</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16%"></div></div>
+        <span class="spacing-value">16px</span>
+        <span class="spacing-rem">1rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-6</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24%"></div></div>
+        <span class="spacing-value">24px</span>
+        <span class="spacing-rem">1.5rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-8</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32%"></div></div>
+        <span class="spacing-value">32px</span>
+        <span class="spacing-rem">2rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-12</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48%"></div></div>
+        <span class="spacing-value">48px</span>
+        <span class="spacing-rem">3rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-16</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64%"></div></div>
+        <span class="spacing-value">64px</span>
+        <span class="spacing-rem">4rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-24</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:80%"></div></div>
+        <span class="spacing-value">96px</span>
+        <span class="spacing-rem">6rem</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">--s-32</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div>
+        <span class="spacing-value">128px</span>
+        <span class="spacing-rem">8rem</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">DEPTH FIELD</div>
+  <div class="footer-meta">
+    <span>Design System v14</span>
+    <span>Playfair Display · DM Mono</span>
+    <span>Pure CSS 3D · No WebGL</span>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ─── JavaScript: 3D Engine ─────────────────────────── -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ─── Cursor ─────────────────────────────────────────────
+  const cursor     = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+  let mouseX = 0, mouseY = 0;
+  let ringX  = 0, ringY  = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Smooth cursor ring follow
+  function animateCursor() {
+    const dxR = mouseX - ringX;
+    const dyR = mouseY - ringY;
+    ringX += dxR * 0.12;
+    ringY += dyR * 0.12;
+
+    cursor.style.left     = mouseX + 'px';
+    cursor.style.top      = mouseY + 'px';
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('button, a, .swatch, .card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width  = '20px';
+      cursor.style.height = '20px';
+      cursor.style.opacity = '0.6';
+      cursorRing.style.width  = '60px';
+      cursorRing.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width  = '12px';
+      cursor.style.height = '12px';
+      cursor.style.opacity = '1';
+      cursorRing.style.width  = '40px';
+      cursorRing.style.height = '40px';
+    });
+  });
+
+  // ─── Hero 3D Stage Tilt ──────────────────────────────────
+  const hero      = document.getElementById('hero');
+  const heroStage = document.getElementById('hero-stage');
+  const layers    = hero.querySelectorAll('.layer');
+  const MAX_TILT  = 15; // degrees
+  const tiltXEl   = document.getElementById('tilt-x');
+  const tiltYEl   = document.getElementById('tilt-y');
+  const tiltZEl   = document.getElementById('tilt-z');
+
+  // Store initial positions for parallax
+  const layerData = Array.from(layers).map(el => {
+    const rect = el.getBoundingClientRect();
+    return {
+      el,
+      depth: parseFloat(el.dataset.depth) || 0.3,
+      origLeft: el.style.left || null,
+      origTop:  el.style.top  || null,
+    };
+  });
+
+  let heroRect = hero.getBoundingClientRect();
+  let heroActive = false;
+
+  // Recalculate rect on resize
+  window.addEventListener('resize', () => {
+    heroRect = hero.getBoundingClientRect();
+  });
+
+  // Recalculate on scroll (rect changes)
+  let scrollTimer;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      heroRect = hero.getBoundingClientRect();
+    }, 100);
+  }, { passive: true });
+
+  // Track whether mouse is over hero
+  hero.addEventListener('mouseenter', () => {
+    heroActive = true;
+    heroStage.classList.add('tilting');
+    heroStage.classList.remove('idle-return');
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    heroActive = false;
+    heroStage.classList.remove('tilting');
+    // Smooth return to center
+    heroStage.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    // Reset parallax layers
+    layerData.forEach(({ el }) => {
+      el.style.transition = 'transform 0.5s ease-out';
+      el.style.transform  = '';
+    });
+    // Update readout
+    tiltXEl.textContent = 'RX: +0.00°';
+    tiltYEl.textContent = 'RY: +0.00°';
+    tiltZEl.textContent = 'Z:  300.0px';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!heroActive) return;
+
+    heroRect = hero.getBoundingClientRect();
+    const relX = (e.clientX - heroRect.left)  / heroRect.width;   // 0 → 1
+    const relY = (e.clientY - heroRect.top)    / heroRect.height;  // 0 → 1
+
+    // Map 0→1 to -MAX_TILT → +MAX_TILT
+    const rotY =  (relX - 0.5) * 2 * MAX_TILT;   // left→right: negative→positive
+    const rotX = -(relY - 0.5) * 2 * MAX_TILT;   // up→down: positive→negative
+
+    // Stage tilt
+    heroStage.style.transform = `rotateX(${rotX.toFixed(3)}deg) rotateY(${rotY.toFixed(3)}deg)`;
+
+    // Parallax layers — each moves at its own speed
+    const cx = heroRect.width  / 2;
+    const cy = heroRect.height / 2;
+    const mx = e.clientX - heroRect.left - cx;
+    const my = e.clientY - heroRect.top  - cy;
+
+    layerData.forEach(({ el, depth }) => {
+      const tx = mx * depth * 0.08;
+      const ty = my * depth * 0.08;
+      el.style.transition = 'transform 0.1s linear';
+      el.style.transform  = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px)`;
+    });
+
+    // Readout
+    const zDepth = 300 + rotX * 2;
+    tiltXEl.textContent = `RX: ${rotX >= 0 ? '+' : ''}${rotX.toFixed(2)}°`;
+    tiltYEl.textContent = `RY: ${rotY >= 0 ? '+' : ''}${rotY.toFixed(2)}°`;
+    tiltZEl.textContent = `Z:  ${zDepth.toFixed(1)}px`;
+
+    // Update coord display
+    const coordEl = hero.querySelector('.l-fg-coord');
+    if (coordEl) {
+      coordEl.textContent =
+        `X: ${(relX * 2 - 1).toFixed(3)} | Y: ${(relY * 2 - 1).toFixed(3)} | Z: ${Math.round(zDepth)}`;
+    }
+  });
+
+  // ─── Individual Card 3D Tilt ──────────────────────────────
+  const cards = document.querySelectorAll('[data-card]');
+
+  cards.forEach(card => {
+    const sheen = card.querySelector('.card-sheen');
+    const MAX_CARD_TILT = 12;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect  = card.getBoundingClientRect();
+      const relX  = (e.clientX - rect.left)  / rect.width;
+      const relY  = (e.clientY - rect.top)   / rect.height;
+
+      const rotY  =  (relX - 0.5) * 2 * MAX_CARD_TILT;
+      const rotX  = -(relY - 0.5) * 2 * MAX_CARD_TILT;
+
+      // Perspective lift on hover
+      const liftZ = 30;
+
+      card.classList.remove('card-idle');
+      card.style.transform =
+        `perspective(600px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(${liftZ}px)`;
+
+      // Sheen follows cursor
+      if (sheen) {
+        sheen.style.background = `radial-gradient(circle at ${relX * 100}% ${relY * 100}%,
+          rgba(200,169,110,0.1) 0%, transparent 55%)`;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.classList.add('card-idle');
+      card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      if (sheen) sheen.style.background = '';
+    });
+  });
+
+  // ─── Typography Section Tilt ─────────────────────────────
+  const typoSection = document.getElementById('typography');
+  const typoStage   = document.getElementById('typo-stage');
+  const MAX_TYPO_TILT = 4;
+
+  if (typoSection && typoStage) {
+    typoSection.addEventListener('mousemove', (e) => {
+      const rect = typoSection.getBoundingClientRect();
+      const relX = (e.clientX - rect.left)  / rect.width;
+      const relY = (e.clientY - rect.top)   / rect.height;
+
+      const rotY =  (relX - 0.5) * 2 * MAX_TYPO_TILT;
+      const rotX = -(relY - 0.5) * 2 * MAX_TYPO_TILT;
+
+      typoStage.style.transform =
+        `perspective(1200px) rotateX(${rotX.toFixed(3)}deg) rotateY(${rotY.toFixed(3)}deg)`;
+      typoStage.style.transition = 'transform 0.1s linear';
+    });
+
+    typoSection.addEventListener('mouseleave', () => {
+      typoStage.style.transform  = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+      typoStage.style.transition = 'transform 0.5s ease-out';
+    });
+  }
+
+  // ─── Swatch hover lift (subtle depth) ────────────────────
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('mousemove', (e) => {
+      const rect = sw.getBoundingClientRect();
+      const relX = (e.clientX - rect.left)  / rect.width  - 0.5;
+      const relY = (e.clientY - rect.top)   / rect.height - 0.5;
+      sw.style.transform    = `perspective(500px) rotateX(${(-relY * 8).toFixed(1)}deg) rotateY(${(relX * 8).toFixed(1)}deg) translateY(-4px) scale(1.02)`;
+      sw.style.transition   = 'transform 0.1s linear, box-shadow 0.2s';
+    });
+    sw.addEventListener('mouseleave', () => {
+      sw.style.transform  = '';
+      sw.style.transition = 'transform 0.5s ease-out, box-shadow 0.3s ease';
+    });
+  });
+
+  // ─── Animate progress bars on load ───────────────────────
+  // Already set by inline width; trigger a reflow for animation
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.progress-fill').forEach(fill => {
+      const target = fill.style.width;
+      fill.style.width = '0%';
+      requestAnimationFrame(() => {
+        setTimeout(() => { fill.style.width = target; }, 300);
+      });
+    });
+  });
+
+  // ─── Floating ambient animation for mid-layer shapes ─────
+  let t = 0;
+  function ambientFloat() {
+    t += 0.008;
+    const shapes = hero.querySelectorAll('.l-mid-diamond, .l-mid-diamond-2, .l-mid-circle, .l-mid-circle-2');
+    shapes.forEach((el, i) => {
+      if (!heroActive) {
+        const phase = i * Math.PI * 0.5;
+        const floatY = Math.sin(t + phase) * 6;
+        const floatX = Math.cos(t * 0.7 + phase) * 3;
+        el.style.transition = 'none';
+        // Compose with any parallax already applied via data-depth system
+        const baseTransform = el.style.transform || '';
+        // Only apply ambient if not currently parallaxing
+        if (!heroActive) {
+          el.style.transform = `translate(${floatX.toFixed(2)}px, ${floatY.toFixed(2)}px)`;
+        }
+      }
+    });
+    requestAnimationFrame(ambientFloat);
+  }
+  ambientFloat();
+
+  // ─── Depth panel activation on scroll ────────────────────
+  const depthDots = document.querySelectorAll('.depth-pip-dot');
+  const sections  = ['hero', 'components', 'typography', 'palette', 'spacing'];
+
+  function updateDepthPanel() {
+    const scrollFrac = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const idx = Math.min(Math.floor(scrollFrac * 5), 4);
+    depthDots.forEach((dot, i) => {
+      dot.classList.toggle('active', i <= idx);
+    });
+  }
+  window.addEventListener('scroll', updateDepthPanel, { passive: true });
+  updateDepthPanel();
+
+  // ─── Section entrance reveals ─────────────────────────────
+  const sectionEls = document.querySelectorAll('.section-header, .card-3d-wrapper, .type-specimen, .swatch, .spacing-row');
+  sectionEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = (el.style.transform || '') + ' translateY(24px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity   = '';
+        entry.target.style.transform = entry.target.style.transform.replace(' translateY(24px)', '');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  sectionEls.forEach((el, i) => {
+    // Stagger delay
+    el.style.transitionDelay = (i % 6) * 0.07 + 's';
+    io.observe(el);
+  });
+
+})();
+</script>
+</body>
+</html>

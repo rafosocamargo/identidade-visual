@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAUHAUS — Design System Showcase v8.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       BAUHAUS — Design System Tokens
+       1919–1933 | Form Follows Function
+       ======================================== */
+    :root {
+      --bg: #F2F0EB;
+      --fg: #1C1C1C;
+      --red: #D42B2B;
+      --blue: #1B3A8C;
+      --yellow: #F5C800;
+      --border: 3px solid #1C1C1C;
+
+      --space-1: 0.25rem;   /* 4px */
+      --space-2: 0.5rem;    /* 8px */
+      --space-3: 1rem;      /* 16px */
+      --space-4: 1.5rem;    /* 24px */
+      --space-5: 2rem;      /* 32px */
+      --space-6: 3rem;      /* 48px */
+      --space-7: 4rem;      /* 64px */
+      --space-8: 6rem;      /* 96px */
+      --space-9: 8rem;      /* 128px */
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+    }
+
+    /* Exception: circles use border-radius via inline style override,
+       but we allow .circle elements via specificity below */
+    .circle {
+      border-radius: 50% !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: var(--border);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--fg);
+      margin-bottom: var(--space-6);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .section-label::before,
+    .section-label::after {
+      content: '';
+      flex: 1;
+      border-top: var(--border);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: var(--border);
+    }
+
+    .showcase-nav-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg);
+      padding: 4px 10px;
+      border: 2px solid transparent;
+    }
+
+    .showcase-nav-links a:hover {
+      border: 2px solid var(--fg);
+    }
+
+    /* ========================================
+       HERO — BAUHAUS GEOMETRIC COMPOSITION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0;
+      overflow: hidden;
+    }
+
+    /* The Bauhaus Circle — the one exception, fundamental geometry */
+    .hero-circle {
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 520px;
+      height: 520px;
+      background: var(--yellow);
+      border: var(--border);
+      z-index: 0;
+      /* .circle class handles border-radius: 50% */
+    }
+
+    .hero-circle-inner {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 200px;
+      background: var(--blue);
+      border: var(--border);
+      z-index: 1;
+    }
+
+    .hero-red-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 12px;
+      height: 100%;
+      background: var(--red);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-left: var(--space-5);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-subtext {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--fg);
+      margin-top: var(--space-6);
+      max-width: 380px;
+      border-left: 6px solid var(--blue);
+      padding-left: var(--space-3);
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-7);
+    }
+
+    .hero-brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    /* BAUHAUS watermark rotated -90deg on right */
+    .hero-watermark {
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: 12px;
+      text-transform: uppercase;
+      color: var(--fg);
+      opacity: 0.06;
+      white-space: nowrap;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ========================================
+       SECTION 01 — TIPOGRAFIA
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid rgba(28,28,28,0.15);
+    }
+
+    .type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .type-hero {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+
+    .type-display {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+
+    .type-h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+    }
+
+    .type-h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .type-h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .type-body {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .type-caption {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: rgba(28,28,28,0.6);
+    }
+
+    .type-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .type-mono {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.875rem;
+    }
+
+    .type-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: rgba(28,28,28,0.45);
+      margin-top: var(--space-1);
+      letter-spacing: 0;
+    }
+
+    /* ========================================
+       SECTION 02 — CORES (Color Swatches)
+       ======================================== */
+    /* Triangle composition container */
+    .color-triangle-layout {
+      display: flex;
+      gap: var(--space-6);
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0;
+      border: var(--border);
+      flex: 1;
+      min-width: 320px;
+    }
+
+    .swatch {
+      border-right: var(--border);
+      border-bottom: var(--border);
+    }
+
+    .swatch:last-child,
+    .swatch:nth-child(3n) {
+      border-right: none;
+    }
+
+    .swatch-color {
+      height: 100px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2) var(--space-3);
+      border-top: var(--border);
+    }
+
+    .swatch-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .swatch-hex {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: rgba(28,28,28,0.5);
+      margin-top: 2px;
+    }
+
+    /* Bauhaus primary color triangle composition */
+    .color-triangle-visual {
+      width: 240px;
+      height: 240px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .ct-circle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100px;
+      background: var(--blue);
+      border: var(--border);
+    }
+
+    .ct-square {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      background: var(--red);
+      border: var(--border);
+    }
+
+    .ct-triangle-wrap {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-bottom: 104px solid var(--yellow);
+      filter: drop-shadow(0 0 0 1.5px #1C1C1C);
+    }
+
+    /* ========================================
+       SECTION 03 — ESPACAMENTO
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: var(--fg);
+    }
+
+    .spacing-bar-red { background: var(--red); }
+    .spacing-bar-blue { background: var(--blue); }
+    .spacing-bar-yellow { background: var(--yellow); border: 1px solid var(--fg); }
+
+    .spacing-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      min-width: 130px;
+      color: rgba(28,28,28,0.6);
+    }
+
+    /* ========================================
+       SECTION 04 — BOTOES
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: var(--border);
+      outline: none;
+      background: transparent;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* Primary = Red block */
+    .btn-primary {
+      background: var(--red);
+      color: #F2F0EB;
+      border-color: var(--fg);
+    }
+
+    /* Secondary = Blue block */
+    .btn-secondary {
+      background: var(--blue);
+      color: #F2F0EB;
+      border-color: var(--fg);
+    }
+
+    /* Ghost = outlined black */
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg);
+      border: var(--border);
+    }
+
+    /* Danger = yellow with black text */
+    .btn-danger {
+      background: var(--yellow);
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 13px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       SECTION 05 — CARDS
+       ======================================== */
+    .card {
+      border: var(--border);
+      padding: var(--space-4);
+      background: var(--bg);
+      position: relative;
+    }
+
+    /* Solid color left border — 6px thick */
+    .card-red {
+      border-left: 6px solid var(--red);
+    }
+
+    .card-blue {
+      border-left: 6px solid var(--blue);
+    }
+
+    .card-yellow {
+      border-left: 6px solid var(--yellow);
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: var(--space-2);
+    }
+
+    .card-body {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-bottom: var(--space-3);
+    }
+
+    .card-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: rgba(28,28,28,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       SECTION 06 — STATS (filled color blocks)
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      border: var(--border);
+      border-right: none;
+    }
+
+    .stat-block:last-child {
+      border-right: var(--border);
+    }
+
+    .stat-block-red {
+      background: var(--red);
+      color: #F2F0EB;
+    }
+
+    .stat-block-blue {
+      background: var(--blue);
+      color: #F2F0EB;
+    }
+
+    .stat-block-yellow {
+      background: var(--yellow);
+      color: var(--fg);
+    }
+
+    .stat-block-black {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -2px;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: var(--space-3);
+      opacity: 0.75;
+    }
+
+    /* ========================================
+       SECTION 07 — BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .badge-black {
+      background: var(--fg);
+      color: var(--bg);
+      border: 2px solid var(--fg);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--fg);
+      border: var(--border);
+    }
+
+    .badge-red {
+      background: var(--red);
+      color: #F2F0EB;
+      border: 2px solid var(--red);
+    }
+
+    .badge-blue {
+      background: var(--blue);
+      color: #F2F0EB;
+      border: 2px solid var(--blue);
+    }
+
+    .badge-yellow {
+      background: var(--yellow);
+      color: var(--fg);
+      border: 2px solid var(--fg);
+    }
+
+    /* ========================================
+       SECTION 08 — FORMULARIOS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+      color: var(--fg);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--bg);
+      border: var(--border);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: rgba(28,28,28,0.35);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--blue);
+      border-width: 3px;
+      box-shadow: 4px 4px 0 var(--blue);
+    }
+
+    .form-input-error {
+      border-color: var(--red);
+      border-width: 3px;
+    }
+
+    .form-input-error:focus {
+      border-color: var(--red);
+      box-shadow: 4px 4px 0 var(--red);
+    }
+
+    .form-error {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--red);
+      margin-top: var(--space-1);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .form-helper {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      color: rgba(28,28,28,0.5);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    select.form-input {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231C1C1C' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    /* ========================================
+       SECTION 09 — DIVISORES
+       ======================================== */
+    .divider-thick {
+      border: none;
+      border-top: 4px solid var(--fg);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-regular {
+      border: none;
+      border-top: var(--border);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid rgba(28,28,28,0.2);
+      margin: var(--space-3) 0;
+    }
+
+    .divider-red {
+      border: none;
+      border-top: 4px solid var(--red);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-blue {
+      border: none;
+      border-top: 4px solid var(--blue);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-yellow {
+      border: none;
+      border-top: 4px solid var(--yellow);
+      margin: var(--space-5) 0;
+    }
+
+    /* ========================================
+       SECTION 10 — ELEMENTOS GEOMETRICOS
+       ======================================== */
+    .geo-stage {
+      display: flex;
+      gap: var(--space-6);
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-7);
+    }
+
+    .geo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .geo-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      color: rgba(28,28,28,0.6);
+    }
+
+    /* The three fundamental Bauhaus forms */
+    .geo-circle {
+      width: 140px;
+      height: 140px;
+      background: var(--blue);
+      border: var(--border);
+      /* Uses .circle class for border-radius: 50% */
+    }
+
+    .geo-square {
+      width: 140px;
+      height: 140px;
+      background: var(--red);
+      border: var(--border);
+    }
+
+    /* CSS triangle — yellow */
+    .geo-triangle-wrap {
+      width: 0;
+      height: 0;
+      border-left: 80px solid transparent;
+      border-right: 80px solid transparent;
+      border-bottom: 138px solid var(--yellow);
+      filter: drop-shadow(0 0 0 1.5px #1C1C1C) drop-shadow(1px 1px 0 #1C1C1C) drop-shadow(-1px 1px 0 #1C1C1C);
+      position: relative;
+    }
+
+    /* Kandinsky caption */
+    .geo-caption {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(28,28,28,0.65);
+      font-style: italic;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto var(--space-7);
+      padding: var(--space-3);
+      border: var(--border);
+      border-left: 6px solid var(--blue);
+      background: rgba(27,58,140,0.04);
+    }
+
+    /* Color wheel — 3 primaries arranged in triangle */
+    .color-wheel {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--space-5);
+    }
+
+    .color-wheel-inner {
+      position: relative;
+      width: 280px;
+      height: 280px;
+    }
+
+    .cw-circle-red {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 110px;
+      background: var(--red);
+      border: var(--border);
+    }
+
+    .cw-circle-blue {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 110px;
+      height: 110px;
+      background: var(--blue);
+      border: var(--border);
+    }
+
+    .cw-circle-yellow {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 110px;
+      height: 110px;
+      background: var(--yellow);
+      border: var(--border);
+    }
+
+    .cw-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: var(--space-3);
+      color: rgba(28,28,28,0.5);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      padding: var(--space-7) 0 var(--space-6);
+    }
+
+    .footer-rule {
+      border: none;
+      border-top: 4px solid var(--fg);
+      margin-bottom: var(--space-5);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .footer-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: rgba(28,28,28,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .footer-blocks {
+      display: flex;
+      gap: 0;
+    }
+
+    .footer-block {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--fg);
+      border-right: none;
+    }
+
+    .footer-block:last-child {
+      border-right: 2px solid var(--fg);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">Bauhaus</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#colors">Cores</a></li>
+        <li><a href="#components">Form</a></li>
+        <li><a href="#geometry">Geo</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         HERO — BAUHAUS GEOMETRIC COMPOSITION
+         ======================================== -->
+    <section class="hero" id="hero">
+      <!-- Decorative vertical red bar -->
+      <div class="hero-red-bar"></div>
+
+      <!-- The Bauhaus Circle — fundamental geometry (circle class = 50% border-radius) -->
+      <div class="hero-circle circle"></div>
+      <div class="hero-circle-inner"></div>
+
+      <!-- BAUHAUS watermark rotated -90deg -->
+      <div class="hero-watermark">BAUHAUS</div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">— 1919 Dessau —</p>
+        <div class="hero-text">
+          <span>FORM</span>
+          <span>FOLLOWS</span>
+          <span>FUNCTION</span>
+        </div>
+        <div class="hero-subtext">
+          Art and craft united. Geometry as universal language. The machine age aesthetic, made human.
+        </div>
+        <div class="hero-footer">
+          <p class="hero-brand">Bauhaus Design System &mdash; v8.0</p>
+          <div style="display:flex; gap: 0;">
+            <div style="width:24px; height:24px; background:var(--red); border: var(--border); border-right: none;"></div>
+            <div style="width:24px; height:24px; background:var(--blue); border: var(--border); border-right: none;"></div>
+            <div style="width:24px; height:24px; background:var(--yellow); border: var(--border);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 01 — TIPOGRAFIA
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">&mdash; 01 TIPOGRAFIA &mdash;</p>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">Space Grotesk 700 / 5.5rem / line-height: 0.85 / letter-spacing: -3px / UPPERCASE</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY TEXT</div>
+        <p class="type-meta">Space Grotesk 700 / 3.5rem / line-height: 0.9 / letter-spacing: -2px / UPPERCASE</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">Space Grotesk 700 / 2.5rem / line-height: 0.95 / letter-spacing: -1.5px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Space Grotesk 600 / 2rem / line-height: 1.0 / letter-spacing: -1px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Space Grotesk 600 / 1.5rem / line-height: 1.1 / letter-spacing: -0.5px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text — clean, functional, rational. Bauhaus typography serves the content, never ornamental. Every letter earns its place on the page. Space Grotesk carries the geometric spirit of Universal and Futura.</div>
+        <p class="type-meta">Space Grotesk 400 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption text for secondary information and technical metadata</div>
+        <p class="type-meta">Space Grotesk 400 / 0.875rem / opacity: 0.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL TEXT &mdash; FUNCTIONAL IDENTIFIER</div>
+        <p class="type-meta">Space Mono 700 / 0.75rem / letter-spacing: 3px / UPPERCASE</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-mono">const bauhaus = { year: 1919, principle: "form follows function" };</div>
+        <p class="type-meta">Space Mono 400 / 0.875rem</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 02 — CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">&mdash; 02 CORES &mdash;</p>
+
+      <div class="color-triangle-layout">
+        <div class="swatch-grid" style="flex: 1; min-width: 320px; border: var(--border);">
+          <!-- Row 1 -->
+          <div class="swatch" style="border-right: var(--border); border-bottom: var(--border);">
+            <div class="swatch-color" style="background: #F2F0EB;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Background</div>
+              <div class="swatch-hex">#F2F0EB</div>
+            </div>
+          </div>
+          <div class="swatch" style="border-right: var(--border); border-bottom: var(--border);">
+            <div class="swatch-color" style="background: #1C1C1C;"></div>
+            <div class="swatch-info" style="background: #1C1C1C;">
+              <div class="swatch-name" style="color: #F2F0EB;">Foreground</div>
+              <div class="swatch-hex" style="color: rgba(242,240,235,0.5);">#1C1C1C</div>
+            </div>
+          </div>
+          <div class="swatch" style="border-bottom: var(--border);">
+            <div class="swatch-color" style="background: #D42B2B;"></div>
+            <div class="swatch-info" style="background: #D42B2B;">
+              <div class="swatch-name" style="color: #F2F0EB;">Red</div>
+              <div class="swatch-hex" style="color: rgba(242,240,235,0.65);">#D42B2B</div>
+            </div>
+          </div>
+          <!-- Row 2 -->
+          <div class="swatch" style="border-right: var(--border);">
+            <div class="swatch-color" style="background: #1B3A8C;"></div>
+            <div class="swatch-info" style="background: #1B3A8C;">
+              <div class="swatch-name" style="color: #F2F0EB;">Blue</div>
+              <div class="swatch-hex" style="color: rgba(242,240,235,0.5);">#1B3A8C</div>
+            </div>
+          </div>
+          <div class="swatch" style="border-right: var(--border);">
+            <div class="swatch-color" style="background: #F5C800;"></div>
+            <div class="swatch-info" style="background: #F5C800;">
+              <div class="swatch-name">Yellow</div>
+              <div class="swatch-hex" style="color: rgba(28,28,28,0.55);">#F5C800</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: rgba(28,28,28,0.08);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Border Token</div>
+              <div class="swatch-hex">3px solid #1C1C1C</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kandinsky triangle composition -->
+        <div style="display:flex; flex-direction:column; align-items:center; gap: var(--space-3);">
+          <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(28,28,28,0.45); margin-bottom:4px;">PRIMARIES</div>
+          <div class="color-wheel-inner" style="width:220px; height:220px;">
+            <!-- Triangle arrangement: Red top, Blue bottom-left, Yellow bottom-right -->
+            <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:90px; height:90px; background:var(--red); border:var(--border);"></div>
+            <div style="position:absolute; bottom:0; left:0; width:90px; height:90px; background:var(--blue); border:var(--border);"></div>
+            <div style="position:absolute; bottom:0; right:0; width:90px; height:90px; background:var(--yellow); border:var(--border);"></div>
+          </div>
+          <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:rgba(28,28,28,0.4);">Itten's Color Triangle</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 03 — ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 03 ESPACAMENTO &mdash;</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1 &nbsp; 4px</span>
+        <div class="spacing-bar spacing-bar-red" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2 &nbsp; 8px</span>
+        <div class="spacing-bar spacing-bar-red" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3 &nbsp;16px</span>
+        <div class="spacing-bar spacing-bar-blue" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4 &nbsp;24px</span>
+        <div class="spacing-bar spacing-bar-blue" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5 &nbsp;32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6 &nbsp;48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7 &nbsp;64px</span>
+        <div class="spacing-bar spacing-bar-yellow" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8 &nbsp;96px</span>
+        <div class="spacing-bar spacing-bar-yellow" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9 128px</span>
+        <div class="spacing-bar spacing-bar-red" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04 — BOTOES
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">&mdash; 04 BOTOES &mdash;</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">DEFAULT</button>
+          <button class="btn btn-primary btn-small">SMALL</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY &mdash; RED</button>
+          <button class="btn btn-secondary">SECONDARY &mdash; BLUE</button>
+          <button class="btn btn-ghost">GHOST &mdash; OUTLINE</button>
+          <button class="btn btn-danger">DANGER &mdash; YELLOW</button>
+        </div>
+      </div>
+
+      <div>
+        <p class="type-label" style="margin-bottom: var(--space-3);">GRUPO DE ACOES</p>
+        <div style="display:flex; gap:0;">
+          <button class="btn btn-primary" style="border-right: none;">CONFIRMAR</button>
+          <button class="btn btn-ghost" style="border-right: none;">EDITAR</button>
+          <button class="btn btn-danger">CANCELAR</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05 — CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 05 CARDS &mdash;</p>
+
+      <div class="grid-3">
+        <div class="card card-red">
+          <span class="badge badge-red" style="margin-bottom: var(--space-3); display: inline-block;">NOVO</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos. Forma segue função — cada elemento justifica sua existência.</div>
+          <div class="card-meta">Marketing &bull; 1919</div>
+        </div>
+        <div class="card card-blue">
+          <span class="badge badge-blue" style="margin-bottom: var(--space-3); display: inline-block;">BETA</span>
+          <div class="card-title">CONSTRUCAO</div>
+          <div class="card-body">A arte se une ao artesanato. O design industrial encontra o humanismo. Produção em série com alma artística.</div>
+          <div class="card-meta">Arquitetura &bull; 1923</div>
+        </div>
+        <div class="card card-yellow">
+          <span class="badge badge-yellow" style="margin-bottom: var(--space-3); display: inline-block;">ESSENCIAL</span>
+          <div class="card-title">GEOMETRIA</div>
+          <div class="card-body">Círculo, triângulo, quadrado. As três formas primárias da teoria de Kandinsky. Linguagem visual universal.</div>
+          <div class="card-meta">Design &bull; 1928</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06 — STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 06 STATS &mdash;</p>
+
+      <div class="grid-4">
+        <div class="stat-block stat-block-red">
+          <div class="stat-number">14</div>
+          <div class="stat-label">Anos Ativos</div>
+        </div>
+        <div class="stat-block stat-block-blue">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Cidades Sede</div>
+        </div>
+        <div class="stat-block stat-block-yellow">
+          <div class="stat-number">33</div>
+          <div class="stat-label">Masters Ativos</div>
+        </div>
+        <div class="stat-block stat-block-black">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Influencia</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07 — BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 07 BADGES &mdash;</p>
+
+      <div class="btn-group" style="margin-bottom: var(--space-4);">
+        <span class="badge badge-black">PADRAO</span>
+        <span class="badge badge-outline">OUTLINE</span>
+        <span class="badge badge-red">URGENTE</span>
+        <span class="badge badge-blue">INFO</span>
+        <span class="badge badge-yellow">ATENCAO</span>
+      </div>
+
+      <div style="display:flex; gap: var(--space-3); flex-wrap:wrap; margin-top: var(--space-4);">
+        <div style="padding: var(--space-4); border: var(--border); display:flex; gap: var(--space-2); flex-wrap:wrap; flex:1; min-width:280px; background: rgba(28,28,28,0.02);">
+          <span class="badge badge-black">BAUHAUS</span>
+          <span class="badge badge-outline">DESIGN</span>
+          <span class="badge badge-red">WEIMAR</span>
+          <span class="badge badge-blue">DESSAU</span>
+          <span class="badge badge-yellow">BERLIN</span>
+          <span class="badge badge-outline">1919</span>
+          <span class="badge badge-black">1933</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08 — FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 08 FORMULARIOS &mdash;</p>
+
+      <div style="max-width: 520px;">
+        <div class="form-group">
+          <label class="form-label" for="name">NOME</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">EMAIL</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+          <p class="form-helper">Nunca compartilharemos seu email com terceiros.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">EMAIL &mdash; ESTADO DE ERRO</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="email-invalido">
+          <p class="form-error">Email invalido. Use o formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="escola">ESCOLA</label>
+          <select class="form-input" id="escola">
+            <option value="">Selecione uma escola...</option>
+            <option value="weimar">Weimar (1919–1925)</option>
+            <option value="dessau">Dessau (1925–1932)</option>
+            <option value="berlin">Berlin (1932–1933)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">MENSAGEM</label>
+          <textarea class="form-input" id="message" placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">ENVIAR MENSAGEM</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09 — DIVISORES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">&mdash; 09 DIVISORES &mdash;</p>
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">ESPESSO (4px) &mdash; PRETO</p>
+      <hr class="divider-thick">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">REGULAR (3px) &mdash; PADRAO</p>
+      <hr class="divider-regular">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">SUTIL (1px)</p>
+      <hr class="divider-subtle">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">PRIMARIO &mdash; RED</p>
+      <hr class="divider-red">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">PRIMARIO &mdash; BLUE</p>
+      <hr class="divider-blue">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">PRIMARIO &mdash; YELLOW</p>
+      <hr class="divider-yellow">
+
+      <!-- Decorative Bauhaus horizontal rhythm bar -->
+      <div style="display:flex; margin-top: var(--space-4);">
+        <div style="height:6px; background:var(--red); flex:2; border: 2px solid var(--fg); border-right:none;"></div>
+        <div style="height:6px; background:var(--blue); flex:3; border: 2px solid var(--fg); border-right:none;"></div>
+        <div style="height:6px; background:var(--yellow); flex:1; border: 2px solid var(--fg); border-right:none;"></div>
+        <div style="height:6px; background:var(--fg); flex:2; border: 2px solid var(--fg);"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 10 — ELEMENTOS GEOMETRICOS
+         ======================================== -->
+    <section class="section" id="geometry">
+      <p class="section-label">&mdash; 10 ELEMENTOS GEOMETRICOS &mdash;</p>
+
+      <!-- Kandinsky caption -->
+      <div class="geo-caption">
+        "Kandinsky's color-form theory: circle = blue (spiritual, floating), triangle = yellow (aggressive, dynamic), square = red (stable, earthly)" — Bauhaus Foundation, Dessau, 1923
+      </div>
+
+      <!-- The three fundamental forms -->
+      <div class="geo-stage">
+        <!-- Circle = Blue -->
+        <div class="geo-item">
+          <div class="geo-circle circle"></div>
+          <div class="geo-label">
+            Circulo<br>
+            <span style="color: var(--blue); font-weight:700;">AZUL</span><br>
+            Espiritual
+          </div>
+        </div>
+
+        <!-- Triangle = Yellow -->
+        <div class="geo-item">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div class="geo-triangle-wrap"></div>
+          </div>
+          <div class="geo-label" style="margin-top: var(--space-3);">
+            Triangulo<br>
+            <span style="color: #B8960A; font-weight:700;">AMARELO</span><br>
+            Dinamico
+          </div>
+        </div>
+
+        <!-- Square = Red -->
+        <div class="geo-item">
+          <div class="geo-square"></div>
+          <div class="geo-label">
+            Quadrado<br>
+            <span style="color: var(--red); font-weight:700;">VERMELHO</span><br>
+            Terreno
+          </div>
+        </div>
+
+        <!-- Composition: all three together -->
+        <div class="geo-item" style="margin-left: auto;">
+          <div style="position:relative; width:180px; height:180px; border: var(--border); background: var(--bg); overflow:hidden;">
+            <!-- Square fills background third -->
+            <div style="position:absolute; bottom:0; right:0; width:80px; height:80px; background:var(--red);"></div>
+            <!-- Triangle center -->
+            <div style="position:absolute; top:16px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:45px solid transparent; border-right:45px solid transparent; border-bottom:78px solid var(--yellow); filter: drop-shadow(0 0 0 1px #1C1C1C);"></div>
+            <!-- Circle bottom left -->
+            <div style="position:absolute; bottom:8px; left:8px; width:60px; height:60px; background:var(--blue);" class="circle"></div>
+          </div>
+          <div class="geo-label">
+            Composicao<br>
+            <span style="color:rgba(28,28,28,0.6); font-weight:400;">Tres formas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Wheel arrangement -->
+      <div style="margin-top: var(--space-6);">
+        <p class="type-label" style="margin-bottom: var(--space-4); text-align:center;">TRIANGULO DE CORES PRIMARIAS</p>
+        <div class="color-wheel">
+          <div style="display:flex; flex-direction:column; align-items:center; gap: var(--space-3);">
+            <div style="position:relative; width:320px; height:300px;">
+              <!-- Top: Red -->
+              <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:100px; height:100px; background:var(--red); border: var(--border); display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Mono',monospace; font-size:10px; font-weight:700; color:#F2F0EB; letter-spacing:1px; text-transform:uppercase;">RED</span>
+              </div>
+              <!-- Bottom left: Blue -->
+              <div style="position:absolute; bottom:0; left:0; width:100px; height:100px; background:var(--blue); border: var(--border); display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Mono',monospace; font-size:10px; font-weight:700; color:#F2F0EB; letter-spacing:1px; text-transform:uppercase;">BLUE</span>
+              </div>
+              <!-- Bottom right: Yellow -->
+              <div style="position:absolute; bottom:0; right:0; width:100px; height:100px; background:var(--yellow); border: var(--border); display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Mono',monospace; font-size:10px; font-weight:700; color:var(--fg); letter-spacing:1px; text-transform:uppercase;">YELLOW</span>
+              </div>
+              <!-- Connecting lines (SVG) -->
+              <svg style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;" viewBox="0 0 320 300">
+                <!-- Red center to Blue center -->
+                <line x1="160" y1="50" x2="50" y2="250" stroke="#1C1C1C" stroke-width="2"/>
+                <!-- Red center to Yellow center -->
+                <line x1="160" y1="50" x2="270" y2="250" stroke="#1C1C1C" stroke-width="2"/>
+                <!-- Blue to Yellow -->
+                <line x1="50" y1="250" x2="270" y2="250" stroke="#1C1C1C" stroke-width="2"/>
+              </svg>
+            </div>
+            <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(28,28,28,0.4);">Johannes Itten — 1919</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="footer">
+      <hr class="footer-rule">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Bauhaus</div>
+          <p class="footer-meta" style="margin-top: 6px;">1919 &mdash; Bold Impact v8.0</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap: var(--space-2);">
+          <div style="display:flex; gap:0;">
+            <div style="width:28px; height:28px; background:var(--red); border: var(--border); border-right:none;"></div>
+            <div style="width:28px; height:28px; background:var(--blue); border: var(--border); border-right:none;"></div>
+            <div style="width:28px; height:28px; background:var(--yellow); border: var(--border); border-right:none;"></div>
+            <div style="width:28px; height:28px; background:var(--fg); border: var(--border);"></div>
+          </div>
+          <p class="footer-meta">Form Follows Function</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

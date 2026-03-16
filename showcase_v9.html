@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ART DECO — Design System Showcase v9</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       ART DECO — Design System Tokens
+       1920s–1930s Luxury & Geometric Glamour
+       ======================================== */
+    :root {
+      --bg: #0C0B09;
+      --surface: #141210;
+      --surface-raised: #1A1815;
+      --fg: #E8D5A3;
+      --fg-muted: #9A8B6A;
+      --gold: #C9A84C;
+      --gold-light: #E8C46A;
+      --gold-dim: #7A6430;
+      --ivory: #F5EDD8;
+      --accent: #8B1A1A;
+      --accent-light: #B52222;
+      --border-gold: 1px solid #C9A84C;
+      --border-gold-dim: 1px solid #4A3C1E;
+
+      --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+      --font-body: 'Cormorant Garamond', 'Garamond', 'Times New Roman', serif;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    * {
+      border-radius: 0 !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: var(--border-gold-dim);
+      position: relative;
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Art Deco section corner ornaments */
+    .section::before,
+    .section::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold-dim);
+      border-style: solid;
+    }
+
+    .section::before {
+      top: var(--space-5);
+      left: 0;
+      border-width: 1px 0 0 1px;
+    }
+
+    .section::after {
+      top: var(--space-5);
+      right: 0;
+      border-width: 1px 1px 0 0;
+    }
+
+    /* Art Deco section label */
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-6);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .section-label::before,
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+
+    /* Ornamental divider */
+    .ornament-divider {
+      text-align: center;
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 8px;
+      margin: var(--space-5) 0;
+      font-family: var(--font-display);
+      opacity: 0.7;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) 0;
+      border-bottom: var(--border-gold);
+      position: relative;
+    }
+
+    .showcase-nav::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 6px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-5);
+      list-style: none;
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg-muted);
+      transition: color 0.2s;
+    }
+
+    .showcase-nav-links a:hover {
+      color: var(--gold-light);
+    }
+
+    /* ========================================
+       HERO — ART DECO LUXURY
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: var(--space-9) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Sunburst conic gradient background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(201, 168, 76, 0.04) 0deg 5deg,
+        transparent 5deg 10deg
+      );
+      pointer-events: none;
+    }
+
+    /* Radial fade overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, var(--bg) 75%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Double-line geometric frame for hero */
+    .hero-frame {
+      display: inline-block;
+      padding: var(--space-8) var(--space-7);
+      border: 1px solid var(--gold);
+      outline: 1px solid var(--gold-dim);
+      outline-offset: 8px;
+      position: relative;
+    }
+
+    /* Corner ornaments on hero frame */
+    .hero-frame::before,
+    .hero-frame::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--gold-light);
+      border-style: solid;
+    }
+
+    .hero-frame::before {
+      top: -6px;
+      left: -6px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .hero-frame::after {
+      bottom: -6px;
+      right: -6px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-title-gold {
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--fg-muted);
+      margin-top: var(--space-4);
+      letter-spacing: 2px;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-top: var(--space-5);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-4);
+      border-bottom: var(--border-gold-dim);
+    }
+
+    .type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .type-hero {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ivory);
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 400;
+      line-height: 1.8;
+      color: var(--fg);
+    }
+
+    .type-body-italic {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--fg-muted);
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--fg-muted);
+    }
+
+    .type-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--gold-dim);
+      margin-top: var(--space-1);
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 14px 36px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+      color: var(--bg);
+      border: 1px solid var(--gold-light);
+      outline: 1px solid var(--gold-dim);
+      outline-offset: 3px;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--ivory) 50%, var(--gold-light) 100%);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      outline: 1px solid var(--gold-dim);
+      outline-offset: 3px;
+    }
+
+    .btn-outline:hover {
+      background: rgba(201, 168, 76, 0.08);
+      color: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      border: 1px solid var(--gold-dim);
+    }
+
+    .btn-ghost:hover {
+      color: var(--fg);
+      border-color: var(--gold);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: var(--ivory);
+      border: 1px solid var(--accent-light);
+      outline: 1px solid rgba(139, 26, 26, 0.4);
+      outline-offset: 3px;
+    }
+
+    .btn-accent:hover {
+      background: var(--accent-light);
+    }
+
+    .btn-large {
+      min-height: 58px;
+      padding: 18px 52px;
+      font-size: 12px;
+      letter-spacing: 6px;
+    }
+
+    .btn-small {
+      min-height: 38px;
+      padding: 8px 22px;
+      font-size: 10px;
+      letter-spacing: 4px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS — Art Deco luxury
+       ======================================== */
+    .card {
+      background: var(--surface);
+      border-top: 2px solid var(--gold);
+      border-left: var(--border-gold-dim);
+      border-right: var(--border-gold-dim);
+      border-bottom: var(--border-gold-dim);
+      padding: var(--space-5);
+      position: relative;
+    }
+
+    /* Gold corner accents top-right */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 16px;
+      height: 16px;
+      border-top: 2px solid var(--gold-light);
+      border-right: 2px solid var(--gold-light);
+    }
+
+    /* Gold corner accent bottom-left */
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: -1px;
+      width: 16px;
+      height: 16px;
+      border-bottom: 1px solid var(--gold-dim);
+      border-left: 1px solid var(--gold-dim);
+    }
+
+    .card:hover {
+      border-top-color: var(--gold-light);
+      background: var(--surface-raised);
+    }
+
+    .card-tag {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-3);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      margin-bottom: var(--space-2);
+    }
+
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--fg-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .card-footer {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .badge-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--bg);
+    }
+
+    .badge-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    .badge-accent {
+      background: var(--accent);
+      color: var(--ivory);
+    }
+
+    .badge-ivory {
+      background: var(--ivory);
+      color: var(--bg);
+    }
+
+    .badge-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      border: 1px solid var(--gold-dim);
+    }
+
+    /* ========================================
+       STAT BLOCKS
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5) var(--space-4);
+      border: var(--border-gold-dim);
+      background: var(--surface);
+      position: relative;
+    }
+
+    .stat-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--gold-light);
+      letter-spacing: 0.02em;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--fg-muted);
+      margin-top: var(--space-2);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      border: var(--border-gold-dim);
+    }
+
+    .swatch:hover {
+      border-color: var(--gold);
+    }
+
+    .swatch-color {
+      height: 90px;
+    }
+
+    .swatch-info {
+      padding: var(--space-2) var(--space-3);
+      background: var(--surface);
+    }
+
+    .swatch-name {
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--fg-muted);
+      margin-top: 2px;
+    }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+
+    .spacing-bar {
+      height: 20px;
+      background: linear-gradient(to right, var(--gold), var(--gold-light));
+    }
+
+    .spacing-label {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 3px;
+      min-width: 130px;
+      color: var(--fg-muted);
+    }
+
+    /* ========================================
+       FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 var(--space-4);
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--surface);
+      border: var(--border-gold-dim);
+      border-bottom: var(--border-gold);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input::placeholder {
+      color: var(--gold-dim);
+      font-style: italic;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold-dim), 0 0 12px rgba(201, 168, 76, 0.12);
+    }
+
+    .form-input-error {
+      border-color: var(--accent);
+      border-bottom-color: var(--accent-light);
+    }
+
+    .form-error {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--accent-light);
+      margin-top: var(--space-1);
+    }
+
+    .form-helper {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--fg-muted);
+      margin-top: var(--space-1);
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 130px;
+      padding: var(--space-3) var(--space-4);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS — Art Deco style
+       ======================================== */
+    .divider-gold {
+      border: none;
+      border-top: 1px solid var(--gold);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-double {
+      border: none;
+      border-top: 1px solid var(--gold);
+      height: 4px;
+      border-bottom: 1px solid var(--gold-dim);
+      margin: var(--space-5) 0;
+    }
+
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid var(--gold-dim);
+      margin: var(--space-4) 0;
+    }
+
+    .divider-ornament {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin: var(--space-5) 0;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .divider-ornament::before,
+    .divider-ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim));
+    }
+
+    .divider-ornament::after {
+      background: linear-gradient(to left, transparent, var(--gold-dim));
+    }
+
+    /* ========================================
+       SECTION 10 — ORNAMENTOS ART DECO
+       ======================================== */
+    .deco-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .deco-showcase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .deco-panel {
+      background: var(--surface);
+      border: var(--border-gold-dim);
+      padding: var(--space-5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deco-panel-title {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-4);
+      text-align: center;
+    }
+
+    /* Sunburst pattern */
+    .deco-sunburst {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background:
+        radial-gradient(circle at center, var(--gold) 0%, var(--gold-dim) 15%, transparent 16%),
+        radial-gradient(circle at center, rgba(201,168,76,0.15) 30%, transparent 31%),
+        repeating-conic-gradient(
+          from 0deg at 50% 50%,
+          rgba(201, 168, 76, 0.25) 0deg 4deg,
+          transparent 4deg 8deg
+        );
+      border: 1px solid var(--gold-dim);
+      outline: 1px solid rgba(201, 168, 76, 0.2);
+      outline-offset: 6px;
+    }
+
+    /* Chevron border pattern */
+    .deco-chevron-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: var(--space-3);
+    }
+
+    .deco-chevron-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .deco-chevron-row span {
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--gold);
+      letter-spacing: 4px;
+      opacity: 0.8;
+    }
+
+    /* Double-line frame */
+    .deco-double-frame {
+      position: relative;
+      width: 200px;
+      height: 160px;
+      margin: 0 auto;
+      border: 1px solid var(--gold);
+      outline: 1px solid var(--gold-dim);
+      outline-offset: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .deco-double-frame::before,
+    .deco-double-frame::after {
+      content: '';
+      position: absolute;
+      border-color: var(--gold-light);
+      border-style: solid;
+    }
+
+    .deco-double-frame::before {
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-width: 0;
+      box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.3);
+    }
+
+    .deco-double-frame::after {
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border-width: 1px;
+      border-color: var(--gold-dim);
+    }
+
+    /* Gold corner ornaments on double-frame */
+    .deco-frame-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+    }
+
+    .deco-frame-corner.tl {
+      top: -2px;
+      left: -2px;
+      border-top: 2px solid var(--gold-light);
+      border-left: 2px solid var(--gold-light);
+    }
+
+    .deco-frame-corner.tr {
+      top: -2px;
+      right: -2px;
+      border-top: 2px solid var(--gold-light);
+      border-right: 2px solid var(--gold-light);
+    }
+
+    .deco-frame-corner.bl {
+      bottom: -2px;
+      left: -2px;
+      border-bottom: 2px solid var(--gold-light);
+      border-left: 2px solid var(--gold-light);
+    }
+
+    .deco-frame-corner.br {
+      bottom: -2px;
+      right: -2px;
+      border-bottom: 2px solid var(--gold-light);
+      border-right: 2px solid var(--gold-light);
+    }
+
+    .deco-frame-text {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Diamond grid pattern */
+    .deco-diamond-grid {
+      width: 200px;
+      height: 160px;
+      margin: 0 auto;
+      background-image:
+        linear-gradient(45deg, var(--gold-dim) 1px, transparent 1px),
+        linear-gradient(-45deg, var(--gold-dim) 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: center;
+      border: 1px solid var(--gold-dim);
+      position: relative;
+    }
+
+    .deco-diamond-grid::before {
+      content: '◆';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .showcase-footer {
+      padding: var(--space-7) 0;
+      border-top: 1px solid var(--gold);
+      position: relative;
+    }
+
+    .showcase-footer::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      text-align: center;
+    }
+
+    .footer-divider {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 12px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .footer-divider::before,
+    .footer-divider::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+
+    .footer-divider::after {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ivory);
+    }
+
+    .footer-version {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 6px;
+      color: var(--gold-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">Art Deco</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Tipo</a></li>
+        <li><a href="#colors">Cores</a></li>
+        <li><a href="#components">Componentes</a></li>
+        <li><a href="#ornamentos">Ornamentos</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         SECTION HERO — ART DECO
+         ======================================== -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <div class="hero-frame">
+          <p class="hero-eyebrow">Design System — Edição Luxo</p>
+          <h1 class="hero-title">
+            <span>A Era das</span>
+            <span class="hero-title-gold">Máquinas</span>
+            <span>Belas</span>
+          </h1>
+          <p class="hero-subtitle">Luxo, Glamour e Ornamento Geométrico</p>
+          <p class="hero-tagline">Art Deco &mdash; 1920 &mdash; 1939</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 01 — TIPOGRAFIA
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">01 — Tipografia</p>
+
+      <div class="type-sample">
+        <div class="type-hero">Grande Luxo</div>
+        <p class="type-meta">Cinzel 900 / 5rem / letter-spacing: 0.1em / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">Display Dourado</div>
+        <p class="type-meta">Cinzel 700 / 3.5rem / letter-spacing: 0.08em / gold-light</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">Heading Primeiro Nível</div>
+        <p class="type-meta">Cinzel 600 / 2.25rem / letter-spacing: 0.06em</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">Heading Segundo Nível</div>
+        <p class="type-meta">Cinzel 600 / 1.75rem / letter-spacing: 0.05em</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">Heading Terceiro Nível</div>
+        <p class="type-meta">Cinzel 400 / 1.35rem / letter-spacing: 0.04em</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Corpo do texto — Cormorant Garamond evoca a elegância das publicações de luxo da era Art Deco. Cada letra carrega o peso refinado de uma época em que a beleza e a modernidade coexistiam em perfeita harmonia geométrica.</div>
+        <p class="type-meta">Cormorant Garamond 400 / 1.2rem / line-height: 1.8</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body-italic">Texto em itálico — a expressão do romantismo sofisticado, suave como a seda e preciso como o aço das construções do período.</div>
+        <p class="type-meta">Cormorant Garamond 300 italic / 1.2rem / color: fg-muted</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Legenda secundária para metadados refinados</div>
+        <p class="type-meta">Cormorant Garamond 400 / 1rem / color: fg-muted</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">Rótulo Cinzel</div>
+        <p class="type-meta">Cinzel 600 / 0.75rem / letter-spacing: 5px / uppercase / gold</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 02 — CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <p class="section-label">02 — Paleta</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0C0B09;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background</div>
+            <div class="swatch-hex">#0C0B09</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #141210; border-top: 1px solid #4A3C1E;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Surface</div>
+            <div class="swatch-hex">#141210</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #C9A84C;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Gold</div>
+            <div class="swatch-hex">#C9A84C</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E8C46A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Gold Light</div>
+            <div class="swatch-hex">#E8C46A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E8D5A3;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Foreground</div>
+            <div class="swatch-hex">#E8D5A3</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F5EDD8;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ivory</div>
+            <div class="swatch-hex">#F5EDD8</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #8B1A1A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Accent Burgundy</div>
+            <div class="swatch-hex">#8B1A1A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #9A8B6A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted</div>
+            <div class="swatch-hex">#9A8B6A</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 03 — ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">03 — Espacamento</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04 — BOTOES
+         ======================================== -->
+    <section class="section" id="components">
+      <p class="section-label">04 — Botoes</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">Tamanhos</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">Entrar em Contato</button>
+          <button class="btn btn-primary">Reservar</button>
+          <button class="btn btn-primary btn-small">Ver</button>
+        </div>
+      </div>
+
+      <div class="ornament-divider">◆ ——— ◆</div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3);">Variantes</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">Dourado</button>
+          <button class="btn btn-outline">Contorno</button>
+          <button class="btn btn-ghost">Fantasma</button>
+          <button class="btn btn-accent">Borgonha</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05 — CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">05 — Cards</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <p class="card-tag">◆ Destaque</p>
+          <div class="card-title">A Grande Gatsby</div>
+          <div class="card-body">O luxo não é um acidente. É o resultado de décadas de refinamento, escolha e visão artística que transcende o tempo.</div>
+          <div class="card-footer">1922 &mdash; Nova York</div>
+        </div>
+        <div class="card">
+          <p class="card-tag">◆ Exclusivo</p>
+          <div class="card-title">Chrysler Building</div>
+          <div class="card-body">Aço, alumínio e pedra moldados pelo espírito de uma era que acreditava no futuro como uma promessa dourada.</div>
+          <div class="card-footer">1930 &mdash; Manhattan</div>
+        </div>
+        <div class="card">
+          <p class="card-tag">◆ Reservado</p>
+          <div class="card-title">Empire State</div>
+          <div class="card-body">A ambição humana verticalizada em concreto e vidro, tocando as nuvens com a certeza de quem domina o presente.</div>
+          <div class="card-footer">1931 &mdash; Nova York</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06 — STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">06 — Stats &amp; KPIs</p>
+
+      <div class="grid-4">
+        <div class="stat-block">
+          <div class="stat-number">102</div>
+          <div class="stat-label">andares de ouro</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">1929</div>
+          <div class="stat-label">ano da grande depressão</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">crescimento do jazz</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">beleza intemporal</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07 — BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">07 — Badges</p>
+
+      <div class="btn-group" style="flex-wrap: wrap;">
+        <span class="badge badge-gold">Luxo</span>
+        <span class="badge badge-outline">Exclusivo</span>
+        <span class="badge badge-accent">Urgente</span>
+        <span class="badge badge-ivory">Claro</span>
+        <span class="badge badge-ghost">Discreto</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08 — FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">08 — Formularios</p>
+
+      <div style="max-width: 500px;">
+        <div class="form-group">
+          <label class="form-label" for="name">Nome Completo</label>
+          <input class="form-input" type="text" id="name" placeholder="Seu nome de excelência">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Endereço de Correspondência</label>
+          <input class="form-input" type="email" id="email" placeholder="nome@dominio.com">
+          <p class="form-helper">Sua privacidade é nossa prioridade absoluta.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-error">Email (com erro)</label>
+          <input class="form-input form-input-error" type="email" id="email-error" value="endereço-inválido">
+          <p class="form-error">Formato inválido. Use nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">Mensagem Privativa</label>
+          <textarea class="form-input" id="message" placeholder="Escreva com a elegância que o momento exige..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">Enviar Correspondência</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09 — DIVISORES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">09 — Divisores</p>
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">Linha Simples em Ouro</p>
+      <hr class="divider-gold">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">Linha Dupla Art Deco</p>
+      <hr class="divider-double">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">Linha Sutil</p>
+      <hr class="divider-subtle">
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">Divisor com Ornamento</p>
+      <div class="divider-ornament">◆</div>
+
+      <p class="type-label" style="margin-bottom: var(--space-2);">Divisor Completo</p>
+      <div class="ornament-divider">◆ ——————————————————————————— ◆</div>
+    </section>
+
+    <!-- ========================================
+         SECTION 10 — ORNAMENTOS ART DECO (NOVO)
+         ======================================== -->
+    <section class="section" id="ornamentos">
+      <p class="section-label">10 — Ornamentos Art Deco</p>
+
+      <div class="deco-showcase-grid">
+
+        <!-- Sunburst Pattern -->
+        <div class="deco-panel">
+          <p class="deco-panel-title">Raios Solares — Conic Gradient</p>
+          <div class="deco-sunburst"></div>
+          <p style="font-family: var(--font-body); font-size: 0.9rem; font-style: italic; color: var(--fg-muted); text-align: center; margin-top: var(--space-4);">
+            repeating-conic-gradient — símbolo de prosperidade e luz da era dourada
+          </p>
+        </div>
+
+        <!-- Chevron Border Pattern -->
+        <div class="deco-panel">
+          <p class="deco-panel-title">Padrão Chevron</p>
+          <div class="deco-chevron-wrapper">
+            <div class="deco-chevron-row"><span>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span></div>
+            <div class="deco-chevron-row"><span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></div>
+            <div class="deco-chevron-row"><span>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span></div>
+            <div class="deco-chevron-row"><span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></div>
+            <div class="deco-chevron-row"><span>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span></div>
+            <div class="deco-chevron-row"><span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></div>
+          </div>
+          <p style="font-family: var(--font-body); font-size: 0.9rem; font-style: italic; color: var(--fg-muted); text-align: center; margin-top: var(--space-4);">
+            Padrão chevron alternado — bordas decorativas em movimento
+          </p>
+        </div>
+
+        <!-- Double-line Frame Ornament -->
+        <div class="deco-panel">
+          <p class="deco-panel-title">Moldura de Linha Dupla</p>
+          <div class="deco-double-frame">
+            <div class="deco-frame-corner tl"></div>
+            <div class="deco-frame-corner tr"></div>
+            <div class="deco-frame-corner bl"></div>
+            <div class="deco-frame-corner br"></div>
+            <div class="deco-frame-text">
+              Art<br>Deco
+            </div>
+          </div>
+          <p style="font-family: var(--font-body); font-size: 0.9rem; font-style: italic; color: var(--fg-muted); text-align: center; margin-top: var(--space-4);">
+            border + outline + outline-offset — moldura dupla com cantos ornamentados
+          </p>
+        </div>
+
+        <!-- Diamond Grid Pattern -->
+        <div class="deco-panel">
+          <p class="deco-panel-title">Grade de Losangos</p>
+          <div class="deco-diamond-grid"></div>
+          <p style="font-family: var(--font-body); font-size: 0.9rem; font-style: italic; color: var(--fg-muted); text-align: center; margin-top: var(--space-4);">
+            linear-gradient 45deg cruzado — padrão geométrico Art Deco clássico
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Extra ornamental showcase strip -->
+      <div style="margin-top: var(--space-6); padding: var(--space-5); background: var(--surface); border: var(--border-gold-dim); position: relative;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, transparent, var(--gold), transparent);"></div>
+        <p class="type-label" style="text-align: center; margin-bottom: var(--space-4);">Vocabulario Ornamental</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <div class="ornament-divider">◆ ————————————————————— ◆</div>
+          <div style="text-align: center; font-family: var(--font-display); font-size: 16px; color: var(--gold); letter-spacing: 12px;">✦ ◈ ◆ ❖ ◆ ◈ ✦</div>
+          <div class="ornament-divider">◇ ——— ◈ ——— ◆ ——— ◈ ——— ◇</div>
+          <div style="text-align: center; font-family: var(--font-display); font-size: 11px; color: var(--gold-dim); letter-spacing: 16px; margin-top: var(--space-2);">I &nbsp; II &nbsp; III &nbsp; IV &nbsp; V</div>
+        </div>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, transparent, var(--gold), transparent);"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="showcase-footer">
+      <div class="footer-inner">
+        <div class="footer-divider">◆</div>
+        <div class="footer-brand">Art Deco</div>
+        <div style="font-family: var(--font-body); font-style: italic; color: var(--fg-muted); font-size: 1.1rem; letter-spacing: 2px;">
+          Luxo, Glamour e Modernidade Geométrica
+        </div>
+        <div class="footer-divider">◆</div>
+        <div class="footer-version">Bold Impact v9.0 &mdash; Art Deco Edition</div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КОНСТРУКТИВИЗМ — BOLD IMPACT v10.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       КОНСТРУКТИВИЗМ — Design System Tokens
+       Soviet Constructivism v10.0
+       ======================================== */
+    :root {
+      --bg:    #F0EDE6;   /* aged paper / cream */
+      --fg:    #1A1209;   /* deep black-brown ink */
+      --red:   #CC1B1B;   /* Soviet red */
+      --black: #1A1209;
+      --white: #F0EDE6;
+
+      --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+      --font-body:    'Barlow', system-ui, sans-serif;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+      transition: none !important;
+      animation-duration: 0s !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 4px solid var(--black);
+      position: relative;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    /* Section label — Oswald uppercase with solid red left bar */
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--fg);
+      margin-bottom: var(--space-6);
+      padding-left: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      background: var(--red);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* ========================================
+       WATERMARK
+       ======================================== */
+    body::before {
+      content: 'КОНСТРУКТИВИЗМ';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 8px;
+      color: rgba(204, 27, 27, 0.04);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 0;
+      user-select: none;
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 4px solid var(--black);
+      position: relative;
+    }
+    .showcase-nav::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--red);
+    }
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+    .showcase-nav-brand span {
+      color: var(--red);
+    }
+    .showcase-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      list-style: none;
+    }
+    .showcase-nav-links a {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .showcase-nav-links a:hover {
+      color: var(--red);
+    }
+
+    /* ========================================
+       HERO — DIAGONAL CONSTRUCTIVIST LAYOUT
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      gap: 0;
+    }
+
+    /* Large diagonal red bar slashing across the hero */
+    .hero-diagonal {
+      position: absolute;
+      top: -10%;
+      left: 38%;
+      width: 12px;
+      height: 130%;
+      background: var(--red);
+      transform: rotate(8deg);
+      z-index: 2;
+    }
+    .hero-diagonal-2 {
+      position: absolute;
+      top: -10%;
+      left: 40%;
+      width: 3px;
+      height: 130%;
+      background: var(--black);
+      transform: rotate(8deg);
+      z-index: 2;
+    }
+
+    /* Left column: black block with white text */
+    .hero-left {
+      background: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) clamp(30px, 5vw, 80px);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: var(--space-4);
+    }
+    .hero-stat {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 14vw, 10rem);
+      font-weight: 700;
+      line-height: 0.82;
+      letter-spacing: -2px;
+      color: var(--white);
+      display: block;
+    }
+    .hero-stat-label {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-top: var(--space-2);
+    }
+    .hero-stat-label span {
+      color: var(--red);
+    }
+    .hero-divider-red {
+      width: 80px;
+      height: 4px;
+      background: var(--red);
+      margin: var(--space-5) 0;
+    }
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(240, 237, 230, 0.65);
+      max-width: 320px;
+      line-height: 1.7;
+    }
+
+    /* Right column: cream with bold text */
+    .hero-right {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) clamp(60px, 8vw, 120px);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-claim {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+    .hero-claim span {
+      display: block;
+    }
+    .hero-claim .red-line {
+      color: var(--red);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      margin-top: var(--space-5);
+    }
+    .hero-caption {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(26, 18, 9, 0.5);
+      margin-top: var(--space-3);
+    }
+
+    /* Decorative triangle */
+    .hero-triangle {
+      position: absolute;
+      bottom: 60px;
+      right: 40px;
+      width: 0;
+      height: 0;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background: var(--red);
+      width: 48px;
+      height: 48px;
+      opacity: 0.85;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-hero-sample {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 9vw, 5rem);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+    .type-display-sample {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.0;
+      text-transform: uppercase;
+    }
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 500;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.65;
+    }
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: rgba(26,18,9,0.55);
+    }
+    .type-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .type-sample {
+      margin-bottom: var(--space-5);
+    }
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(26,18,9,0.45);
+      margin-top: 6px;
+      letter-spacing: 0;
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      max-width: 600px;
+    }
+    .swatch {
+      border: 2px solid var(--black);
+    }
+    .swatch-color {
+      height: 120px;
+    }
+    .swatch-info {
+      padding: var(--space-3);
+      background: var(--bg);
+    }
+    .swatch-name-ru {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .swatch-name-en {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(26,18,9,0.45);
+      margin-top: 2px;
+    }
+    .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(26,18,9,0.5);
+      margin-top: 4px;
+    }
+
+    /* ========================================
+       SPACING
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+    .spacing-bar {
+      height: 24px;
+      background: var(--black);
+    }
+    .spacing-bar.red {
+      background: var(--red);
+    }
+    .spacing-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 500;
+      min-width: 130px;
+      color: rgba(26,18,9,0.55);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      outline: none;
+      background: none;
+    }
+    .btn:focus-visible {
+      outline: 3px solid var(--red);
+      outline-offset: 2px;
+    }
+
+    /* Primary: solid red */
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+    }
+    .btn-primary:hover {
+      background: #AA1515;
+      border-color: #AA1515;
+    }
+
+    /* Secondary: solid black */
+    .btn-secondary {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+    .btn-secondary:hover {
+      background: #2e2010;
+      border-color: #2e2010;
+    }
+
+    /* Ghost: red outline */
+    .btn-ghost {
+      background: transparent;
+      color: var(--red);
+      border-color: var(--red);
+    }
+    .btn-ghost:hover {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .btn-large {
+      min-height: 56px;
+      padding: 18px 48px;
+      font-size: 16px;
+    }
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 12px;
+    }
+    .btn-group {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      border-top: 2px solid var(--black);
+      border-left: 6px solid var(--red);
+      border-right: 1px solid rgba(26,18,9,0.15);
+      border-bottom: 1px solid rgba(26,18,9,0.15);
+      padding: var(--space-4);
+      background: var(--white);
+      position: relative;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--space-2);
+      color: var(--fg);
+    }
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 0.97rem;
+      line-height: 1.55;
+      margin-bottom: var(--space-3);
+      color: rgba(26,18,9,0.75);
+    }
+    .card-meta {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(26,18,9,0.4);
+    }
+    .card-accent {
+      background: var(--red);
+      border-left-color: var(--black);
+      border-top-color: var(--red);
+    }
+    .card-accent .card-title,
+    .card-accent .card-body,
+    .card-accent .card-meta {
+      color: var(--white);
+    }
+    .card-accent .card-body { opacity: 0.85; }
+    .card-accent .card-meta { opacity: 0.6; }
+    .card-dark {
+      background: var(--black);
+      border-left-color: var(--red);
+      border-top-color: var(--black);
+    }
+    .card-dark .card-title,
+    .card-dark .card-body {
+      color: var(--white);
+    }
+    .card-dark .card-meta { color: rgba(240,237,230,0.4); }
+
+    /* ========================================
+       STATS — PROPAGANDA POSTER AESTHETIC
+       ======================================== */
+    .stat-block {
+      text-align: center;
+      padding: var(--space-5);
+      position: relative;
+    }
+    .stat-block-red {
+      background: var(--red);
+    }
+    .stat-block-black {
+      background: var(--black);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: -2px;
+      color: var(--white);
+    }
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: rgba(240,237,230,0.65);
+      margin-top: var(--space-3);
+    }
+    .stat-block-red .stat-label {
+      color: rgba(240,237,230,0.8);
+    }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: var(--red);
+      color: var(--white);
+    }
+    .badge-black {
+      background: var(--black);
+      color: var(--white);
+    }
+    .badge-outline {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--black);
+    }
+    .badge-outline-red {
+      background: transparent;
+      color: var(--red);
+      border: 2px solid var(--red);
+    }
+
+    /* ========================================
+       FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+      color: var(--fg);
+    }
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--bg);
+      border: 2px solid var(--black);
+      outline: none;
+    }
+    .form-input::placeholder {
+      color: rgba(26,18,9,0.35);
+    }
+    .form-input:focus {
+      border-color: var(--red);
+      outline: none;
+      box-shadow: inset 4px 0 0 var(--red);
+    }
+    .form-input-error {
+      border-color: var(--red);
+    }
+    .form-error {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--red);
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .form-helper {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: rgba(26,18,9,0.45);
+      margin-top: 6px;
+    }
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-thick {
+      border: none;
+      border-top: 4px solid var(--red);
+      margin: var(--space-5) 0;
+    }
+    .divider-regular {
+      border: none;
+      border-top: 2px solid var(--black);
+      margin: var(--space-4) 0;
+    }
+    .divider-subtle {
+      border: none;
+      border-top: 1px solid rgba(26,18,9,0.2);
+      margin: var(--space-3) 0;
+    }
+
+    /* ========================================
+       DIAGONAL ACCENT ELEMENTS (reusable)
+       ======================================== */
+    .diag-bar {
+      position: absolute;
+      width: 200%;
+      height: 6px;
+      background: var(--red);
+      transform: rotate(-10deg);
+      left: -50%;
+      pointer-events: none;
+    }
+    .triangle-decor {
+      display: inline-block;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background: var(--red);
+    }
+    .triangle-down {
+      clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    }
+    .triangle-right {
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    }
+
+    /* ========================================
+       SECTION 10 — COMPOSIÇÃO CONSTRUTIVISTA
+       ======================================== */
+    .constructivist-stage {
+      background: var(--bg);
+      position: relative;
+      min-height: 600px;
+      overflow: hidden;
+      border: 3px solid var(--black);
+    }
+
+    /* Large red rectangle — top-left anchor */
+    .cs-rect-red {
+      position: absolute;
+      background: var(--red);
+    }
+    /* Large black rectangle */
+    .cs-rect-black {
+      position: absolute;
+      background: var(--black);
+    }
+    /* Cream rectangle */
+    .cs-rect-cream {
+      position: absolute;
+      background: var(--bg);
+      border: 3px solid var(--black);
+    }
+
+    /* Giant K letterform */
+    .cs-letter-k {
+      position: absolute;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(10rem, 20vw, 16rem);
+      line-height: 1;
+      color: var(--red);
+      user-select: none;
+      letter-spacing: -8px;
+    }
+
+    /* Diagonal slash bar */
+    .cs-slash {
+      position: absolute;
+      background: var(--red);
+      transform-origin: center center;
+    }
+
+    /* Propaganda text block */
+    .cs-claim {
+      position: absolute;
+      z-index: 10;
+    }
+    .cs-claim-main {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -1px;
+    }
+
+    /* Rotated label */
+    .cs-rotated-label {
+      position: absolute;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Geometric detail — thin lines */
+    .cs-line-h {
+      position: absolute;
+      height: 3px;
+    }
+    .cs-line-v {
+      position: absolute;
+      width: 3px;
+    }
+
+    /* Poster card */
+    .poster-card {
+      background: var(--black);
+      padding: var(--space-6) var(--space-5);
+      position: relative;
+      overflow: hidden;
+    }
+    .poster-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: 40px;
+      width: 8px;
+      height: 140%;
+      background: var(--red);
+      transform: rotate(6deg);
+    }
+    .poster-eyebrow {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: var(--space-3);
+    }
+    .poster-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+    }
+    .poster-headline .red-word {
+      color: var(--red);
+    }
+    .poster-red-slash {
+      display: inline-block;
+      width: 60px;
+      height: 5px;
+      background: var(--red);
+      vertical-align: middle;
+      margin: var(--space-4) 0;
+    }
+    .poster-subtext {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.6);
+      max-width: 320px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .showcase-footer {
+      padding: var(--space-7) 0;
+      border-top: 4px solid var(--red);
+      position: relative;
+    }
+    .showcase-footer::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--black);
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--red);
+    }
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(26,18,9,0.4);
+      margin-top: 4px;
+    }
+    .footer-version {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: rgba(26,18,9,0.3);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- NAV -->
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">BOLD<span>&#9632;</span>IMPACT</div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Tipo</a></li>
+        <li><a href="#cores">Cores</a></li>
+        <li><a href="#botoes">Botões</a></li>
+        <li><a href="#composicao">Composição</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         HERO — ASYMMETRIC DIAGONAL LAYOUT
+         ======================================== -->
+    <section id="hero" style="position: relative; overflow: hidden; margin: 0 calc(-1 * clamp(20px, 5vw, 80px)); padding: 0 clamp(20px, 5vw, 80px);">
+
+      <div class="hero" style="margin: 0 calc(-1 * clamp(20px, 5vw, 80px));">
+
+        <!-- diagonal bars cutting across hero -->
+        <div class="hero-diagonal"></div>
+        <div class="hero-diagonal-2"></div>
+
+        <!-- LEFT: black block -->
+        <div class="hero-left">
+          <div class="hero-eyebrow">Москва — 1923</div>
+          <span class="hero-stat">70%</span>
+          <div class="hero-stat-label">DOS OPERÁRIOS<br><span>NAO ENGAJAM</span></div>
+          <div class="hero-divider-red"></div>
+          <p class="hero-subtext">Arte como instrumento de transformação social. Tipografia como arquitetura. Impacto como manifesto.</p>
+          <!-- decorative triangle -->
+          <div class="hero-triangle"></div>
+        </div>
+
+        <!-- RIGHT: cream block -->
+        <div class="hero-right">
+          <div class="hero-claim">
+            <span>FORJA O</span>
+            <span class="red-line">FUTURO</span>
+            <span>COM FORMA</span>
+            <span>E FUNÇÃO</span>
+          </div>
+          <div class="hero-badge">КОНСТРУКТИВИЗМ</div>
+          <p class="hero-caption">Design como ferramenta de poder. Cada linha tem propósito.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 01: TYPOGRAPHY
+         ======================================== -->
+    <section class="section" id="typography">
+      <p class="section-label">01 — Tipografia</p>
+
+      <div class="type-sample">
+        <div class="type-hero-sample">ГЕРОЙ — HERO TEXT</div>
+        <p class="type-meta">Oswald 700 / clamp(3rem→5rem) / line-height: 0.88 / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display-sample">DISPLAY CONSTRUCTIVISTA</div>
+        <p class="type-meta">Oswald 700 / clamp(2rem→3.2rem) / line-height: 0.92</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1 — ЗАГОЛОВОК</div>
+        <p class="type-meta">Oswald 700 / 2.2rem / line-height: 0.95</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Oswald 600 / 1.75rem / line-height: 1.0</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Oswald 500 / 1.35rem / line-height: 1.1</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Texto de corpo — limpo, legível, funcional. A tipografia construtivista trata cada bloco de texto como um elemento gráfico no plano bidimensional. Barlow 400 para máxima legibilidade.</div>
+        <p class="type-meta">Barlow 400 / 1.1rem / line-height: 1.65</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Legenda — informação secundária e metadados da composição</div>
+        <p class="type-meta">Barlow 400 / 0.875rem / opacity: 0.55</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL — RÓTULO</div>
+        <p class="type-meta">Oswald 700 / 0.75rem / letter-spacing: 3px / uppercase</p>
+      </div>
+
+      <!-- Typography as architecture: red accent block -->
+      <div style="background: var(--black); padding: var(--space-5); margin-top: var(--space-5); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -10px; right: 30px; width: 6px; height: 120%; background: var(--red); transform: rotate(5deg);"></div>
+        <div style="font-family: var(--font-display); font-size: clamp(2rem,6vw,4rem); font-weight: 700; color: var(--white); text-transform: uppercase; line-height: 0.9; position: relative; z-index: 1;">
+          СЛОВО<br>
+          <span style="color: var(--red);">ЕСТЬ</span><br>
+          ФОРМА
+        </div>
+        <div style="font-family: var(--font-body); font-size: 13px; font-weight: 300; color: rgba(240,237,230,0.5); margin-top: var(--space-4); position: relative; z-index: 1;">"The word is form" — El Lissitzky, 1923</div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 02: CORES
+         ======================================== -->
+    <section class="section" id="cores">
+      <p class="section-label">02 — Cores / Цвет</p>
+
+      <div class="swatch-grid">
+        <!-- RED -->
+        <div class="swatch">
+          <div class="swatch-color" style="background: #CC1B1B; position: relative;">
+            <!-- diagonal graphic element inside swatch -->
+            <div style="position: absolute; bottom: 10px; right: 10px; width: 0; height: 0; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: rgba(240,237,230,0.25); width: 28px; height: 28px;"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name-ru" style="color: var(--red);">КРАСНЫЙ</div>
+            <div class="swatch-name-en">Red</div>
+            <div class="swatch-hex">#CC1B1B</div>
+          </div>
+        </div>
+        <!-- BLACK -->
+        <div class="swatch">
+          <div class="swatch-color" style="background: #1A1209; position: relative;">
+            <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 40px; height: 3px; background: var(--red);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name-ru" style="color: var(--black);">ЧЁРНЫЙ</div>
+            <div class="swatch-name-en">Black</div>
+            <div class="swatch-hex">#1A1209</div>
+          </div>
+        </div>
+        <!-- WHITE/CREAM -->
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F0EDE6; border-bottom: 2px solid rgba(26,18,9,0.1); position: relative;">
+            <div style="position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; background: var(--red); transform: rotate(45deg);"></div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name-ru" style="color: var(--black);">БЕЛЫЙ</div>
+            <div class="swatch-name-en">White / Cream</div>
+            <div class="swatch-hex">#F0EDE6</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color context bars -->
+      <div style="margin-top: var(--space-5); display: flex; gap: 4px; height: 32px;">
+        <div style="flex: 3; background: var(--red);"></div>
+        <div style="flex: 3; background: var(--black);"></div>
+        <div style="flex: 1; background: var(--bg); border: 1px solid rgba(26,18,9,0.15);"></div>
+      </div>
+      <div style="display: flex; gap: 4px; margin-top: 4px;">
+        <div style="flex: 3; font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 2px; color: rgba(26,18,9,0.4);">КРАСНЫЙ</div>
+        <div style="flex: 3; font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 2px; color: rgba(26,18,9,0.4);">ЧЁРНЫЙ</div>
+        <div style="flex: 1; font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 2px; color: rgba(26,18,9,0.4);">БЕЛЫЙ</div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 03: ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">03 — Espaçamento / Пространство</p>
+
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar red" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-3: 16px</span>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-4: 24px</span>
+        <div class="spacing-bar red" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-5: 32px</span>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-6: 48px</span>
+        <div class="spacing-bar red" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-7: 64px</span>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-8: 96px</span>
+        <div class="spacing-bar red" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-demo">
+        <span class="spacing-label">--space-9: 128px</span>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04: BOTOES
+         ======================================== -->
+    <section class="section" id="botoes">
+      <p class="section-label">04 — Botões / Кнопки</p>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3); padding-left: 0;">TAMANHOS</p>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-large">LARGE CTA</button>
+          <button class="btn btn-primary">ПАТТЕРН</button>
+          <button class="btn btn-primary btn-small">МАЛЫЙ</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: var(--space-5);">
+        <p class="type-label" style="margin-bottom: var(--space-3); padding-left: 0;">VARIANTES</p>
+        <div class="btn-group">
+          <button class="btn btn-primary">PRIMARY — RED</button>
+          <button class="btn btn-secondary">SECONDARY — BLACK</button>
+          <button class="btn btn-ghost">GHOST — OUTLINE</button>
+        </div>
+      </div>
+
+      <!-- Button on dark background -->
+      <div style="background: var(--black); padding: var(--space-5); display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+        <button class="btn btn-primary">AÇÃO PRINCIPAL</button>
+        <button class="btn btn-ghost" style="color: var(--white); border-color: var(--white);">AÇÃO SECUNDÁRIA</button>
+        <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 3px; color: rgba(240,237,230,0.3); text-transform: uppercase;">em fundo escuro</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05: CARDS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">05 — Cards / Карточки</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="badge" style="margin-bottom: var(--space-3); display: inline-block;">НОВО</span>
+          <div class="card-title">ENGAJAMENTO</div>
+          <div class="card-body">Transforme seguidores passivos em participantes ativos da sua causa coletiva.</div>
+          <div class="card-meta">Propaganda &#9632; 1923</div>
+        </div>
+        <div class="card card-accent">
+          <span class="badge badge-black" style="margin-bottom: var(--space-3); display: inline-block;">СРОЧНО</span>
+          <div class="card-title">AUTOMAÇÃO</div>
+          <div class="card-body">Respostas que mobilizam. Escale a mensagem sem perder a força do manifesto.</div>
+          <div class="card-meta">Agitação &#9632; 1924</div>
+        </div>
+        <div class="card card-dark">
+          <span class="badge" style="margin-bottom: var(--space-3); display: inline-block;">ВПЕРЁД</span>
+          <div class="card-title">CONVERSÃO</div>
+          <div class="card-body">Do espectador ao militante em 3 passos. Funil forjado em aço e tinta vermelha.</div>
+          <div class="card-meta">Agitprop &#9632; 1925</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06: STATS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">06 — Stats / Статистика</p>
+
+      <!-- One RED, rest BLACK — propaganda poster aesthetic -->
+      <div class="grid-4">
+        <div class="stat-block stat-block-red">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">НЕ ВОВЛЕЧЕНЫ</div>
+        </div>
+        <div class="stat-block stat-block-black">
+          <div class="stat-number">3.2×</div>
+          <div class="stat-label">КОНВЕРСИЯ</div>
+        </div>
+        <div class="stat-block stat-block-black">
+          <div class="stat-number">24ч</div>
+          <div class="stat-label">СРЕДНЕЕ ВРЕМЯ</div>
+        </div>
+        <div class="stat-block stat-block-black">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">УДОВЛЕТВОРЕНИЕ</div>
+        </div>
+      </div>
+
+      <!-- Stat with diagonal accent -->
+      <div style="margin-top: var(--space-4); background: var(--black); padding: var(--space-5); display: flex; align-items: center; gap: var(--space-5); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -10px; left: 30%; width: 5px; height: 130%; background: var(--red); transform: rotate(8deg);"></div>
+        <div style="font-family: var(--font-display); font-size: clamp(3rem,8vw,5rem); font-weight: 700; color: var(--red); line-height: 1; z-index: 1;">1917</div>
+        <div style="z-index: 1;">
+          <div style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--white); text-transform: uppercase; line-height: 1.0;">A REVOLUÇÃO<br>NÃO ESPERA</div>
+          <div style="font-family: var(--font-body); font-size: 13px; font-weight: 300; color: rgba(240,237,230,0.5); margin-top: 8px;">Cada segundo sem ação é uma derrota.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07: BADGES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">07 — Badges / Значки</p>
+
+      <div class="btn-group" style="margin-bottom: var(--space-4);">
+        <span class="badge">КРАСНЫЙ</span>
+        <span class="badge badge-black">ЧЁРНЫЙ</span>
+        <span class="badge badge-outline">OUTLINE</span>
+        <span class="badge badge-outline-red">RED OUTLINE</span>
+      </div>
+
+      <!-- Badges on dark background -->
+      <div style="background: var(--black); padding: var(--space-4); display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+        <span class="badge">СРОЧНО</span>
+        <span class="badge" style="background: var(--bg); color: var(--black);">CREAM</span>
+        <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 3px; color: rgba(240,237,230,0.3); text-transform: uppercase;">em fundo negro</span>
+      </div>
+
+      <!-- Triangle decorations row -->
+      <div style="display: flex; gap: var(--space-3); align-items: center; margin-top: var(--space-4);">
+        <div class="triangle-decor" style="width: 32px; height: 32px;"></div>
+        <div class="triangle-decor triangle-down" style="width: 32px; height: 32px;"></div>
+        <div class="triangle-decor triangle-right" style="width: 32px; height: 32px;"></div>
+        <div class="triangle-decor" style="width: 20px; height: 20px; background: var(--black);"></div>
+        <div class="triangle-decor triangle-right" style="width: 20px; height: 20px; background: var(--black);"></div>
+        <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 3px; color: rgba(26,18,9,0.35); text-transform: uppercase; margin-left: var(--space-2);">elementos geométricos decorativos</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08: FORMS
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">08 — Formulários / Формы</p>
+
+      <div style="max-width: 500px;">
+        <div class="form-group">
+          <label class="form-label" for="cs-name">ИМЯ — NOME</label>
+          <input class="form-input" type="text" id="cs-name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cs-email">ПОЧТА — EMAIL</label>
+          <input class="form-input" type="email" id="cs-email" placeholder="seu@email.com">
+          <p class="form-helper">Nunca compartilharemos sua informação.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cs-error">EMAIL — ERRO</label>
+          <input class="form-input form-input-error" type="email" id="cs-error" value="email-invalido">
+          <p class="form-error">&#9632; Email inválido. Use formato nome@dominio.com</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cs-msg">СООБЩЕНИЕ — MENSAGEM</label>
+          <textarea class="form-input" id="cs-msg" placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">ENVIAR — ОТПРАВИТЬ</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09: DIVISORES
+         ======================================== -->
+    <section class="section">
+      <p class="section-label">09 — Divisores / Разделители</p>
+
+      <p class="type-label" style="margin-bottom: var(--space-2); padding-left: 0;">THICK — RED (4px)</p>
+      <hr class="divider-thick">
+
+      <p class="type-label" style="margin-bottom: var(--space-2); padding-left: 0;">REGULAR — BLACK (2px)</p>
+      <hr class="divider-regular">
+
+      <p class="type-label" style="margin-bottom: var(--space-2); padding-left: 0;">SUBTLE (1px)</p>
+      <hr class="divider-subtle">
+
+      <!-- Diagonal divider demonstration -->
+      <div style="margin-top: var(--space-5); position: relative; height: 40px; overflow: hidden;">
+        <div style="position: absolute; top: 50%; left: -5%; width: 110%; height: 4px; background: var(--red); transform: rotate(-2deg);"></div>
+        <div style="position: absolute; top: 50%; left: -5%; width: 110%; height: 1px; background: var(--black); transform: rotate(-2deg) translateY(8px);"></div>
+      </div>
+      <p class="type-meta" style="margin-top: 8px;">divisor diagonal — transform: rotate(-2deg)</p>
+    </section>
+
+    <!-- ========================================
+         SECTION 10 — COMPOSIÇÃO CONSTRUTIVISTA
+         ======================================== -->
+    <section class="section" id="composicao">
+      <p class="section-label">10 — Composição Construtivista / Конструктивистская Композиция</p>
+
+      <!-- STAGE: Dynamic diagonal composition -->
+      <div class="constructivist-stage">
+
+        <!-- Background geometry: large black rectangle top-left -->
+        <div class="cs-rect-black" style="top: 0; left: 0; width: 45%; height: 55%;"></div>
+
+        <!-- Red rectangle — lower right diagonal anchor -->
+        <div class="cs-rect-red" style="bottom: 0; right: 0; width: 55%; height: 45%;"></div>
+
+        <!-- Small cream block overlapping center -->
+        <div class="cs-rect-cream" style="top: 40%; left: 35%; width: 30%; height: 25%; z-index: 3;"></div>
+
+        <!-- Diagonal slash bars -->
+        <div class="cs-slash" style="top: 0; left: 42%; width: 10px; height: 120%; transform: rotate(12deg); background: var(--red); transform-origin: top center; z-index: 4;"></div>
+        <div class="cs-slash" style="top: 0; left: 44%; width: 3px; height: 120%; transform: rotate(12deg); background: var(--bg); transform-origin: top center; z-index: 4;"></div>
+
+        <!-- Horizontal rule lines as graphic elements -->
+        <div class="cs-line-h" style="top: 55%; left: 0; width: 45%; background: var(--red); z-index: 5;"></div>
+        <div class="cs-line-v" style="top: 0; left: 45%; height: 55%; background: var(--bg); opacity: 0.3; z-index: 5;"></div>
+
+        <!-- Giant K letterform — red, positioned center-left -->
+        <div class="cs-letter-k" style="top: -10px; left: 2%; z-index: 6; color: var(--red);">К</div>
+
+        <!-- Typography block: claim text overlapping black area (white text) -->
+        <div class="cs-claim" style="top: 10%; left: 30%; z-index: 8; max-width: 260px;">
+          <div style="font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: var(--red); margin-bottom: 8px;">ФОРМА = ФУНКЦИЯ</div>
+          <div class="cs-claim-main" style="font-size: clamp(1.6rem, 3.5vw, 2.6rem); color: var(--white); text-shadow: 1px 1px 0 rgba(0,0,0,0.5);">
+            ИСКУССТВО<br>НА СЛУЖБЕ<br>
+            <span style="color: var(--red);">НАРОДА</span>
+          </div>
+          <div style="width: 50px; height: 4px; background: var(--red); margin: 12px 0;"></div>
+          <div style="font-family: var(--font-body); font-size: 12px; font-weight: 300; color: rgba(240,237,230,0.6); line-height: 1.5;">Arte para as massas.<br>Design como revolução.</div>
+        </div>
+
+        <!-- Lower-right text: white on red -->
+        <div class="cs-claim" style="bottom: 8%; right: 4%; z-index: 8; text-align: right; max-width: 280px;">
+          <div style="font-family: var(--font-display); font-size: clamp(2.5rem,5vw,4rem); font-weight: 700; line-height: 0.88; color: var(--white); text-transform: uppercase;">
+            BOLD<br>IMPACT
+          </div>
+          <div style="font-family: var(--font-display); font-size: 11px; letter-spacing: 4px; color: rgba(240,237,230,0.65); margin-top: 10px; text-transform: uppercase;">v10 &#9632; 2025</div>
+        </div>
+
+        <!-- Triangular decorative elements -->
+        <div style="position: absolute; bottom: 55%; left: 46%; z-index: 7; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--white); width: 36px; height: 36px; opacity: 0.9;"></div>
+        <div style="position: absolute; top: 4%; right: 40%; z-index: 7; clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background: var(--red); width: 24px; height: 24px;"></div>
+        <div style="position: absolute; top: 58%; left: 4%; z-index: 7; clip-path: polygon(100% 0%, 0% 50%, 100% 100%); background: var(--white); width: 28px; height: 28px; opacity: 0.7;"></div>
+
+        <!-- Rotated label: КОНСТРУКТИВИЗМ -->
+        <div class="cs-rotated-label" style="bottom: 30%; left: -20px; transform: rotate(-90deg); transform-origin: bottom left; color: rgba(240,237,230,0.25); font-size: 10px; letter-spacing: 5px; z-index: 3;">
+          КОНСТРУКТИВИЗМ — 1920
+        </div>
+      </div>
+
+      <!-- Below stage: two column poster layout -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px;">
+
+        <!-- Left: propaganda poster card -->
+        <div class="poster-card">
+          <div class="poster-eyebrow">Манифест — Manifesto &#9632; 1923</div>
+          <div class="poster-headline">
+            ARTE DEVE<br>
+            <span class="red-word">SERVIR</span><br>
+            O POVO
+          </div>
+          <div class="poster-red-slash"></div>
+          <div style="display: block;"></div>
+          <p class="poster-subtext">O construtivismo rejeitou a arte pela arte. Cada forma tem função. Cada cor carrega mensagem. Cada linha move massas.</p>
+          <div style="margin-top: var(--space-5);">
+            <button class="btn btn-primary btn-small">ADERIR AO MOVIMENTO</button>
+          </div>
+        </div>
+
+        <!-- Right: geometric composition card -->
+        <div style="background: var(--bg); border: 3px solid var(--black); padding: var(--space-5); position: relative; overflow: hidden;">
+          <!-- Big rotated rectangle -->
+          <div style="position: absolute; top: -30px; right: -30px; width: 160px; height: 160px; background: var(--red); transform: rotate(25deg); opacity: 0.12; z-index: 0;"></div>
+          <div style="position: absolute; bottom: 20px; left: 20px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--black); width: 50px; height: 50px; opacity: 0.08; z-index: 0;"></div>
+          <div style="position: relative; z-index: 1;">
+            <div style="font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: rgba(26,18,9,0.4); margin-bottom: var(--space-3);">Elementos Gráficos</div>
+            <!-- Element gallery -->
+            <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+              <!-- Diagonal bar -->
+              <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <div style="width: 80px; height: 8px; background: var(--red); transform: rotate(-5deg); flex-shrink: 0;"></div>
+                <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,18,9,0.45);">barra diagonal</span>
+              </div>
+              <!-- Filled triangle -->
+              <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <div style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--red); width: 40px; height: 40px; flex-shrink: 0;"></div>
+                <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,18,9,0.45);">triângulo — triangle</span>
+              </div>
+              <!-- Solid rectangle row -->
+              <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <div style="display: flex; gap: 3px; flex-shrink: 0;">
+                  <div style="width: 20px; height: 40px; background: var(--red);"></div>
+                  <div style="width: 10px; height: 40px; background: var(--black);"></div>
+                  <div style="width: 30px; height: 40px; background: var(--red); opacity: 0.4;"></div>
+                </div>
+                <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,18,9,0.45);">retângulos sobrepostos</span>
+              </div>
+              <!-- Rotated square -->
+              <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <div style="width: 36px; height: 36px; background: var(--black); transform: rotate(45deg); flex-shrink: 0; margin-left: 4px; margin-right: 4px;"></div>
+                <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,18,9,0.45);">quadrado rotacionado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="showcase-footer">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">КОНСТРУКТИВИЗМ — BOLD IMPACT v10.0</div>
+          <div class="footer-tagline">Soviet Constructivism Design System &#9632; El Lissitzky · Rodchenko · Malevich</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: var(--space-4);">
+          <!-- Three small colored squares as graphic signature -->
+          <div style="display: flex; gap: 3px; align-items: center;">
+            <div style="width: 16px; height: 16px; background: var(--red);"></div>
+            <div style="width: 16px; height: 16px; background: var(--black);"></div>
+            <div style="width: 16px; height: 16px; background: var(--bg); border: 1px solid rgba(26,18,9,0.2);"></div>
+          </div>
+          <div class="footer-version">v10.0</div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /.container -->
+
+</body>
+</html>

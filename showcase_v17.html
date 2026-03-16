@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid Chrome — Design System v17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Geist+Mono:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --void: #050508;
+    --void-2: #0a0a12;
+    --void-3: #0f0f1a;
+    --violet: #8A2BE2;
+    --cyan: #00D4FF;
+    --pink: #FF0080;
+    --silver: #C0C0C0;
+    --chrome-light: #e8e8f0;
+    --font-display: 'Outfit', sans-serif;
+    --font-mono: 'Geist Mono', 'Courier New', monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--void);
+    color: var(--chrome-light);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── Custom Cursor ── */
+  #cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s ease, background 0.3s ease;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 12px var(--cyan), 0 0 24px var(--cyan);
+  }
+
+  #cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(0, 212, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease, border-color 0.3s ease;
+  }
+
+  /* ── Cursor Trail ── */
+  .trail-dot {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9990;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    mix-blend-mode: screen;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(5, 5, 8, 0.6);
+    border-bottom: 1px solid rgba(192, 192, 192, 0.08);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(192, 192, 192, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: none;
+  }
+
+  .nav-links a:hover {
+    color: var(--chrome-light);
+  }
+
+  .nav-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 12px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: rgba(0, 212, 255, 0.7);
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+  }
+
+  /* ── Hero Section ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #blob-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(0, 212, 255, 0.6);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 180px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      var(--cyan) 25%,
+      var(--violet) 50%,
+      var(--pink) 75%,
+      #ffffff 100%
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 6s ease infinite;
+    text-shadow: none;
+    position: relative;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: rgba(192, 192, 192, 0.55);
+    margin-top: 28px;
+    text-transform: uppercase;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 56px;
+    pointer-events: all;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+    animation: breathe 3s ease infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .scroll-indicator span {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--cyan), transparent);
+    animation: scrollLine 2s ease infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    50.001% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── Sections ── */
+  section {
+    padding: 120px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(0, 212, 255, 0.5);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--cyan);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff, rgba(192, 192, 192, 0.7));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 64px;
+  }
+
+  /* ── Divider ── */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.4), rgba(0, 212, 255, 0.4), rgba(255, 0, 128, 0.4), transparent);
+    margin: 0;
+  }
+
+  /* ── Color Palette ── */
+  #palette {
+    background: var(--void-2);
+  }
+
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .swatch {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: none;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .swatch:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  .swatch-color {
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .swatch-color::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .swatch:hover .swatch-color::after {
+    opacity: 1;
+  }
+
+  .swatch-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .swatch:hover .swatch-shimmer {
+    transform: translateX(100%);
+  }
+
+  .swatch-info {
+    padding: 14px 16px;
+    background: rgba(15, 15, 26, 0.8);
+    border: 1px solid rgba(192, 192, 192, 0.08);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .swatch-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--chrome-light);
+    margin-bottom: 4px;
+  }
+
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(192, 192, 192, 0.45);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Typography ── */
+  #typography {
+    background: var(--void-3);
+  }
+
+  .type-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 64px;
+  }
+
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 32px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(192, 192, 192, 0.06);
+    cursor: none;
+    transition: background 0.3s ease;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 0 -20px;
+  }
+
+  .type-row:hover {
+    background: rgba(138, 43, 226, 0.05);
+  }
+
+  .type-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(192, 192, 192, 0.3);
+    letter-spacing: 0.1em;
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+
+  .type-sample {
+    flex: 1;
+    color: var(--chrome-light);
+    line-height: 1.2;
+  }
+
+  .mono-showcase {
+    background: rgba(5, 5, 8, 0.8);
+    border: 1px solid rgba(192, 192, 192, 0.08);
+    border-radius: 12px;
+    padding: 32px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(192, 192, 192, 0.6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mono-showcase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+  }
+
+  .mono-highlight {
+    color: var(--cyan);
+  }
+
+  .mono-pink {
+    color: var(--pink);
+  }
+
+  .mono-violet {
+    color: var(--violet);
+    filter: brightness(1.5);
+  }
+
+  /* ── Components ── */
+  #components {
+    background: var(--void-2);
+  }
+
+  .components-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .components-grid { grid-template-columns: 1fr; }
+  }
+
+  .component-panel {
+    background: rgba(10, 10, 18, 0.8);
+    border: 1px solid rgba(192, 192, 192, 0.08);
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .component-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.6), rgba(0, 212, 255, 0.6), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .component-panel:hover {
+    border-color: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.05), inset 0 0 40px rgba(138, 43, 226, 0.03);
+  }
+
+  .component-panel:hover::before {
+    opacity: 1;
+  }
+
+  .panel-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(192, 192, 192, 0.3);
+    margin-bottom: 28px;
+  }
+
+  /* Buttons */
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+
+  .btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    color: white;
+    box-shadow: 0 4px 24px rgba(138, 43, 226, 0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 40px rgba(138, 43, 226, 0.6);
+  }
+
+  .btn-chrome {
+    background: linear-gradient(135deg, rgba(192,192,192,0.15), rgba(192,192,192,0.05));
+    color: var(--chrome-light);
+    border: 1px solid rgba(192, 192, 192, 0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-chrome:hover {
+    background: linear-gradient(135deg, rgba(192,192,192,0.25), rgba(192,192,192,0.1));
+    border-color: rgba(192, 192, 192, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(0, 212, 255, 0.08);
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.2);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, rgba(255, 0, 128, 0.2), rgba(255, 0, 128, 0.05));
+    color: var(--pink);
+    border: 1px solid rgba(255, 0, 128, 0.3);
+  }
+
+  .btn-danger:hover {
+    background: linear-gradient(135deg, rgba(255, 0, 128, 0.3), rgba(255, 0, 128, 0.1));
+    box-shadow: 0 0 24px rgba(255, 0, 128, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .btn-sm {
+    font-size: 11px;
+    padding: 8px 16px;
+  }
+
+  .btn-lg {
+    font-size: 15px;
+    padding: 16px 32px;
+  }
+
+  /* Inputs */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .chrome-input {
+    width: 100%;
+    background: rgba(5, 5, 8, 0.8);
+    border: 1px solid rgba(192, 192, 192, 0.12);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--chrome-light);
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: none;
+  }
+
+  .chrome-input::placeholder {
+    color: rgba(192, 192, 192, 0.3);
+  }
+
+  .chrome-input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08), 0 0 20px rgba(0, 212, 255, 0.1);
+    background: rgba(0, 212, 255, 0.02);
+  }
+
+  .input-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(192, 192, 192, 0.45);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(192, 192, 192, 0.3);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  /* Badges */
+  .badge-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    cursor: none;
+  }
+
+  .badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .badge-active {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+  }
+  .badge-active .badge-dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+
+  .badge-new {
+    background: rgba(138, 43, 226, 0.12);
+    color: #b06bff;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+  }
+  .badge-new .badge-dot { background: #b06bff; box-shadow: 0 0 6px #b06bff; }
+
+  .badge-hot {
+    background: rgba(255, 0, 128, 0.1);
+    color: var(--pink);
+    border: 1px solid rgba(255, 0, 128, 0.25);
+  }
+  .badge-hot .badge-dot { background: var(--pink); box-shadow: 0 0 6px var(--pink); animation: pulse-dot 1.5s ease infinite; }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .badge-neutral {
+    background: rgba(192, 192, 192, 0.06);
+    color: rgba(192, 192, 192, 0.5);
+    border: 1px solid rgba(192, 192, 192, 0.1);
+  }
+  .badge-neutral .badge-dot { background: rgba(192, 192, 192, 0.4); }
+
+  /* Cards */
+  .card-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .chrome-card {
+    background: rgba(5, 5, 8, 0.9);
+    border: 1px solid rgba(192, 192, 192, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .chrome-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  .chrome-card:nth-child(1)::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+  .chrome-card:nth-child(2)::before { background: linear-gradient(90deg, var(--violet), transparent); }
+  .chrome-card:nth-child(3)::before { background: linear-gradient(90deg, var(--pink), transparent); }
+
+  .chrome-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(192, 192, 192, 0.15);
+  }
+
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+    display: block;
+    filter: grayscale(0.3);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--chrome-light);
+    margin-bottom: 8px;
+  }
+
+  .card-body {
+    font-size: 12px;
+    color: rgba(192, 192, 192, 0.4);
+    line-height: 1.6;
+  }
+
+  /* Progress / Stat bars */
+  .stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(192, 192, 192, 0.5);
+    letter-spacing: 0.1em;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(192, 192, 192, 0.8);
+  }
+
+  .stat-bar {
+    height: 3px;
+    background: rgba(192, 192, 192, 0.08);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .stat-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Grid Section ── */
+  #grid-section {
+    background: var(--void-3);
+  }
+
+  .spacing-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(192, 192, 192, 0.04);
+    cursor: none;
+  }
+
+  .spacing-block {
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    height: 24px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .spacing-row:hover .spacing-block {
+    opacity: 1;
+  }
+
+  .spacing-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .spacing-token {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(0, 212, 255, 0.6);
+    min-width: 60px;
+  }
+
+  .spacing-px {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(192, 192, 192, 0.3);
+  }
+
+  .grid-visual {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 8px;
+    margin-top: 48px;
+    padding: 32px;
+    background: rgba(5, 5, 8, 0.6);
+    border: 1px solid rgba(192, 192, 192, 0.06);
+    border-radius: 12px;
+  }
+
+  .grid-col {
+    height: 60px;
+    background: rgba(138, 43, 226, 0.12);
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: none;
+  }
+
+  .grid-col:hover {
+    background: rgba(138, 43, 226, 0.3);
+    border-color: rgba(138, 43, 226, 0.5);
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid rgba(192, 192, 192, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(192, 192, 192, 0.3);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-brand strong {
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(192, 192, 192, 0.25);
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover {
+    color: rgba(192, 192, 192, 0.6);
+  }
+
+  /* ── Noise overlay ── */
+  #noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 500;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Noise overlay -->
+<div id="noise-overlay"></div>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">LC / DS v17</div>
+  <ul class="nav-links">
+    <li><a href="#palette">Palette</a></li>
+    <li><a href="#typography">Type</a></li>
+    <li><a href="#components">Components</a></li>
+    <li><a href="#grid-section">Grid</a></li>
+  </ul>
+  <div class="nav-badge">Organic Intelligence</div>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero">
+  <svg id="blob-canvas" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Iridescent gradient -->
+      <radialGradient id="blobGradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.9"/>
+        <stop offset="20%"  stop-color="#00D4FF" stop-opacity="0.8"/>
+        <stop offset="45%"  stop-color="#8A2BE2" stop-opacity="0.75"/>
+        <stop offset="70%"  stop-color="#FF0080" stop-opacity="0.7"/>
+        <stop offset="100%" stop-color="#050508" stop-opacity="0.0"/>
+      </radialGradient>
+      <!-- Secondary glow -->
+      <radialGradient id="glowGrad" cx="50%" cy="50%" r="60%">
+        <stop offset="0%"  stop-color="#00D4FF" stop-opacity="0.15"/>
+        <stop offset="50%" stop-color="#8A2BE2" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <!-- Filter: blur + hue-rotate base -->
+      <filter id="blobFilter" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feColorMatrix type="saturate" values="1.8" in="blur"/>
+      </filter>
+    </defs>
+    <!-- Background glow -->
+    <ellipse id="blob-glow" cx="50%" cy="50%" rx="35%" ry="35%" fill="url(#glowGrad)" opacity="0.6"/>
+    <!-- Main morphing blob -->
+    <path id="blob-main" fill="url(#blobGradient)" filter="url(#blobFilter)" opacity="0.85"/>
+    <!-- Inner highlight blob -->
+    <path id="blob-inner" fill="white" opacity="0.06"/>
+  </svg>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Design System v17 — 2029</span>
+    <h1 class="hero-title" id="hero-title">LIQUID<br>CHROME</h1>
+    <p class="hero-subtitle">Organic Intelligence · Iridescent Manifold</p>
+    <div class="hero-cta-group">
+      <button class="btn btn-primary btn-lg">Explore System</button>
+      <button class="btn btn-chrome btn-lg">View Source</button>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Color Palette -->
+<section id="palette">
+  <div class="section-label">01 / Color Palette</div>
+  <h2 class="section-title">Chromatic Spectrum</h2>
+
+  <div class="palette-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #050508;">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Void Black</div>
+        <div class="swatch-hex">#050508</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #8A2BE2, #6a0fc7);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Deep Violet</div>
+        <div class="swatch-hex">#8A2BE2</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #00D4FF, #00a8cc);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Cyan Arc</div>
+        <div class="swatch-hex">#00D4FF</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #FF0080, #cc0066);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Hot Pink</div>
+        <div class="swatch-hex">#FF0080</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #C0C0C0, #808090);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Silver Chrome</div>
+        <div class="swatch-hex">#C0C0C0</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #8A2BE2 0%, #00D4FF 50%, #FF0080 100%);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Iridescent</div>
+        <div class="swatch-hex">Gradient</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #0a0a12;">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Void 2</div>
+        <div class="swatch-hex">#0A0A12</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(135deg, #1a1a2e, #0d0d1a);">
+        <div class="swatch-shimmer"></div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Midnight</div>
+        <div class="swatch-hex">#1A1A2E</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Typography -->
+<section id="typography">
+  <div class="section-label">02 / Typography</div>
+  <h2 class="section-title">Type System</h2>
+
+  <div class="type-showcase">
+    <div class="type-row">
+      <div class="type-meta">Display / 9xl</div>
+      <div class="type-sample" style="font-size: 72px; font-weight: 800; letter-spacing: -0.04em; background: linear-gradient(135deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;">Quantum</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Display / 7xl</div>
+      <div class="type-sample" style="font-size: 56px; font-weight: 700; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;">Morphology</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Heading / 4xl</div>
+      <div class="type-sample" style="font-size: 36px; font-weight: 600; letter-spacing: -0.02em; color: var(--chrome-light);">Organic Intelligence</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Heading / 2xl</div>
+      <div class="type-sample" style="font-size: 24px; font-weight: 500; letter-spacing: -0.01em; color: rgba(192,192,192,0.8);">Iridescent Design Language</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Body / base</div>
+      <div class="type-sample" style="font-size: 16px; font-weight: 400; line-height: 1.7; color: rgba(192,192,192,0.55); max-width: 600px;">The intersection of computational fluid dynamics and digital aesthetics. A system that breathes, morphs, and responds — alive at the boundary of matter and light.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Caption / sm</div>
+      <div class="type-sample" style="font-size: 12px; font-weight: 400; letter-spacing: 0.05em; color: rgba(192,192,192,0.35);">System metadata · Build 20290117 · Organic Intelligence Engine v17.4.2</div>
+    </div>
+  </div>
+
+  <div class="mono-showcase">
+    <span class="mono-violet">const</span> <span class="mono-highlight">liquidChrome</span> = {<br>
+    &nbsp;&nbsp;<span class="mono-pink">version</span>: <span style="color: rgba(192,192,192,0.7);">'17.0.0'</span>,<br>
+    &nbsp;&nbsp;<span class="mono-pink">palette</span>: [<span style="color: rgba(192,192,192,0.7);">'#050508'</span>, <span style="color: rgba(192,192,192,0.7);">'#8A2BE2'</span>, <span style="color: rgba(192,192,192,0.7);">'#00D4FF'</span>, <span style="color: rgba(192,192,192,0.7);">'#FF0080'</span>],<br>
+    &nbsp;&nbsp;<span class="mono-pink">morphing</span>: <span class="mono-violet">true</span>,<br>
+    &nbsp;&nbsp;<span class="mono-pink">intelligence</span>: <span style="color: rgba(192,192,192,0.7);">'organic'</span>,<br>
+    &nbsp;&nbsp;<span class="mono-pink">era</span>: <span style="color: rgba(192,192,192,0.7);">'post-anthropic'</span><br>
+    }<br>
+    <br>
+    <span class="mono-violet">export default</span> <span class="mono-highlight">liquidChrome</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Components -->
+<section id="components">
+  <div class="section-label">03 / Components</div>
+  <h2 class="section-title">Interface Atoms</h2>
+
+  <div class="components-grid">
+
+    <!-- Buttons -->
+    <div class="component-panel">
+      <div class="panel-label">Buttons / Actions</div>
+      <div class="btn-group">
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-chrome">Chrome</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-danger">Danger</button>
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-chrome btn-lg">Large</button>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="component-panel">
+      <div class="panel-label">Inputs / Fields</div>
+      <div class="input-group">
+        <div>
+          <label class="input-label">Identity Vector</label>
+          <div class="input-wrapper">
+            <input class="chrome-input" type="text" placeholder="Enter designation...">
+            <span class="input-icon">⬡</span>
+          </div>
+        </div>
+        <div>
+          <label class="input-label">Neural Key</label>
+          <div class="input-wrapper">
+            <input class="chrome-input" type="password" placeholder="••••••••••••">
+            <span class="input-icon">◈</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="component-panel">
+      <div class="panel-label">Badges / Status</div>
+      <div class="badge-group">
+        <span class="badge badge-active"><span class="badge-dot"></span>Active</span>
+        <span class="badge badge-new"><span class="badge-dot"></span>New</span>
+        <span class="badge badge-hot"><span class="badge-dot"></span>Hot</span>
+        <span class="badge badge-neutral"><span class="badge-dot"></span>Dormant</span>
+        <span class="badge badge-active"><span class="badge-dot"></span>Online</span>
+        <span class="badge badge-new"><span class="badge-dot"></span>v17</span>
+        <span class="badge badge-hot"><span class="badge-dot"></span>Beta</span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="component-panel">
+      <div class="panel-label">Cards / Containers</div>
+      <div class="card-group">
+        <div class="chrome-card">
+          <span class="card-icon">◈</span>
+          <div class="card-title">Neural Core</div>
+          <div class="card-body">Adaptive processing substrate</div>
+        </div>
+        <div class="chrome-card">
+          <span class="card-icon">⬡</span>
+          <div class="card-title">Flow State</div>
+          <div class="card-body">Liquid morphology engine</div>
+        </div>
+        <div class="chrome-card">
+          <span class="card-icon">◎</span>
+          <div class="card-title">Chrome Shell</div>
+          <div class="card-body">Iridescent surface layer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats / Progress -->
+    <div class="component-panel">
+      <div class="panel-label">Stats / Progress</div>
+      <div class="stat-group">
+        <div class="stat-row">
+          <div class="stat-header">
+            <span class="stat-label">Neural Coherence</span>
+            <span class="stat-value">94%</span>
+          </div>
+          <div class="stat-bar"><div class="stat-fill" style="width: 94%; background: linear-gradient(90deg, var(--cyan), var(--violet));"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-header">
+            <span class="stat-label">Morphic Resonance</span>
+            <span class="stat-value">78%</span>
+          </div>
+          <div class="stat-bar"><div class="stat-fill" style="width: 78%; background: linear-gradient(90deg, var(--violet), var(--pink));"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-header">
+            <span class="stat-label">Chrome Saturation</span>
+            <span class="stat-value">61%</span>
+          </div>
+          <div class="stat-bar"><div class="stat-fill" style="width: 61%; background: linear-gradient(90deg, var(--pink), var(--cyan));"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-header">
+            <span class="stat-label">Iridescence Index</span>
+            <span class="stat-value">100%</span>
+          </div>
+          <div class="stat-bar"><div class="stat-fill" style="width: 100%; background: linear-gradient(90deg, #fff, var(--cyan), var(--violet), var(--pink));"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tokens preview -->
+    <div class="component-panel">
+      <div class="panel-label">Design Tokens</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="font-family: var(--font-mono); font-size: 10px; padding: 10px 14px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); border-radius: 6px; color: var(--cyan);">--cyan<br><span style="color: rgba(192,192,192,0.4);">#00D4FF</span></div>
+        <div style="font-family: var(--font-mono); font-size: 10px; padding: 10px 14px; background: rgba(138,43,226,0.06); border: 1px solid rgba(138,43,226,0.2); border-radius: 6px; color: #b06bff;">--violet<br><span style="color: rgba(192,192,192,0.4);">#8A2BE2</span></div>
+        <div style="font-family: var(--font-mono); font-size: 10px; padding: 10px 14px; background: rgba(255,0,128,0.06); border: 1px solid rgba(255,0,128,0.15); border-radius: 6px; color: var(--pink);">--pink<br><span style="color: rgba(192,192,192,0.4);">#FF0080</span></div>
+        <div style="font-family: var(--font-mono); font-size: 10px; padding: 10px 14px; background: rgba(192,192,192,0.04); border: 1px solid rgba(192,192,192,0.1); border-radius: 6px; color: var(--silver);">--silver<br><span style="color: rgba(192,192,192,0.4);">#C0C0C0</span></div>
+        <div style="font-family: var(--font-mono); font-size: 10px; padding: 10px 14px; background: rgba(5,5,8,0.9); border: 1px solid rgba(192,192,192,0.08); border-radius: 6px; color: rgba(192,192,192,0.4); grid-column: 1/-1;">--void: #050508 · --void-2: #0A0A12 · --void-3: #0F0F1A</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Grid & Spacing -->
+<section id="grid-section">
+  <div class="section-label">04 / Grid & Spacing</div>
+  <h2 class="section-title">Spatial System</h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+    <div>
+      <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; color: rgba(192,192,192,0.3); text-transform: uppercase; margin-bottom: 24px;">Spacing Scale — 4px base</div>
+      <div class="spacing-demo">
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 4px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-1</span>
+            <span class="spacing-px">4px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 8px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-2</span>
+            <span class="spacing-px">8px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 12px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-3</span>
+            <span class="spacing-px">12px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 16px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-4</span>
+            <span class="spacing-px">16px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 24px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-6</span>
+            <span class="spacing-px">24px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 32px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-8</span>
+            <span class="spacing-px">32px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 48px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-12</span>
+            <span class="spacing-px">48px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 64px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-16</span>
+            <span class="spacing-px">64px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 96px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-24</span>
+            <span class="spacing-px">96px</span>
+          </div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-block" style="width: 128px;"></div>
+          <div class="spacing-meta">
+            <span class="spacing-token">--sp-32</span>
+            <span class="spacing-px">128px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; color: rgba(192,192,192,0.3); text-transform: uppercase; margin-bottom: 24px;">Border Radius</div>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 48px; height: 48px; background: rgba(138,43,226,0.2); border: 1px solid rgba(138,43,226,0.3); border-radius: 2px;"></div>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4);">--radius-sm · 2px</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 48px; height: 48px; background: rgba(0,212,255,0.2); border: 1px solid rgba(0,212,255,0.3); border-radius: 6px;"></div>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4);">--radius-md · 6px</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 48px; height: 48px; background: rgba(255,0,128,0.2); border: 1px solid rgba(255,0,128,0.3); border-radius: 12px;"></div>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4);">--radius-lg · 12px</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 48px; height: 48px; background: rgba(192,192,192,0.1); border: 1px solid rgba(192,192,192,0.2); border-radius: 50%;"></div>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4);">--radius-full · 50%</span>
+        </div>
+      </div>
+
+      <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; color: rgba(192,192,192,0.3); text-transform: uppercase; margin-bottom: 16px;">Elevation / Shadow</div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="padding: 14px 18px; background: rgba(10,10,18,0.8); border: 1px solid rgba(192,192,192,0.06); border-radius: 8px; font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4); box-shadow: 0 1px 4px rgba(0,0,0,0.2);">--shadow-sm</div>
+        <div style="padding: 14px 18px; background: rgba(10,10,18,0.8); border: 1px solid rgba(192,192,192,0.08); border-radius: 8px; font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4); box-shadow: 0 4px 16px rgba(0,0,0,0.4);">--shadow-md</div>
+        <div style="padding: 14px 18px; background: rgba(10,10,18,0.9); border: 1px solid rgba(0,212,255,0.12); border-radius: 8px; font-family: var(--font-mono); font-size: 11px; color: rgba(192,192,192,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 24px rgba(0,212,255,0.08);">--shadow-glow</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12-col grid -->
+  <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; color: rgba(192,192,192,0.3); text-transform: uppercase; margin-top: 64px; margin-bottom: 16px;">12-Column Grid · 1440px container</div>
+  <div class="grid-visual" id="grid-visual">
+    <!-- Columns generated by JS -->
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">
+    <strong>LIQUID CHROME</strong> Design System &nbsp;·&nbsp; v17.0.0 &nbsp;·&nbsp; Organic Intelligence Engine
+  </div>
+  <div class="footer-links">
+    <a href="#">Tokens</a>
+    <a href="#">Figma</a>
+    <a href="#">GitHub</a>
+    <a href="#">Changelog</a>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════
+   LIQUID CHROME — Core Engine
+   ════════════════════════════════════════════ */
+
+// ── 1. Generate 12-col grid ──
+const gridEl = document.getElementById('grid-visual');
+for (let i = 0; i < 12; i++) {
+  const col = document.createElement('div');
+  col.className = 'grid-col';
+  gridEl.appendChild(col);
+}
+
+// ── 2. Cursor system ──
+const cursorDot  = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let ringX  = mouseX;
+let ringY  = mouseY;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.left = mouseX + 'px';
+  cursorDot.style.top  = mouseY + 'px';
+});
+
+// Smooth ring follow
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.14;
+  ringY += (mouseY - ringY) * 0.14;
+  cursorRing.style.left = ringX + 'px';
+  cursorRing.style.top  = ringY + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Cursor scale on interactive
+document.querySelectorAll('button, a, .swatch, .chrome-card, input').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursorRing.style.width  = '56px';
+    cursorRing.style.height = '56px';
+    cursorRing.style.borderColor = 'rgba(255, 0, 128, 0.6)';
+    cursorDot.style.background = '#FF0080';
+    cursorDot.style.boxShadow = '0 0 12px #FF0080, 0 0 24px #FF0080';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursorRing.style.width  = '32px';
+    cursorRing.style.height = '32px';
+    cursorRing.style.borderColor = 'rgba(0, 212, 255, 0.5)';
+    cursorDot.style.background = '#00D4FF';
+    cursorDot.style.boxShadow = '0 0 12px #00D4FF, 0 0 24px #00D4FF';
+  });
+});
+
+// ── 3. Cursor Trail ──
+const TRAIL_COUNT = 22;
+const trailDots = [];
+const trailPositions = [];
+const trailColors = [
+  '#00D4FF', '#00D4FF', '#4dd9ff',
+  '#8A2BE2', '#9d4eff', '#b06bff',
+  '#FF0080', '#ff4da6', '#ff80c0',
+  '#ffffff', '#e0e0f0',
+];
+
+for (let i = 0; i < TRAIL_COUNT; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'trail-dot';
+  const color = trailColors[i % trailColors.length];
+  const size  = Math.max(2, 6 - i * 0.22);
+  dot.style.cssText = `
+    width: ${size}px;
+    height: ${size}px;
+    background: ${color};
+    opacity: 0;
+    box-shadow: 0 0 ${size * 2}px ${color};
+  `;
+  document.body.appendChild(dot);
+  trailDots.push(dot);
+  trailPositions.push({ x: -100, y: -100 });
+}
+
+let trailHead = 0;
+const trailHistory = Array(TRAIL_COUNT).fill({ x: -100, y: -100 });
+let historyIdx = 0;
+
+document.addEventListener('mousemove', (e) => {
+  trailHistory[historyIdx % TRAIL_COUNT] = { x: e.clientX, y: e.clientY };
+  historyIdx++;
+});
+
+function animateTrail() {
+  for (let i = 0; i < TRAIL_COUNT; i++) {
+    const idx = (historyIdx - 1 - i * 1 + TRAIL_COUNT * 10) % TRAIL_COUNT;
+    const pos = trailHistory[idx];
+    if (!pos) continue;
+    const dot = trailDots[i];
+    const delay = i * 1.5;
+    const opacity = Math.max(0, (1 - i / TRAIL_COUNT) * 0.85);
+    dot.style.left    = pos.x + 'px';
+    dot.style.top     = pos.y + 'px';
+    dot.style.opacity = opacity;
+  }
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+// ── 4. Morphing SVG Blob ──
+const blobMain  = document.getElementById('blob-main');
+const blobInner = document.getElementById('blob-inner');
+const blobGlow  = document.getElementById('blob-glow');
+
+// Helper: polar to cartesian
+function polarPoint(cx, cy, r, angleDeg) {
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+// Generate a blob path from radius variation array
+function buildBlobPath(cx, cy, radii, smoothing = 0.4) {
+  const n = radii.length;
+  const angleStep = 360 / n;
+  const pts = radii.map((r, i) => polarPoint(cx, cy, r, i * angleStep));
+
+  let d = '';
+  for (let i = 0; i < n; i++) {
+    const curr = pts[i];
+    const next = pts[(i + 1) % n];
+    const prev = pts[(i - 1 + n) % n];
+    const nnxt = pts[(i + 2) % n];
+
+    if (i === 0) d += `M ${curr.x.toFixed(2)} ${curr.y.toFixed(2)} `;
+
+    // Catmull-Rom → cubic bezier tangent
+    const cp1x = curr.x + (next.x - prev.x) * smoothing;
+    const cp1y = curr.y + (next.y - prev.y) * smoothing;
+    const cp2x = next.x - (nnxt.x - curr.x) * smoothing;
+    const cp2y = next.y - (nnxt.y - curr.y) * smoothing;
+
+    d += `C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ${next.x.toFixed(2)} ${next.y.toFixed(2)} `;
+  }
+  d += 'Z';
+  return d;
+}
+
+// Blob keyframes — 5 organic shapes (16 control points each)
+const BASE = 220;
+const blobKeyframes = [
+  [BASE*1.0, BASE*0.85, BASE*1.1, BASE*0.9,  BASE*1.2, BASE*0.85, BASE*1.0, BASE*0.95,
+   BASE*1.1, BASE*0.8,  BASE*1.15,BASE*0.9,  BASE*1.0, BASE*0.85, BASE*1.1, BASE*0.95],
+
+  [BASE*1.15,BASE*0.9,  BASE*1.0, BASE*1.1,  BASE*0.9, BASE*1.2,  BASE*0.85,BASE*1.0,
+   BASE*1.05,BASE*1.15, BASE*0.9, BASE*1.1,  BASE*1.0, BASE*0.85, BASE*1.1, BASE*0.9],
+
+  [BASE*0.9, BASE*1.2,  BASE*0.85,BASE*1.1,  BASE*1.1, BASE*0.9,  BASE*1.2, BASE*0.85,
+   BASE*0.95,BASE*1.1,  BASE*1.15,BASE*0.8,  BASE*1.0, BASE*1.05, BASE*0.9, BASE*1.1],
+
+  [BASE*1.1, BASE*0.95, BASE*1.2, BASE*0.85, BASE*0.9, BASE*1.15, BASE*1.0, BASE*1.1,
+   BASE*0.85,BASE*1.0,  BASE*1.1, BASE*0.9,  BASE*1.2, BASE*1.0,  BASE*0.85,BASE*1.15],
+
+  [BASE*1.05,BASE*1.1,  BASE*0.9, BASE*1.0,  BASE*1.15,BASE*0.85, BASE*1.0, BASE*1.2,
+   BASE*0.85,BASE*1.1,  BASE*1.0, BASE*1.05, BASE*0.9, BASE*1.15, BASE*1.1, BASE*0.9],
+];
+
+// Lerp between two arrays
+function lerpArrays(a, b, t) {
+  return a.map((v, i) => v + (b[i] - v) * t);
+}
+
+// Easing
+function easeInOutSine(t) {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
+let blobT     = 0;
+let blobFrom  = 0;
+let blobTo    = 1;
+const BLOB_DURATION = 3200; // ms per morph
+let blobStart = performance.now();
+
+// Mouse influence on blob
+let mouseBlobInfluence = { x: 0, y: 0 };
+let targetInfluence    = { x: 0, y: 0 };
+
+document.addEventListener('mousemove', (e) => {
+  const hero = document.getElementById('hero');
+  const rect = hero.getBoundingClientRect();
+  if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top  + rect.height / 2;
+    targetInfluence.x = (e.clientX - cx) * 0.18;
+    targetInfluence.y = (e.clientY - cy) * 0.18;
+  } else {
+    targetInfluence.x = 0;
+    targetInfluence.y = 0;
+  }
+});
+
+// Apply mouse warp to radii based on angle
+function applyMouseWarp(radii, cx, cy, mx, my) {
+  const n = radii.length;
+  return radii.map((r, i) => {
+    const angleDeg = (i / n) * 360 - 90;
+    const rad = angleDeg * Math.PI / 180;
+    const dx = Math.cos(rad);
+    const dy = Math.sin(rad);
+    // Dot product of this control point direction with mouse direction
+    const dot = dx * (mx / 200) + dy * (my / 200);
+    return r + dot * 40;
+  });
+}
+
+function animateBlob(now) {
+  // Smooth influence
+  mouseBlobInfluence.x += (targetInfluence.x - mouseBlobInfluence.x) * 0.07;
+  mouseBlobInfluence.y += (targetInfluence.y - mouseBlobInfluence.y) * 0.07;
+
+  const elapsed = now - blobStart;
+  const rawT = elapsed / BLOB_DURATION;
+
+  if (rawT >= 1) {
+    blobFrom  = blobTo;
+    blobTo    = (blobTo + 1 + Math.floor(Math.random() * (blobKeyframes.length - 2))) % blobKeyframes.length;
+    blobStart = now;
+    blobT     = 0;
+  } else {
+    blobT = easeInOutSine(rawT);
+  }
+
+  const interpolated = lerpArrays(blobKeyframes[blobFrom], blobKeyframes[blobTo], blobT);
+
+  const svgEl = document.getElementById('blob-canvas');
+  const W = svgEl.clientWidth  || window.innerWidth;
+  const H = svgEl.clientHeight || window.innerHeight;
+  const cx = W / 2 + mouseBlobInfluence.x;
+  const cy = H / 2 + mouseBlobInfluence.y;
+
+  const warped = applyMouseWarp(interpolated, cx, cy, targetInfluence.x, targetInfluence.y);
+
+  const path = buildBlobPath(cx, cy, warped, 0.42);
+  blobMain.setAttribute('d', path);
+
+  // Inner highlight — smaller, offset slightly
+  const innerRadii = warped.map(r => r * 0.55 + 10);
+  const innerPath  = buildBlobPath(cx - 18, cy - 18, innerRadii, 0.38);
+  blobInner.setAttribute('d', innerPath);
+
+  // Move glow with blob
+  blobGlow.setAttribute('cx', cx);
+  blobGlow.setAttribute('cy', cy);
+
+  requestAnimationFrame(animateBlob);
+}
+
+requestAnimationFrame(animateBlob);
+
+// ── 5. Hue rotation on blob for iridescent effect ──
+let hueAngle = 0;
+const blobMainEl = document.getElementById('blob-main');
+
+(function rotateHue() {
+  hueAngle = (hueAngle + 0.4) % 360;
+  blobMainEl.style.filter = `url(#blobFilter) hue-rotate(${hueAngle}deg) saturate(1.6)`;
+  requestAnimationFrame(rotateHue);
+})();
+
+// ── 6. Hero title gradient follows mouse ──
+const heroTitle = document.getElementById('hero-title');
+document.addEventListener('mousemove', (e) => {
+  const nx = (e.clientX / window.innerWidth)  * 100;
+  const ny = (e.clientY / window.innerHeight) * 100;
+  heroTitle.style.backgroundImage = `
+    linear-gradient(
+      ${90 + (nx - 50) * 0.8}deg,
+      #ffffff ${Math.max(0, nx * 0.3)}%,
+      #00D4FF ${20 + nx * 0.3}%,
+      #8A2BE2 ${40 + ny * 0.2}%,
+      #FF0080 ${60 + nx * 0.2}%,
+      #ffffff 100%
+    )
+  `;
+  heroTitle.style.backgroundSize = '200% 200%';
+  heroTitle.style.webkitBackgroundClip = 'text';
+  heroTitle.style.backgroundClip = 'text';
+  heroTitle.style.color = 'transparent';
+});
+
+// ── 7. Scroll-driven animations ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.component-panel, .swatch, .type-row').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  observer.observe(el);
+});
+
+// ── 8. Ambient background particles ──
+const particleCanvas = document.createElement('canvas');
+particleCanvas.style.cssText = `
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+`;
+document.body.insertBefore(particleCanvas, document.body.firstChild);
+
+const pCtx   = particleCanvas.getContext('2d');
+const particles = [];
+const PARTICLE_COUNT = 55;
+
+function resizeParticleCanvas() {
+  particleCanvas.width  = window.innerWidth;
+  particleCanvas.height = window.innerHeight;
+}
+resizeParticleCanvas();
+window.addEventListener('resize', resizeParticleCanvas);
+
+const PARTICLE_COLORS = ['#00D4FF', '#8A2BE2', '#FF0080', '#ffffff'];
+
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.8 + 0.4,
+    color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    alpha: Math.random() * 0.6 + 0.2,
+    alphaDir: (Math.random() > 0.5 ? 1 : -1) * 0.003,
+  });
+}
+
+function renderParticles() {
+  pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.alpha += p.alphaDir;
+    if (p.alpha <= 0.1 || p.alpha >= 0.8) p.alphaDir *= -1;
+    if (p.x < 0) p.x = particleCanvas.width;
+    if (p.x > particleCanvas.width) p.x = 0;
+    if (p.y < 0) p.y = particleCanvas.height;
+    if (p.y > particleCanvas.height) p.y = 0;
+
+    pCtx.beginPath();
+    pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    pCtx.fillStyle = p.color;
+    pCtx.globalAlpha = p.alpha;
+    pCtx.shadowBlur = 8;
+    pCtx.shadowColor = p.color;
+    pCtx.fill();
+  });
+  pCtx.globalAlpha = 1;
+  requestAnimationFrame(renderParticles);
+}
+renderParticles();
+
+// ── 9. Grid column rainbow on hover ──
+document.querySelectorAll('.grid-col').forEach((col, i) => {
+  const colors = ['#00D4FF', '#8A2BE2', '#FF0080'];
+  col.addEventListener('mouseenter', () => {
+    col.style.background = `rgba(${i % 3 === 0 ? '0,212,255' : i % 3 === 1 ? '138,43,226' : '255,0,128'}, 0.3)`;
+  });
+  col.addEventListener('mouseleave', () => {
+    col.style.background = 'rgba(138, 43, 226, 0.12)';
+  });
+});
+
+// ── 10. Badge pulsing glow animation ──
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes iridescent-border {
+    0%   { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  #blob-canvas {
+    animation: iridescent-border 12s linear infinite;
+  }
+  .hero-content {
+    animation: floatContent 6s ease-in-out infinite;
+  }
+  @keyframes floatContent {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+`;
+document.head.appendChild(style);
+
+console.log(
+  '%cLIQUID CHROME%c Design System v17\n%cOrganic Intelligence Engine · Post-Anthropic',
+  'color: #00D4FF; font-size: 22px; font-weight: 900; font-family: sans-serif;',
+  'color: #8A2BE2; font-size: 14px; font-weight: 400;',
+  'color: rgba(192,192,192,0.5); font-size: 11px;'
+);
+</script>
+</body>
+</html>

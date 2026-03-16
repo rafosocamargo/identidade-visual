@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinetic Type — Design System v15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────
+     RESET & TOKENS
+  ───────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:  #F5F0E8;
+    --ink:    #1A1A1A;
+    --red:    #D4380D;
+    --cobalt: #2563EB;
+    --amber:  #F59E0B;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body:    'Instrument Serif', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    /* Paper texture via inline SVG filter */
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
+
+  /* ─────────────────────────────────────────
+     UTILITIES
+  ───────────────────────────────────────── */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+  }
+
+  section { position: relative; }
+
+  /* ─────────────────────────────────────────
+     HERO
+  ───────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: clamp(12px, 1.4vw, 18px);
+    letter-spacing: 0.35em;
+    color: var(--ink);
+    opacity: 0.45;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  /* The giant KINETIC word */
+  #kinetic-word {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: clamp(80px, 15vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    position: relative;
+    z-index: 2;
+    min-height: clamp(80px, 16vw, 210px);
+  }
+
+  .hero-letter {
+    display: inline-block;
+    will-change: transform, opacity;
+    opacity: 0;
+    cursor: default;
+    transition: color 0.15s ease;
+  }
+
+  .hero-letter:hover { color: var(--red); }
+
+  .hero-subtitle {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(14px, 1.6vw, 22px);
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    opacity: 0;
+    margin-top: 1.8rem;
+    text-align: center;
+    transition: opacity 0.6s ease;
+  }
+
+  .hero-rule {
+    width: 40px;
+    height: 3px;
+    background: var(--red);
+    margin: 2.2rem auto 0;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1) 1.6s,
+                opacity 0.4s ease 1.6s;
+  }
+
+  .hero-rule.visible {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    opacity: 0.3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: var(--ink);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.8; transform: scaleY(0.6); }
+  }
+
+  /* ─────────────────────────────────────────
+     MARQUEE BAND
+  ───────────────────────────────────────── */
+  .marquee-band {
+    background: var(--red);
+    color: #fff;
+    padding: 18px 0;
+    overflow: hidden;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 22s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-band:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.8vw, 38px);
+    letter-spacing: 0.06em;
+    padding: 0 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .marquee-item::after {
+    content: '◆';
+    font-size: 0.5em;
+    opacity: 0.7;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─────────────────────────────────────────
+     STATS
+  ───────────────────────────────────────── */
+  #stats {
+    padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 6vw, 5rem);
+    border-bottom: 1px solid rgba(26,26,26,0.1);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 9vw, 130px);
+    line-height: 0.9;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .stat-number.counted { opacity: 1; transform: translateY(0); }
+
+  .stat-label {
+    font-family: var(--font-display);
+    font-size: clamp(13px, 1.5vw, 18px);
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    opacity: 0.45;
+  }
+
+  .stat-accent {
+    display: inline-block;
+    width: 28px;
+    height: 3px;
+    margin-top: 0.5rem;
+  }
+
+  /* ─────────────────────────────────────────
+     SPLIT-TEXT HEADINGS
+  ───────────────────────────────────────── */
+  .split-heading {
+    font-family: var(--font-display);
+    overflow: hidden;
+  }
+
+  .split-heading .char {
+    display: inline-block;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .split-heading.revealed .char {
+    opacity: 1;
+    transform: translate(0, 0) !important;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity  0.55s ease;
+  }
+
+  /* ─────────────────────────────────────────
+     TYPE SCALE SECTION
+  ───────────────────────────────────────── */
+  #type-scale {
+    padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 6vw, 5rem);
+    border-bottom: 1px solid rgba(26,26,26,0.1);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    opacity: 0.35;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .scale-row {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(26,26,26,0.07);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .scale-row.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scale-size-tag {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    opacity: 0.3;
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .scale-sample {
+    font-family: var(--font-display);
+    line-height: 1;
+    color: var(--ink);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* ─────────────────────────────────────────
+     EXPLOSION WORDS
+  ───────────────────────────────────────── */
+  .explode-word {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .explode-word .echar {
+    display: inline-block;
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                color 0.2s ease;
+  }
+
+  /* ─────────────────────────────────────────
+     COMPONENTS SECTION
+  ───────────────────────────────────────── */
+  #components {
+    padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 6vw, 5rem);
+    border-bottom: 1px solid rgba(26,26,26,0.1);
+  }
+
+  .components-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: var(--ink);
+    border: 1.5px solid var(--ink);
+    margin-top: 3rem;
+  }
+
+  .comp-card {
+    background: var(--cream);
+    padding: 2.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1),
+                background 0.2s ease;
+  }
+
+  .comp-card.visible { opacity: 1; transform: translateY(0); }
+  .comp-card:hover { background: #EDE9E0; }
+
+  .comp-tag {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    opacity: 0.35;
+  }
+
+  .comp-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+
+  .comp-body {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+
+  .comp-cta {
+    margin-top: auto;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 3px;
+    display: inline-block;
+    cursor: pointer;
+    transition: letter-spacing 0.3s ease;
+  }
+
+  .comp-cta:hover { letter-spacing: 0.3em; }
+
+  /* ─────────────────────────────────────────
+     PALETTE SECTION
+  ───────────────────────────────────────── */
+  #palette {
+    padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 6vw, 5rem);
+  }
+
+  .palette-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .swatch-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 3rem;
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+  }
+
+  @media (max-width: 600px) {
+    .swatch-row { grid-template-columns: 1fr; }
+  }
+
+  .swatch {
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.2rem;
+    border-right: 1.5px solid var(--ink);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .swatch:last-child { border-right: none; }
+  .swatch.visible { opacity: 1; transform: translateY(0); }
+
+  .swatch-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    mix-blend-mode: overlay;
+    opacity: 0.85;
+  }
+
+  .swatch-hex {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+    margin-top: 3px;
+  }
+
+  /* ─────────────────────────────────────────
+     FOOTER
+  ───────────────────────────────────────── */
+  footer {
+    padding: 4rem clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-meta {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    opacity: 0.3;
+    text-align: right;
+  }
+
+  /* ─────────────────────────────────────────
+     BODY PROSE SECTION
+  ───────────────────────────────────────── */
+  #prose {
+    padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 6vw, 5rem);
+    border-bottom: 1px solid rgba(26,26,26,0.1);
+  }
+
+  .prose-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .prose-inner h2 {
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 0.95;
+    margin-bottom: 2rem;
+  }
+
+  .prose-inner p {
+    font-size: clamp(16px, 1.8vw, 22px);
+    line-height: 1.7;
+    opacity: 0.75;
+    margin-bottom: 1.4rem;
+  }
+
+  .inline-accent { color: var(--red); font-style: normal; }
+  .cobalt { color: var(--cobalt); font-style: normal; }
+
+  /* ─────────────────────────────────────────
+     SELECTION
+  ───────────────────────────────────────── */
+  ::selection {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero" aria-label="Hero">
+  <p class="hero-eyebrow">Design System v15 — Type in Motion</p>
+
+  <div id="kinetic-word" aria-label="KINETIC">
+    <!-- Letters injected by JS -->
+  </div>
+
+  <p class="hero-subtitle">
+    Where every letter has a<em> life </em>of its own.
+  </p>
+
+  <div class="hero-rule"></div>
+
+  <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     MARQUEE
+══════════════════════════════════════════ -->
+<div class="marquee-band" aria-label="Marquee">
+  <div class="marquee-track" id="marqueeTrack">
+    <!-- Duplicated for seamless loop -->
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     STATS
+══════════════════════════════════════════ -->
+<section id="stats" aria-label="Statistics">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number" data-target="17" data-suffix=""> </div>
+      <div class="stat-label">VERSIONS</div>
+      <span class="stat-accent" style="background:var(--red)"></span>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="5" data-suffix=""> </div>
+      <div class="stat-label">TYPE SCALES</div>
+      <span class="stat-accent" style="background:var(--cobalt)"></span>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="32" data-suffix=""> </div>
+      <div class="stat-label">COMPONENTS</div>
+      <span class="stat-accent" style="background:var(--amber)"></span>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="9" data-suffix="K"> </div>
+      <div class="stat-label">LINES OF CSS</div>
+      <span class="stat-accent" style="background:var(--ink)"></span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     PROSE / MANIFESTO
+══════════════════════════════════════════ -->
+<section id="prose">
+  <div class="prose-inner">
+    <h2 class="split-heading" data-delay="0">
+      Type&nbsp;Is&nbsp;Never&nbsp;Still.
+    </h2>
+
+    <p>
+      Kinetic Type treats the letterform not as a passive vessel for language,
+      but as a <em class="inline-accent">charged particle</em>. Each character
+      carries velocity, memory, and intention. Words don't simply appear —
+      they <span class="explode-word" data-word="ARRIVE">ARRIVE</span>.
+    </p>
+
+    <p>
+      This system defines typography as choreography. The Bebas Neue display face
+      cuts like a <em class="cobalt">press plate</em> — sharp, industrial, deliberate.
+      Instrument Serif breathes beneath it, adding the warmth of a hand-composed
+      paragraph. Together they perform.
+    </p>
+
+    <p>
+      The page is <span class="explode-word" data-word="ALIVE">ALIVE</span>.
+      Nothing rests. Hover anything. Scroll everything. Watch.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     TYPE SCALE
+══════════════════════════════════════════ -->
+<section>
+<div id="type-scale">
+  <p class="section-label">TYPE SCALE SPECIMEN</p>
+
+  <h2 class="split-heading" data-delay="0" style="font-size: clamp(36px,5vw,68px); margin-bottom:3rem;">
+    The&nbsp;Nine&nbsp;Scales.
+  </h2>
+
+  <div class="scale-row" style="transition-delay:0.0s">
+    <span class="scale-size-tag">200PX</span>
+    <span class="scale-sample" style="font-size:clamp(56px,10vw,200px)">Aa</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.06s">
+    <span class="scale-size-tag">128PX</span>
+    <span class="scale-sample" style="font-size:clamp(42px,8vw,128px)">Headline</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.12s">
+    <span class="scale-size-tag">80PX</span>
+    <span class="scale-sample" style="font-size:clamp(36px,6vw,80px)">Display Text</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.18s">
+    <span class="scale-size-tag">56PX</span>
+    <span class="scale-sample" style="font-size:clamp(28px,4.5vw,56px)">Section Title Here</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.24s">
+    <span class="scale-size-tag">40PX</span>
+    <span class="scale-sample" style="font-size:clamp(22px,3.5vw,40px)">Subsection Heading</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.30s">
+    <span class="scale-size-tag">28PX</span>
+    <span class="scale-sample" style="font-size:clamp(18px,2.5vw,28px)">Article Title Block</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.36s">
+    <span class="scale-size-tag">20PX</span>
+    <span class="scale-sample" style="font-size:clamp(16px,1.8vw,20px); font-family: var(--font-body); font-style:italic">Body text set in Instrument Serif, comfortable reading at scale six.</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.42s">
+    <span class="scale-size-tag">14PX</span>
+    <span class="scale-sample" style="font-size:14px; font-family: var(--font-body)">Caption text — small details, big precision.</span>
+  </div>
+  <div class="scale-row" style="transition-delay:0.48s">
+    <span class="scale-size-tag">10PX</span>
+    <span class="scale-sample" style="font-size:10px; font-family: var(--font-display); letter-spacing:0.35em">MICRO LABEL — SYSTEM NINE</span>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     COMPONENTS
+══════════════════════════════════════════ -->
+<section id="components">
+  <div class="components-inner">
+    <p class="section-label">COMPONENT LIBRARY</p>
+
+    <h2 class="split-heading" data-delay="0" style="font-size:clamp(40px,6vw,90px); margin-bottom:0;">
+      Built&nbsp;From&nbsp;Type.
+    </h2>
+
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <span class="comp-tag">01 — BUTTON</span>
+        <div class="comp-title" style="color:var(--red)">CTA</div>
+        <p class="comp-body">Kinetic call-to-action. Letter-spacing expands on hover, creating a sense of breath.</p>
+        <button class="comp-cta explode-word" data-word="ACTIVATE">ACTIVATE</button>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-tag">02 — BADGE</span>
+        <div class="comp-title" style="color:var(--cobalt)">TAG</div>
+        <p class="comp-body">Micro-typographic identifiers. Bebas Neue in tight tracking creates dense information blocks.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto">
+          <span style="font-family:var(--font-display);font-size:11px;letter-spacing:0.25em;background:var(--ink);color:var(--cream);padding:4px 10px">LIVE</span>
+          <span style="font-family:var(--font-display);font-size:11px;letter-spacing:0.25em;border:1.5px solid var(--ink);padding:4px 10px">DRAFT</span>
+          <span style="font-family:var(--font-display);font-size:11px;letter-spacing:0.25em;background:var(--amber);color:var(--ink);padding:4px 10px">BETA</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-tag">03 — QUOTE</span>
+        <div class="comp-title" style="font-size:clamp(24px,3vw,42px)">PULL QUOTE</div>
+        <p class="comp-body" style="font-size:18px;opacity:1">
+          <em>"The best typefaces are the ones that disappear — and then the good ones come back and demand to be seen."</em>
+        </p>
+        <span class="comp-cta">SOURCE</span>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-tag">04 — DISPLAY</span>
+        <div class="comp-title" style="color:var(--amber)">HERO UNIT</div>
+        <p class="comp-body">Full-bleed typographic statements. The word is the image. Size is the hierarchy.</p>
+        <span class="comp-cta explode-word" data-word="EXPLORE">EXPLORE</span>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-tag">05 — NAV</span>
+        <div class="comp-title">WAYFINDING</div>
+        <p class="comp-body">Navigation as typographic composition. Each label a micro-headline.</p>
+        <nav style="display:flex;flex-direction:column;gap:6px;margin-top:auto">
+          <a style="font-family:var(--font-display);font-size:14px;letter-spacing:0.2em;text-decoration:none;color:var(--ink);opacity:0.8;border-bottom:1px solid rgba(26,26,26,0.15);padding-bottom:4px;transition:opacity 0.2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.8">WORK</a>
+          <a style="font-family:var(--font-display);font-size:14px;letter-spacing:0.2em;text-decoration:none;color:var(--ink);opacity:0.8;border-bottom:1px solid rgba(26,26,26,0.15);padding-bottom:4px;transition:opacity 0.2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.8">SYSTEM</a>
+          <a style="font-family:var(--font-display);font-size:14px;letter-spacing:0.2em;text-decoration:none;color:var(--ink);opacity:0.8;padding-bottom:4px;transition:opacity 0.2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.8">ABOUT</a>
+        </nav>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-tag">06 — CARD</span>
+        <div class="comp-title">ARTICLE</div>
+        <p class="comp-body">Content cards defined entirely by type hierarchy. No decorative imagery needed.</p>
+        <div style="margin-top:auto;border-top:1.5px solid var(--ink);padding-top:0.8rem;display:flex;justify-content:space-between;align-items:baseline">
+          <span style="font-family:var(--font-display);font-size:11px;letter-spacing:0.2em;opacity:0.4">MAR 16</span>
+          <span style="font-family:var(--font-display);font-size:11px;letter-spacing:0.2em;color:var(--red)">READ →</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     PALETTE
+══════════════════════════════════════════ -->
+<section id="palette">
+  <div class="palette-inner">
+    <p class="section-label">COLOUR PALETTE</p>
+
+    <h2 class="split-heading" data-delay="0" style="font-size:clamp(40px,6vw,90px); margin-bottom:0;">
+      Five&nbsp;Inks.
+    </h2>
+
+    <div class="swatch-row">
+      <div class="swatch" style="background:#F5F0E8; border-bottom: 1px solid rgba(0,0,0,0.15)">
+        <span class="swatch-name" style="color:var(--ink)">CREAM PAPER</span>
+        <span class="swatch-hex" style="color:var(--ink)">#F5F0E8</span>
+      </div>
+      <div class="swatch" style="background:#1A1A1A;">
+        <span class="swatch-name" style="color:#F5F0E8">INK BLACK</span>
+        <span class="swatch-hex" style="color:#F5F0E8">#1A1A1A</span>
+      </div>
+      <div class="swatch" style="background:#D4380D;">
+        <span class="swatch-name" style="color:#F5F0E8">PRESS RED</span>
+        <span class="swatch-hex" style="color:#F5F0E8">#D4380D</span>
+      </div>
+      <div class="swatch" style="background:#2563EB;">
+        <span class="swatch-name" style="color:#F5F0E8">COBALT</span>
+        <span class="swatch-hex" style="color:#F5F0E8">#2563EB</span>
+      </div>
+      <div class="swatch" style="background:#F59E0B;">
+        <span class="swatch-name" style="color:var(--ink)">AMBER</span>
+        <span class="swatch-hex" style="color:var(--ink)">#F59E0B</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">KINETIC<br>TYPE.</div>
+  <div class="footer-meta">
+    DESIGN SYSTEM v15<br>
+    TYPE IN MOTION<br>
+    © 2026
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ─────────────────────────────────────
+   1. HERO KINETIC ASSEMBLY
+───────────────────────────────────── */
+(function initHero() {
+  const word    = 'KINETIC';
+  const container = document.getElementById('kinetic-word');
+  const letters = [];
+
+  // Viewport dimensions at mount time
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  word.split('').forEach((char, i) => {
+    const el = document.createElement('span');
+    el.className = 'hero-letter';
+    el.textContent = char;
+    el.setAttribute('aria-hidden', 'true');
+
+    // Random offscreen start position
+    const rx = (Math.random() - 0.5) * vw * 1.6;
+    const ry = (Math.random() - 0.5) * vh * 1.4;
+    const rr = (Math.random() - 0.5) * 540;
+    const rs = 0.1 + Math.random() * 0.8;
+
+    el.style.transform = `translate(${rx}px, ${ry}px) rotate(${rr}deg) scale(${rs})`;
+    container.appendChild(el);
+    letters.push({ el, rx, ry, rr, rs });
+  });
+
+  // After a brief pause, fly into position
+  const BASE_DELAY = 180; // ms before first letter starts
+  const STAGGER    = 80;  // ms between each letter
+
+  letters.forEach(({ el }, i) => {
+    const delay = BASE_DELAY + i * STAGGER;
+    setTimeout(() => {
+      el.style.transition = `
+        transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.04}s,
+        opacity   0.6s ease
+      `;
+      el.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
+      el.style.opacity   = '1';
+    }, delay);
+  });
+
+  // Reveal subtitle & rule after letters land
+  const totalTime = BASE_DELAY + letters.length * STAGGER + 900;
+  setTimeout(() => {
+    const sub  = document.querySelector('.hero-subtitle');
+    const rule = document.querySelector('.hero-rule');
+    if (sub)  sub.style.opacity = '1';
+    if (rule) rule.classList.add('visible');
+  }, totalTime);
+})();
+
+
+/* ─────────────────────────────────────
+   2. MARQUEE POPULATION
+───────────────────────────────────── */
+(function initMarquee() {
+  const terms = [
+    'KINETIC TYPE', 'MOTION DESIGN', 'LIVING LETTERS',
+    'GRID & GLYPH', 'INK IN MOTION', 'TYPE SPECIMEN',
+    'BEBAS NEUE', 'INSTRUMENT SERIF', 'PRESS RED',
+    'DISPLAY TYPE', 'LETTER FORMS', 'VISUAL LANGUAGE',
+    'TYPOGRAPHIC RHYTHM', 'SCALE & WEIGHT', 'COBALT BLUE'
+  ];
+
+  const track = document.getElementById('marqueeTrack');
+  // Duplicate for seamless loop
+  [...terms, ...terms].forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'marquee-item';
+    span.textContent = t;
+    track.appendChild(span);
+  });
+})();
+
+
+/* ─────────────────────────────────────
+   3. INTERSECTION OBSERVER HELPERS
+───────────────────────────────────── */
+const ioOnce = (els, callback, options = {}) => {
+  const opts = { threshold: 0.15, rootMargin: '0px 0px -5% 0px', ...options };
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        callback(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, opts);
+  els.forEach(el => observer.observe(el));
+};
+
+
+/* ─────────────────────────────────────
+   4. SPLIT-HEADING REVEAL
+───────────────────────────────────── */
+(function initSplitHeadings() {
+  const headings = document.querySelectorAll('.split-heading');
+
+  headings.forEach(heading => {
+    const rawHTML  = heading.innerHTML;
+    // Preserve HTML entities and non-breaking spaces
+    const text     = heading.textContent;
+    heading.innerHTML = '';
+
+    let charIndex = 0;
+    // Re-parse to maintain &nbsp; as a single token
+    const parser = new DOMParser();
+    const doc    = parser.parseFromString(`<p>${rawHTML}</p>`, 'text/html');
+    const nodes  = doc.querySelector('p').childNodes;
+
+    nodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent.split('').forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = ch === '\u00A0' ? '\u00A0' : ch;
+          if (ch === ' ' || ch === '\u00A0') {
+            span.style.opacity = '1';
+          } else {
+            // Random direction for entry
+            const dx = (Math.random() - 0.5) * 160;
+            const dy = (Math.random() - 0.5) * 80;
+            const dr = (Math.random() - 0.5) * 40;
+            span.style.transform = `translate(${dx}px, ${dy}px) rotate(${dr}deg)`;
+            span.style.transitionDelay = `${charIndex * 0.03}s`;
+          }
+          heading.appendChild(span);
+          charIndex++;
+        });
+      } else {
+        // Clone inline elements (em, strong, etc.)
+        const clone = node.cloneNode(true);
+        heading.appendChild(clone);
+      }
+    });
+  });
+
+  ioOnce(document.querySelectorAll('.split-heading'), el => {
+    el.classList.add('revealed');
+  });
+})();
+
+
+/* ─────────────────────────────────────
+   5. COUNTING NUMBERS
+───────────────────────────────────── */
+(function initCounters() {
+  const counters = document.querySelectorAll('.stat-number');
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function animateCounter(el) {
+    const target  = parseInt(el.dataset.target, 10);
+    const suffix  = el.dataset.suffix || '';
+    const duration = 1400;
+    const start   = performance.now();
+
+    el.classList.add('counted');
+
+    function step(now) {
+      const elapsed  = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased    = easeOutExpo(progress);
+      const current  = Math.round(eased * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  ioOnce(counters, animateCounter);
+})();
+
+
+/* ─────────────────────────────────────
+   6. SCALE ROWS REVEAL
+───────────────────────────────────── */
+(function initScaleRows() {
+  ioOnce(document.querySelectorAll('.scale-row'), el => {
+    el.classList.add('visible');
+  }, { threshold: 0.1 });
+})();
+
+
+/* ─────────────────────────────────────
+   7. COMPONENT CARDS REVEAL
+───────────────────────────────────── */
+(function initCards() {
+  const cards = document.querySelectorAll('.comp-card');
+  cards.forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.07}s`;
+  });
+  ioOnce(cards, el => el.classList.add('visible'), { threshold: 0.05 });
+})();
+
+
+/* ─────────────────────────────────────
+   8. SWATCH REVEAL
+───────────────────────────────────── */
+(function initSwatches() {
+  const swatches = document.querySelectorAll('.swatch');
+  swatches.forEach((sw, i) => {
+    sw.style.transitionDelay = `${i * 0.08}s`;
+  });
+  ioOnce(swatches, el => el.classList.add('visible'), { threshold: 0.1 });
+})();
+
+
+/* ─────────────────────────────────────
+   9. HOVER WORD EXPLOSION
+───────────────────────────────────── */
+(function initExplosionWords() {
+  // Build char spans for each explode-word
+  document.querySelectorAll('.explode-word').forEach(wordEl => {
+    const text = wordEl.textContent.trim();
+    wordEl.innerHTML = '';
+    wordEl.setAttribute('aria-label', text);
+    wordEl.dataset.word = text;
+
+    text.split('').forEach(ch => {
+      const span       = document.createElement('span');
+      span.className   = 'echar';
+      span.textContent = ch;
+      span.setAttribute('aria-hidden', 'true');
+      wordEl.appendChild(span);
+    });
+
+    let exploded = false;
+
+    function explode() {
+      if (exploded) return;
+      exploded = true;
+      wordEl.querySelectorAll('.echar').forEach((span, i) => {
+        const dx = (Math.random() - 0.5) * 220;
+        const dy = (Math.random() - 0.5) * 160;
+        const dr = (Math.random() - 0.5) * 120;
+        const ds = 0.4 + Math.random() * 1.2;
+        span.style.transform = `translate(${dx}px, ${dy}px) rotate(${dr}deg) scale(${ds})`;
+        span.style.color = ['var(--red)', 'var(--cobalt)', 'var(--amber)', 'var(--ink)'][Math.floor(Math.random()*4)];
+        span.style.transitionDelay = `${i * 0.03}s`;
+      });
+    }
+
+    function reassemble() {
+      if (!exploded) return;
+      exploded = false;
+      wordEl.querySelectorAll('.echar').forEach((span, i) => {
+        span.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
+        span.style.color     = '';
+        span.style.transitionDelay = `${i * 0.02}s`;
+      });
+    }
+
+    wordEl.addEventListener('mouseenter', explode);
+    wordEl.addEventListener('mouseleave', reassemble);
+    wordEl.addEventListener('focusin',    explode);
+    wordEl.addEventListener('focusout',   reassemble);
+  });
+})();
+
+
+/* ─────────────────────────────────────
+   10. HERO LETTER INDIVIDUAL HOVER
+       (scatter on single letter hover)
+───────────────────────────────────── */
+(function heroLetterHover() {
+  // Give each hero letter a subtle wobble on individual hover
+  document.querySelectorAll('.hero-letter').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const dx = (Math.random() - 0.5) * 18;
+      const dy = (Math.random() - 0.5) * 18;
+      const dr = (Math.random() - 0.5) * 25;
+      el.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.15s ease';
+      el.style.transform  = `translate(${dx}px, ${dy}px) rotate(${dr}deg) scale(1.15)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease';
+      el.style.transform  = 'translate(0,0) rotate(0deg) scale(1)';
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

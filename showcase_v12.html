@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DE STIJL — Design System Showcase v12.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       DE STIJL / MONDRIAN — Design System Tokens
+       1917–1931 — Reduction to Essentials
+       ======================================== */
+    :root {
+      --bg: #F5F5F0;
+      --fg: #0A0A0A;
+      --red: #D62B2B;
+      --blue: #1E3A8A;
+      --yellow: #F5C800;
+      --black: #0A0A0A;
+      --white: #F5F5F0;
+      --grid: 5px solid #0A0A0A;
+      --grid-thin: 3px solid #0A0A0A;
+
+      --font-display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+    }
+
+    /* ========================================
+       RESET & BASE — No curves. No radius. No transitions.
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 0 !important;
+      transition: none !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: var(--grid);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Section labels — Bebas Neue + colored block accent */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: var(--space-6);
+      border-bottom: var(--grid);
+      padding-bottom: var(--space-3);
+    }
+
+    .section-label-block {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border-right: var(--grid);
+    }
+
+    .section-label-text {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--fg);
+      padding-left: 16px;
+      line-height: 1;
+      align-self: center;
+    }
+
+    .block-red { background: var(--red); }
+    .block-blue { background: var(--blue); }
+    .block-yellow { background: var(--yellow); }
+    .block-black { background: var(--black); }
+    .block-white { background: var(--white); border: var(--grid); }
+
+    /* Mondrian grid utilities */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .showcase-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      border-bottom: var(--grid);
+      background: var(--bg);
+    }
+
+    .showcase-nav-brand {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 4px;
+      padding: 16px 0;
+      border-right: var(--grid);
+      padding-right: 24px;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-mondrian-dot {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      border: 3px solid var(--black);
+    }
+
+    .showcase-nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0;
+    }
+
+    .showcase-nav-links li {
+      border-left: var(--grid);
+    }
+
+    .showcase-nav-links a {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg);
+      padding: 16px 20px;
+      display: block;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .showcase-nav-links a:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    /* ========================================
+       HERO — TRUE MONDRIAN GRID COMPOSITION
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      border-bottom: var(--grid);
+      overflow: hidden;
+    }
+
+    /* The Mondrian grid overlay — background composition */
+    .mondrian-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 3fr 5px 1fr 5px 2fr;
+      grid-template-rows: 2fr 5px 3fr 5px 1fr;
+      z-index: 0;
+    }
+
+    /* Column gap fills (black bars) */
+    .mondrian-bg .col-gap {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    /* Row gap fills (black bars) */
+    .mondrian-bg .row-gap {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    /* Individual cells */
+    .mondrian-cell {
+      display: block;
+    }
+
+    .mondrian-cell.c-red    { background: var(--red); }
+    .mondrian-cell.c-blue   { background: var(--blue); }
+    .mondrian-cell.c-yellow { background: var(--yellow); }
+    .mondrian-cell.c-white  { background: var(--white); }
+
+    /* Hero content — positioned above the grid */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-9) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 6px;
+      color: var(--white);
+      background: var(--black);
+      display: inline-block;
+      padding: 6px 16px;
+      margin-bottom: var(--space-5);
+      border: var(--grid);
+      align-self: flex-start;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 18vw, 13rem);
+      line-height: 0.85;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--fg);
+      text-shadow:
+        3px 3px 0 var(--white),
+        -3px -3px 0 var(--white),
+        3px -3px 0 var(--white),
+        -3px 3px 0 var(--white),
+        6px 6px 0 var(--black);
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-title-line2 {
+      display: block;
+      color: var(--red);
+      text-shadow:
+        3px 3px 0 var(--white),
+        -3px -3px 0 var(--white),
+        3px -3px 0 var(--white),
+        -3px 3px 0 var(--white),
+        6px 6px 0 var(--black);
+    }
+
+    .hero-subtext {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--white);
+      border: var(--grid);
+      padding: 12px 20px;
+      max-width: 420px;
+      margin-top: var(--space-6);
+      line-height: 1.5;
+    }
+
+    .hero-footer-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      border-top: var(--grid);
+      height: 56px;
+    }
+
+    .hero-footer-seg {
+      flex: 1;
+      border-right: var(--grid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 3px;
+    }
+
+    .hero-footer-seg:last-child { border-right: none; }
+    .hfs-red    { background: var(--red); color: var(--white); }
+    .hfs-white  { background: var(--white); color: var(--fg); }
+    .hfs-blue   { background: var(--blue); color: var(--white); }
+    .hfs-yellow { background: var(--yellow); color: var(--fg); }
+    .hfs-black  { background: var(--black); color: var(--white); }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-sample {
+      margin-bottom: var(--space-5);
+      border-left: 5px solid var(--fg);
+      padding-left: var(--space-4);
+    }
+
+    .type-sample:nth-child(2n) {
+      border-left-color: var(--red);
+    }
+
+    .type-sample:nth-child(3n) {
+      border-left-color: var(--blue);
+    }
+
+    .type-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: #555;
+      margin-top: 6px;
+      letter-spacing: 0;
+      font-weight: 400;
+      text-transform: none;
+    }
+
+    .type-hero {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 0.85;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .type-h1 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      line-height: 0.95;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .type-h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1.0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .type-h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .type-body {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .type-body-strong {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: #555;
+    }
+
+    .type-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       COLOR SWATCHES — Mondrian Block Layout
+       ======================================== */
+    .mondrian-swatches {
+      display: grid;
+      grid-template-columns: 2fr 5px 1fr 5px 1fr 5px 1.5fr 5px 1fr;
+      grid-template-rows: 120px 5px 80px;
+      border: var(--grid);
+    }
+
+    .mondrian-swatches .gap-v {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    .mondrian-swatches .gap-h {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    .swatch-mondrian {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px 12px;
+      border: none;
+    }
+
+    .swatch-mondrian .swatch-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .swatch-mondrian .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .sw-bg    { background: var(--bg);     color: var(--fg); }
+    .sw-fg    { background: var(--fg);     color: var(--bg); }
+    .sw-red   { background: var(--red);    color: var(--white); }
+    .sw-blue  { background: var(--blue);   color: var(--white); }
+    .sw-yellow{ background: var(--yellow); color: var(--fg); }
+
+    /* ========================================
+       SPACING SHOWCASE
+       ======================================== */
+    .spacing-demo {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 3px solid var(--fg);
+      margin-bottom: 0;
+    }
+
+    .spacing-demo:first-child {
+      border-top: 3px solid var(--fg);
+    }
+
+    .spacing-label {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 2px;
+      min-width: 160px;
+      color: var(--fg);
+      background: var(--bg);
+      border-right: var(--grid);
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      flex-shrink: 0;
+    }
+
+    .spacing-bar-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+    }
+
+    .spacing-bar {
+      height: 100%;
+      min-height: 24px;
+      background: var(--fg);
+      display: block;
+    }
+
+    .spacing-demo:nth-child(2n) .spacing-label { background: var(--bg); }
+    .spacing-demo:nth-child(3n) .spacing-bar { background: var(--red); }
+    .spacing-demo:nth-child(5n) .spacing-bar { background: var(--blue); }
+    .spacing-demo:nth-child(7n) .spacing-bar { background: var(--yellow); }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 14px 32px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: var(--grid);
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      outline: 4px solid var(--blue);
+      outline-offset: 0;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .btn-primary:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .btn-secondary:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .btn-ghost {
+      background: var(--white);
+      color: var(--fg);
+      border: 5px solid var(--black);
+    }
+
+    .btn-ghost:hover {
+      background: var(--fg);
+      color: var(--white);
+    }
+
+    .btn-danger {
+      background: var(--yellow);
+      color: var(--fg);
+      border-color: var(--black);
+    }
+
+    .btn-danger:hover {
+      background: var(--black);
+      color: var(--yellow);
+    }
+
+    .btn-large {
+      min-height: 60px;
+      padding: 18px 52px;
+      font-size: 22px;
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 8px 20px;
+      font-size: 14px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-group .btn {
+      border-right-width: 0;
+    }
+
+    .btn-group .btn:last-child {
+      border-right: var(--grid);
+    }
+
+    /* ========================================
+       CARDS — Each card IS a Mondrian grid in miniature
+       ======================================== */
+    .card-mondrian {
+      border: var(--grid);
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 5px 1fr;
+      grid-template-rows: auto;
+    }
+
+    /* Left accent strip */
+    .card-strip {
+      grid-row: 1 / -1;
+      border-right: var(--grid);
+    }
+
+    .card-strip-red    { background: var(--red); }
+    .card-strip-blue   { background: var(--blue); }
+    .card-strip-yellow { background: var(--yellow); }
+
+    .card-body-wrap {
+      padding: 0;
+    }
+
+    .card-top-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      border-bottom: var(--grid);
+    }
+
+    .card-tag-cell {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-right: var(--grid);
+    }
+
+    .card-accent-cell {
+      width: 48px;
+    }
+
+    .card-content {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+
+    .card-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      font-weight: 400;
+      color: var(--fg);
+    }
+
+    .card-footer {
+      border-top: var(--grid);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-meta {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .cards-mondrian-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: var(--grid);
+    }
+
+    .cards-mondrian-grid .card-mondrian {
+      border: none;
+      border-right: var(--grid);
+    }
+
+    .cards-mondrian-grid .card-mondrian:last-child {
+      border-right: none;
+    }
+
+    @media (max-width: 768px) {
+      .cards-mondrian-grid {
+        grid-template-columns: 1fr;
+      }
+      .cards-mondrian-grid .card-mondrian {
+        border-right: none;
+        border-bottom: var(--grid);
+      }
+      .cards-mondrian-grid .card-mondrian:last-child {
+        border-bottom: none;
+      }
+    }
+
+    /* ========================================
+       STATS — 2x2 Mondrian grid with thick dividers
+       ======================================== */
+    .stats-mondrian {
+      display: grid;
+      grid-template-columns: 1fr 5px 1fr;
+      grid-template-rows: auto 5px auto;
+      border: var(--grid);
+    }
+
+    .stats-mondrian .stat-vgap {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    .stats-mondrian .stat-hgap {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    .stat-block-mondrian {
+      padding: var(--space-6) var(--space-5);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-block-mondrian.stat-red    { background: var(--red); }
+    .stat-block-mondrian.stat-blue   { background: var(--blue); }
+    .stat-block-mondrian.stat-yellow { background: var(--yellow); }
+    .stat-block-mondrian.stat-white  { background: var(--white); }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      line-height: 0.85;
+      letter-spacing: 2px;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: var(--space-3);
+    }
+
+    .stat-red   .stat-number, .stat-red   .stat-label { color: var(--white); }
+    .stat-blue  .stat-number, .stat-blue  .stat-label { color: var(--white); }
+    .stat-yellow .stat-number, .stat-yellow .stat-label { color: var(--fg); }
+    .stat-white .stat-number, .stat-white .stat-label { color: var(--fg); }
+
+    /* ========================================
+       BADGES
+       ======================================== */
+    .badges-row {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+      border: var(--grid);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border-right: var(--grid);
+    }
+
+    .badges-row .badge:last-child {
+      border-right: none;
+    }
+
+    .badge-red    { background: var(--red);    color: var(--white); }
+    .badge-blue   { background: var(--blue);   color: var(--white); }
+    .badge-yellow { background: var(--yellow); color: var(--fg); }
+    .badge-black  { background: var(--black);  color: var(--white); }
+    .badge-outline {
+      background: var(--white);
+      color: var(--fg);
+    }
+
+    /* ========================================
+       FORMS
+       ======================================== */
+    .form-group {
+      margin-bottom: 0;
+      border-bottom: var(--grid);
+    }
+
+    .form-group:last-of-type {
+      border-bottom: none;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: none;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 16px;
+      min-width: 140px;
+      flex-shrink: 0;
+      border-right: var(--grid);
+      background: var(--fg);
+      color: var(--white);
+    }
+
+    .form-input {
+      flex: 1;
+      height: 52px;
+      padding: 0 var(--space-3);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--white);
+      border: none;
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: #999;
+    }
+
+    .form-input:focus {
+      background: var(--white);
+      outline: 4px solid var(--blue);
+      outline-offset: -4px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .form-input-error {
+      background: #fff0f0;
+    }
+
+    .form-input-error:focus {
+      outline-color: var(--red);
+    }
+
+    .form-helper {
+      font-size: 13px;
+      font-weight: 400;
+      color: #555;
+      padding: 6px 16px;
+      background: var(--bg);
+      border-top: 2px solid var(--black);
+      display: block;
+    }
+
+    .form-error {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      padding: 6px 16px;
+      background: var(--red);
+      border-top: var(--grid);
+      display: block;
+    }
+
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    .form-block {
+      border: var(--grid);
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider-showcase {
+      border: var(--grid);
+      padding: 0;
+    }
+
+    .divider-row {
+      display: flex;
+      align-items: center;
+      border-bottom: var(--grid);
+    }
+
+    .divider-row:last-child {
+      border-bottom: none;
+    }
+
+    .divider-label-cell {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 2px;
+      padding: 14px 20px;
+      min-width: 180px;
+      flex-shrink: 0;
+      border-right: var(--grid);
+      background: var(--bg);
+    }
+
+    .divider-visual-cell {
+      flex: 1;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .divider-thick-line {
+      width: 100%;
+      height: 5px;
+      background: var(--black);
+    }
+
+    .divider-regular-line {
+      width: 100%;
+      height: 3px;
+      background: var(--black);
+    }
+
+    .divider-subtle-line {
+      width: 100%;
+      height: 1px;
+      background: var(--black);
+      opacity: 0.3;
+    }
+
+    .divider-red-line {
+      width: 100%;
+      height: 5px;
+      background: var(--red);
+    }
+
+    .divider-blue-line {
+      width: 100%;
+      height: 5px;
+      background: var(--blue);
+    }
+
+    .divider-yellow-line {
+      width: 100%;
+      height: 5px;
+      background: var(--yellow);
+    }
+
+    /* ========================================
+       SECTION 10 — MONDRIAN INTERACTIVE GRID
+       ======================================== */
+
+    /* Composition A — Small cells, many divisions */
+    .mondrian-comp {
+      border: var(--grid);
+      aspect-ratio: 4 / 3;
+    }
+
+    .comp-a {
+      display: grid;
+      grid-template-columns: 2fr 5px 1fr 5px 3fr 5px 1fr;
+      grid-template-rows: 1fr 5px 2fr 5px 1fr 5px 1fr;
+    }
+
+    .comp-b {
+      display: grid;
+      grid-template-columns: 3fr 5px 2fr 5px 1fr;
+      grid-template-rows: 2fr 5px 1fr 5px 3fr;
+    }
+
+    .comp-c {
+      display: grid;
+      grid-template-columns: 1fr 5px 4fr 5px 2fr 5px 1fr;
+      grid-template-rows: 3fr 5px 1fr 5px 2fr;
+    }
+
+    .comp-gap-v {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    .comp-gap-h {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    .comp-cell { display: block; }
+    .comp-r { background: var(--red); }
+    .comp-b { background: var(--blue); }
+    .comp-y { background: var(--yellow); }
+    .comp-w { background: var(--white); }
+    .comp-k { background: var(--black); }
+
+    /* De Stijl rules list */
+    .destijl-rules {
+      border: var(--grid);
+    }
+
+    .destijl-rule-item {
+      display: flex;
+      align-items: stretch;
+      border-bottom: var(--grid);
+    }
+
+    .destijl-rule-item:last-child {
+      border-bottom: none;
+    }
+
+    .rule-accent {
+      width: 8px;
+      flex-shrink: 0;
+      border-right: var(--grid);
+    }
+
+    .rule-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 2px;
+      padding: 14px 20px;
+      min-width: 60px;
+      text-align: center;
+      border-right: var(--grid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--fg);
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .rule-content {
+      padding: 14px 20px;
+      flex: 1;
+    }
+
+    .rule-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .rule-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* Before/After comparison */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 5px 1fr;
+      border: var(--grid);
+      min-height: 300px;
+    }
+
+    .comp-divider-center {
+      background: var(--black);
+    }
+
+    .comp-before {
+      padding: var(--space-5);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comp-after {
+      padding: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comp-header {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border-bottom: var(--grid);
+      padding-bottom: 12px;
+      margin-bottom: var(--space-4);
+    }
+
+    .comp-header-after {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-bottom: var(--grid);
+      background: var(--fg);
+      color: var(--white);
+    }
+
+    /* Decorative "before" — ornate style */
+    .ornate-demo {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ornate-curve {
+      height: 12px;
+      background: linear-gradient(90deg, #8B6A4F, #C4986A, #8B6A4F);
+      opacity: 0.5;
+    }
+
+    .ornate-text {
+      font-family: serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: #8B6A4F;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .ornate-border {
+      border: 4px double #8B6A4F;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .ornate-border p {
+      font-family: serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #8B6A4F;
+      line-height: 1.8;
+    }
+
+    .ornate-flourish {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #C4986A;
+    }
+
+    /* De Stijl "after" mini composition */
+    .destijl-demo {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 2fr 5px 1fr 5px 1fr;
+      grid-template-rows: 1fr 5px 1fr 5px 1fr;
+      padding: 20px;
+      gap: 0;
+    }
+
+    .dd-gap-v {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    .dd-gap-h {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    .dd-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dd-r { background: var(--red); }
+    .dd-b { background: var(--blue); }
+    .dd-y { background: var(--yellow); }
+    .dd-w { background: var(--white); border: 3px solid var(--black); }
+    .dd-k { background: var(--black); }
+
+    /* Mondrian compositions row */
+    .compositions-row {
+      display: grid;
+      grid-template-columns: 1fr 5px 1fr 5px 1fr;
+      border: var(--grid);
+      margin-bottom: var(--space-6);
+    }
+
+    .comp-wrapper {
+      padding: var(--space-4);
+      background: var(--bg);
+    }
+
+    .comp-wrapper:nth-child(2) {
+      padding: var(--space-4);
+      background: var(--fg);
+    }
+
+    .comp-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+      border-bottom: 3px solid var(--fg);
+      padding-bottom: 8px;
+    }
+
+    .comp-wrapper:nth-child(2) .comp-title {
+      color: var(--white);
+      border-bottom-color: var(--white);
+    }
+
+    .comp-gap-bar-v {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    /* ========================================
+       FOOTER — Mondrian strip
+       ======================================== */
+    .footer-mondrian {
+      position: relative;
+      border-top: var(--grid);
+      overflow: hidden;
+    }
+
+    .footer-grid-strip {
+      display: grid;
+      grid-template-columns: 3fr 5px 1fr 5px 2fr 5px 4fr 5px 1fr 5px 2fr;
+      grid-template-rows: 5px 40px 5px 60px 5px 40px 5px;
+      width: 100%;
+    }
+
+    .footer-gap-v {
+      background: var(--black);
+      grid-row: 1 / -1;
+    }
+
+    .footer-gap-h {
+      background: var(--black);
+      grid-column: 1 / -1;
+    }
+
+    .footer-cell {
+      display: block;
+    }
+
+    .fc-r { background: var(--red); }
+    .fc-b { background: var(--blue); }
+    .fc-y { background: var(--yellow); }
+    .fc-w { background: var(--white); }
+    .fc-k { background: var(--black); }
+
+    .footer-content {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-7) 0 var(--space-6);
+      border-top: var(--grid);
+      background: var(--fg);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      letter-spacing: 6px;
+      color: var(--white);
+    }
+
+    .footer-sub {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 6px;
+    }
+
+    .footer-right {
+      text-align: right;
+    }
+
+    .footer-version {
+      font-family: var(--font-display);
+      font-size: 48px;
+      letter-spacing: 4px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .footer-year {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .footer-blocks {
+      display: flex;
+      gap: 0;
+      margin-top: var(--space-5);
+      border-top: var(--grid);
+      border-bottom: var(--grid);
+    }
+
+    .footer-block-seg {
+      flex: 1;
+      height: 8px;
+      border-right: 3px solid var(--white);
+    }
+
+    .footer-block-seg:last-child { border-right: none; }
+
+    /* ========================================
+       SECTION 10 — Rules reference column
+       ======================================== */
+    .section10-layout {
+      display: grid;
+      grid-template-columns: 1fr 5px 1.4fr;
+      gap: 0;
+    }
+
+    .section10-right {
+      border-left: var(--grid);
+    }
+
+    .section10-right-header {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 14px 20px;
+      border-bottom: var(--grid);
+      background: var(--fg);
+      color: var(--white);
+    }
+
+    .section10-left-header {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 14px 20px;
+      border-bottom: var(--grid);
+      border-right: var(--grid);
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    @media (max-width: 900px) {
+      .section10-layout {
+        grid-template-columns: 1fr;
+      }
+      .section10-right {
+        border-left: none;
+        border-top: var(--grid);
+      }
+      .compositions-row {
+        grid-template-columns: 1fr;
+      }
+      .comp-gap-bar-v {
+        display: none;
+      }
+      .comp-wrapper {
+        border-bottom: var(--grid);
+      }
+      .comparison-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 5px auto;
+      }
+      .comp-divider-center {
+        grid-column: 1;
+        height: 5px;
+      }
+      .stats-mondrian {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .stat-vgap { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="container">
+    <nav class="showcase-nav">
+      <div class="showcase-nav-brand">
+        <span class="nav-mondrian-dot block-red"></span>
+        <span class="nav-mondrian-dot block-blue"></span>
+        <span class="nav-mondrian-dot block-yellow"></span>
+        DE STIJL
+      </div>
+      <ul class="showcase-nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#colors">Cores</a></li>
+        <li><a href="#buttons">Botoes</a></li>
+        <li><a href="#cards">Cards</a></li>
+        <li><a href="#mondrian">Grade</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ========================================
+       HERO — MONDRIAN GRID COMPOSITION
+       ======================================== -->
+  <section class="hero" id="hero">
+
+    <!-- The Mondrian background grid -->
+    <div class="mondrian-bg">
+      <!-- Col 1: row 1 = red, row 3 = white, row 5 = white -->
+      <div class="mondrian-cell c-red"    style="grid-column:1; grid-row:1;"></div>
+      <div class="mondrian-cell c-white"  style="grid-column:1; grid-row:3;"></div>
+      <div class="mondrian-cell c-white"  style="grid-column:1; grid-row:5;"></div>
+
+      <!-- Col gap 1 -->
+      <div class="col-gap" style="grid-column:2;"></div>
+
+      <!-- Col 3: row 1 = white, row 3 = white, row 5 = blue -->
+      <div class="mondrian-cell c-white"  style="grid-column:3; grid-row:1;"></div>
+      <div class="mondrian-cell c-white"  style="grid-column:3; grid-row:3;"></div>
+      <div class="mondrian-cell c-blue"   style="grid-column:3; grid-row:5;"></div>
+
+      <!-- Col gap 2 -->
+      <div class="col-gap" style="grid-column:4;"></div>
+
+      <!-- Col 5: row 1 = blue, row 3 = yellow, row 5 = white -->
+      <div class="mondrian-cell c-blue"   style="grid-column:5; grid-row:1;"></div>
+      <div class="mondrian-cell c-yellow" style="grid-column:5; grid-row:3;"></div>
+      <div class="mondrian-cell c-white"  style="grid-column:5; grid-row:5;"></div>
+
+      <!-- Row gaps -->
+      <div class="row-gap" style="grid-row:2;"></div>
+      <div class="row-gap" style="grid-row:4;"></div>
+    </div>
+
+    <!-- Hero content above the grid -->
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-eyebrow">De Stijl — 1917</span>
+        <div class="hero-title">
+          PURE<span class="hero-title-line2">FORM</span>
+        </div>
+        <p class="hero-subtext">
+          Reduction to essentials. Only straight lines and primary colors. Universal harmony through abstraction.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer bar segments -->
+    <div class="hero-footer-bar">
+      <div class="hero-footer-seg hfs-red">MONDRIAN</div>
+      <div class="hero-footer-seg hfs-white">VAN DOESBURG</div>
+      <div class="hero-footer-seg hfs-blue">RIETVELD</div>
+      <div class="hero-footer-seg hfs-yellow">DE STIJL</div>
+      <div class="hero-footer-seg hfs-black">1917</div>
+    </div>
+
+  </section>
+
+  <div class="container">
+
+    <!-- ========================================
+         SECTION 01 — TYPOGRAPHY
+         ======================================== -->
+    <section class="section" id="typography">
+      <div class="section-label">
+        <span class="section-label-block block-red"></span>
+        <span class="section-label-text">01 — Tipografia</span>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-hero">HERO TEXT</div>
+        <p class="type-meta">Bebas Neue / clamp(3rem, 10vw, 6rem) / line-height: 0.85 / letter-spacing: 4px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display">DISPLAY TEXT</div>
+        <p class="type-meta">Bebas Neue / clamp(2rem, 6vw, 4rem) / line-height: 0.9 / letter-spacing: 3px / uppercase</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h1">HEADING LEVEL 1</div>
+        <p class="type-meta">Bebas Neue / 2.5rem / line-height: 0.95 / letter-spacing: 2px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h2">HEADING LEVEL 2</div>
+        <p class="type-meta">Bebas Neue / 2rem / line-height: 1.0 / letter-spacing: 2px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-h3">HEADING LEVEL 3</div>
+        <p class="type-meta">Bebas Neue / 1.5rem / line-height: 1.1 / letter-spacing: 1.5px</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body">Body text — Source Sans 3, the functional companion to Bebas Neue's geometric boldness. Clean, readable, purposeful. No decoration. Only what is necessary.</div>
+        <p class="type-meta">Source Sans 3 400 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-body-strong">Strong body text — emphasis through weight, not ornament.</div>
+        <p class="type-meta">Source Sans 3 700 / 1.125rem / line-height: 1.6</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-caption">Caption and secondary information — Source Sans 3 Light</div>
+        <p class="type-meta">Source Sans 3 300 / 0.875rem</p>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-label">LABEL TEXT — UPPERCASE TRACKING</div>
+        <p class="type-meta">Source Sans 3 700 / 0.75rem / letter-spacing: 3px / uppercase</p>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 02 — CORES
+         ======================================== -->
+    <section class="section" id="colors">
+      <div class="section-label">
+        <span class="section-label-block block-blue"></span>
+        <span class="section-label-text">02 — Cores</span>
+      </div>
+
+      <!-- Mondrian block layout for swatches -->
+      <div class="mondrian-swatches">
+        <!-- Row 1 cells -->
+        <div class="swatch-mondrian sw-fg">
+          <span class="swatch-name">Preto</span>
+          <span class="swatch-hex">#0A0A0A</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian sw-red">
+          <span class="swatch-name">Red</span>
+          <span class="swatch-hex">#D62B2B</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian sw-blue">
+          <span class="swatch-name">Blue</span>
+          <span class="swatch-hex">#1E3A8A</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian sw-yellow">
+          <span class="swatch-name">Yellow</span>
+          <span class="swatch-hex">#F5C800</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian sw-bg" style="border: var(--grid);">
+          <span class="swatch-name">Branco</span>
+          <span class="swatch-hex">#F5F5F0</span>
+        </div>
+
+        <!-- Horizontal gap -->
+        <div class="gap-h"></div>
+
+        <!-- Row 2 — demonstration of tints / usage -->
+        <div class="swatch-mondrian" style="background: var(--fg); color: var(--white); grid-column: 1;">
+          <span class="swatch-name">BG Primario</span>
+          <span class="swatch-hex">Fundo escuro</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian" style="background: rgba(214,43,43,0.15); color: var(--fg);">
+          <span class="swatch-name">Red 15%</span>
+          <span class="swatch-hex">Estado erro</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian" style="background: rgba(30,58,138,0.15); color: var(--fg);">
+          <span class="swatch-name">Blue 15%</span>
+          <span class="swatch-hex">Estado info</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian" style="background: rgba(245,200,0,0.3); color: var(--fg);">
+          <span class="swatch-name">Yellow 30%</span>
+          <span class="swatch-hex">Estado aviso</span>
+        </div>
+        <div class="gap-v"></div>
+        <div class="swatch-mondrian" style="background: var(--bg); border: var(--grid);">
+          <span class="swatch-name">Off-White</span>
+          <span class="swatch-hex">Bg padrao</span>
+        </div>
+      </div>
+
+      <p style="font-family: var(--font-body); font-size: 13px; color: #555; margin-top: var(--space-3); font-weight: 400;">
+        De Stijl usa exclusivamente as cores primarias: vermelho, azul, amarelo — mais preto e branco. Nenhuma mistura. Nenhuma gradacao. A cor como elemento autonomo.
+      </p>
+    </section>
+
+    <!-- ========================================
+         SECTION 03 — ESPACAMENTO
+         ======================================== -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-label-block block-yellow"></span>
+        <span class="section-label-text">03 — Espacamento</span>
+      </div>
+
+      <div style="border: var(--grid);">
+        <div class="spacing-demo">
+          <span class="spacing-label">4PX — SP1</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 4px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">8PX — SP2</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 8px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">16PX — SP3</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 16px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">24PX — SP4</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 24px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">32PX — SP5</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 32px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">48PX — SP6</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 48px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">64PX — SP7</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 64px;"></div></div>
+        </div>
+        <div class="spacing-demo">
+          <span class="spacing-label">96PX — SP8</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 96px;"></div></div>
+        </div>
+        <div class="spacing-demo" style="border-bottom: none;">
+          <span class="spacing-label">128PX — SP9</span>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width: 128px;"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 04 — BOTOES
+         ======================================== -->
+    <section class="section" id="buttons">
+      <div class="section-label">
+        <span class="section-label-block block-black"></span>
+        <span class="section-label-text">04 — Botoes</span>
+      </div>
+
+      <!-- Sizes -->
+      <div style="margin-bottom: var(--space-6);">
+        <p class="type-label" style="margin-bottom: var(--space-3); border-left: 5px solid var(--red); padding-left: 12px;">TAMANHOS</p>
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0; border: var(--grid);">
+          <button class="btn btn-primary btn-large" style="border-right: var(--grid); border-top: none; border-left: none; border-bottom: none;">GRANDE</button>
+          <button class="btn btn-primary" style="border-right: var(--grid); border-top: none; border-left: none; border-bottom: none;">PADRAO</button>
+          <button class="btn btn-primary btn-small" style="border: none;">PEQUENO</button>
+        </div>
+      </div>
+
+      <!-- Variants -->
+      <div>
+        <p class="type-label" style="margin-bottom: var(--space-3); border-left: 5px solid var(--blue); padding-left: 12px;">VARIANTES</p>
+        <div style="display: flex; flex-wrap: wrap; border: var(--grid);">
+          <button class="btn btn-primary" style="border: none; border-right: var(--grid);">PRIMARY</button>
+          <button class="btn btn-secondary" style="border: none; border-right: var(--grid);">SECONDARY</button>
+          <button class="btn btn-ghost" style="border: none; border-right: var(--grid);">GHOST</button>
+          <button class="btn btn-danger" style="border: none;">DANGER</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 05 — CARDS
+         ======================================== -->
+    <section class="section" id="cards">
+      <div class="section-label">
+        <span class="section-label-block block-red"></span>
+        <span class="section-label-text">05 — Cards</span>
+      </div>
+
+      <div class="cards-mondrian-grid">
+        <!-- Card 1 -->
+        <div class="card-mondrian">
+          <div class="card-strip card-strip-red"></div>
+          <div class="card-body-wrap">
+            <div class="card-top-grid">
+              <div class="card-tag-cell">
+                <span class="badge badge-red">NOVO</span>
+              </div>
+              <div class="card-accent-cell" style="background: var(--red);"></div>
+            </div>
+            <div class="card-content">
+              <div class="card-title">ENGAJAMENTO</div>
+              <div class="card-text">Transforme seguidores passivos em participantes ativos da sua comunidade.</div>
+            </div>
+            <div class="card-footer">
+              <span class="card-meta">Marketing</span>
+              <span class="card-meta">2024</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card-mondrian">
+          <div class="card-strip card-strip-blue"></div>
+          <div class="card-body-wrap">
+            <div class="card-top-grid">
+              <div class="card-tag-cell">
+                <span class="badge badge-blue">BETA</span>
+              </div>
+              <div class="card-accent-cell" style="background: var(--blue);"></div>
+            </div>
+            <div class="card-content">
+              <div class="card-title">AUTOMACAO</div>
+              <div class="card-text">Respostas automaticas que parecem humanas. Escale sem perder autenticidade.</div>
+            </div>
+            <div class="card-footer">
+              <span class="card-meta">Produto</span>
+              <span class="card-meta">2024</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card-mondrian">
+          <div class="card-strip card-strip-yellow"></div>
+          <div class="card-body-wrap">
+            <div class="card-top-grid">
+              <div class="card-tag-cell">
+                <span class="badge badge-yellow">URGENTE</span>
+              </div>
+              <div class="card-accent-cell" style="background: var(--yellow);"></div>
+            </div>
+            <div class="card-content">
+              <div class="card-title">CONVERSAO</div>
+              <div class="card-text">De seguidor a cliente em 3 passos. Funil otimizado por dados reais.</div>
+            </div>
+            <div class="card-footer">
+              <span class="card-meta">Growth</span>
+              <span class="card-meta">2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 06 — STATS / KPIs
+         ======================================== -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-label-block block-blue"></span>
+        <span class="section-label-text">06 — Stats / KPIs</span>
+      </div>
+
+      <div class="stats-mondrian">
+        <!-- Row 1 -->
+        <div class="stat-block-mondrian stat-red">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">NAO ENGAJAM</div>
+        </div>
+        <div class="stat-vgap"></div>
+        <div class="stat-block-mondrian stat-white">
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">MAIS CONVERSAO</div>
+        </div>
+
+        <!-- Row gap -->
+        <div class="stat-hgap"></div>
+
+        <!-- Row 2 -->
+        <div class="stat-block-mondrian stat-white">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">TEMPO MEDIO</div>
+        </div>
+        <div class="stat-vgap"></div>
+        <div class="stat-block-mondrian stat-blue">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">SATISFACAO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 07 — BADGES
+         ======================================== -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-label-block block-yellow"></span>
+        <span class="section-label-text">07 — Badges</span>
+      </div>
+
+      <div class="badges-row">
+        <span class="badge badge-red">VERMELHO</span>
+        <span class="badge badge-blue">AZUL</span>
+        <span class="badge badge-yellow">AMARELO</span>
+        <span class="badge badge-black">PRETO</span>
+        <span class="badge badge-outline">OUTLINE</span>
+      </div>
+
+      <div class="badges-row" style="margin-top: 0; border-top: none;">
+        <span class="badge badge-red" style="border: none;">NOVO</span>
+        <span class="badge badge-blue" style="border: none;">BETA</span>
+        <span class="badge badge-yellow" style="border: none;">URGENTE</span>
+        <span class="badge badge-black" style="border: none; flex: 1;">DE STIJL — GEOMETRIC PURITY</span>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 08 — FORMULARIOS
+         ======================================== -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-label-block block-black"></span>
+        <span class="section-label-text">08 — Formularios</span>
+      </div>
+
+      <div style="max-width: 600px;">
+        <div class="form-block">
+          <div class="form-group">
+            <div class="form-row">
+              <label class="form-label" for="nome">NOME</label>
+              <input class="form-input" type="text" id="nome" placeholder="Seu nome completo">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-row">
+              <label class="form-label" for="email">EMAIL</label>
+              <input class="form-input" type="email" id="email" placeholder="seu@email.com">
+            </div>
+            <span class="form-helper">Nunca compartilharemos seu email.</span>
+          </div>
+
+          <div class="form-group">
+            <div class="form-row">
+              <label class="form-label" for="email-erro">EMAIL</label>
+              <input class="form-input form-input-error" type="email" id="email-erro" value="email-invalido">
+            </div>
+            <span class="form-error">Email invalido. Use o formato nome@dominio.com</span>
+          </div>
+
+          <div class="form-group" style="border-bottom: none;">
+            <div class="form-row" style="align-items: flex-start;">
+              <label class="form-label" for="msg" style="padding-top: 14px; align-items: flex-start;">MENSAGEM</label>
+              <textarea class="form-input" id="msg" placeholder="Escreva sua mensagem..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%; margin-top: 0; border-top: none;">ENVIAR MENSAGEM</button>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 09 — DIVISORES
+         ======================================== -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-label-block block-red"></span>
+        <span class="section-label-text">09 — Divisores</span>
+      </div>
+
+      <div class="divider-showcase">
+        <div class="divider-row">
+          <div class="divider-label-cell">ESPESSO (5px)</div>
+          <div class="divider-visual-cell"><div class="divider-thick-line"></div></div>
+        </div>
+        <div class="divider-row">
+          <div class="divider-label-cell">REGULAR (3px)</div>
+          <div class="divider-visual-cell"><div class="divider-regular-line"></div></div>
+        </div>
+        <div class="divider-row">
+          <div class="divider-label-cell">SUTIL (1px)</div>
+          <div class="divider-visual-cell"><div class="divider-subtle-line"></div></div>
+        </div>
+        <div class="divider-row">
+          <div class="divider-label-cell" style="background: var(--red); color: var(--white);">VERMELHO</div>
+          <div class="divider-visual-cell"><div class="divider-red-line"></div></div>
+        </div>
+        <div class="divider-row">
+          <div class="divider-label-cell" style="background: var(--blue); color: var(--white);">AZUL</div>
+          <div class="divider-visual-cell"><div class="divider-blue-line"></div></div>
+        </div>
+        <div class="divider-row" style="border-bottom: none;">
+          <div class="divider-label-cell" style="background: var(--yellow); color: var(--fg);">AMARELO</div>
+          <div class="divider-visual-cell"><div class="divider-yellow-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 10 — GRADE MONDRIAN INTERATIVA
+         ======================================== -->
+    <section class="section" id="mondrian">
+      <div class="section-label">
+        <span class="section-label-block block-blue"></span>
+        <span class="section-label-text">10 — Grade Mondrian Interativa</span>
+      </div>
+
+      <!-- 3 Compositions -->
+      <div class="compositions-row">
+        <!-- Comp A -->
+        <div class="comp-wrapper">
+          <div class="comp-title">COMPOSICAO A — PEQUENA</div>
+          <div class="mondrian-comp comp-a">
+            <!-- Row 1 -->
+            <div class="comp-cell comp-r" style="grid-column:1;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:2;"></div>
+            <div class="comp-cell comp-w" style="grid-column:3;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:4;"></div>
+            <div class="comp-cell comp-b" style="grid-column:5;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:6;"></div>
+            <div class="comp-cell comp-w" style="grid-column:7;grid-row:1;"></div>
+            <!-- Row gaps -->
+            <div class="comp-gap-h" style="grid-row:2;"></div>
+            <!-- Row 3 -->
+            <div class="comp-cell comp-w" style="grid-column:1;grid-row:3;"></div>
+            <div class="comp-cell comp-y" style="grid-column:3;grid-row:3;"></div>
+            <div class="comp-cell comp-w" style="grid-column:5;grid-row:3;"></div>
+            <div class="comp-cell comp-r" style="grid-column:7;grid-row:3;"></div>
+            <div class="comp-gap-h" style="grid-row:4;"></div>
+            <!-- Row 5 -->
+            <div class="comp-cell comp-b" style="grid-column:1;grid-row:5;"></div>
+            <div class="comp-cell comp-w" style="grid-column:3;grid-row:5;"></div>
+            <div class="comp-cell comp-w" style="grid-column:5;grid-row:5;"></div>
+            <div class="comp-cell comp-y" style="grid-column:7;grid-row:5;"></div>
+            <div class="comp-gap-h" style="grid-row:6;"></div>
+            <!-- Row 7 -->
+            <div class="comp-cell comp-w" style="grid-column:1;grid-row:7;"></div>
+            <div class="comp-cell comp-b" style="grid-column:3;grid-row:7;"></div>
+            <div class="comp-cell comp-r" style="grid-column:5;grid-row:7;"></div>
+            <div class="comp-cell comp-w" style="grid-column:7;grid-row:7;"></div>
+          </div>
+        </div>
+
+        <!-- Gap bar -->
+        <div class="comp-gap-bar-v" style="background: var(--black);"></div>
+
+        <!-- Comp B -->
+        <div class="comp-wrapper" style="background: var(--fg);">
+          <div class="comp-title" style="color: var(--white); border-bottom-color: var(--white);">COMPOSICAO B — MEDIA</div>
+          <div class="mondrian-comp comp-b" style="border-color: var(--white);">
+            <div class="comp-cell comp-w" style="grid-column:1;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:2; background: var(--white);"></div>
+            <div class="comp-cell comp-r" style="grid-column:3;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:4; background: var(--white);"></div>
+            <div class="comp-cell comp-b" style="grid-column:5;grid-row:1; background: #2a4a9a;"></div>
+            <div class="comp-gap-h" style="grid-row:2; background: var(--white);"></div>
+            <div class="comp-cell comp-y" style="grid-column:1;grid-row:3;"></div>
+            <div class="comp-cell comp-w" style="grid-column:3;grid-row:3;"></div>
+            <div class="comp-cell comp-w" style="grid-column:5;grid-row:3;"></div>
+            <div class="comp-gap-h" style="grid-row:4; background: var(--white);"></div>
+            <div class="comp-cell comp-w" style="grid-column:1;grid-row:5;"></div>
+            <div class="comp-cell comp-b" style="grid-column:3;grid-row:5;"></div>
+            <div class="comp-cell comp-r" style="grid-column:5;grid-row:5;"></div>
+          </div>
+        </div>
+
+        <!-- Gap bar -->
+        <div class="comp-gap-bar-v" style="background: var(--black);"></div>
+
+        <!-- Comp C -->
+        <div class="comp-wrapper">
+          <div class="comp-title">COMPOSICAO C — GRANDE</div>
+          <div class="mondrian-comp comp-c">
+            <div class="comp-cell comp-y" style="grid-column:1;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:2;"></div>
+            <div class="comp-cell comp-w" style="grid-column:3;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:4;"></div>
+            <div class="comp-cell comp-r" style="grid-column:5;grid-row:1;"></div>
+            <div class="comp-gap-v" style="grid-column:6;"></div>
+            <div class="comp-cell comp-w" style="grid-column:7;grid-row:1;"></div>
+            <div class="comp-gap-h" style="grid-row:2;"></div>
+            <div class="comp-cell comp-b" style="grid-column:1;grid-row:3;"></div>
+            <div class="comp-cell comp-r" style="grid-column:3;grid-row:3;"></div>
+            <div class="comp-cell comp-w" style="grid-column:5;grid-row:3;"></div>
+            <div class="comp-cell comp-y" style="grid-column:7;grid-row:3;"></div>
+            <div class="comp-gap-h" style="grid-row:4;"></div>
+            <div class="comp-cell comp-w" style="grid-column:1;grid-row:5;"></div>
+            <div class="comp-cell comp-b" style="grid-column:3;grid-row:5;"></div>
+            <div class="comp-cell comp-y" style="grid-column:5;grid-row:5;"></div>
+            <div class="comp-cell comp-r" style="grid-column:7;grid-row:5;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rules + Comparison -->
+      <div class="section10-layout">
+
+        <!-- Left: De Stijl Rules -->
+        <div>
+          <div class="section10-left-header">AS REGRAS DO DE STIJL</div>
+          <div class="destijl-rules">
+            <div class="destijl-rule-item">
+              <div class="rule-accent block-red"></div>
+              <div class="rule-num">I</div>
+              <div class="rule-content">
+                <div class="rule-title">Apenas Angulos Retos</div>
+                <div class="rule-desc">Nenhuma curva existe. border-radius: 0 em todo o sistema. A linha reta e o unico instrumento geometrico valido.</div>
+              </div>
+            </div>
+            <div class="destijl-rule-item">
+              <div class="rule-accent block-blue"></div>
+              <div class="rule-num">II</div>
+              <div class="rule-content">
+                <div class="rule-title">Apenas Cores Primarias</div>
+                <div class="rule-desc">Vermelho, azul, amarelo — mais preto e branco. Nenhuma cor secundaria, nenhuma mistura, nenhum gradiente. A cor como elemento puro.</div>
+              </div>
+            </div>
+            <div class="destijl-rule-item">
+              <div class="rule-accent block-yellow"></div>
+              <div class="rule-num">III</div>
+              <div class="rule-content">
+                <div class="rule-title">A Grade e o Design</div>
+                <div class="rule-desc">Tudo assenta sobre uma grade de linhas pretas espessas. A estrutura nao e escondida — ela e o elemento visual principal.</div>
+              </div>
+            </div>
+            <div class="destijl-rule-item">
+              <div class="rule-accent block-black"></div>
+              <div class="rule-num">IV</div>
+              <div class="rule-content">
+                <div class="rule-title">Sem Decoracao</div>
+                <div class="rule-desc">Nenhum ornamento, nenhuma sombra, nenhuma textura. Cada elemento deve ter funcao. O suplerfluo e eliminado sem piedade.</div>
+              </div>
+            </div>
+            <div class="destijl-rule-item" style="border-bottom: none;">
+              <div class="rule-accent block-red"></div>
+              <div class="rule-num">V</div>
+              <div class="rule-content">
+                <div class="rule-title">Reducao ao Essencial</div>
+                <div class="rule-desc">Mondrian chamava isso de "Neoplasticismo" — a busca pela harmonia universal atraves da abstracao maxima. Menos e a verdade.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gap -->
+        <div style="background: var(--black);"></div>
+
+        <!-- Right: Before / After Comparison -->
+        <div class="section10-right">
+          <div class="section10-right-header">ANTES E DEPOIS DO DE STIJL</div>
+          <div class="comparison-grid">
+            <!-- Before -->
+            <div class="comp-before">
+              <div class="comp-header">ANTES — ART NOUVEAU</div>
+              <div class="ornate-demo">
+                <div class="ornate-curve"></div>
+                <div class="ornate-text">Ornamento &amp; Curvas</div>
+                <div class="ornate-border">
+                  <p>Florais, volutas, arabescos.<br>
+                  A natureza como modelo.<br>
+                  A decoracao como valor.</p>
+                </div>
+                <div class="ornate-flourish">❧ ❦ ❧</div>
+                <div class="ornate-curve"></div>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="comp-divider-center"></div>
+
+            <!-- After -->
+            <div class="comp-after">
+              <div class="comp-header-after">DEPOIS — DE STIJL</div>
+              <div class="destijl-demo">
+                <div class="dd-cell dd-r" style="grid-column:1;grid-row:1;"></div>
+                <div class="dd-gap-v" style="grid-column:2;"></div>
+                <div class="dd-cell dd-w" style="grid-column:3;grid-row:1;"></div>
+                <div class="dd-gap-v" style="grid-column:4;"></div>
+                <div class="dd-cell dd-b" style="grid-column:5;grid-row:1;"></div>
+                <div class="dd-gap-h" style="grid-row:2;"></div>
+                <div class="dd-cell dd-w" style="grid-column:1;grid-row:3;"></div>
+                <div class="dd-cell dd-y" style="grid-column:3;grid-row:3;"></div>
+                <div class="dd-cell dd-w" style="grid-column:5;grid-row:3;"></div>
+                <div class="dd-gap-h" style="grid-row:4;"></div>
+                <div class="dd-cell dd-b" style="grid-column:1;grid-row:5;"></div>
+                <div class="dd-cell dd-w" style="grid-column:3;grid-row:5;"></div>
+                <div class="dd-cell dd-r" style="grid-column:5;grid-row:5;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Caption -->
+          <div style="border-top: var(--grid); padding: 16px 20px; background: var(--bg);">
+            <p style="font-family: var(--font-body); font-size: 13px; color: #555; font-weight: 400; line-height: 1.5;">
+              <strong style="font-weight: 700; color: var(--fg);">1917:</strong> Mondrian e van Doesburg fundam De Stijl em Leiden, Holanda. A missao: eliminar tudo que e individual e particular, alcancando o universal. A grade preta substitui a curva ornamental. A cor primaria substitui a paleta romantica.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /container -->
+
+  <!-- ========================================
+       FOOTER — Mondrian strip composition
+       ======================================== -->
+  <footer class="footer-mondrian">
+
+    <!-- Mondrian strip -->
+    <div class="footer-grid-strip">
+      <!-- All row gaps -->
+      <div class="footer-gap-h" style="grid-row:1;"></div>
+      <div class="footer-gap-h" style="grid-row:3;"></div>
+      <div class="footer-gap-h" style="grid-row:5;"></div>
+      <div class="footer-gap-h" style="grid-row:7;"></div>
+
+      <!-- All col gaps -->
+      <div class="footer-gap-v" style="grid-column:2;"></div>
+      <div class="footer-gap-v" style="grid-column:4;"></div>
+      <div class="footer-gap-v" style="grid-column:6;"></div>
+      <div class="footer-gap-v" style="grid-column:8;"></div>
+      <div class="footer-gap-v" style="grid-column:10;"></div>
+
+      <!-- Row 2 cells -->
+      <div class="footer-cell fc-r" style="grid-column:1;grid-row:2;"></div>
+      <div class="footer-cell fc-w" style="grid-column:3;grid-row:2;"></div>
+      <div class="footer-cell fc-b" style="grid-column:5;grid-row:2;"></div>
+      <div class="footer-cell fc-w" style="grid-column:7;grid-row:2;"></div>
+      <div class="footer-cell fc-y" style="grid-column:9;grid-row:2;"></div>
+      <div class="footer-cell fc-w" style="grid-column:11;grid-row:2;"></div>
+
+      <!-- Row 4 cells -->
+      <div class="footer-cell fc-w" style="grid-column:1;grid-row:4;"></div>
+      <div class="footer-cell fc-y" style="grid-column:3;grid-row:4;"></div>
+      <div class="footer-cell fc-w" style="grid-column:5;grid-row:4;"></div>
+      <div class="footer-cell fc-r" style="grid-column:7;grid-row:4;"></div>
+      <div class="footer-cell fc-w" style="grid-column:9;grid-row:4;"></div>
+      <div class="footer-cell fc-b" style="grid-column:11;grid-row:4;"></div>
+
+      <!-- Row 6 cells -->
+      <div class="footer-cell fc-b" style="grid-column:1;grid-row:6;"></div>
+      <div class="footer-cell fc-w" style="grid-column:3;grid-row:6;"></div>
+      <div class="footer-cell fc-r" style="grid-column:5;grid-row:6;"></div>
+      <div class="footer-cell fc-w" style="grid-column:7;grid-row:6;"></div>
+      <div class="footer-cell fc-w" style="grid-column:9;grid-row:6;"></div>
+      <div class="footer-cell fc-y" style="grid-column:11;grid-row:6;"></div>
+    </div>
+
+    <!-- Footer content -->
+    <div class="footer-content">
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <div class="footer-brand">DE STIJL 1917</div>
+            <div class="footer-sub">Bold Impact Design System v12.0</div>
+          </div>
+          <div class="footer-right">
+            <div class="footer-version">v12.0</div>
+            <div class="footer-year">Mondrian — Van Doesburg — Rietveld</div>
+          </div>
+        </div>
+
+        <div class="footer-blocks">
+          <div class="footer-block-seg" style="background: var(--red);"></div>
+          <div class="footer-block-seg" style="background: var(--white);"></div>
+          <div class="footer-block-seg" style="background: var(--blue);"></div>
+          <div class="footer-block-seg" style="background: var(--yellow);"></div>
+          <div class="footer-block-seg" style="background: var(--red);"></div>
+          <div class="footer-block-seg" style="background: var(--white);"></div>
+          <div class="footer-block-seg" style="background: var(--blue);"></div>
+          <div class="footer-block-seg" style="background: var(--white);"></div>
+          <div class="footer-block-seg" style="background: var(--red);"></div>
+          <div class="footer-block-seg" style="background: var(--yellow); border-right: none;"></div>
+        </div>
+
+        <p style="font-family: var(--font-body); font-size: 12px; font-weight: 300; color: #555; margin-top: var(--space-4); letter-spacing: 2px; text-transform: uppercase;">
+          REDUCAO AO ESSENCIAL &mdash; APENAS LINHAS RETAS &mdash; APENAS CORES PRIMARIAS &mdash; A GRADE E O DESIGN
+        </p>
+      </div>
+    </div>
+
+  </footer>
+
+</body>
+</html>
