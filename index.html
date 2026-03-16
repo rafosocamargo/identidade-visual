@@ -352,6 +352,80 @@
       font-size: 13px; font-weight: 300; line-height: 1.8;
       color: var(--muted);
     }
+    .seg-card { cursor: pointer; }
+    .seg-card.active { background: #181818; }
+    .seg-card.active::before { transform: scaleX(1); }
+    .seg-card-arrow {
+      position: absolute; bottom: 20px; right: 24px;
+      font-size: 11px; color: var(--gold); opacity: 0;
+      transition: opacity .3s, transform .3s;
+    }
+    .seg-card:hover .seg-card-arrow,
+    .seg-card.active .seg-card-arrow { opacity: 1; }
+    .seg-card.active .seg-card-arrow { transform: rotate(90deg); }
+
+    /* ── SEGMENT EXPAND PANEL ── */
+    .seg-expand {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .5s var(--ease);
+      border-top: 1px solid transparent;
+    }
+    .seg-expand.open {
+      max-height: 500px;
+      border-top: 1px solid var(--border);
+    }
+    .seg-expand-inner {
+      padding: 32px 0 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .seg-mini-card {
+      display: block;
+      text-decoration: none;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 20px 18px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .25s, transform .25s var(--ease);
+    }
+    .seg-mini-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .seg-mini-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--seg-accent, var(--gold));
+    }
+    .seg-mini-thumb {
+      height: 64px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+      background: var(--seg-accent-dim, rgba(201,168,76,.08));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--seg-accent, var(--gold)); letter-spacing: .1em;
+      font-weight: 500; overflow: hidden; position: relative;
+    }
+    .seg-mini-name {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 400; color: var(--white);
+      margin-bottom: 4px; line-height: 1.2;
+    }
+    .seg-mini-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .seg-mini-ver {
+      font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: .12em; color: var(--seg-accent, var(--gold));
+      margin-top: 10px; text-transform: uppercase; display: block;
+    }
+    @media (max-width: 900px) {
+      .seg-expand-inner { grid-template-columns: repeat(2, 1fr); }
+      .seg-expand.open { max-height: 800px; }
+    }
+    @media (max-width: 640px) {
+      .seg-expand-inner { grid-template-columns: 1fr 1fr; }
+      .seg-expand.open { max-height: 1200px; }
+    }
 
     /* ══════════════════════════════════════════════════
        PORTFOLIO
@@ -839,43 +913,53 @@
 
     <div class="seg-grid">
 
-      <div class="seg-card reveal">
+      <div class="seg-card reveal" data-seg="imobi">
         <div class="seg-icon">
           <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         </div>
         <span class="seg-badge">4 exemplos</span>
         <h3 class="seg-title">Imobiliárias &amp; Real Estate</h3>
         <p class="seg-copy">Do luxo residencial à plataforma de busca — identidades que transmitem confiança e convertem visitantes em compradores.</p>
+        <span class="seg-card-arrow">▾</span>
       </div>
 
-      <div class="seg-card reveal" style="transition-delay:.1s">
+      <div class="seg-card reveal" data-seg="moveis" style="transition-delay:.1s">
         <div class="seg-icon">
           <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
         </div>
         <span class="seg-badge">4 exemplos</span>
         <h3 class="seg-title">Móveis &amp; Decoração</h3>
         <p class="seg-copy">Do escandinavo ao industrial — marcas que vendem lifestyle antes de vender produto.</p>
+        <span class="seg-card-arrow">▾</span>
       </div>
 
-      <div class="seg-card reveal" style="transition-delay:.2s">
+      <div class="seg-card reveal" data-seg="tech" style="transition-delay:.2s">
         <div class="seg-icon">
           <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
         <span class="seg-badge">4 exemplos</span>
         <h3 class="seg-title">Tecnologia &amp; SaaS</h3>
         <p class="seg-copy">SaaS, IA, dev tools — interfaces que comunicam inovação e constroem confiança com desenvolvedores e decisores.</p>
+        <span class="seg-card-arrow">▾</span>
       </div>
 
-      <div class="seg-card reveal" style="transition-delay:.3s">
+      <div class="seg-card reveal" data-seg="gastro" style="transition-delay:.3s">
         <div class="seg-icon">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>
         </div>
         <span class="seg-badge">2 exemplos</span>
         <h3 class="seg-title">Gastronomia &amp; Food</h3>
         <p class="seg-copy">Churrascaria premium ou marca de equipamentos — identidades que despertam fome antes mesmo de ver o cardápio.</p>
+        <span class="seg-card-arrow">▾</span>
       </div>
 
     </div>
+
+    <!-- ── SEGMENT EXPAND PANEL ── -->
+    <div class="seg-expand" id="seg-expand" role="region" aria-label="Exemplos do segmento">
+      <div class="seg-expand-inner" id="seg-expand-inner"></div>
+    </div>
+
   </div>
 </section>
 
@@ -1258,6 +1342,90 @@
     `;
     heroBg.appendChild(el);
   }
+
+  /* ── Segment expand ── */
+  const SEG_DATA = {
+    imobi: {
+      accent: '#C9A84C',
+      accentDim: 'rgba(201,168,76,.12)',
+      items: [
+        { v:18, name:'Luxo Residencial', desc:'Parallax hero, modal de imóvel, slider before/after' },
+        { v:19, name:'Urban Living',     desc:'Busca com filtros e range slider, mapa interativo' },
+        { v:20, name:'Casa & Vida',      desc:'Editorial magazine, lightbox, card 3D flip de corretor' },
+        { v:21, name:'SmartBroker',      desc:'SaaS dashboard, kanban drag-drop, IA de match' },
+      ]
+    },
+    moveis: {
+      accent: '#A78BFA',
+      accentDim: 'rgba(167,139,250,.12)',
+      items: [
+        { v:22, name:'FORMA',   desc:'Escandinavo, color switcher de tecido, cart drawer' },
+        { v:23, name:'VELVET',  desc:'Dark luxury, fabric configurator, masonry lightbox' },
+        { v:24, name:'NEST',    desc:'Bento terracotta, quick-add, wishlist com partículas' },
+        { v:25, name:'BRUTO',   desc:'Neobrutalist, table builder, overlay fullscreen' },
+      ]
+    },
+    tech: {
+      accent: '#38BDF8',
+      accentDim: 'rgba(56,189,248,.12)',
+      items: [
+        { v:26, name:'NEXUS',   desc:'SaaS, typing hero, feature tabs, pricing toggle' },
+        { v:27, name:'SYNAPSE', desc:'IA neural canvas, NLP live demo, benchmark chart' },
+        { v:28, name:'STACK',   desc:'Dev tools, live code editor, CLI animation, deploy pipeline' },
+        { v:29, name:'AURA',    desc:'Hardware Apple-style, scroll-driven reveal, buy flow' },
+      ]
+    },
+    gastro: {
+      accent: '#FB923C',
+      accentDim: 'rgba(251,146,60,.12)',
+      items: [
+        { v:30, name:'BRASA',             desc:'CSS fire, reserva com calendário, galeria, accordion de vinhos' },
+        { v:31, name:'CHURRASQUEIRO PRO', desc:'Configurador BBQ, calculadora de churrasco, loyalty program' },
+      ]
+    }
+  };
+
+  let activeSegment = null;
+  const expandPanel = document.getElementById('seg-expand');
+  const expandInner = document.getElementById('seg-expand-inner');
+
+  document.querySelectorAll('.seg-card[data-seg]').forEach(card => {
+    card.addEventListener('click', () => {
+      const seg = card.dataset.seg;
+      const data = SEG_DATA[seg];
+
+      // Toggle: clicking same segment closes it
+      if (activeSegment === seg) {
+        activeSegment = null;
+        expandPanel.classList.remove('open');
+        document.querySelectorAll('.seg-card').forEach(c => c.classList.remove('active'));
+        return;
+      }
+
+      activeSegment = seg;
+      document.querySelectorAll('.seg-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+
+      // Build inner HTML
+      expandInner.innerHTML = data.items.map(item => `
+        <a class="seg-mini-card" href="showcase_v${item.v}.html" target="_blank"
+           style="--seg-accent:${data.accent};--seg-accent-dim:${data.accentDim}">
+          <div class="seg-mini-thumb">v${item.v}</div>
+          <div class="seg-mini-name">${item.name}</div>
+          <div class="seg-mini-desc">${item.desc}</div>
+          <span class="seg-mini-ver">Explorar →</span>
+        </a>
+      `).join('');
+
+      // Open panel
+      expandPanel.classList.add('open');
+
+      // Smooth scroll to panel
+      setTimeout(() => {
+        expandPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 80);
+    });
+  });
 
   /* ── Form submit ── */
   function handleSubmit(e) {
